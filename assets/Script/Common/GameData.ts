@@ -1,6 +1,5 @@
 import GameCtr from "../Controller/GameCtr";
 import WXCtr from "../Controller/WXCtr";
-import Guide from "../View/game/Guide";
 import UserManager from "./UserManager";
 import HttpCtr from "../Controller/HttpCtr";
 import Util from "./Util";
@@ -9,483 +8,622 @@ import Util from "./Util";
 const { ccclass, property } = cc._decorator;
 
 const dataKeyConfig = {
-    repPlaneNum: "data_1",                                                      //仓库飞机数量
-    factoryLevel: "data_2",                                                     //工厂等级
-    repositoryLevel: "data_3",                                                  //仓库等级
-    recycle: "data_4",                                                          //回收技术
-    attack: "data_5",                                                           //攻击技术
-    criticalStrike: "data_6",                                                   //暴击技术
-    highRecycle: "data_7",                                                      //高级回收
-    highAttackSpeed: "data_8",                                                  //高级攻速
-    highAttack: "data_9",                                                       //高级攻击
-    highCriticalStrike: "data_10",                                              //高级暴击
-    forceCriticalStrike: "data_11",                                             //暴击暴伤
-    vipLevel: "data_12",                                                        //VIP等级
-    guideStep: "data_13",
-    freeDiamondCount: "data_14",                                                 //领取免费钻石奖励次数
-    fightLevel: "level",                                                       //战斗等级
-    enemyHP: "data_16",                                                          //当前关卡敌人血量  
-    baseBonus: "data_17",                                                        //当前关卡基础奖励
-};
+        power:"data_1",                                                             //体力数量
+        combo:"data_2",                                                             //连击数量
+        doubleJump:"data_3",                                                        //连跳数量
+        flyingGold:"data_4",                                                        //飞行的金币 
+        omitGold:"data_5",                                                          //穿过的金币
+        hitBox:"data_6",                                                            //头铁
+        gatherTimer:"data_7",                                                       //时间之子
+        reviveTimes:"data_8",                                                       //不死亡灵
+        dismantleBomb:"data_9",                                                     //拆弹专家
+        unlockRoles:"data_10",                                                      //大团圆
+        levelUp:"data_11",                                                          //升级
+        captainHitBox:"data_12",                                                    //钩宝箱
+
+        /*道具*/
+        prop_speedUp:"data_13",                                                     //加速道具
+        prop_revive:"data_14",                                                      //复活道具
+        prop_luckyGrass:"data_15",                                                  //幸运草道具
+        prop_time:"data_16",                                                        //时间道具
+
+        /*角色等级*/
+        roleLevel_captain:"data_17",                                                //船长等级
+        roleLevel_sparklet:"data_18",                                               //刀妹等级
+        roleLevel_hook:"data_19",                                                   //白胡子等级
+        roleLevel_leavened:"data_20",                                               //厨子等级
+        roleLevel_crutch:"data_21",                                                 //骷髅等级
+
+        /*地图*/
+        map_2:"data_22",                                                            //地图2
+        currentRole:"data_23",                                                      //当前使用角色
+        maxFightGold:"data_24",                                                     //最大战斗获得金币
+        currentShopIndex:"data_25"                                                  //当前商铺索引（道具 地图 角色  家园）
+    };
 
 
 @ccclass
 export default class GameData {
-
-    private static _gold: number = 0;                               //金币数量
-    private static _diamond: number = 0;                                //钻石数量
-    private static _maxPlaneLevel: number = 1;                          //个人拥有的飞机最高等级   
-    private static _repPlaneNum: number = 0;                            //仓库飞机数量
-    private static _factoryLevel: number = 0;                           //工厂等级
-    private static _repositoryLevel: number = 0;                        //仓库等级
-    private static _recycleLevel: number = 0;                           //回收技术等级
-    private static _attack: number = 0;                                 //攻击技术等级
-    private static _criticalStrike: number = 0;                         //暴击技术等级
-    private static _highRecycle: number = 0;                            //高级回收等级
-    private static _highAttackSpeed: number = 0;                        //高级攻速等级
-    private static _highAttack: number = 0;                             //高级攻击等级
-    private static _highCriticalStrike: number = 0;                     //高级暴击等级
-    private static _forceCriticalStrike: number = 0;                    //暴击暴伤等级
-    private static _vipLevel: number = 0;                               //vip等级
-    private static _lotteryTimes: number = 0;                           //宝箱抽奖次数
-    private static _freeDiamondCount: number = 0;                       //领取免费钻石奖励次数  
-    private static _fightLevel: number = 1;                             //战斗等级  
-    private static _enemyHP: number = 0;                                //当前关卡敌人血量  
-    private static _baseBonus: number = 0;                              //当前关卡基础奖励         
-    public static saveTime = null;                                      //保存数据时间戳
-    public static offLineProfit: number = 0;
-    public static missionData = null;                                   //今日任务数据
-    public static planeData = {};
-    public static maxPlane = 25;                                        //飞机等级上限
-    private static maxApron = 15;
-    private static baseProduceTime = 10;                                //基础制造时间
-    private static baseRepository = 8;                                  //基础仓库容量
-    public static basePlaneLevel = 1;                                   //基础飞机等级
+    private static _gold:number=0;                                      //金币数量
+    private static _diamond:number=0;                                   //钻石数量
+    private static _power:number=0;                                     //体力数量
+    private static _combo:number=0;                                     //连击数量
+    private static _doubleJump:number=0;                                //连跳数量
+    private static _flyingGold:number=0;                                //飞行的金币 
+    private static _omitGold:number=0;                                  //穿过的金币
+    private static _hitBox:number=0;                                    //头铁
+    private static _gatherTimer:number=0;                               //时间之子
+    private static _reviveTimes:number=0;                               //不死亡灵
+    private static _dismantleBomb:number=0;                             //拆弹专家
+    private static _unlockRoles:number=0;                               //大团圆
+    private static _levelUp:number=0;                                   //升级
+    private static _captainHitBox:number=0;                             //钩宝箱   
     
-    static planesConfig = [
-        { name: "1 卡普", baseAttack: 2, attackIncrease: 1, basePrice: 2 },
-        { name: "2 喷火", baseAttack: 5, attackIncrease: 2, basePrice: 4 },
-        { name: "3 米格-3", baseAttack: 12, attackIncrease: 4, basePrice: 10 },
-        { name: "4 雅克-1", baseAttack: 30, attackIncrease: 8, basePrice: 22 },
-        { name: "5 未来", baseAttack: 75, attackIncrease: 16, basePrice: 48 },
-        { name: "6 F2A-1", baseAttack: 200, attackIncrease: 32, basePrice: 104 },
-        { name: "7 F2A-3", baseAttack: 500, attackIncrease: 64, basePrice: 224 },
-        { name: "8 莱特-11", baseAttack: 1250, attackIncrease: 125, basePrice: 468 },
-        { name: "9 海豚", baseAttack: 3200, attackIncrease: 250, basePrice: 1000 },
-        { name: "10 迅雷", baseAttack: 8000, attackIncrease: 500, basePrice: 2125 },
-        { name: "11 蝙蝠", baseAttack: 20000, attackIncrease: 1000, basePrice: 4500 },
-        { name: "12 b5", baseAttack: 50000, attackIncrease: 2000, basePrice: 9500 },
-        { name: "13 鲨鱼", baseAttack: 125000, attackIncrease: 4000, basePrice: 20000 },
-        { name: "14 罪恶", baseAttack: 320000, attackIncrease: 8000, basePrice: 42000 },
-        { name: "15 Y613", baseAttack: 800000, attackIncrease: 16000, basePrice: 88000 },
-        { name: "16 宇宙", baseAttack: 2000000, attackIncrease: 32000, basePrice: 184000 },
-        { name: "17 战甲", baseAttack: 5000000, attackIncrease: 64000, basePrice: 384000 },
-        { name: "18 帝国", baseAttack: 12500000, attackIncrease: 125000, basePrice: 781250 },
-        { name: "19 挑战", baseAttack: 32000000, attackIncrease: 250000, basePrice: 1625000 },
-        { name: "20 Falco-3", baseAttack: 80000000, attackIncrease: 500000, basePrice: 3375000 },
-        { name: "21 Falco-7", baseAttack: 200000000, attackIncrease: 1000000, basePrice: 7000000 },
-        { name: "22 Falco-9", baseAttack: 500000000, attackIncrease: 2000000, basePrice: 14500000 },
-        { name: "23 天启", baseAttack: 1250000000, attackIncrease: 4000000, basePrice: 29660000 },
-        { name: "24 光棱", baseAttack: 3200000000, attackIncrease: 8000000, basePrice: 62720000 },
-        { name: "25 天神", baseAttack: 8000000000, attackIncrease: 16000000, basePrice: 129380000 }
-    ];
+    /* 道具 */
+    private static _prop_speedUp:number=0;                              //加速道具
+    private static _prop_revive:number=0;                               //复活道具
+    private static _prop_luckyGrass:number=0;                           //幸运草道具
+    private static _prop_time:number=0;                                 //时间道具
 
-    static planeProfits = [
-        0,
-        33,
-        66,
-        157,
-        364,
-        803,
-        1706,
-        3537,
-        7224,
-        14623,
-        29446,
-        59117,
-        118484,
-        237243,
-        474786,
-        949897,
-        1900144,
-        3800663,
-        7601726,
-        15203877,
-        30408204,
-        60816883,
-        121634266,
-        243269057,
-        486538664,
-        973077903
-    ];
+    /*角色等级*/
+    private static _roleLevel_captain:number=0;                         //船长等级
+    private static _roleLevel_sparklet:number=0;                        //刀妹等级
+    private static _roleLevel_hook:number=0;                            //白胡子等级
+    private static _roleLevel_leavened:number=0;                        //厨子等级
+    private static _roleLevel_crutch:number=0;                          //骷髅等级
 
-    static planeGift = [0, 0, 0, 0, 0,
-        24000,
-        52100,
-        112220,
-        234460,
-        501000,
-        1060000,
-        2250000,
-        4680000,
-        9720000,
-        20130000,
-        41600000,
-        85800000,
-        176640000,
-        363090000,
-        745290000,
-        1527840000,
-        3128430000,
-        6399060000,
-        13076340000,
-        26697520000,
-        54462940000
-    ];
+    private static _map_2:number=0;                                     //地图2(1:已解锁 0：未解锁)
+    private static _currentRole:number=0;                               //当前使用角色
+    private static _maxFightGold:number=0;                              //最大战斗金币
+    private static _currentShopIndex:number=0                           //当前商铺索引（道具 地图 角色  家园）
 
-    static baseEnemy = {
-        monsterHP: 30,
-        bossHP: 900,
-        baseBonus: 10,
-        bonus: 40,
-    }
+    /*收集金币*/
+    static collectGoldCof=[
+        {target:10000,bonus:500},
+        {target:20000,bonus:1000},
+        {target:40000,bonus:2000},
+        {target:80000,bonus:3000},
+        {target:200000,bonus:5000}
+    ]
 
-    // 设置回收技术等级
-    static set recycleLevel(level) {
-        if (level < 0) {
-            level = 0;
+    /*连击*/
+    static ComboCof=[
+        {target:1000,bonus:500},
+        {target:3000,bonus:1000},
+        {target:5000,bonus:2000},
+        {target:10000,bonus:3000},
+        {target:20000,bonus:5000},
+    ]
+
+    /*连跳*/
+    static doubleJumpCof=[
+        {target:100,bonus:500},
+        {target:300,bonus:1000},
+        {target:1000,bonus:2000},
+        {target:5000,bonus:3000},
+        {target:10000,bonus:5000},
+    ]
+
+    /*飞行的金币*/
+    static flyingGoldCof=[
+        {target:40,bonus:500},
+        {target:200,bonus:1000},
+        {target:500,bonus:2000},
+        {target:2000,bonus:3000},
+        {target:50000,bonus:5000},
+    ]
+
+    /*穿过金币*/
+    static omitGoldCof=[
+        {target:500,bonus:500},
+        {target:2000,bonus:1000},
+        {target:5000,bonus:2000},
+        {target:10000,bonus:3000},
+        {target:20000,bonus:5000},
+    ]
+
+    /*头铁*/
+    static hitBoxCof=[
+        {target:100,bonus:500},
+        {target:300,bonus:1000},
+        {target:1000,bonus:2000},
+        {target:5000,bonus:3000},
+        {target:10000,bonus:5000},
+    ]
+
+    /*时间之子*/
+    static gatherTimerCof=[
+        {target:50,bonus:500},
+        {target:200,bonus:1000},
+        {target:500,bonus:2000},
+        {target:2000,bonus:3000},
+        {target:5000,bonus:5000},
+    ]
+
+    /*不死亡灵*/
+    static reviveTimesCof=[
+        {target:10,bonus:500},
+        {target:50,bonus:1000},
+        {target:200,bonus:2000},
+        {target:1000,bonus:3000},
+        {target:10000,bonus:5000},
+    ]
+
+    /*拆弹专家*/
+    static dismantleBombCof=[
+        {target:1000,bonus:500},
+        {target:2000,bonus:1000},
+        {target:5000,bonus:2000},
+        {target:10000,bonus:3000},
+        {target:20000,bonus:5000},
+    ]
+
+    /*大团圆*/
+    static unlockRolesCof=[
+        {target:2,bonus:500},
+        {target:3,bonus:1000},
+        {target:4,bonus:2000},
+        {target:5,bonus:3000},
+        {target:6,bonus:5000},
+    ]
+
+    /*升级*/
+     static levelUpCof=[
+        {target:5,bonus:500},
+        {target:10,bonus:1000},
+        {target:15,bonus:2000},
+        {target:20,bonus:3000},
+        {target:25,bonus:5000},
+    ]
+
+     /*钩宝箱*/
+    static captainHitBoxCof=[
+        {target:200,bonus:500},
+        {target:500,bonus:1000},
+        {target:2000,bonus:2000},
+        {target:10000,bonus:3000},
+        {target:20000,bonus:5000},
+    ]
+
+    //设置玩家金币
+    static set gold(gold){
+        if(gold<0){
+            gold=0;
         }
-        GameData._recycleLevel = level;
-        GameData.setUserData({ recycle: GameData._recycleLevel });
+        GameData._gold=gold;
+        GameData.setUserData({gold:GameData._gold})
+    }
+    //获取玩家金币
+    static get gold(){
+        return GameData._gold;
     }
 
-    // 获取回收技术等级
-    static get recycleLevel() {
-        return GameData._recycleLevel;
-    }
-
-    // 设置仓库飞机数量
-    static set repPlaneNum(num) {
-        if (num < 0) {
-            num = 0;
+    //设置玩家钻石
+    static set diamond(diamond){
+        if(diamond<0){
+            diamond=0
         }
-        GameData._repPlaneNum = num;
-        GameData.setUserData({ repPlaneNum: GameData._repPlaneNum });
+        GameData._diamond=diamond;
+        GameData.setUserData({money:GameData._diamond})
+    }
+    //获取玩家钻石
+    static get diamond(){
+        return GameData._diamond;
     }
 
-    // 获取仓库飞机数量
-    static get repPlaneNum() {
-        return GameData._repPlaneNum;
-    }
-
-    // 设置攻击技术等级
-    static set attackLevel(level) {
-        if (level < 0) {
-            level = 0;
+    //设置玩家体力
+    static set power(power){
+        if(power<0){
+            power=0
         }
-        GameData._attack = level;
-        GameData.setUserData({ attack: GameData._attack });
+        GameData._power=power;
+        GameData.setUserData({power:GameData._power})
     }
 
-    // 获取攻击技术等级
-    static get attackLevel() {
-        return GameData._attack;
+    //获取玩家体力
+    static get power(){
+        return  GameData._power;
     }
 
-    // 设置暴击技术等级
-    static set criticalStrikeLevel(level) {
-        if (level < 0) {
-            level = 0;
+    //设置连击数量
+    static set combo(combo){
+        if(combo<0){
+            combo=0;
         }
-        GameData._criticalStrike = level;
-        GameData.setUserData({ criticalStrike: GameData._criticalStrike });
+        GameData._combo=combo;
+        GameData.setUserData({combo:GameData._combo})
+    }
+    //获取连击数量
+    static get combo(){
+        return GameData._combo;
     }
 
-    // 获取暴击技术等级
-    static get criticalStrikeLevel() {
-        return GameData._criticalStrike;
-    }
-
-    // 设置高级回收技术等级
-    static set highRecycleLevel(level) {
-        if (level < 0) {
-            level = 0;
+    //设置连跳数量
+    static set doubleJump(doubleJump){
+        if(doubleJump<0){
+            doubleJump=0
         }
-        GameData._highRecycle = level;
-        GameData.setUserData({ highRecycle: GameData._highRecycle });
+        GameData._doubleJump=doubleJump;
+        GameData.setUserData({doubleJump:GameData._doubleJump})
     }
 
-    // 获取高级回收技术等级
-    static get highRecycleLevel() {
-        return GameData._highRecycle;
+    //获取连跳数量
+    static get doubleJump(){
+        return GameData._doubleJump;
     }
 
-    // 设置高级攻速等级
-    static set highAttackSpeed(level) {
-        if (level < 0) {
-            level = 0;
+    //设置飞行的金币（用磁铁吸收的金币）
+    static set flyingGold(flyingGold){
+        if(flyingGold<0){
+            flyingGold=0;
         }
-        GameData._highAttackSpeed = level;
-        GameData.setUserData({ highAttackSpeed: GameData._highAttackSpeed });
+        GameData._flyingGold=flyingGold;
+        GameData.setUserData({flyingGold:GameData._flyingGold})
+    }
+    //获取飞行的金币（用磁铁吸收的金币）
+    static get flyingGold(){
+        return GameData._flyingGold;
     }
 
-    // 获取高级攻速等级
-    static get highAttackSpeed() {
-        return GameData._highAttackSpeed;
-    }
-
-    // 设置高级攻击等级
-    static set highAttack(level) {
-        if (level < 0) {
-            level = 0;
+    //设置遗漏的金币
+    static set omitGold(omitGold){
+        if(omitGold<0){
+            omitGold=0;
         }
-        GameData._highAttack = level;
-        GameData.setUserData({ highAttack: GameData._highAttack });
+        GameData._omitGold=omitGold;
+        GameData.setUserData({omitGold:GameData._omitGold})
+    }
+    //获取遗漏的金币
+    static get omitGold(){
+        return GameData._omitGold;
     }
 
-    // 获取高级攻击等级
-    static get highAttack() {
-        return GameData._highAttack;
-    }
-
-    //设置高级暴击等级
-    static set highCriticalStrike(level) {
-        if (level < 0) {
-            level = 0;
+    //设置头铁（刀妹撞箱子数量）
+    static set hitBox(hitBox){
+        if(hitBox<0){
+            hitBox=0;
         }
-        GameData._highCriticalStrike = level;
-        GameData.setUserData({ highCriticalStrike: GameData._highCriticalStrike });
+        GameData._hitBox=hitBox;
+        GameData.setUserData({omitGold:GameData._hitBox})
+    }
+    //获取头铁（刀妹撞箱子数量）
+    static get hitBox(){
+        return GameData._hitBox;
     }
 
-    // 获取高级暴击等级
-    static get highCriticalStrike() {
-        return GameData._highCriticalStrike;
-    }
-
-    // 设置暴击暴伤等级
-    static set forceCriticalStrike(level) {
-        if (level < 0) {
-            level = 0;
+    //设置时间之子（厨子收集时间）
+    static set gatherTimer(gatherTimer){
+        if(gatherTimer<0){
+            gatherTimer=0;
         }
-        GameData._forceCriticalStrike = level;
-        GameData.setUserData({ forceCriticalStrike: GameData._forceCriticalStrike });
+        GameData._gatherTimer=gatherTimer;
+        GameData.setUserData({gatherTimer:GameData._gatherTimer})
     }
 
-    // 获取暴击暴伤等级
-    static get forceCriticalStrike() {
-        return GameData._forceCriticalStrike;
+    //获取时间之子（厨子收集时间）
+    static get gatherTimer(){
+        return GameData._gatherTimer;
     }
 
-    //设置已领取免费领取钻石次数
-    static set freeDiamondCount(count) {
-        if (count < 0) {
-            count = 0;
+    //设置不死亡灵（不死骷髅复活次数）
+    static set reviveTimes(reviveTimes){
+        if(reviveTimes<0){
+            reviveTimes=0;
         }
-        GameData._freeDiamondCount = count;
-        GameData.setUserData({ freeDiamondCount: GameData._freeDiamondCount });
+        GameData._reviveTimes=reviveTimes;
+        GameData.setUserData({reviveTimes:GameData._reviveTimes})
     }
 
-    //获取已领取免费领取钻石次数
-    static get freeDiamondCount() {
-        return GameData._freeDiamondCount;
+    //获取不死亡灵（不死骷髅复活次数）
+    static get reviveTimes(){
+        return GameData._reviveTimes;
     }
 
-    //设置游戏战斗等级
-    static set fightLevel(level) {
-        if (level < 0) {
-            level = 0;
+    //设置拆弹专家（用盾牌拆除炸弹数量）
+    static set dismantleBomb(dismantleBomb){
+        if(dismantleBomb<0){
+            dismantleBomb=0;
         }
-
-        GameData._fightLevel = level;
-        GameData.setUserData({ fightLevel: GameData._fightLevel })
+        GameData._dismantleBomb=dismantleBomb;
+        GameData.setUserData({dismantleBomb:GameData._dismantleBomb})
     }
 
-    //获取游戏战斗等级
-    static get fightLevel() {
-        return GameData._fightLevel;
+    //获取拆弹专家（用盾牌拆除炸弹数量）
+    static get dismantleBomb(){
+        return GameData._dismantleBomb;
     }
 
-    //设置当前关卡敌人血量
-    static set enemyHP(HP) {
-        if (HP < 0) {
-            HP = 0;
+    //设置大团圆（解锁角色数量）
+    static set unlockRoles(unlockRoles){
+        if(unlockRoles<0){
+            unlockRoles=0;
         }
-        GameData._enemyHP = HP;
-        GameData.setUserData({ enemyHP: GameData._enemyHP });
-
+        GameData._unlockRoles=unlockRoles;
+        GameData.setUserData({unlockRoles:GameData._unlockRoles})
     }
 
-    //获取当前关卡敌人血量
-    static get enemyHP() {
-        return GameData._enemyHP;
+    //获取大团圆（解锁角色数量）
+    static get unlockRoles(){
+        return GameData._unlockRoles;
     }
 
-    //设置当前关卡基础血量
-    static set baseBonus(baseBonus) {
-        if (baseBonus < 0) {
-            baseBonus = 0;
+    //设置升级（所有角色级级数）
+    static set levelUp(levelUp){
+        if(levelUp<0){
+            levelUp=0;
         }
-        GameData._baseBonus = baseBonus;
-        GameData.setUserData({ baseBonus: GameData._baseBonus })
+        GameData._levelUp=levelUp;
+        GameData.setUserData({levelUp:GameData._levelUp})
     }
 
-    //获取当前关卡基础奖励
-    static get baseBonus() {
-        return GameData._baseBonus;
+    //获取升级（所有角色级级数）
+    static get levelUp(){
+        return GameData._levelUp;
     }
 
-    // 设置宝箱抽奖次数
-    static set lotteryTimes(lotteryTimes) {
-        if (lotteryTimes < 0) {
-            GameData._lotteryTimes = 0;
+    //设置钩宝箱（船长撞破箱子数量）
+    static set captainHitBox(captainHitBox){
+        if(captainHitBox<0){
+            captainHitBox=0;
         }
-        GameData._lotteryTimes = lotteryTimes;
-        localStorage.setItem("lottery", JSON.stringify({ day: Util.getCurrTimeYYMMDD(), times: GameData._lotteryTimes }))
+        GameData._captainHitBox=captainHitBox;
+        GameData.setUserData({captainHitBox:GameData._captainHitBox})
+    }
+    //获取钩宝箱（船长撞破箱子数量）
+    static get captainHitBox(){
+        return GameData._captainHitBox;
     }
 
-    // 获取宝箱抽奖次数
-    static get lotteryTimes() {
-        return GameData._lotteryTimes;
+
+    //设置加速道具数量
+    static set prop_speedUp(prop_speedUp){
+        if(prop_speedUp<0){
+            prop_speedUp=0;
+        }
+        GameData._prop_speedUp=prop_speedUp;
+        GameData.setUserData({prop_speedUp:GameData._prop_speedUp})
+    }
+    //获取加速道具数量
+    static get prop_speedUp(){
+        return GameData._prop_speedUp;
     }
 
-    // 获取回收金币加成
-    static getRecycleGoldIncrease() {
-        return (GameData._recycleLevel + GameData._highRecycle) * 0.05;
+
+    //设置复活道具数量
+    static set prop_revive(prop_revive){
+        if(prop_revive<0){
+            prop_revive=0;
+        }
+        GameData._prop_revive=prop_revive;
+        GameData.setUserData({prop_revive:GameData._prop_revive})
+    }
+    //获取复活道具数量
+    static get prop_revive(){
+        return GameData._prop_revive;
     }
 
-    // 获取飞机攻击力加成
-    static getAttackIncrease() {
-        return (GameData._attack + GameData._highAttack) * 0.01;
+
+    //设置幸运草道具数量
+    static set prop_luckyGrass(prop_luckyGrass){
+        if(prop_luckyGrass<0){
+            prop_luckyGrass=0;
+        }
+        GameData._prop_luckyGrass=prop_luckyGrass;
+        GameData.setUserData({prop_luckyGrass:GameData._prop_luckyGrass})
+    }
+    //获取幸运草道具数量
+    static get prop_luckyGrass(){
+        return GameData._prop_luckyGrass;
     }
 
-    // 获取飞机设计速度加成
-    static getAttackSpeedIncrease() {
-        return GameData._highAttackSpeed * 0.01;
+
+    //设置时间道具数量
+    static set prop_time(prop_time){
+        if(prop_time<0){
+            prop_time=0;
+        }
+        GameData._prop_time=prop_time;
+        GameData.setUserData({prop_time:GameData._prop_time})
+    }
+    //获取时间道具数量
+    static get prop_time(){
+        return GameData._prop_time;
     }
 
-    // 获取飞机暴击率加成
-    static getCriticalStrikeIncrease() {
-        return (GameData._criticalStrike + GameData._highCriticalStrike) * 0.01;
+    //设置船长等级
+    static set roleLevel_captain(roleLevel_captain){
+        if(roleLevel_captain<0){
+            roleLevel_captain=0;
+        }
+        GameData._roleLevel_captain=roleLevel_captain;
+        GameData.setUserData({roleLevel_captain:GameData._roleLevel_captain})
+    }
+    //获取船长等级
+    static get roleLevel_captain(){
+        return GameData._roleLevel_captain;
     }
 
-    // 获取飞机暴击伤害加成
-    static getForceCriticalStrike() {
-        return GameData._forceCriticalStrike * 0.02;
+    //设置刀妹等级
+    static set roleLevel_sparklet(roleLevel_sparklet){
+        if(roleLevel_sparklet<0){
+            roleLevel_sparklet=0;
+        }
+        GameData._roleLevel_sparklet=roleLevel_sparklet;
+        GameData.setUserData({roleLevel_sparklet:GameData._roleLevel_sparklet})
     }
+    //获取刀妹等级
+    static get roleLevel_sparklet(){
+        return GameData._roleLevel_sparklet;
+    }
+
+    //设置白胡子等级
+    static set roleLevel_hook(roleLevel_hook){
+        if(roleLevel_hook<0){
+            roleLevel_hook=0;
+        }
+        GameData._roleLevel_hook=roleLevel_hook;
+        GameData.setUserData({roleLevel_hook:GameData._roleLevel_hook})
+    }
+    //获取白胡子等级
+    static get roleLevel_hook(){
+        return GameData._roleLevel_hook;
+    }
+
+    //设置厨子等级
+    static set roleLevel_leavened(roleLevel_leavened){
+        if(roleLevel_leavened<0){
+            roleLevel_leavened=0;
+        }
+        GameData._roleLevel_leavened=roleLevel_leavened;
+        GameData.setUserData({roleLevel_leavened:GameData._roleLevel_leavened})
+    }
+    //获取厨子等级
+    static get roleLevel_leavened(){
+        return GameData._roleLevel_leavened;
+    }
+
+
+    //设置骷髅等级
+    static set roleLevel_crutch(roleLevel_crutch){
+        if(roleLevel_crutch<0){
+            roleLevel_crutch=0;
+        }
+        GameData._roleLevel_crutch=roleLevel_crutch;
+        GameData.setUserData({roleLevel_crutch:GameData._roleLevel_crutch})
+    }
+    //获取骷髅等级
+    static get roleLevel_crutch(){
+        return GameData._roleLevel_crutch;
+    }
+
+
+    //设置地图2解锁状态
+    static set map_2(lock){
+       
+        GameData._map_2=lock;
+        GameData.setUserData({map_2:GameData._map_2})
+    }
+    //获取地图2解锁状态
+    static get map_2(){
+        return GameData._map_2;
+    }
+
+
+    //设置当前使用角色
+    static set currentRole(currentRole){
+       
+        GameData._currentRole=currentRole;
+        GameData.setUserData({currentRole:GameData._currentRole})
+    }
+    //获取当前使用角色
+    static get currentRole(){
+        return GameData._currentRole;
+    }
+
+
+    //设置当前使用角色
+    static set maxFightGold(maxFightGold){
+        if(maxFightGold<0){
+            maxFightGold=0;
+        }
+        GameData._maxFightGold=maxFightGold;
+        GameData.setUserData({maxFightGold:GameData._maxFightGold})
+    }
+    //获取当前使用角色
+    static get maxFightGold(){
+        return GameData._maxFightGold;
+    }
+
+
+    //设置当前商铺索引
+    static set currentShopIndex(currentShopIndex){
+        if(currentShopIndex<0){
+            currentShopIndex=0;
+        }
+        GameData._currentShopIndex=currentShopIndex;
+        GameData.setUserData({currentShopIndex:GameData._currentShopIndex})
+    }
+    //获取当前商铺索引
+    static get currentShopIndex(){
+        return GameData._currentShopIndex;
+    }
+
+
+
 
     //获取本地所有游戏数据
     static getAllLocalGameData() {
         console.log("获取本地数据！！！！！！！！！！！！");
         GameData.gold = WXCtr.getStorageData("gold");
-        GameData.diamonds = WXCtr.getStorageData("diamonds");
-        GameData.maxPlaneLevel = WXCtr.getStorageData("maxPlaneLevel", 1);
-        GameData.repPlaneNum = WXCtr.getStorageData("repPlaneNum");
-        GameData.factoryLevel = WXCtr.getStorageData("factoryLevel");
-        GameData.repositoryLevel = WXCtr.getStorageData("repositoryLevel");
-        GameData.recycleLevel = WXCtr.getStorageData("recycle");
-        GameData.attackLevel = WXCtr.getStorageData("attack");
-        GameData.criticalStrikeLevel = WXCtr.getStorageData("criticalStrike");
-        GameData.highAttack = WXCtr.getStorageData("highAttack");
-        GameData.highAttackSpeed = WXCtr.getStorageData("highAttackSpeed");
-        GameData.highRecycleLevel = WXCtr.getStorageData("highRecycle");
-        GameData.highCriticalStrike = WXCtr.getStorageData("highCriticalStrike");
-        GameData.forceCriticalStrike = WXCtr.getStorageData("forceCriticalStrike");
-        GameData.vipLevel = WXCtr.getStorageData("vipLevel");
-        GameData.freeDiamondCount = WXCtr.getStorageData("freeDiamondCount");
-        GameData.fightLevel = WXCtr.getStorageData("fightLevel", 1);
-        GameData.enemyHP = WXCtr.getStorageData("enemyHP", 30);
-        GameData.baseBonus = WXCtr.getStorageData("baseBonus", 10);
-        Guide.guideStep = WXCtr.getStorageData("guideStep");
+        GameData.diamond = WXCtr.getStorageData("diamonds");
+        GameData.power=WXCtr.getStorageData("power");
+        GameData.combo=WXCtr.getStorageData("combo");
+        GameData.doubleJump=WXCtr.getStorageData("doubleJump");
+        GameData.flyingGold=WXCtr.getStorageData("flyingGold");
+        GameData.omitGold=WXCtr.getStorageData("omitGold");
+        GameData.hitBox=WXCtr.getStorageData("hitBox");
+        GameData.gatherTimer=WXCtr.getStorageData("gatherTimer");
+        GameData.reviveTimes=WXCtr.getStorageData("reviveTimes");
+        GameData.dismantleBomb=WXCtr.getStorageData("dismantleBomb");
+        GameData.unlockRoles=WXCtr.getStorageData("unlockRoles");
+        GameData.levelUp=WXCtr.getStorageData("levelUp");
+        GameData.captainHitBox=WXCtr.getStorageData("captainHitBox");
 
-        for (let i = 1; i <= this.maxApron; i++) {
-            let key = "feiji_" + i;
-            let data = WXCtr.getStorageData(key);
-            if (data) {
-                GameData.planeData[key] = data;
-            } else {
-                GameData.planeData[key] = 0;
-            }
-        }
-        for (let i = 1; i <= this.maxPlane; i++) {
-            let key = "feijiLevel_" + i;
-            let data = WXCtr.getStorageData(key, 1);
-            if (data) {
-                GameData.planeData[key] = data;
-            } else {
-                GameData.planeData[key] = 1;
-            }
-        }
+        GameData.prop_speedUp=WXCtr.getStorageData("prop_speedUp");
+        GameData.prop_revive=WXCtr.getStorageData("prop_revive");
+        GameData.prop_luckyGrass=WXCtr.getStorageData("prop_luckyGrass");
+        GameData.prop_time=WXCtr.getStorageData("prop_time");
 
-        GameData.setUserData(GameData.planeData);
-        GameData.getMissionData();
-        GameCtr.ins.mGame.gameStart();
+
+        GameData.roleLevel_captain=WXCtr.getStorageData("roleLevel_captain");
+        GameData.roleLevel_sparklet=WXCtr.getStorageData("roleLevel_sparklet");
+        GameData.roleLevel_hook=WXCtr.getStorageData("roleLevel_hook");
+        GameData.roleLevel_leavened=WXCtr.getStorageData("roleLevel_leavened");
+        GameData.roleLevel_crutch=WXCtr.getStorageData("roleLevel_crutch");
+        GameData.map_2=WXCtr.getStorageData("map_2");
+        GameData.currentRole=WXCtr.getStorageData("currentRole");
+        GameData.maxFightGold=WXCtr.getStorageData("maxFightGold");
+        GameData.currentShopIndex=WXCtr.getStorageData("currentShopIndex");
     }
 
     static getOnlineGameData(data) {
         GameData.gold = data.gold;
-        GameData.diamonds = data.money == "NaN" ? 0 : data.money;
-        GameData.maxPlaneLevel = data.maxfeiji == "undefined" ? 1 : data.maxfeiji;
-        GameData.repPlaneNum = data.data_1;
-        GameData.factoryLevel = data.data_2;
-        GameData.repositoryLevel = data.data_3;
-        GameData.recycleLevel = data.data_4;
-        GameData.attackLevel = data.data_5;
-        GameData.criticalStrikeLevel = data.data_6;
-        GameData.highAttack = data.data_7;
-        GameData.highAttackSpeed = data.data_8;
-        GameData.highRecycleLevel = data.data_9;
-        GameData.highCriticalStrike = data.data_10;
-        GameData.forceCriticalStrike = data.data_11;
-        GameData.vipLevel = data.data_12;
-        GameData.freeDiamondCount = data.data_14;
-        GameData.fightLevel = data.level;
+        GameData.diamond = data.money == "NaN" ? 0 : data.money;
 
-        GameData.enemyHP = data.data_16;
-        GameData.baseBonus = data.data_17;
+        GameData.power=data.data_1;
+        GameData.combo=data.data_2;
+        GameData.doubleJump=data.data_3;
+        GameData.flyingGold=data.data_4;
+        GameData.omitGold=data.data_5;
+        GameData.hitBox=data.data_6
+        GameData.gatherTimer=data.data_7;
+        GameData.reviveTimes=data.data_8;
+        GameData.dismantleBomb=data.data_9;
+        GameData.unlockRoles=data.data_10;
+        GameData.levelUp=data.data_11;
+        GameData.captainHitBox=data.data_12;
 
-        Guide.guideStep = data.data_13 == "null" ? 8 : data.data_13;
-        GameData.setUserData({ guideStep: Guide.guideStep });
-        GameData.setUserData({ lastTime: data.data_21 });
+        GameData.prop_speedUp=data.data_13;
+        GameData.prop_revive=data.data_14;
+        GameData.prop_luckyGrass=data.data_15;
+        GameData.prop_time=data.data_16;
 
-        for (let i = 1; i <= this.maxApron; i++) {
-            let key1 = "feiji_" + i;
-            GameData.planeData[key1] = data[key1] == "NaN" ? 0 : data[key1];
-        }
-        for (let i = 1; i <= this.maxPlane; i++) {
-            let key = "feijiLevel_" + i;
-            GameData.planeData[key] = data[key];
-        }
-        GameData.setUserData(GameData.planeData);
-        GameData.getMissionData();
+        GameData.roleLevel_captain=data.data_17;
+        GameData.roleLevel_sparklet=data.data_18;
+        GameData.roleLevel_hook=data.data_19;
+        GameData.roleLevel_leavened=data.data_20;
+        GameData.roleLevel_crutch=data.data_21;
+        GameData.map_2=data.data_22;
+        GameData.currentRole=data.data_23;
+        GameData.maxFightGold=data.data_24;
+        GameData.currentShopIndex=data.data_25;
+
+        GameData.setUserData({ lastTime: data.data_30 });
         HttpCtr.submitUserData({});
-        GameCtr.ins.mGame.gameStart();
+        //GameCtr.ins.mGame.gameStart();
     }
 
-    static getMissionData() {
-        let day = Util.getCurrTimeYYMMDD();
-        GameData.missionData = WXCtr.getStorageData("missionData");
-        if (!GameData.missionData || !GameData.missionData.day || GameData.missionData.day != day) {
-            GameData.missionData = {};
-            GameData.missionData.day = day;
-            GameData.missionData.videoTimes = 0;
-            GameData.missionData.speedTimes = 0;
-            GameData.missionData.composeTimes = 0;
-            GameData.missionData.boxTimes = 0;
-            GameData.missionData.turntableTimes = 0;
-            GameData.missionData.fightTimes = 0;
-            for (let i = 1; i <= 8; i++) {
-                let key = "missionCollected_" + i;
-                GameData.missionData[key] = false;
-            }
-        }
-    }
 
-    static setMissonData(key, value) {
-        let day = Util.getCurrTimeYYMMDD();
-        GameData.missionData[key] = value;
-        GameData.missionData.day = day;
-        WXCtr.setStorageData("missionData", GameData.missionData);
-    }
 
     //保存个人信息
     static setUserData(data) {
@@ -499,19 +637,6 @@ export default class GameData {
         HttpCtr.submitUserData(data);
     }
 
-    //设置金币数量
-    static set gold(gold) {
-        if (gold < 0) {
-            gold = 0;
-        }
-        GameData._gold = gold;
-        GameData.setUserData({ gold: GameData._gold });
-    }
-
-    //获取金币数量
-    static get gold() {
-        return GameData._gold;
-    }
 
     static submitGameData() {
         HttpCtr.submitUserData({
@@ -520,201 +645,7 @@ export default class GameData {
         });
         let city = "未知";
         if (UserManager.user.city) city = UserManager.user.city;
-        WXCtr.submitScoreToWx(GameData.fightLevel, city);
+        WXCtr.submitScoreToWx(GameData.maxFightGold, city);
     }
 
-    //增加金币
-    static addGold(planeLevel) {
-        let addGold = Math.floor(25 * Math.pow(2, (planeLevel - 1) * 0.9));
-        if (GameCtr.ufoProfitBuff) {
-            addGold *= 5;
-        }
-        GameData.gold += addGold;
-    }
-
-    static reduceGold(num) {
-        GameData.gold -= num;
-    }
-
-    //设置钻石数量
-    static set diamonds(diamonds) {
-        if (diamonds < 0) {
-            diamonds = 0;
-        }
-        GameData._diamond = diamonds;
-        GameData.setUserData({ diamonds: GameData._diamond });
-        HttpCtr.submitUserData({ money: GameData._diamond });
-    }
-
-    //获取钻石数量
-    static get diamonds() {
-        return GameData._diamond;
-    }
-
-    //改变钻石数量
-    static changeDiamonds(num, callback = null) {
-        let diamonds;
-        HttpCtr.getUserInfo((data) => {
-            diamonds = data.money;
-            GameData.diamonds = diamonds + num;
-            if (callback) {
-                callback();
-            }
-        });
-    }
-
-    //设置自己拥有的最高飞机等级
-    static set maxPlaneLevel(level) {
-        GameData._maxPlaneLevel = level;
-        GameData.setUserData({ maxPlaneLevel: GameData._maxPlaneLevel });
-        HttpCtr.submitUserData({
-            maxfeiji: GameData._maxPlaneLevel,
-        });
-    }
-
-    //获取自己拥有的最高飞机等级
-    static get maxPlaneLevel() {
-        return GameData._maxPlaneLevel;
-    }
-
-    //获取飞机价格
-    static getPriceOfPlane(level) {
-        let price
-
-        return price;
-    }
-
-    // 设置工厂等级
-    static set factoryLevel(level) {
-        if (level < 0) {
-            level = 0;
-        }
-        GameData._factoryLevel = level;
-        GameData.setUserData({ factoryLevel: GameData._factoryLevel });
-    }
-
-    // 获取工厂等级
-    static get factoryLevel() {
-        return GameData._factoryLevel;
-    }
-
-    // 获取制造时间
-    static getProduceTime() {
-        return this.baseProduceTime - (0.2 * GameData.factoryLevel);
-    }
-
-    // 设置仓库等级
-    static set repositoryLevel(level) {
-        if (level < 0) {
-            level = 0;
-        }
-        GameData._repositoryLevel = level;
-        GameData.setUserData({ repositoryLevel: GameData._repositoryLevel });
-    }
-
-    // 获取仓库等级
-    static get repositoryLevel() {
-        let level = GameData._repositoryLevel;
-        return GameData._repositoryLevel;
-    }
-
-    // 获取仓库容量
-    static getRepositoryCapacity() {
-        return GameData.baseRepository + (2 * GameData.repositoryLevel);
-    }
-
-    // 设置Vip等级
-    static set vipLevel(level) {
-        if (level < 0) {
-            level = 0;
-        }
-        GameData._vipLevel = level;
-        GameData.setUserData({ vipLevel: GameData._vipLevel });
-    }
-
-    // 获取vip等级
-    static get vipLevel() {
-        return GameData._vipLevel;
-    }
-
-    //设置停机坪状态
-    static setApronState(idx, level/* -1代表该停机坪未解锁， 0代表该停机坪上没有飞机， 大于0代表停机坪上飞机等级 */) {
-        let key = "feiji_" + idx;
-        if (GameData.planeData) {
-            GameData.planeData[key] = level;
-        }
-        GameCtr.selfPlanes[idx - 1] = level;
-        let data = {};
-        data[key] = level;
-        GameData.setUserData(data);
-        HttpCtr.submitUserData(data);
-    }
-
-    //获取停机坪状态
-    static getApronState(idx) {
-        let level = 0;
-        let key = "feiji_" + idx;
-        for (let key1 in GameData.planeData) {
-            if (key == key1) {
-                level = GameData.planeData[key1];
-            }
-        }
-        if (GameData.planeData && GameData.planeData[key] && GameData.planeData[key] != 0) {
-            level = GameData.planeData[key];
-        }
-        return level;
-    }
-
-    //设置飞机等级
-    static setPlaneLevel(idx, level) {
-        let key = "feijiLevel_" + idx;
-        if (GameData.planeData) {
-            GameData.planeData[key] = level;
-        }
-        let data = {};
-        data[key] = level;
-        GameData.setUserData(data);
-        HttpCtr.submitUserData(data);
-    }
-
-    // 获取飞机等级
-    static getPlaneLevel(idx) {
-        let level = 1;
-        let key = "feijiLevel_" + idx;
-        if (GameData.planeData && GameData.planeData[key] && GameData.planeData[key] != 0) {
-            level = GameData.planeData[key];
-        }
-        return level;
-    }
-
-
-    static getPlaneLifeValue(level) {
-        for (let i = 0; i < 4; i++) {
-            if (level >= (i + 1) * 25) {
-                return 2 + i + 1
-            }
-        }
-        return 2;
-    }
-
-
-    static getEnemyHP() {
-        if (GameData.fightLevel == 1) {
-            GameData.enemyHP = 30;
-            return GameData.enemyHP;
-        }
-        return Math.floor(((3 + GameData.fightLevel) / Math.pow(GameData.fightLevel, 1.8) + 1.02) * GameData.enemyHP) + 9 * (GameData.fightLevel - 1);
-    }
-
-
-    static getBaseBonus() {
-        if (GameData.fightLevel == 1) {
-            GameData.baseBonus = 10;
-            return GameData.baseBonus;
-        }
-        
-        return Math.floor(Math.pow(Math.floor(GameData.fightLevel / 3 + 1), 1.5) + GameData.baseBonus * 1.02);
-    }
-
-    // update (dt) {}
 }

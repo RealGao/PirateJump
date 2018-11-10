@@ -229,27 +229,7 @@ export default class Util {
         }
     }
 
-    //static get
-    //数值格式化
-    static formatNumber(number:number){
-        let units=[
-        "K","M","B","T","aa",'bb','cc','dd','ee','ff','gg','hh','ii','jj','kk',
-        "ll","mm","nn","oo","pp",'qq','rr','ss','tt','uu','vv','ww','xx','yy','zz',
-        "AA","BB","CC","DD","EE",'FF','GG','HH','II','JJ','KK','LL','MM','NN','OO',
-        "PP","QQ","RR","SS","TT",'UU','VV','WW','XX','YY','ZZ'];
 
-        for(let i=units.length-1;i>0;i--){
-            if(number>=Math.pow(10,i*3)){
-                return (number/Math.pow(10,i*3)).toFixed(1)+units[i-1];
-            }
-        }
-        return number;
-    }
-
-    static isIponeX(){
-        let winSize=cc.director.getWinSize();
-        console.log("log--------winSize=:",winSize);
-        return winSize.width==1080 && winSize.height>=2338;
-    }
+    
 }
     

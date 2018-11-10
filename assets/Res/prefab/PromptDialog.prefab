@@ -161,7 +161,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 75
+      "height": 50
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -192,9 +192,7 @@
     "_fontSize": 60,
     "_lineHeight": 50,
     "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "4e2cea04-7c10-4cde-8799-8d92ce2d2253"
-    },
+    "_N$file": null,
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$string": "",

@@ -8,6 +8,7 @@ import Game from "../View/game/Game";
 import GameData from "../Common/GameData";
 import ViewManager from "../Common/ViewManager";
 import Start from "../View/start/Start";
+import Menus from "../View/start/menus"
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -15,6 +16,7 @@ export default class GameCtr {
     public static ins: GameCtr;
     public mGame: Game;
     public mStart: Start;
+    public mMenus: Menus;
 
     public static bannerId = null;
 
@@ -61,6 +63,12 @@ export default class GameCtr {
     public static gameToken=-1;
 
     public static fightStartGold=0;
+    public static soundState=null;
+
+
+    public static powerTime=5*60;
+
+
 
 
     public static StatisticType = cc.Enum({                         //统计类型
@@ -106,6 +114,18 @@ export default class GameCtr {
     //设置start实例（开始界面）
     setStart(start: Start) {
         this.mStart = start;
+    }
+
+    getStart(){
+        return this.mStart;
+    }
+
+    setMenus(menus:Menus){
+        this.mMenus=menus;
+    }
+
+    getMenus(){
+        return this.mMenus;
     }
 
     //场景切换
