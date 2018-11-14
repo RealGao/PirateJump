@@ -1,0 +1,74 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "box",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 2.4833333333333334,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.9666666666666667,
+          "value": 5
+        },
+        {
+          "frame": 1.5,
+          "value": -5
+        },
+        {
+          "frame": 2,
+          "value": 5
+        },
+        {
+          "frame": 2.4833333333333334,
+          "value": 0
+        }
+      ],
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            82,
+            -152
+          ]
+        },
+        {
+          "frame": 0.9666666666666667,
+          "value": [
+            82,
+            -159.3
+          ]
+        },
+        {
+          "frame": 1.5,
+          "value": [
+            82,
+            -147
+          ]
+        },
+        {
+          "frame": 2,
+          "value": [
+            82,
+            -159.3
+          ]
+        },
+        {
+          "frame": 2.4833333333333334,
+          "value": [
+            82,
+            -152
+          ]
+        }
+      ]
+    }
+  },
+  "events": []
+}

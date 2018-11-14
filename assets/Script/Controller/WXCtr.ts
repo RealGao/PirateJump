@@ -73,7 +73,7 @@ export default class WXCtr {
             wx.onHide(() => {
                 console.log("退到后台！！！！！");
                 let time = new Date().getTime();
-                HttpCtr.submitUserData({ data_21: time });
+                HttpCtr.submitUserData({ data_30: time });
                 WXCtr.setStorageData("lastTime", time);
                 WXCtr.isOnHide = true;
             });
@@ -223,7 +223,6 @@ export default class WXCtr {
                             title: "提示",
                             content: "网络连接失败,请检查网络连接！",
                             confirmText: "确定"
-
                         });
                     }
                 },
@@ -534,6 +533,8 @@ export default class WXCtr {
             if(!value) value = defaultValue;
             console.log("key == "+key+"  value == ", value);
             return value;
+        }else {
+            return defaultValue;
         }
     }
 

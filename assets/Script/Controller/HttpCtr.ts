@@ -145,7 +145,7 @@ export default class HttpCtr {
 
     //获取个人信息
     static getUserInfo(callBack = null) {
-        // 个人信息，data_20表示上次保存数据到服务器时间戳， data_21退出游戏时间 
+        // 个人信息，data_29表示上次保存数据到服务器时间戳， data_30退出游戏时间 
         Http.send({
             url: Http.UrlConfig.GET_USERINFO,
             success: (resp) => {
@@ -171,17 +171,17 @@ export default class HttpCtr {
     static compareData(data) {
         console.log("log------compareData----data=:",data);
         
-        if (!data.data_20) {
+        if (!data.data_29) {
             GameData.getAllLocalGameData();
             console.log("1111111111111111")
         } else {
-            console.log("data.data_20 == ", data.data_20);
+            console.log("data.data_29 == ", data.data_29);
             let saveTime = WXCtr.getStorageData("saveTime", null);
             if (saveTime) {
                 console.log("saveTime ==", saveTime);
-                if (data.data_20 > saveTime) {
+                if (data.data_29 > saveTime) {
                     GameData.getOnlineGameData(data);
-                    console.log("222222222222222:", data.data_20 - saveTime)
+                    console.log("222222222222222:", data.data_29 - saveTime)
                 } else {
                     GameData.getAllLocalGameData();
                     console.log("44444444444444444")
@@ -202,8 +202,8 @@ export default class HttpCtr {
         for (let key in data) {
             sendData[key] = data[key];
         }
-        sendData["data_20"] = new Date().getTime();
-        sendData["data_21"] = new Date().getTime();
+        sendData["data_29"] = new Date().getTime();
+        sendData["data_30"] = new Date().getTime();
         Http.send({
             url: Http.UrlConfig.SET_DATA,
             success: (resp) => {

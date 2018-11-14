@@ -63,6 +63,12 @@ export default class GameCtr {
     public static gameToken=-1;
 
     public static fightStartGold=0;
+    public static soundState=null;
+
+
+    public static powerTime=5*60;
+
+
 
 
     public static StatisticType = cc.Enum({                         //统计类型
@@ -114,6 +120,10 @@ export default class GameCtr {
         this.mStart = start;
     }
 
+    getStart(){
+        return this.mStart;
+    }
+
     //场景切换
     static gotoScene(sceneName) {
         cc.director.loadScene(sceneName);
@@ -148,6 +158,19 @@ export default class GameCtr {
             }
         }
         return arr
+    }
+
+
+
+    static canBuyRole(){
+        // if(GameData.gold>=GameData.rolePrice[GameData.currentLockedRole].gold){
+        //     return true
+        // }
+
+        // if(GameData.diamond>=GameData.rolePrice[5].diamond){
+
+        // }
+
     }
 
 }

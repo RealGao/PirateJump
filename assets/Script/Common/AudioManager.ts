@@ -92,9 +92,6 @@ export default class AudioManager {
         if (!this.soundOn) {
             return;
         }
-        if(GameCtr.musicSwitch<0){
-            return;
-        }
         try {
             this.soundId = await this.play(path, loop, this.soundVolume);
             return this.soundId;

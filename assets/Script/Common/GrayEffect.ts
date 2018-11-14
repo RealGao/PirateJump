@@ -68,7 +68,6 @@ export default class GrayEffect extends cc.Component {
         for (var i = 0; i < children.length; i++) {
             this.resetProgram(children[i]);
         }
-        
     }
 
     resetShader() {
