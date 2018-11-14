@@ -10,15 +10,22 @@ import GameData from "../../Common/GameData";
 import HttpCtr from "../../Controller/HttpCtr";
 import Util from "../../Common/Util";
 import WXCtr from "../../Controller/WXCtr";
+import CollisionMgr from "./CollisionMgr";
 
 
 const { ccclass, property } = cc._decorator;
+let collisionManager = cc.director.getCollisionManager();
+collisionManager.enabled = true;
 
 @ccclass
 export default class Game extends cc.Component {
 
     @property(cc.Node)
     ndGame: cc.Node = null;
+    @property(cc.Node)
+    ndCanvas: cc.Node = null;
+    @property(cc.Node)
+    ndIslandLayer: cc.Node = null;
     
 
     onLoad() {
@@ -36,10 +43,23 @@ export default class Game extends cc.Component {
     }
 
     start() {
-        
+        this.registerTouch();
+        this.initIslands();
     }
 
+    registerTouch() {
+        this.ndCanvas.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
+    }
 
+    onTouchStart(event) {
+        GameCtr.ins.mPirate.jump();
+    }
+
+    initIslands() {
+        for(let i = 0; i < 5; i++) {
+            CollisionMgr.addIsland();
+        }
+    }
 
     /**
      * 显示离线收益弹窗

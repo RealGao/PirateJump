@@ -8,12 +8,14 @@ import Game from "../View/game/Game";
 import GameData from "../Common/GameData";
 import ViewManager from "../Common/ViewManager";
 import Start from "../View/start/Start";
+import Pirate from "../View/game/Pirate";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameCtr {
     public static ins: GameCtr;
     public mGame: Game;
+    public mPirate: Pirate;
     public mStart: Start;
 
     public static bannerId = null;
@@ -97,6 +99,10 @@ export default class GameCtr {
     //设置game实例(游戏)
     setGame(game: Game) {
         this.mGame = game;
+    }
+
+    setPirate(pirate: Pirate) {
+        this.mPirate = pirate;
     }
 
     getGame(){
