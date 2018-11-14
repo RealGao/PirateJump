@@ -533,6 +533,8 @@ export default class WXCtr {
             if(!value) value = defaultValue;
             console.log("key == "+key+"  value == ", value);
             return value;
+        }else {
+            return defaultValue;
         }
     }
 

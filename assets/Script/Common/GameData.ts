@@ -36,9 +36,11 @@ const dataKeyConfig = {
 
         /*地图*/
         map_2:"data_22",                                                            //地图2
-        currentRole:"data_23",                                                      //当前使用角色
-        maxFightGold:"data_24",                                                     //最大战斗获得金币
-        currentShopIndex:"data_25"                                                  //当前商铺索引（道具 地图 角色  家园）
+        maxFightGold:"data_23",                                                     //最大战斗获得金币
+        currentShopIndex:"data_24",                                                 //当前商铺索引（道具 地图 角色  家园）
+        currentMap:"data_25",                                                       //当前使用地图
+        currentRole:"data_26",                                                      //当前使用角色
+        currentHome:"data_27",                                                      //当前家园
     };
 
 
@@ -66,16 +68,29 @@ export default class GameData {
     private static _prop_time:number=0;                                 //时间道具
 
     /*角色等级*/
-    private static _roleLevel_captain:number=0;                         //船长等级
-    private static _roleLevel_sparklet:number=0;                        //刀妹等级
-    private static _roleLevel_hook:number=0;                            //白胡子等级
-    private static _roleLevel_leavened:number=0;                        //厨子等级
-    private static _roleLevel_crutch:number=0;                          //骷髅等级
+    private static _roleLevel_captain:number=1;                         //船长等级 
+    private static _roleLevel_sparklet:number=0;                        //刀妹等级 0级表示未解锁
+    private static _roleLevel_hook:number=0;                            //白胡子等级 0级表示未解锁
+    private static _roleLevel_leavened:number=0;                        //厨子等级 0级表示未解锁
+    private static _roleLevel_crutch:number=0;                          //骷髅等级 0级表示未解锁
 
     private static _map_2:number=0;                                     //地图2(1:已解锁 0：未解锁)
-    private static _currentRole:number=0;                               //当前使用角色
     private static _maxFightGold:number=0;                              //最大战斗金币
-    private static _currentShopIndex:number=0                           //当前商铺索引（道具 地图 角色  家园）
+    private static _currentShopIndex:number=0;                          //当前商铺索引（道具 地图 角色  家园）
+    private static _currentMap:number=0;                                //当前使用地图
+    private static _currentRole:number=0;                               //当前使用角色
+    private static _currentHome:number=0;                               //当前家园
+
+
+    static roleInfo=[
+        {name:"captain",   gold:0,     diamond:0},
+        {name:"sparklet",  gold:2000,  diamond:0},
+        {name:"hook",      gold:5000,  diamond:0},
+        {name:"leavened",   gold:10000, diamond:0},
+        {name:"crutch",    gold:15000, diamond:0},
+        {name:"captain",   gold:0,     diamond:1000}
+    ]
+
 
     /*收集金币*/
     static collectGoldCof=[
@@ -548,14 +563,42 @@ export default class GameData {
         return GameData._currentShopIndex;
     }
 
+    //设置当前商铺索引
+    static set currentMap(currentMap){
+        if(currentMap<0){
+            currentMap=0;
+        }
+        GameData._currentMap=currentMap;
+        GameData.setUserData({currentMap:GameData._currentMap})
+    }
+    //获取当前商铺索引
+    static get currentMap(){
+        return GameData._currentMap;
+    }
 
-
+     //设置当前家园
+     static set currentHome(currentHome){
+        if(currentHome<0){
+            currentHome=0;
+        }
+        GameData._currentHome=currentHome;
+        GameData.setUserData({currentHome:GameData._currentHome})
+    }
+    //获取当前家园
+    static get currentHome(){
+        return GameData._currentHome;
+    }
 
     //获取本地所有游戏数据
     static getAllLocalGameData() {
         console.log("获取本地数据！！！！！！！！！！！！");
-        GameData.gold = WXCtr.getStorageData("gold");
-        GameData.diamond = WXCtr.getStorageData("diamonds");
+        GameData.gold = WXCtr.getStorageData("gold",9000);
+        GameData.diamond = WXCtr.getStorageData("diamonds",2000);
+
+        console.log("log gameAllLocalGameData------GameData.gold=:",GameData.gold);
+        console.log("log gameAllLocalGameData------GameData.diamond=:",GameData.diamond);
+
+
         GameData.power=WXCtr.getStorageData("power");
         GameData.combo=WXCtr.getStorageData("combo");
         GameData.doubleJump=WXCtr.getStorageData("doubleJump");
@@ -575,15 +618,19 @@ export default class GameData {
         GameData.prop_time=WXCtr.getStorageData("prop_time");
 
 
-        GameData.roleLevel_captain=WXCtr.getStorageData("roleLevel_captain");
+        GameData.roleLevel_captain=WXCtr.getStorageData("roleLevel_captain",1);
         GameData.roleLevel_sparklet=WXCtr.getStorageData("roleLevel_sparklet");
         GameData.roleLevel_hook=WXCtr.getStorageData("roleLevel_hook");
         GameData.roleLevel_leavened=WXCtr.getStorageData("roleLevel_leavened");
         GameData.roleLevel_crutch=WXCtr.getStorageData("roleLevel_crutch");
         GameData.map_2=WXCtr.getStorageData("map_2");
-        GameData.currentRole=WXCtr.getStorageData("currentRole");
+       
         GameData.maxFightGold=WXCtr.getStorageData("maxFightGold");
         GameData.currentShopIndex=WXCtr.getStorageData("currentShopIndex");
+
+        GameData.currentMap=WXCtr.getStorageData("currentMap");
+        GameData.currentRole=WXCtr.getStorageData("currentRole");
+        GameData.currentHome=WXCtr.getStorageData("currentHome");
     }
 
     static getOnlineGameData(data) {
@@ -614,9 +661,14 @@ export default class GameData {
         GameData.roleLevel_leavened=data.data_20;
         GameData.roleLevel_crutch=data.data_21;
         GameData.map_2=data.data_22;
-        GameData.currentRole=data.data_23;
-        GameData.maxFightGold=data.data_24;
-        GameData.currentShopIndex=data.data_25;
+        GameData.maxFightGold=data.data_23;
+        GameData.currentShopIndex=data.data_24;
+
+        GameData.currentMap=data.data_25;
+        GameData.currentRole=data.data_26;
+        GameData.currentHome=data.data_27;
+
+
 
         GameData.setUserData({ lastTime: data.data_30 });
         HttpCtr.submitUserData({});
@@ -646,6 +698,37 @@ export default class GameData {
         let city = "未知";
         if (UserManager.user.city) city = UserManager.user.city;
         WXCtr.submitScoreToWx(GameData.maxFightGold, city);
+    }
+
+
+    static getRoleLevelByName(roleName){
+        if(roleName=="captain"){
+            return GameData.roleLevel_captain;
+        }else if(roleName=="sparklet"){
+            return GameData.roleLevel_sparklet;
+        }else if(roleName=="hook"){
+            return GameData.roleLevel_hook;
+        }else if(roleName=="leavened"){
+            return GameData.roleLevel_leavened;
+        }else if(roleName=="crutch"){
+            return GameData.roleLevel_crutch;
+        }
+    }
+
+    static doUpRoleLevelByName(roleName){
+        
+        if(roleName=="captain"){
+            GameData.roleLevel_captain+=1;
+        }else if(roleName=="sparklet"){
+            GameData.roleLevel_sparklet+=1;
+        }else if(roleName=="hook"){
+            GameData.roleLevel_hook+=1;
+        }else if(roleName=="leavened"){
+            GameData.roleLevel_leavened+=1;
+            console.log("log----------GameData.roleLevel_leavened=:",GameData.roleLevel_leavened);
+        }else if(roleName=="crutch"){
+            GameData.roleLevel_crutch+=1;
+        }
     }
 
 }

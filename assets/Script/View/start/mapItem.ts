@@ -5,7 +5,7 @@ export default class NewClass extends cc.Component {
     _icon_seleted=null;
     _lb_recordHolder=null;
 
-    onLoad(){
+    init(){
         this.initNode();
     }
 

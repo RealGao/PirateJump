@@ -164,4 +164,17 @@ export default class GameCtr {
         return arr
     }
 
+
+
+    static canBuyRole(){
+        // if(GameData.gold>=GameData.rolePrice[GameData.currentLockedRole].gold){
+        //     return true
+        // }
+
+        // if(GameData.diamond>=GameData.rolePrice[5].diamond){
+
+        // }
+
+    }
+
 }

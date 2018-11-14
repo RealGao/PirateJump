@@ -45,12 +45,16 @@ export default class Start extends cc.Component {
     ad:cc.Prefab=null;
 
     onLoad () {
+        GameData.getAllLocalGameData();
         GameCtr.getInstance().setStart(this);
         this.initNode();
     }
 
     start () {
         //this.showLoading();
+
+        this.showGold();
+        this.showDiamond();
     }
 
     initNode(){
@@ -58,10 +62,10 @@ export default class Start extends cc.Component {
         this._btnsNode=this.node.getChildByName("btnsNode");
         this._adsNode=this.node.getChildByName("adNode");
 
-        this._lb_gold=this.node.getChildByName("lb_gold");
-        this._lb_diamond=this.node.getChildByName("lb_diamond");
-        this._lb_power=this.node.getChildByName("lb_power");
-        this._lb_powerTime=this.node.getChildByName("lb_powerTime");
+        this._lb_gold=this._infoNode.getChildByName("lb_gold");
+        this._lb_diamond=this._infoNode.getChildByName("lb_diamond");
+        this._lb_power=this._infoNode.getChildByName("lb_power");
+        this._lb_powerTime=this._infoNode.getChildByName("lb_powerTime");
         this._gameLogo=this.node.getChildByName("gameLogo");
         this._bg=this.node.getChildByName("bg");
 
@@ -84,8 +88,9 @@ export default class Start extends cc.Component {
         let btn_rank=this._btnsNode.getChildByName("btn_rank");
         let btn_more=this._btnsNode.getChildByName("btn_more");
         let btn_shop=this._btnsNode.getChildByName("btn_shop");
-        let btn_addDiamond=this._btnsNode.getChildByName("btn_addDiamond");
-        let btn_addPower=this._btnsNode.getChildByName("btn_addPower");
+
+        let btn_addDiamond=this._infoNode.getChildByName("btn_addDiamond");
+        let btn_addPower=this._infoNode.getChildByName("btn_addPower");
 
 
         this.initBtnEvent(btn_music);

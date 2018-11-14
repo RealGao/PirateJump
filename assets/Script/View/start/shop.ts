@@ -17,12 +17,10 @@ export default class NewClass extends cc.Component {
     _mask=null;
     _mapsNode=null;
     _propsNode=null;
+    _homeWorldNode=null;
     _charactersNode=null;
 
     _lightBtns=[];
-
-
-
 
     onLoad(){
         this.initNode();
@@ -41,19 +39,22 @@ export default class NewClass extends cc.Component {
         this._lb_title=this.node.getChildByName("lb_title");
         this._mapsNode=this.node.getChildByName("mapsNode");
         this._propsNode=this.node.getChildByName("propsNode");
+        this._homeWorldNode=this.node.getChildByName("homeWorldNode");
         this._charactersNode=this.node.getChildByName("charactersNode");
+        
         this._mask=this.node.getChildByName("mask");
 
         this._mapsNode.getComponent('mapsNode').init();
         this._charactersNode.getComponent('charactersNode').init();
+        this._homeWorldNode.getComponent("homeWorldNode").init();
 
         this._mask.active=false;
         this._mapsNode.active=false;
         this._propsNode.active=false;
+        this._homeWorldNode.active=false;
         this._charactersNode.active=false;
 
         this.initBtnsNode();
-        
     }
 
     initBtnsNode(){
@@ -85,22 +86,29 @@ export default class NewClass extends cc.Component {
             }else if(e.target.getName()=="btn_maps"){
                 this._mapsNode.active=true;
                 this._propsNode.active=false;
+                this._homeWorldNode.active=false;
                 this._charactersNode.active=false;
                 this.seletedLightBtn("btn_maps");
             }else if(e.target.getName()=="btn_props"){
                 this._mapsNode.active=false;
                 this._propsNode.active=true;
+                this._homeWorldNode.active=false;
                 this._charactersNode.active=false;
                 this.seletedLightBtn("btn_props");
             }else if(e.target.getName()=="btn_characters"){
                 this._mapsNode.active=false;
                 this._propsNode.active=false;
+                this._homeWorldNode.active=false;
                 this._charactersNode.active=true;
                 this.seletedLightBtn("btn_characters");
             }else if(e.target.getName()=="btn_start"){
                 cc.director.loadScene('Game');
             }else if(e.target.getName()=="btn_homeWorld"){
                 this.seletedLightBtn("btn_homeWorld");
+                this._mapsNode.active=false;
+                this._propsNode.active=false;
+                this._homeWorldNode.active=true;
+                this._charactersNode.active=false;
             }
         })
     }
@@ -117,7 +125,7 @@ export default class NewClass extends cc.Component {
             this._charactersNode.active=true;
             this.seletedLightBtn("btn_characters");
         }else if(GameData.currentShopIndex==Shop.homeWorld){
-            //this._charactersNode.active=true;
+            this._homeWorldNode.active=true;
             this.seletedLightBtn("btn_homeWorld");
         }
     }
@@ -129,6 +137,12 @@ export default class NewClass extends cc.Component {
             }else{
                 this._lightBtns[i].getComponent("lightBtn").setSeletedState(false);
             }
+        }
+    }
+
+    showLightBtnsTip(){
+        for(let i=0;i<this._lightBtns.length;i++){
+            this._lightBtns[i].getComponent("lightBtn").JudgeShowLight();
         }
     }
 
