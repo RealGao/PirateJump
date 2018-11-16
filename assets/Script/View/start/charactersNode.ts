@@ -24,7 +24,7 @@ export default class NewClass extends cc.Component {
 
         for(let i=0;i<5;i++){
             let role=this._rolesContent.getChildByName("role"+i);
-            role.getComponent("roleItem").init(GameData.roleInfo[i]);//ps ：临时显示  注意有显示钻石的
+            role.getComponent("roleItem").init(GameData.rolesInfo[i]);//ps ：临时显示  注意有显示钻石的
             this._roles.push(role);
 
             if(GameData.currentRole==i){
@@ -49,7 +49,8 @@ export default class NewClass extends cc.Component {
             this._roles[i].on(cc.Node.EventType.TOUCH_END,(e)=>{
                 for(let i=0;i<this._roles.length;i++){
                     if(e.target.getName()==this._roles[i].name){
-                        if(this._roles[i].getComponent("roleItem").getLevel()<=0){
+                        if(this._roles[i].getComponent("roleItem").getLevel()<0){
+                            /* 未解锁 */
                             return;
                         }
                         this.hideSeletedStates();
@@ -76,5 +77,14 @@ export default class NewClass extends cc.Component {
             this._box.x=-350;
             this._box.runAction(cc.moveBy(30,cc.p(600,0)))
         },2*60)
+    }
+
+    doAction(){
+        let icon=this.node.getChildByName("icon");
+        icon.runAction(cc.sequence(
+            cc.scaleTo(0.1,1.2),
+            cc.scaleTo(0.2,0.9),
+            cc.scaleTo(0.2,1.0),
+        ))
     }
 }

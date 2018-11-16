@@ -16,8 +16,6 @@ export default class Start extends cc.Component {
     _carouselAdNode=null;
     _mask=null;
     _bg=null;
-
-
     _carouseAds=[];
     _carouselIndex=0;
     _powerTime_min=0;
@@ -46,15 +44,20 @@ export default class Start extends cc.Component {
 
     onLoad () {
         GameData.getAllLocalGameData();
-        GameCtr.getInstance().setStart(this);
+        GameCtr.getInstance().setStart(this); 
         this.initNode();
+        this.initPowerTime();
+
+        GameData.jewelLevel=1;
+        console.log("log-------------jewelLevelPrice=:",GameData.getJewelLevelUpPrice());
+        console.log("log-------------jewelRate=:",GameData.getJewelRate());
+        console.log("log-------------getJewelOutPut=:",GameData.getJewelOutPut());
     }
 
     start () {
-        //this.showLoading();
-
         this.showGold();
         this.showDiamond();
+        this.showPower();
     }
 
     initNode(){
@@ -88,7 +91,6 @@ export default class Start extends cc.Component {
         let btn_rank=this._btnsNode.getChildByName("btn_rank");
         let btn_more=this._btnsNode.getChildByName("btn_more");
         let btn_shop=this._btnsNode.getChildByName("btn_shop");
-
         let btn_addDiamond=this._infoNode.getChildByName("btn_addDiamond");
         let btn_addPower=this._infoNode.getChildByName("btn_addPower");
 
@@ -100,10 +102,11 @@ export default class Start extends cc.Component {
         this.initBtnEvent(btn_achievement);
         this.initBtnEvent(btn_rank);
         this.initBtnEvent(btn_more);
-
         this.initBtnEvent(btn_shop);
         this.initBtnEvent(btn_addDiamond);
         this.initBtnEvent(btn_addPower);
+
+        this.updateBtnShopState()
     }
 
     initBtnEvent(btn){
@@ -140,6 +143,25 @@ export default class Start extends cc.Component {
         this.showBtnSoundState();
     }
 
+    initPowerTime(){
+        let powerTimeCount=WXCtr.getStorageData("powerTime",-1);
+        powerTimeCount=-1;
+        if(powerTimeCount<0){
+            GameData.powerTime=5*60;
+            this.doPowerTimeCount();
+        }else{
+            let timeIterval=(new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000;
+            if(timeIterval-powerTimeCount>=0){
+                GameData.power+=1;
+                timeIterval-=powerTimeCount;
+                let cycle=Math.floor(timeIterval/5*60);
+                GameData.power+=cycle;
+                GameData.powerTime=timeIterval-cycle*5*60;
+                this.doPowerTimeCount();
+            }
+        }
+    }
+
     showHelp(){
         if(cc.find("Canvas").getChildByName("help")){
             return;
@@ -165,6 +187,7 @@ export default class Start extends cc.Component {
         }
         let shop=cc.instantiate(this.shop);
         shop.parent=cc.find("Canvas");
+
     }
 
     showBtnSoundState(){
@@ -191,14 +214,19 @@ export default class Start extends cc.Component {
     }
 
     showPower(){
-        this._lb_power.getComponent(cc.Label).string=GameData.diamond+"";
+        this._lb_power.getComponent(cc.Label).string=GameData.power+"/99";
     }
 
     showPowerTime(){
-        this._powerTime_min =Math.floor(GameCtr.powerTime/60);
-        this._powerTime_sec =GameCtr.powerTime%60;
+        if(GameData.power>=99){
+            this._lb_powerTime.active=false
+        }else{
+            this._lb_powerTime.active=true;
+            this._powerTime_min =Math.floor(GameData.powerTime/60);
+        this._powerTime_sec =GameData.powerTime%60;
         this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
                                                      (this._powerTime_sec>=10?this._powerTime_sec:"0"+this._powerTime_sec);
+        }
     }
 
     setMaskVisit(bool){
@@ -288,24 +316,28 @@ export default class Start extends cc.Component {
     doPowerTimeCount(){
         this.showPowerTime();
         setInterval(()=>{
-            GameCtr.powerTime--;
+            GameData.powerTime--;
             this.showPowerTime();
-            if(GameCtr.powerTime<=0){
-                GameCtr.powerTime=5*60;
+            if(GameData.powerTime<=0){
+                GameData.powerTime=5*60;
                 GameData.power++;
+                GameData.power=GameData.power>99?99:GameData.power;
                 this.showPowerTime();   
+                this.showPower();
             }
-        },1)
+        },1000)
     }
 
-    
 
+    updateBtnShopState(){
+        let btn_shop=this._btnsNode.getChildByName("btn_shop");
+        let tipShopping=btn_shop.getChildByName("tipShopping");
+        if(GameData.canShopping()){
+            tipShopping.active=true;
+        }else{
+            tipShopping.active=false;
+        }
+    }
 
-    
    
-
-
-
-
-
 }

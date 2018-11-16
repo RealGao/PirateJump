@@ -73,8 +73,9 @@ export default class WXCtr {
             wx.onHide(() => {
                 console.log("退到后台！！！！！");
                 let time = new Date().getTime();
-                HttpCtr.submitUserData({ data_30: time });
+                HttpCtr.submitUserData({ data_30: time});
                 WXCtr.setStorageData("lastTime", time);
+                WXCtr.setStorageData("jewelTimeCount", GameData.jewelTimeCount);
                 WXCtr.isOnHide = true;
             });
         }

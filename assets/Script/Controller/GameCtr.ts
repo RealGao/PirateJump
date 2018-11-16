@@ -8,7 +8,7 @@ import Game from "../View/game/Game";
 import GameData from "../Common/GameData";
 import ViewManager from "../Common/ViewManager";
 import Start from "../View/start/Start";
-import Menus from "../View/start/menus"
+import Shop from "../View/start/shop";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -16,7 +16,7 @@ export default class GameCtr {
     public static ins: GameCtr;
     public mGame: Game;
     public mStart: Start;
-    public mMenus: Menus;
+    public mShop:Shop;
 
     public static bannerId = null;
 
@@ -64,12 +64,6 @@ export default class GameCtr {
 
     public static fightStartGold=0;
     public static soundState=null;
-
-
-    public static powerTime=5*60;
-
-
-
 
     public static StatisticType = cc.Enum({                         //统计类型
         SPEED: 1,                                                   //加速分享
@@ -120,13 +114,16 @@ export default class GameCtr {
         return this.mStart;
     }
 
-    setMenus(menus:Menus){
-        this.mMenus=menus;
+    //设置shop实例
+    setShop(shop: Shop) {
+        this.mShop = shop;
     }
 
-    getMenus(){
-        return this.mMenus;
+    getShop(){
+        return this.mShop;
     }
+
+
 
     //场景切换
     static gotoScene(sceneName) {

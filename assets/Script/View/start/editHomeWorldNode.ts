@@ -12,11 +12,10 @@ export default class NewClass extends cc.Component {
         for(let i=0;i<5;i++){
             let home=this.node.getChildByName("home"+i);
             this._homes.push(home);
-
-            if(i>=3){
-                home.getComponent("home").setlockState(false);
-            }else{
+            if(GameData.jewelLevel>=GameData.homeLockLevel[i]){
                 home.getComponent("home").setlockState(true);
+            }else{
+                home.getComponent("home").setlockState(false);
             }
 
             if(GameData.currentHome==i){
@@ -25,17 +24,7 @@ export default class NewClass extends cc.Component {
                 home.getComponent("home").setSeletedState(false);
             }
         }
-
-        //this.initMaskEvent();
     }
-
-    // initMaskEvent(){
-    //     this._mask=this.node.getChildByName("mask");
-    //     this._mask.on(cc.Node.EventType.TOUCH_END,(e)=>{
-    //         this.hide(); 
-    //     })
-    // }
-
 
     hide(){
         this.node.active=false;

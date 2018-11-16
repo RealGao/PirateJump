@@ -27,20 +27,27 @@ const dataKeyConfig = {
         prop_luckyGrass:"data_15",                                                  //幸运草道具
         prop_time:"data_16",                                                        //时间道具
 
-        /*角色等级*/
-        roleLevel_captain:"data_17",                                                //船长等级
-        roleLevel_sparklet:"data_18",                                               //刀妹等级
-        roleLevel_hook:"data_19",                                                   //白胡子等级
-        roleLevel_leavened:"data_20",                                               //厨子等级
-        roleLevel_crutch:"data_21",                                                 //骷髅等级
+        /*角色赚取金币*/
+        gold_captain:"data_17",                                                     //船长赚取金币
+        gold_sparklet:"data_18",                                                    //刀妹赚取金币
+        gold_hook:"data_19",                                                        //白胡子赚取金币
+        gold_leavened:"data_20",                                                    //厨子赚取金币
+        gold_crutch:"data_21",                                                      //骷髅赚取金币
+        maxFightGold:"data_22",                                                     //最大战斗获得金币
+        currentShopIndex:"data_23",                                                 //当前商铺索引（道具 地图 角色  家园）
+        currentMap:"data_24",                                                       //当前使用地图
+        currentRole:"data_25",                                                      //当前使用角色
+        currentHome:"data_26",                                                      //当前家园
 
-        /*地图*/
-        map_2:"data_22",                                                            //地图2
-        maxFightGold:"data_23",                                                     //最大战斗获得金币
-        currentShopIndex:"data_24",                                                 //当前商铺索引（道具 地图 角色  家园）
-        currentMap:"data_25",                                                       //当前使用地图
-        currentRole:"data_26",                                                      //当前使用角色
-        currentHome:"data_27",                                                      //当前家园
+        /*地图状态*/
+        map0:"data_27",                                                             //地图0
+        map1:"data_28",                                                             //地图1
+        map2:"data_29",                                                             //地图2
+        map3:"data_30",                                                             //地图3
+
+        jewelLevel:"data_31",                                                       //宝石等级
+        jewelCount:"data_32",                                                       //宝石数量
+
     };
 
 
@@ -68,29 +75,56 @@ export default class GameData {
     private static _prop_time:number=0;                                 //时间道具
 
     /*角色等级*/
-    private static _roleLevel_captain:number=1;                         //船长等级 
-    private static _roleLevel_sparklet:number=0;                        //刀妹等级 0级表示未解锁
-    private static _roleLevel_hook:number=0;                            //白胡子等级 0级表示未解锁
-    private static _roleLevel_leavened:number=0;                        //厨子等级 0级表示未解锁
-    private static _roleLevel_crutch:number=0;                          //骷髅等级 0级表示未解锁
+    private static _gold_captain:number=0;                              //船长赚取金币     0：刚解锁 还未赚取金币
+    private static _gold_sparklet:number=-1;                            //刀妹赚取金币    -1：未解锁
+    private static _gold_hook:number=-1;                                //白胡子赚取金币  -1：未解锁
+    private static _gold_leavened:number=-1;                            //厨子赚取金币    -1：未解锁
+    private static _gold_crutch:number=-1;                              //骷髅赚取金币    -1：未解锁
 
-    private static _map_2:number=0;                                     //地图2(1:已解锁 0：未解锁)
+   
     private static _maxFightGold:number=0;                              //最大战斗金币
     private static _currentShopIndex:number=0;                          //当前商铺索引（道具 地图 角色  家园）
     private static _currentMap:number=0;                                //当前使用地图
     private static _currentRole:number=0;                               //当前使用角色
     private static _currentHome:number=0;                               //当前家园
 
+    private static _map0:number= 0;                                      //地图0  -1:未解锁 0:已解锁 1:1星评价 2:2星评价 3:三星评价
+    private static _map1:number=-1;                                      //地图1  -1:未解锁 0:已解锁 1:1星评价 2:2星评价 3:三星评价
+    private static _map2:number=-1;                                      //地图2  -1:未解锁 0:已解锁 1:1星评价 2:2星评价 3:三星评价
+    private static _map3:number=-1;                                      //地图3  -1:未解锁 0:已解锁 1:1星评价 2:2星评价 3:三星评价
+    private static _jewelLevel:number=1;                                 //宝石等级
+    private static _jewelCount:number=0;                                 //宝石数量
 
-    static roleInfo=[
-        {name:"captain",   gold:0,     diamond:0},
-        {name:"sparklet",  gold:2000,  diamond:0},
-        {name:"hook",      gold:5000,  diamond:0},
-        {name:"leavened",   gold:10000, diamond:0},
-        {name:"crutch",    gold:15000, diamond:0},
-        {name:"captain",   gold:0,     diamond:1000}
+    public static jewelTimeCount=0;                                      //宝石收集倒计时
+    public static powerTime=0;                                           //体力收集时间
+
+
+    static rolesInfo=[
+        {name:"captain",   price_gold:0,     price_diamond:0},
+        {name:"sparklet",  price_gold:2000,  price_diamond:0},
+        {name:"hook",      price_gold:5000,  price_diamond:0},
+        {name:"leavened",  price_gold:10000, price_diamond:0},
+        {name:"crutch",    price_gold:15000, price_diamond:0},
+        {name:"captain",   price_gold:0,     price_diamond:1000}
     ]
 
+    static mapsInfo=[
+        {name:"map0",   gold_price:0,     diamond_price:0,    rate:[200,600,900]},
+        {name:"map1",   gold_price:2000,  diamond_price:0,    rate:[800,1100,1350]},
+        {name:"map2",   gold_price:0,     diamond_price:2000, rate:[700,1100,1200]},
+        {name:"map3",   gold_price:20000, diamond_price:0,    rate:[-1,-1,-1]}
+    ]
+
+    static propsInfo=[
+        {name:"luckyGrass",  price:50},
+        {name:"speedUp",     price:100},
+        {name:"revive",      price:200},
+        {name:"time",        price:100},
+    ]
+
+    /* 家园解锁条件 以宝石等级为依据 */
+    static homeLockLevel=[1,3,6,10,15]
+        
 
     /*收集金币*/
     static collectGoldCof=[
@@ -445,82 +479,99 @@ export default class GameData {
         return GameData._prop_time;
     }
 
-    //设置船长等级
-    static set roleLevel_captain(roleLevel_captain){
-        if(roleLevel_captain<0){
-            roleLevel_captain=0;
-        }
-        GameData._roleLevel_captain=roleLevel_captain;
-        GameData.setUserData({roleLevel_captain:GameData._roleLevel_captain})
+    //设置船长赚取金币
+    static set gold_captain(gold_captain){
+        GameData._gold_captain=gold_captain;
+        GameData.setUserData({gold_captain:GameData._gold_captain})
     }
-    //获取船长等级
-    static get roleLevel_captain(){
-        return GameData._roleLevel_captain;
+    //获取船长赚取金币
+    static get gold_captain(){
+        return GameData._gold_captain;
     }
 
-    //设置刀妹等级
-    static set roleLevel_sparklet(roleLevel_sparklet){
-        if(roleLevel_sparklet<0){
-            roleLevel_sparklet=0;
-        }
-        GameData._roleLevel_sparklet=roleLevel_sparklet;
-        GameData.setUserData({roleLevel_sparklet:GameData._roleLevel_sparklet})
+    //设置刀妹赚取金币
+    static set gold_sparklet(gold_sparklet){
+
+        GameData._gold_sparklet=gold_sparklet;
+        GameData.setUserData({roleLevel_sparklet:GameData._gold_sparklet})
     }
-    //获取刀妹等级
-    static get roleLevel_sparklet(){
-        return GameData._roleLevel_sparklet;
+    //获取刀妹赚取金币
+    static get gold_sparklet(){
+        return GameData._gold_sparklet;
     }
 
-    //设置白胡子等级
-    static set roleLevel_hook(roleLevel_hook){
-        if(roleLevel_hook<0){
-            roleLevel_hook=0;
-        }
-        GameData._roleLevel_hook=roleLevel_hook;
-        GameData.setUserData({roleLevel_hook:GameData._roleLevel_hook})
+    //设置白胡子赚取金币
+    static set gold_hook(gold_hook){
+
+        GameData._gold_hook=gold_hook;
+        GameData.setUserData({gold_hook:GameData._gold_hook})
     }
-    //获取白胡子等级
-    static get roleLevel_hook(){
-        return GameData._roleLevel_hook;
+    //获取白胡子赚取金币
+    static get gold_hook(){
+        return GameData._gold_hook;
     }
 
-    //设置厨子等级
-    static set roleLevel_leavened(roleLevel_leavened){
-        if(roleLevel_leavened<0){
-            roleLevel_leavened=0;
-        }
-        GameData._roleLevel_leavened=roleLevel_leavened;
-        GameData.setUserData({roleLevel_leavened:GameData._roleLevel_leavened})
+    //设置厨子赚取金币
+    static set gold_leavened(gold_leavened){
+        GameData._gold_leavened=gold_leavened;
+        GameData.setUserData({gold_leavened:GameData._gold_leavened})
     }
-    //获取厨子等级
-    static get roleLevel_leavened(){
-        return GameData._roleLevel_leavened;
+    //获取厨子赚取金币
+    static get gold_leavened(){
+        return GameData._gold_leavened;
     }
 
+    //设置骷髅赚取金币
+    static set gold_crutch(gold_crutch){
 
-    //设置骷髅等级
-    static set roleLevel_crutch(roleLevel_crutch){
-        if(roleLevel_crutch<0){
-            roleLevel_crutch=0;
-        }
-        GameData._roleLevel_crutch=roleLevel_crutch;
-        GameData.setUserData({roleLevel_crutch:GameData._roleLevel_crutch})
+        GameData._gold_crutch=gold_crutch;
+        GameData.setUserData({gold_crutch:GameData._gold_crutch})
     }
-    //获取骷髅等级
-    static get roleLevel_crutch(){
-        return GameData._roleLevel_crutch;
+    //获取骷髅赚取金币
+    static get gold_crutch(){
+        return GameData._gold_crutch;
     }
 
+    //设置地图0状态
+    static set map0(state){
+        GameData._map0=state;
+        GameData.setUserData({map0:GameData._map0})
+    }
 
-    //设置地图2解锁状态
-    static set map_2(lock){
-       
-        GameData._map_2=lock;
-        GameData.setUserData({map_2:GameData._map_2})
+    //获取地图0状态
+    static get map0(){
+        return GameData._map0;
+    }
+
+    //设置地图1状态
+    static set map1(state){
+        GameData._map1=state;
+        GameData.setUserData({map1:GameData._map1})
+    }
+
+    //获取地图1状态
+    static get map1(){
+        return GameData._map1;
+    }
+
+    //设置地图2状态
+    static set map2(state){
+        GameData._map2=state;
+        GameData.setUserData({map_2:GameData._map2})
+    }
+    //获取地图2状态
+    static get map2(){
+        return GameData._map2;
+    }
+
+    //设置地图3解锁状态
+    static set map3(state){
+        GameData._map3=state;
+        GameData.setUserData({map_3:GameData._map3})
     }
     //获取地图2解锁状态
-    static get map_2(){
-        return GameData._map_2;
+    static get map3(){
+        return GameData._map3;
     }
 
 
@@ -576,8 +627,8 @@ export default class GameData {
         return GameData._currentMap;
     }
 
-     //设置当前家园
-     static set currentHome(currentHome){
+    //设置当前家园
+    static set currentHome(currentHome){
         if(currentHome<0){
             currentHome=0;
         }
@@ -589,15 +640,39 @@ export default class GameData {
         return GameData._currentHome;
     }
 
+
+    //设置宝石等级
+    static set jewelLevel(jewelLevel){
+        if(jewelLevel<0){
+            jewelLevel=0;
+        }
+        GameData._jewelLevel=jewelLevel;
+        GameData.setUserData({jewelLevel:GameData._jewelLevel})
+    }
+    //获取宝石等级
+    static get jewelLevel(){
+        return GameData._jewelLevel;
+    }
+
+    //设置宝石数量
+    static set jewelCount(jewelCount){
+        if(jewelCount<0){
+            jewelCount=0;
+        }
+        GameData._jewelCount=jewelCount;
+        GameData.setUserData({jewelCount:GameData._jewelCount})
+    }
+    //获取宝石等级
+    static get jewelCount(){
+        return GameData._jewelCount;
+    }
+
+
     //获取本地所有游戏数据
     static getAllLocalGameData() {
         console.log("获取本地数据！！！！！！！！！！！！");
-        GameData.gold = WXCtr.getStorageData("gold",9000);
+        GameData.gold = WXCtr.getStorageData("gold",3000);
         GameData.diamond = WXCtr.getStorageData("diamonds",2000);
-
-        console.log("log gameAllLocalGameData------GameData.gold=:",GameData.gold);
-        console.log("log gameAllLocalGameData------GameData.diamond=:",GameData.diamond);
-
 
         GameData.power=WXCtr.getStorageData("power");
         GameData.combo=WXCtr.getStorageData("combo");
@@ -618,19 +693,26 @@ export default class GameData {
         GameData.prop_time=WXCtr.getStorageData("prop_time");
 
 
-        GameData.roleLevel_captain=WXCtr.getStorageData("roleLevel_captain",1);
-        GameData.roleLevel_sparklet=WXCtr.getStorageData("roleLevel_sparklet");
-        GameData.roleLevel_hook=WXCtr.getStorageData("roleLevel_hook");
-        GameData.roleLevel_leavened=WXCtr.getStorageData("roleLevel_leavened");
-        GameData.roleLevel_crutch=WXCtr.getStorageData("roleLevel_crutch");
-        GameData.map_2=WXCtr.getStorageData("map_2");
-       
+        GameData.gold_captain=WXCtr.getStorageData("gold_captain",0);
+        GameData.gold_sparklet=WXCtr.getStorageData("gold_sparklet",-1);
+        GameData.gold_hook=WXCtr.getStorageData("gold_hook",-1);
+        GameData.gold_leavened=WXCtr.getStorageData("gold_leavened",-1);
+        GameData.gold_crutch=WXCtr.getStorageData("gold_crutch",-1);
+        
         GameData.maxFightGold=WXCtr.getStorageData("maxFightGold");
         GameData.currentShopIndex=WXCtr.getStorageData("currentShopIndex");
 
         GameData.currentMap=WXCtr.getStorageData("currentMap");
         GameData.currentRole=WXCtr.getStorageData("currentRole");
         GameData.currentHome=WXCtr.getStorageData("currentHome");
+
+
+        GameData.map0=WXCtr.getStorageData("map0", 0);
+        GameData.map1=WXCtr.getStorageData("map1",-1);
+        GameData.map2=WXCtr.getStorageData("map2",-1);
+        GameData.map3=WXCtr.getStorageData("map3",-1);
+
+        GameData.jewelLevel=WXCtr.getStorageData("jewelLevel",1);
     }
 
     static getOnlineGameData(data) {
@@ -655,20 +737,23 @@ export default class GameData {
         GameData.prop_luckyGrass=data.data_15;
         GameData.prop_time=data.data_16;
 
-        GameData.roleLevel_captain=data.data_17;
-        GameData.roleLevel_sparklet=data.data_18;
-        GameData.roleLevel_hook=data.data_19;
-        GameData.roleLevel_leavened=data.data_20;
-        GameData.roleLevel_crutch=data.data_21;
-        GameData.map_2=data.data_22;
-        GameData.maxFightGold=data.data_23;
-        GameData.currentShopIndex=data.data_24;
+        GameData.gold_captain=data.data_17;
+        GameData.gold_sparklet=data.data_18;
+        GameData.gold_hook=data.data_19;
+        GameData.gold_leavened=data.data_20;
+        GameData.gold_crutch=data.data_21;
+        GameData.maxFightGold=data.data_22;
+        GameData.currentShopIndex=data.data_23;
+        GameData.currentMap=data.data_24;
+        GameData.currentRole=data.data_25;
+        GameData.currentHome=data.data_26;
 
-        GameData.currentMap=data.data_25;
-        GameData.currentRole=data.data_26;
-        GameData.currentHome=data.data_27;
+        GameData.map0=data.data_27;
+        GameData.map1=data.data_28;
+        GameData.map2=data.data_29;
+        GameData.map3=data.data_30;
 
-
+        GameData.jewelLevel=data.data_31;;
 
         GameData.setUserData({ lastTime: data.data_30 });
         HttpCtr.submitUserData({});
@@ -701,34 +786,164 @@ export default class GameData {
     }
 
 
-    static getRoleLevelByName(roleName){
-        if(roleName=="captain"){
-            return GameData.roleLevel_captain;
-        }else if(roleName=="sparklet"){
-            return GameData.roleLevel_sparklet;
-        }else if(roleName=="hook"){
-            return GameData.roleLevel_hook;
-        }else if(roleName=="leavened"){
-            return GameData.roleLevel_leavened;
-        }else if(roleName=="crutch"){
-            return GameData.roleLevel_crutch;
+    static getRoleLevelInfoByName(roleName){
+        let key="gold_"+roleName;
+        return GameData.getLevelInfo(GameData[key]);
+    }
+
+    static addGoldByName(roleName){
+        let key="gold_"+roleName;
+        GameData[key]+=1;
+    }
+
+    static getGoldByName(roleName){
+        let key="gold_"+roleName;
+        return GameData[key];
+    }
+
+
+    static getLevelTarget(level){
+        if(level==0){
+            return 500;
+        }else {
+            return Math.floor( Math.pow((1+0.5*(1-(level+1)/((level+1)+10))),level)*500+500)
         }
     }
 
-    static doUpRoleLevelByName(roleName){
-        
-        if(roleName=="captain"){
-            GameData.roleLevel_captain+=1;
-        }else if(roleName=="sparklet"){
-            GameData.roleLevel_sparklet+=1;
-        }else if(roleName=="hook"){
-            GameData.roleLevel_hook+=1;
-        }else if(roleName=="leavened"){
-            GameData.roleLevel_leavened+=1;
-            console.log("log----------GameData.roleLevel_leavened=:",GameData.roleLevel_leavened);
-        }else if(roleName=="crutch"){
-            GameData.roleLevel_crutch+=1;
+
+    static getLevelInfo(gold,level=0){
+        if(gold<0){
+            /*未解锁*/
+            return {_level:-1,_targetGold:-1,_currentGold:-1};
         }
+
+        /*已解锁*/
+        let goldTemp=gold;
+        while(goldTemp>=GameData.getLevelTarget(level)){
+            goldTemp-=GameData.getLevelTarget(level)
+            level++;
+        }
+        return {_level:level,_targetGold:GameData.getLevelTarget(level),_currentGold:goldTemp};
+    }
+
+
+    static getMapStateByName(mapName){
+        let key=mapName;
+        return GameData[key];
+    }
+
+    static setMapStateByName(mapName,state){
+        let key=mapName;
+        GameData[key]=state;
+    }
+
+    static getJewelLevelUpPrice(){
+        if(GameData.jewelLevel==1){
+            return 1000
+        }else{
+            let level=0;
+            let price=1000;
+            while(level<GameData.jewelLevel){
+                price=Math.round(price*1.3);
+                level++;
+            }
+            return price;
+        }
+    }
+
+    static getJewelRate(){
+        if(GameData.jewelLevel<=0){
+            return -1
+        }else if(GameData.jewelLevel==1){
+            return 1
+        }else{
+            return Math.pow((1+(1-GameData.jewelLevel/(GameData.jewelLevel+20))*0.3),GameData.jewelLevel);
+        }
+    }
+
+    static getJewelProductionCycle(){
+        if(GameData.jewelLevel<=0){
+            return -1;
+        }else{
+            let cycle=60*GameData.jewelLevel;
+            cycle=cycle>=300?300:cycle;
+            return cycle;
+        }
+    }
+
+    static getJewelOutPut(){
+        if(GameData.jewelLevel<=0){
+            return -1;
+        }else{
+            return Math.round(GameData.getJewelProductionCycle()/60*GameData.getJewelRate());
+        }
+    }
+
+
+    static getProp(propName){
+        let key="prop_"+propName;
+        return GameData[key];
+    }
+
+    static addProp(propName){
+        let key="prop_"+propName;
+        GameData[key]+=1;
+    }
+
+    static subProp(propName){
+        let key="prop_"+propName;
+        GameData[key]-=1;
+    }
+
+
+    static canBuyProps(){
+        if(GameData.prop_luckyGrass==10 &&GameData.prop_revive==10 && GameData.prop_speedUp==10 &&GameData.prop_time==10){
+            /*所有道具都已买满 */
+            return false;
+        }
+
+        for(let i=0;i<GameData.propsInfo.length;i++){
+            if(GameData.gold>=GameData.propsInfo[i].price){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static canBuyMaps(){
+        if(GameData.map0>=0 && GameData.map1>=0 && GameData.map2>=0 && GameData.map3>=0){
+            /*所有地图已解锁*/
+            return false;
+        }
+
+        for(let i=1;i<GameData.mapsInfo.length;i++){
+            if(GameData.gold>=GameData.mapsInfo[i].gold_price && GameData.diamond>=GameData.mapsInfo[i].diamond_price){
+                return true
+            }
+        }
+        return false;
+    }
+
+    static canBuyCharactors(){
+        if(GameData.gold_captain>=0 && GameData.gold_crutch>=0 && GameData.gold_hook>=0 && GameData.gold_leavened>=0 && GameData.gold_sparklet>=0){
+            /* 所有玩家已解锁 */
+            return false;
+        }
+
+        for(let i=1;i<GameData.rolesInfo.length;i++){
+            if(GameData.gold>=GameData.rolesInfo[i].price_gold && GameData.diamond>=GameData.rolesInfo[i].price_diamond){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    static canShopping(){
+        if(!GameData.canBuyProps() && !GameData.canBuyMaps() && !GameData.canBuyCharactors()){
+            return false;
+        }
+        return true;
     }
 
 }

@@ -24,9 +24,9 @@ export default class NewClass extends cc.Component {
     initData(){
         this._posArr=[
             [0],
-            [1,2],
+            [0,1],
             [0,1,2],
-            [1,2,3,4],
+            [0,1,2,3],
             [0,1,2,3,4],
         ]
     }
@@ -88,8 +88,7 @@ export default class NewClass extends cc.Component {
         let stars=this._posArr[count-1];
         for(let i=0;i<stars.length;i++){
             this._stars[stars[i]].active=true;
-        }
-        
+        } 
     }
 
 }

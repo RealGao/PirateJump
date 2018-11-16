@@ -117,8 +117,13 @@ export default class NewClass extends cc.Component {
         this._editHomeWorldNode.active=false;
     }
 
-    start () {
-
+    doAction(){
+        let icon=this.node.getChildByName("icon");
+        icon.runAction(cc.sequence(
+            cc.scaleTo(0.1,1.2),
+            cc.scaleTo(0.2,0.9),
+            cc.scaleTo(0.2,1.0),
+        ))
     }
 
 }

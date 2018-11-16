@@ -20,13 +20,16 @@ export default class NewClass extends cc.Component {
     _homeWorldNode=null;
     _charactersNode=null;
 
+    _tipBuyMaps=null;
+    _tipBuyProps=null;
+    _tipBuyCharactor=null;
+
     _lightBtns=[];
 
     onLoad(){
         this.initNode();
-        GameCtr.getInstance().setMenus(this);
+        GameCtr.getInstance().setShop(this);
         GameCtr.getInstance().getStart().showStartBtns(false);
-        
     }
 
     start(){
@@ -45,6 +48,7 @@ export default class NewClass extends cc.Component {
         this._mask=this.node.getChildByName("mask");
 
         this._mapsNode.getComponent('mapsNode').init();
+        this._propsNode.getComponent("propsNode").init();
         this._charactersNode.getComponent('charactersNode').init();
         this._homeWorldNode.getComponent("homeWorldNode").init();
 
@@ -65,6 +69,10 @@ export default class NewClass extends cc.Component {
         let btn_homeWorld=this._btnsNode.getChildByName("btn_homeWorld");
         let btn_characters=this._btnsNode.getChildByName("btn_characters");
 
+        this._tipBuyMaps=btn_maps.getChildByName("tip");
+        this._tipBuyProps=btn_props.getChildByName("tip");
+        this._tipBuyCharactor=btn_characters.getChildByName("tip");
+
         this._lightBtns.push(btn_maps);
         this._lightBtns.push(btn_props);
         this._lightBtns.push(btn_homeWorld);
@@ -76,6 +84,8 @@ export default class NewClass extends cc.Component {
         this.initBtnEvent(btn_start);
         this.initBtnEvent(btn_homeWorld);
         this.initBtnEvent(btn_characters);
+
+        this.upBtnsState();
     }
 
     initBtnEvent(btn){
@@ -88,33 +98,40 @@ export default class NewClass extends cc.Component {
                 this._propsNode.active=false;
                 this._homeWorldNode.active=false;
                 this._charactersNode.active=false;
+                GameData.currentShopIndex=Shop.maps;
                 this.seletedLightBtn("btn_maps");
+                this._mapsNode.getComponent("mapsNode").doAction();
             }else if(e.target.getName()=="btn_props"){
                 this._mapsNode.active=false;
                 this._propsNode.active=true;
                 this._homeWorldNode.active=false;
                 this._charactersNode.active=false;
+                GameData.currentShopIndex=Shop.props;
                 this.seletedLightBtn("btn_props");
+                this._propsNode.getComponent("propsNode").doAction();
             }else if(e.target.getName()=="btn_characters"){
                 this._mapsNode.active=false;
                 this._propsNode.active=false;
                 this._homeWorldNode.active=false;
                 this._charactersNode.active=true;
+                GameData.currentShopIndex=Shop.characters;
                 this.seletedLightBtn("btn_characters");
+                this._charactersNode.getComponent("charactersNode").doAction();
             }else if(e.target.getName()=="btn_start"){
                 cc.director.loadScene('Game');
             }else if(e.target.getName()=="btn_homeWorld"){
-                this.seletedLightBtn("btn_homeWorld");
                 this._mapsNode.active=false;
                 this._propsNode.active=false;
                 this._homeWorldNode.active=true;
                 this._charactersNode.active=false;
+                GameData.currentShopIndex=Shop.homeWorld;
+                this.seletedLightBtn("btn_homeWorld");
+                this._homeWorldNode.getComponent("homeWorldNode").doAction();
             }
         })
     }
 
     showCurrentShop(){
-        console.log("log---------GameData.currentShopIndex=:",GameData.currentShopIndex);
         if(GameData.currentShopIndex==Shop.maps){
             this._mapsNode.active=true;
             this.seletedLightBtn("btn_maps");
@@ -148,6 +165,36 @@ export default class NewClass extends cc.Component {
 
     setMaskVisit(bool){
         this._mask.active=bool;
+    }
+
+    updateBtnMapsState(){
+        if(GameData.canBuyMaps()){
+            this._tipBuyMaps.active=true;
+        }else{
+            this._tipBuyMaps.active=false;
+        }
+    }
+
+    updateBtnPropsState(){
+        if(GameData.canBuyProps()){
+            this._tipBuyProps.active=true;
+        }else{
+            this._tipBuyProps.active=false;
+        }
+    }
+
+    updateBtnCharactorsState(){
+        if(GameData.canBuyCharactors()){
+            this._tipBuyCharactor.active=true;
+        }else{
+            this._tipBuyCharactor.active=false;
+        }
+    }
+
+    upBtnsState(){
+        this.updateBtnMapsState();
+        this.updateBtnPropsState();
+        this.updateBtnCharactorsState();
     }
 
 }

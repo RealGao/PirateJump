@@ -13,7 +13,9 @@ export default class NewClass extends cc.Component {
     _icon_seleted=null;
     _icon_seletedFrame=null;
     _progress=null;
-    _roleInfo={name:"",level:0,gold:0,diamond:0};
+    _progressBar=null;
+    _roleInfo={name:"",price_gold:0,price_diamond:0};
+    _roleLevelInfo=null;
 
     init(info){
         this.initInfo(info);
@@ -21,10 +23,12 @@ export default class NewClass extends cc.Component {
     }
 
     initInfo(info){
-        this._roleInfo.gold=info.gold;
-        this._roleInfo.diamond=info.diamond;
+        this._roleInfo.price_gold=info.price_gold;
+        this._roleInfo.price_diamond=info.price_diamond;
         this._roleInfo.name=info.name;
-        this._roleInfo.level=GameData.getRoleLevelByName(info.name);
+
+        this._roleLevelInfo=GameData.getRoleLevelInfoByName(this._roleInfo.name);
+        console.log("log------------this._rolelevelInfo=:",this._roleLevelInfo);
     }
 
     initNode(){
@@ -36,16 +40,15 @@ export default class NewClass extends cc.Component {
         this._icon_seleted=this.node.getChildByName("icon_seleted");
         this._icon_seletedFrame=this.node.getChildByName("icon_seletedFrame");
         this._progress=this.node.getChildByName("progress");
-
+        this._progressBar=this.node.getChildByName("bar")
         
-      
         this._icon_seleted.active=false;
         this._icon_seletedFrame.active=false;
 
         this.initBtnEvent(this._btn_buy);
         this.initBtnEvent(this._btn_help);
-        this.showLevel();
         this.showPrice();
+        this.showLevelInfo();
         this.showBtnBuyState();
     }
 
@@ -53,7 +56,6 @@ export default class NewClass extends cc.Component {
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_buy"){
                 this.doBuy();
-                console.log("log-------点击购买----------");
             }else if(e.target.getName()=="btn_help"){
                 //this.showHelp();
             }
@@ -61,14 +63,16 @@ export default class NewClass extends cc.Component {
     }
 
     doBuy(){
-        if(this._roleInfo.gold>0){
-            if(GameData.gold>=this._roleInfo.gold){
-                GameData.gold-=this._roleInfo.gold;
+        if(this._roleInfo.price_gold>0){
+            if(GameData.gold>=this._roleInfo.price_gold){
+                GameData.gold-=this._roleInfo.price_gold;
                 GameCtr.getInstance().getStart().showGold();
-                GameData.doUpRoleLevelByName(this._roleInfo.name);
+                GameCtr.getInstance().getStart().updateBtnShopState();
+                GameCtr.getInstance().getShop().upBtnsState();
+                GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();
-                this.showLevel();
+                this.showLevelInfo();
                 this.setSeletedState(true);
                 this._btn_buy.active=false;
                 this.node.getComponent(cc.Button).interactable=true;
@@ -77,14 +81,16 @@ export default class NewClass extends cc.Component {
             }
         }
         
-        if(this._roleInfo.diamond>0){
-            if(GameData.diamond>=this._roleInfo.diamond){
-                GameData.diamond-=this._roleInfo.diamond;
+        if(this._roleInfo.price_diamond>0){
+            if(GameData.diamond>=this._roleInfo.price_diamond){
+                GameData.diamond-=this._roleInfo.price_diamond;
                 GameCtr.getInstance().getStart().showDiamond();
-                GameData.doUpRoleLevelByName(this._roleInfo.name);
+                GameCtr.getInstance().getStart().updateBtnShopState();
+                GameCtr.getInstance().getShop().upBtnsState();
+                GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();
-                this.showLevel();
+                this.showLevelInfo();
                 this.setSeletedState(true);
                 this._btn_buy.active=false;
                 this.node.getComponent(cc.Button).interactable=true;
@@ -96,33 +102,50 @@ export default class NewClass extends cc.Component {
 
     showPrice(){
         if(this._lb_price){
-            if(this._roleInfo.gold>0){
-                this._lb_price.getComponent(cc.Label).string=this._roleInfo.gold;
+            if(this._roleInfo.price_gold>0){
+                this._lb_price.getComponent(cc.Label).string=this._roleInfo.price_gold;
             }
-            if(this._roleInfo.diamond>0){
-                this._lb_price.getComponent(cc.Label).string=this._roleInfo.diamond;
+            if(this._roleInfo.price_diamond>0){
+                this._lb_price.getComponent(cc.Label).string=this._roleInfo.price_diamond;
             }
         }
     }
 
-    showLevel(){
-        this._lb_level.getComponent(cc.Label).string=GameData.getRoleLevelByName(this._roleInfo.name);
+    showLevel(bool){
+        this._lb_level.active=bool;
+        this._progress.active=bool;
+        this._progressBar.active=bool;
+        this._lb_level.getComponent(cc.Label).string=this._roleLevelInfo._level;
+    }
+
+    showLevelInfo(){
+        this._roleLevelInfo=GameData.getRoleLevelInfoByName(this._roleInfo.name);
+
+        if(this._roleLevelInfo._level<0){//未解锁
+            this.showLevel(false)
+            return;
+        }
+        /* 已解锁 */
+        this.showLevel(true)
+        this._progress.getComponent(cc.ProgressBar).progress=this._roleLevelInfo._currentGold/this._roleLevelInfo._targetGold;
     }
 
     getLevel(){
-        return GameData.getRoleLevelByName(this._roleInfo.name);
+        return this._roleLevelInfo._level;
     }
 
     showBtnBuyState(){
-        if(GameData.getRoleLevelByName(this._roleInfo.name)){//已解锁
+        
+        if(GameData.getGoldByName(this._roleInfo.name)>=0){//已解锁
             this._btn_buy.active=false;
             this._mask.active=false;
             this.setLockState(true);
         }else{
+            /* 未解锁 */
             this.setLockState(false);
             this._btn_buy.active=true;
             this._mask.active=true;
-            if(GameData.gold>=this._roleInfo.gold && GameData.diamond>=this._roleInfo.diamond){
+            if(GameData.gold>=this._roleInfo.price_gold && GameData.diamond>=this._roleInfo.price_diamond){
                 this._btn_buy.opacity=255;
                 this._btn_buy.getComponent(cc.Button).interactable=true;
             }else{
