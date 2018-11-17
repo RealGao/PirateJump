@@ -139,6 +139,7 @@ export default class NewClass extends cc.Component {
         ))
 
         for(let i=0;i<this._boats.length;i++){
+            this._boats[i].opacity=0;
             this._boats[i].runAction(cc.sequence(
                 cc.delayTime(i*0.3),
                 cc.callFunc(()=>{

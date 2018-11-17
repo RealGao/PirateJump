@@ -168,12 +168,12 @@ export default class NewClass extends cc.Component {
     }
 
     setSeletedState(bool){
-        
-        this.pauseSeletedAni();
         this._icon_seleted.active=bool;
         this._icon_seletedFrame.active=bool;
         if(bool){
             this.showSeletedAni();
+        }else{
+            this.pauseSeletedAni();
         }
     }
 
@@ -190,7 +190,9 @@ export default class NewClass extends cc.Component {
     }
 
     pauseSeletedAni(){
-        this._ani_role.pause();
+        let clips=this._ani_role.getClips();
+        this._ani_role.stop(clips[0].name);
+        this._ani_role.stop(clips[1].name);
     }
 
 
