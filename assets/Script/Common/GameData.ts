@@ -100,12 +100,12 @@ export default class GameData {
 
 
     static rolesInfo=[
-        {name:"captain",   price_gold:0,     price_diamond:0},
-        {name:"sparklet",  price_gold:2000,  price_diamond:0},
-        {name:"hook",      price_gold:5000,  price_diamond:0},
-        {name:"leavened",  price_gold:10000, price_diamond:0},
-        {name:"crutch",    price_gold:15000, price_diamond:0},
-        {name:"captain",   price_gold:0,     price_diamond:1000}
+        {id:0,  name:"captain",   price_gold:0,     price_diamond:0},
+        {id:1,  name:"sparklet",  price_gold:2000,  price_diamond:0},
+        {id:2,  name:"hook",      price_gold:5000,  price_diamond:0},
+        {id:3,  name:"leavened",  price_gold:10000, price_diamond:0},
+        {id:4,  name:"crutch",    price_gold:15000, price_diamond:0},
+        {id:5,  name:"captain",   price_gold:0,     price_diamond:1000}
     ]
 
     static mapsInfo=[

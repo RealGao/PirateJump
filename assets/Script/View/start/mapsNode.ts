@@ -10,7 +10,7 @@ export default class NewClass extends cc.Component {
     init(){
         this._icon=this.node.getChildByName('icon');
         for(let i=0;i<4;i++){
-            let map= this.node.getChildByName("map"+i);
+            let map= this.node.getChildByName("mapContent").getChildByName("map"+i);
             map.getComponent("mapItem").init(GameData.mapsInfo[i]);
             this._maps.push(map);
 
@@ -51,6 +51,8 @@ export default class NewClass extends cc.Component {
     }
 
     doAction(){
+        let ani=this.node.getChildByName("mapContent").getComponent(cc.Animation);
+        ani.play();
         this.doIconAction();
     }
     

@@ -94,6 +94,8 @@ export default class NewClass extends cc.Component {
                 this.node.destroy();
                 GameCtr.getInstance().getStart().showStartBtns(true);
             }else if(e.target.getName()=="btn_maps"){
+                if(this._mapsNode.active){return;}
+
                 this._mapsNode.active=true;
                 this._propsNode.active=false;
                 this._homeWorldNode.active=false;
@@ -102,6 +104,8 @@ export default class NewClass extends cc.Component {
                 this.seletedLightBtn("btn_maps");
                 this._mapsNode.getComponent("mapsNode").doAction();
             }else if(e.target.getName()=="btn_props"){
+                if(this._propsNode.active){return;}
+
                 this._mapsNode.active=false;
                 this._propsNode.active=true;
                 this._homeWorldNode.active=false;
@@ -110,6 +114,8 @@ export default class NewClass extends cc.Component {
                 this.seletedLightBtn("btn_props");
                 this._propsNode.getComponent("propsNode").doAction();
             }else if(e.target.getName()=="btn_characters"){
+                if(this._charactersNode.active){return}
+
                 this._mapsNode.active=false;
                 this._propsNode.active=false;
                 this._homeWorldNode.active=false;
@@ -120,6 +126,8 @@ export default class NewClass extends cc.Component {
             }else if(e.target.getName()=="btn_start"){
                 cc.director.loadScene('Game');
             }else if(e.target.getName()=="btn_homeWorld"){
+                if(this._homeWorldNode.active){return}
+
                 this._mapsNode.active=false;
                 this._propsNode.active=false;
                 this._homeWorldNode.active=true;

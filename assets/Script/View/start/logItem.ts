@@ -27,6 +27,11 @@ export default class NewClass extends cc.Component {
         this.initBtnEvent(this._btn_continue);
     }
 
+    showLogs(logs){
+        this._lb_log01.getComponent(cc.Label).string="";
+        this._lb_log01.getComponent(cc.Label).string="";
+    }
+
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_recover"){
@@ -36,6 +41,4 @@ export default class NewClass extends cc.Component {
             }
         })
     }
-
-    
 }

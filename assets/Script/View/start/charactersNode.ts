@@ -46,16 +46,21 @@ export default class NewClass extends cc.Component {
 
     initRolesListener(){
         for(let i=0;i<this._roles.length;i++){
-            this._roles[i].on(cc.Node.EventType.TOUCH_END,(e)=>{
+            let role=this._roles[i].getChildByName("icon_role");
+            role.on(cc.Node.EventType.TOUCH_END,(e)=>{
                 for(let i=0;i<this._roles.length;i++){
-                    if(e.target.getName()==this._roles[i].name){
+                    if(e.target.parent.name==this._roles[i].name){
                         if(this._roles[i].getComponent("roleItem").getLevel()<0){
                             /* 未解锁 */
                             return;
                         }
-                        this.hideSeletedStates();
-                        this._roles[i].getComponent("roleItem").setSeletedState(true);
-                        GameData.currentRole=i;
+                        console.log("GameData.currentRole=:",GameData.currentRole);
+                        if(GameData.currentRole!=i){
+                            this.hideSeletedStates();
+                            console.log('log------------seleted i=:',i);
+                            this._roles[i].getComponent("roleItem").setSeletedState(true);
+                            GameData.currentRole=i;
+                        }
                     }
                 }
             })

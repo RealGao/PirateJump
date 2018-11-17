@@ -10,11 +10,13 @@ export default class NewClass extends cc.Component {
     _btn_buy=null;
     _lb_level=null;
     _lb_price=null;
+    _icon_role=null;
     _icon_seleted=null;
+    _ani_role=null;
     _icon_seletedFrame=null;
     _progress=null;
     _progressBar=null;
-    _roleInfo={name:"",price_gold:0,price_diamond:0};
+    _roleInfo={id:-1,name:"",price_gold:0,price_diamond:0};
     _roleLevelInfo=null;
 
     init(info){
@@ -26,6 +28,7 @@ export default class NewClass extends cc.Component {
         this._roleInfo.price_gold=info.price_gold;
         this._roleInfo.price_diamond=info.price_diamond;
         this._roleInfo.name=info.name;
+        this._roleInfo.id=info.id;
 
         this._roleLevelInfo=GameData.getRoleLevelInfoByName(this._roleInfo.name);
         console.log("log------------this._rolelevelInfo=:",this._roleLevelInfo);
@@ -37,11 +40,14 @@ export default class NewClass extends cc.Component {
         this._btn_help=this.node.getChildByName("btn_help");
         this._lb_level=this.node.getChildByName("lb_level");
         this._lb_price=this._btn_buy.getChildByName("lb_price");
+        this._icon_role=this.node.getChildByName("icon_role");
         this._icon_seleted=this.node.getChildByName("icon_seleted");
         this._icon_seletedFrame=this.node.getChildByName("icon_seletedFrame");
         this._progress=this.node.getChildByName("progress");
-        this._progressBar=this.node.getChildByName("bar")
-        
+        this._progressBar=this.node.getChildByName("bar");
+
+        this._ani_role=this._icon_role.getComponent(cc.Animation);
+        this._mask.active=false;
         this._icon_seleted.active=false;
         this._icon_seletedFrame.active=false;
 
@@ -65,6 +71,7 @@ export default class NewClass extends cc.Component {
     doBuy(){
         if(this._roleInfo.price_gold>0){
             if(GameData.gold>=this._roleInfo.price_gold){
+                GameData.currentRole=this._roleInfo.id;
                 GameData.gold-=this._roleInfo.price_gold;
                 GameCtr.getInstance().getStart().showGold();
                 GameCtr.getInstance().getStart().updateBtnShopState();
@@ -83,6 +90,7 @@ export default class NewClass extends cc.Component {
         
         if(this._roleInfo.price_diamond>0){
             if(GameData.diamond>=this._roleInfo.price_diamond){
+                GameData.currentRole=this._roleInfo.id;
                 GameData.diamond-=this._roleInfo.price_diamond;
                 GameCtr.getInstance().getStart().showDiamond();
                 GameCtr.getInstance().getStart().updateBtnShopState();
@@ -156,12 +164,34 @@ export default class NewClass extends cc.Component {
     }
 
     setLockState(lock){
-        this.node.getComponent(cc.Button).interactable=lock;
+        this._icon_role.getComponent(cc.Button).interactable=lock;
     }
 
     setSeletedState(bool){
+        
+        this.pauseSeletedAni();
         this._icon_seleted.active=bool;
         this._icon_seletedFrame.active=bool;
+        if(bool){
+            this.showSeletedAni();
+        }
     }
+
+
+    showSeletedAni(){
+        let clips=this._ani_role.getClips();
+        this._ani_role.play(clips[0].name);
+        this._icon_role.runAction(cc.sequence(
+            cc.delayTime(clips[0].duration),
+            cc.callFunc(()=>{
+                this._ani_role.play(clips[1].name);
+            })
+        ))
+    }
+
+    pauseSeletedAni(){
+        this._ani_role.pause();
+    }
+
 
 }
