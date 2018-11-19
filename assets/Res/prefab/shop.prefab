@@ -26222,25 +26222,6 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 803
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [
-      {
-        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
-      },
-      {
-        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
-      }
-    ],
-    "playOnLoad": false
-  },
-  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -26291,6 +26272,25 @@
     "_N$target": {
       "__id__": 803
     }
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 803
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [
+      {
+        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
+      },
+      {
+        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
+      }
+    ],
+    "playOnLoad": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -27337,7 +27337,10 @@
     "node": {
       "__id__": 799
     },
-    "_enabled": true
+    "_enabled": true,
+    "roleSeletedAni": {
+      "__uuid__": "49d6e894-fe3b-44a1-810f-1e0162b0b9a8"
+    }
   },
   {
     "__type__": "cc.Button",
@@ -27668,25 +27671,6 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 848
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [
-      {
-        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
-      },
-      {
-        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
-      }
-    ],
-    "playOnLoad": false
-  },
-  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -27737,6 +27721,25 @@
     "_N$target": {
       "__id__": 848
     }
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 848
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [
+      {
+        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
+      },
+      {
+        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
+      }
+    ],
+    "playOnLoad": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -28783,7 +28786,10 @@
     "node": {
       "__id__": 844
     },
-    "_enabled": true
+    "_enabled": true,
+    "roleSeletedAni": {
+      "__uuid__": "49d6e894-fe3b-44a1-810f-1e0162b0b9a8"
+    }
   },
   {
     "__type__": "cc.Button",
@@ -29114,25 +29120,6 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 893
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [
-      {
-        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
-      },
-      {
-        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
-      }
-    ],
-    "playOnLoad": false
-  },
-  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -29183,6 +29170,25 @@
     "_N$target": {
       "__id__": 893
     }
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 893
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [
+      {
+        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
+      },
+      {
+        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
+      }
+    ],
+    "playOnLoad": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -30229,7 +30235,10 @@
     "node": {
       "__id__": 889
     },
-    "_enabled": true
+    "_enabled": true,
+    "roleSeletedAni": {
+      "__uuid__": "49d6e894-fe3b-44a1-810f-1e0162b0b9a8"
+    }
   },
   {
     "__type__": "cc.Button",
@@ -30560,25 +30569,6 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 938
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [
-      {
-        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
-      },
-      {
-        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
-      }
-    ],
-    "playOnLoad": false
-  },
-  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -30629,6 +30619,25 @@
     "_N$target": {
       "__id__": 938
     }
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 938
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [
+      {
+        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
+      },
+      {
+        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
+      }
+    ],
+    "playOnLoad": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -31675,7 +31684,10 @@
     "node": {
       "__id__": 934
     },
-    "_enabled": true
+    "_enabled": true,
+    "roleSeletedAni": {
+      "__uuid__": "49d6e894-fe3b-44a1-810f-1e0162b0b9a8"
+    }
   },
   {
     "__type__": "cc.Button",
@@ -32006,25 +32018,6 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 983
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [
-      {
-        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
-      },
-      {
-        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
-      }
-    ],
-    "playOnLoad": false
-  },
-  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -32075,6 +32068,25 @@
     "_N$target": {
       "__id__": 983
     }
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 983
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [
+      {
+        "__uuid__": "975fe25d-1135-4739-b7dc-5bb888170fa4"
+      },
+      {
+        "__uuid__": "b4aa9f91-24de-4785-97a1-0d76ea5c8301"
+      }
+    ],
+    "playOnLoad": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -33121,7 +33133,10 @@
     "node": {
       "__id__": 979
     },
-    "_enabled": true
+    "_enabled": true,
+    "roleSeletedAni": {
+      "__uuid__": "49d6e894-fe3b-44a1-810f-1e0162b0b9a8"
+    }
   },
   {
     "__type__": "cc.Button",
@@ -33361,7 +33376,7 @@
     "asset": {
       "__uuid__": "768de53c-72d8-42b1-afef-729f0b7e4dc9"
     },
-    "fileId": "edTjN2swROVZc91s/BZKsb",
+    "fileId": "d9608MptdIU5ef5omOghv3",
     "sync": false
   },
   {

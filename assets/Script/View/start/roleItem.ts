@@ -12,12 +12,15 @@ export default class NewClass extends cc.Component {
     _lb_price=null;
     _icon_role=null;
     _icon_seleted=null;
-    _ani_role=null;
     _icon_seletedFrame=null;
     _progress=null;
     _progressBar=null;
     _roleInfo={id:-1,name:"",price_gold:0,price_diamond:0};
     _roleLevelInfo=null;
+    _roleSeletedAniTag=500;
+
+    @property(cc.Prefab)
+    roleSeletedAni:cc.Prefab=null;
 
     init(info){
         this.initInfo(info);
@@ -46,7 +49,6 @@ export default class NewClass extends cc.Component {
         this._progress=this.node.getChildByName("progress");
         this._progressBar=this.node.getChildByName("bar");
 
-        this._ani_role=this._icon_role.getComponent(cc.Animation);
         this._mask.active=false;
         this._icon_seleted.active=false;
         this._icon_seletedFrame.active=false;
@@ -171,29 +173,25 @@ export default class NewClass extends cc.Component {
         this._icon_seleted.active=bool;
         this._icon_seletedFrame.active=bool;
         if(bool){
-            this.showSeletedAni();
+            this.addSeletedAni();
         }else{
-            this.pauseSeletedAni();
+            this.removeSeletedAni();
         }
     }
 
 
-    showSeletedAni(){
-        let clips=this._ani_role.getClips();
-        this._ani_role.play(clips[0].name);
-        this._icon_role.runAction(cc.sequence(
-            cc.delayTime(clips[0].duration),
-            cc.callFunc(()=>{
-                this._ani_role.play(clips[1].name);
-            })
-        ))
+    addSeletedAni(){
+        this._icon_role.active=false;
+        let roleSeleted=cc.instantiate(this.roleSeletedAni);
+        roleSeleted.parent=this.node;
+        roleSeleted.tag=this._roleSeletedAniTag;
+        roleSeleted.getComponent("roleSeletedAni").init(this._roleInfo.id);
     }
 
-    pauseSeletedAni(){
-        let clips=this._ani_role.getClips();
-        this._ani_role.stop(clips[0].name);
-        this._ani_role.stop(clips[1].name);
+    removeSeletedAni(){
+        this._icon_role.active=true;
+        while(this.node.getChildByTag(this._roleSeletedAniTag)){
+            this.node.removeChildByTag(this._roleSeletedAniTag)
+        }  
     }
-
-
 }

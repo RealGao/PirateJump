@@ -132,6 +132,8 @@ export default class NewClass extends cc.Component {
 
     doAction(){
         let icon=this.node.getChildByName("icon");
+        icon.scale=1.0;
+        icon.stopAllActions();
         icon.runAction(cc.sequence(
             cc.scaleTo(0.1,1.2),
             cc.scaleTo(0.2,0.9),
@@ -140,6 +142,7 @@ export default class NewClass extends cc.Component {
 
         for(let i=0;i<this._boats.length;i++){
             this._boats[i].opacity=0;
+            this._boats[i].stopAllActions();
             this._boats[i].runAction(cc.sequence(
                 cc.delayTime(i*0.3),
                 cc.callFunc(()=>{
