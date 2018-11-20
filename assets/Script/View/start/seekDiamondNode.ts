@@ -56,11 +56,10 @@ export default class NewClass extends cc.Component {
 
     initJewelTime(){
         let jewelTimeCount=WXCtr.getStorageData("jewelTimeCount",-1);
-        jewelTimeCount=-1;
         if(jewelTimeCount<0){
             this.startTimeCount(GameData.getJewelProductionCycle()*60);
         }else{
-            let timeIterval=(new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000;
+            let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
             if(timeIterval-jewelTimeCount>=0){
                 GameData.jewelCount+=GameData.getJewelOutPut();
                 timeIterval-=jewelTimeCount;
@@ -69,6 +68,8 @@ export default class NewClass extends cc.Component {
                 GameData.jewelCount+=cycle*GameData.getJewelOutPut();
                 let timeCount=timeIterval-cycle*GameData.getJewelProductionCycle()*60;
                 this.startTimeCount(timeCount)
+            }else{
+                this.startTimeCount(jewelTimeCount-timeIterval);
             }
         }
     }
@@ -81,7 +82,7 @@ export default class NewClass extends cc.Component {
     startTimeCount(timeCount){
         GameData.jewelTimeCount=timeCount;
         this.formatTime();
-        this._lb_timeCount.getComponent(cc.Label).string=this._str_min+":"+this._str_sec;
+        this._lb_timeCount.getComponent(cc.Label).string=this._str_hour+':'+this._str_min+":"+this._str_sec;
         console.log("log--------GameData.jewelTimeCount=:",GameData.jewelTimeCount);
         this.schedule(()=>{
             this.timeCount();

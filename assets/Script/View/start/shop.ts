@@ -144,7 +144,7 @@ export default class NewClass extends cc.Component {
             this._mapsNode.active=true;
             this.seletedLightBtn("btn_maps");
         }else if(GameData.currentShopIndex==Shop.props){
-            this._mapsNode.active=true;
+            this._propsNode.active=true;
             this.seletedLightBtn("btn_props");
         }else if(GameData.currentShopIndex==Shop.characters){
             this._charactersNode.active=true;

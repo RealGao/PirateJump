@@ -57,7 +57,6 @@ export default class NewClass extends cc.Component {
                         console.log("GameData.currentRole=:",GameData.currentRole);
                         if(GameData.currentRole!=i){
                             this.hideSeletedStates();
-                            console.log('log------------seleted i=:',i);
                             this._roles[i].getComponent("roleItem").setSeletedState(true);
                             GameData.currentRole=i;
                         }

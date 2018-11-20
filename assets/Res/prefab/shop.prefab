@@ -24465,7 +24465,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70.2,
+      "width": 0,
       "height": 8.1
     },
     "_rotationX": 0,
@@ -24502,7 +24502,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "12/55",
+    "_N$string": "",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -24554,7 +24554,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 97.65,
+      "width": 0,
       "height": 8.1
     },
     "_rotationX": 0,
@@ -24591,7 +24591,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "12/4小时",
+    "_N$string": "",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -24627,7 +24627,7 @@
       "__id__": 756
     },
     "_id": "",
-    "_opacity": 255,
+    "_opacity": 254.8,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -25558,7 +25558,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 1027

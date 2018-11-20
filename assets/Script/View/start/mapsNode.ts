@@ -13,8 +13,6 @@ export default class NewClass extends cc.Component {
             let map= this.node.getChildByName("mapContent").getChildByName("map"+i);
             map.getComponent("mapItem").init(GameData.mapsInfo[i]);
             this._maps.push(map);
-
-            console.log("GameData.currentMap=:",GameData.currentMap);
             if(GameData.currentMap==i){
                 map.getComponent("mapItem").setSeletedState(true);
             }

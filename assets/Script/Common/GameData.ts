@@ -45,8 +45,8 @@ const dataKeyConfig = {
         map2:"data_29",                                                             //地图2
         map3:"data_30",                                                             //地图3
 
-        jewelLevel:"data_31",                                                       //宝石等级
-        jewelCount:"data_32",                                                       //宝石数量
+        jewelLevel:"data2_3",                                                       //宝石等级
+        jewelCount:"data2_4",                                                       //宝石数量
 
     };
 
@@ -557,7 +557,7 @@ export default class GameData {
     //设置地图2状态
     static set map2(state){
         GameData._map2=state;
-        GameData.setUserData({map_2:GameData._map2})
+        GameData.setUserData({map2:GameData._map2})
     }
     //获取地图2状态
     static get map2(){
@@ -567,7 +567,7 @@ export default class GameData {
     //设置地图3解锁状态
     static set map3(state){
         GameData._map3=state;
-        GameData.setUserData({map_3:GameData._map3})
+        GameData.setUserData({map3:GameData._map3})
     }
     //获取地图2解锁状态
     static get map3(){
@@ -713,12 +713,15 @@ export default class GameData {
         GameData.map3=WXCtr.getStorageData("map3",-1);
 
         GameData.jewelLevel=WXCtr.getStorageData("jewelLevel",1);
+        GameData.jewelCount=WXCtr.getStorageData("jewelCount",0);
+        
+        GameCtr.getInstance().getStart().startGame();
     }
 
     static getOnlineGameData(data) {
+        console.log("log-------getOnlineGameData=:",data);
         GameData.gold = data.gold;
         GameData.diamond = data.money == "NaN" ? 0 : data.money;
-
         GameData.power=data.data_1;
         GameData.combo=data.data_2;
         GameData.doubleJump=data.data_3;
@@ -753,11 +756,12 @@ export default class GameData {
         GameData.map2=data.data_29;
         GameData.map3=data.data_30;
 
-        GameData.jewelLevel=data.data_31;;
+        GameData.jewelLevel=data.data2_3;
+        GameData.jewelCount=data.data2_4;
 
-        GameData.setUserData({ lastTime: data.data_30 });
+        GameData.setUserData({ lastTime: data.data2_2});
         HttpCtr.submitUserData({});
-        //GameCtr.ins.mGame.gameStart();
+        GameCtr.getInstance().getStart().startGame()
     }
 
 
@@ -771,6 +775,7 @@ export default class GameData {
                 data[dataKeyConfig[key]] = data[key];
             }
         }
+        console.log("log--------setUserData=:",data);
         HttpCtr.submitUserData(data);
     }
 

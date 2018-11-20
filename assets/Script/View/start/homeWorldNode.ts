@@ -79,6 +79,7 @@ export default class NewClass extends cc.Component {
         this.hideBoatsInfo();
         this.hideSeekDiamond();
         this.setMaskVisit(true);
+        
        
     }
 

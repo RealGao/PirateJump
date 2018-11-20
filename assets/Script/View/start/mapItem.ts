@@ -127,6 +127,7 @@ export default class NewClass extends cc.Component {
             this.setLockState(false);
         }else{
             /* 已解锁 */
+            console.log("log--------GameData.getMapStateByName() this._name=:",GameData.getMapStateByName(this._name),this._name);
             this.setLockState(true);
             this.showStars()
         }
@@ -152,6 +153,7 @@ export default class NewClass extends cc.Component {
     }
 
     showStars(){
+        console.log("log-----showMapStars=:");
         for(let i=0;i<GameData.getMapStateByName(this._name);i++){
             let star=this._starsNode.getChildByName("star"+i);
             star.ative=true;

@@ -43,21 +43,16 @@ export default class Start extends cc.Component {
     ad:cc.Prefab=null;
 
     onLoad () {
-        GameData.getAllLocalGameData();
         GameCtr.getInstance().setStart(this); 
         this.initNode();
-        this.initPowerTime();
-
-        GameData.jewelLevel=1;
-        console.log("log-------------jewelLevelPrice=:",GameData.getJewelLevelUpPrice());
-        console.log("log-------------jewelRate=:",GameData.getJewelRate());
-        console.log("log-------------getJewelOutPut=:",GameData.getJewelOutPut());
+        
     }
 
-    start () {
+    startGame() {
         this.showGold();
         this.showDiamond();
         this.showPower();
+        this.initPowerTime();
     }
 
     initNode(){
@@ -144,21 +139,29 @@ export default class Start extends cc.Component {
     }
 
     initPowerTime(){
-        let powerTimeCount=WXCtr.getStorageData("powerTime",-1);
-        powerTimeCount=-1;
-        if(powerTimeCount<0){
+        let powerTimeCount=WXCtr.getStorageData("powerTime");
+        console.log("log--------powerTimeCount=:",powerTimeCount);
+        if(!powerTimeCount){
+            console.log("log------------d1111111111111")
             GameData.powerTime=5*60;
             this.doPowerTimeCount();
         }else{
-            let timeIterval=(new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000;
+            console.log("log------------d2222222222222")
+            let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
+            console.log('log------------timeTerval=:',timeIterval);
             if(timeIterval-powerTimeCount>=0){
                 GameData.power+=1;
                 timeIterval-=powerTimeCount;
                 let cycle=Math.floor(timeIterval/5*60);
                 GameData.power+=cycle;
                 GameData.powerTime=timeIterval-cycle*5*60;
-                this.doPowerTimeCount();
+                console.log("log------------d3333333333333")
+            }else{
+                console.log("log------------d4444444444444")
+                GameData.powerTime=powerTimeCount-timeIterval;
             }
+            console.log("log--------GameData.powerTime=:",GameData.powerTime);
+            this.doPowerTimeCount();
         }
     }
 
@@ -187,7 +190,6 @@ export default class Start extends cc.Component {
         }
         let shop=cc.instantiate(this.shop);
         shop.parent=cc.find("Canvas");
-
     }
 
     showBtnSoundState(){
@@ -218,15 +220,15 @@ export default class Start extends cc.Component {
     }
 
     showPowerTime(){
-        if(GameData.power>=99){
-            this._lb_powerTime.active=false
-        }else{
+        // if(GameData.power>=99){
+        //     this._lb_powerTime.active=false
+        // }else{
             this._lb_powerTime.active=true;
             this._powerTime_min =Math.floor(GameData.powerTime/60);
-        this._powerTime_sec =GameData.powerTime%60;
-        this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
+            this._powerTime_sec =GameData.powerTime%60;
+            this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
                                                      (this._powerTime_sec>=10?this._powerTime_sec:"0"+this._powerTime_sec);
-        }
+        //}
     }
 
     setMaskVisit(bool){
@@ -253,9 +255,7 @@ export default class Start extends cc.Component {
         }
     }
 
-    startGame() {
-        GameCtr.gotoScene("Game");
-    }
+   
 
     /*广告*/
     requestAds(){
@@ -315,17 +315,18 @@ export default class Start extends cc.Component {
 
     doPowerTimeCount(){
         this.showPowerTime();
-        setInterval(()=>{
+        this.schedule(()=>{
             GameData.powerTime--;
             this.showPowerTime();
             if(GameData.powerTime<=0){
                 GameData.powerTime=5*60;
                 GameData.power++;
-                GameData.power=GameData.power>99?99:GameData.power;
+                GameData.power=GameData.power>=99?99:GameData.power;
                 this.showPowerTime();   
                 this.showPower();
             }
-        },1000)
+            console.log("log-------GameData.powerTime=:",GameData.powerTime);
+        },1,cc.macro.REPEAT_FOREVER)
     }
 
 

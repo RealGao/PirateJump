@@ -7,8 +7,10 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class UrlConfig {
-  static rootUrl = "https://bazi.2-00.cn/api_game_feijiplus";              //接口域名地址根目录
+  static rootUrl = "https://bazi.2-00.cn/api_game_hdtyt";              //接口域名地址根目录
+  static rootUrl_dynamic=''
   static LOGIN = "/publicapi.php?method=getuid";                                    //登录
+
   static SAVE_INFO = "/publicapi.php?method=setUserData";                           //存储微信信息
   static GET_USERINFO = "/publicapi.php?method=getUserInfo";                        //获得用户信息
   static GET_WORLDLIST = "/weixinapi.php?method=getRankList";                      //获得世界排行
@@ -26,7 +28,7 @@ export default class UrlConfig {
   static DELETE_SPEED_UP_INFO = "/weixinapi.php?method=Seek2Delete";                //删除加速信息
   static GET_SETTING = "/weixinapi.php?method=getsetting";                          //审核开关
   static SHARE_GROUP = "/weixinapi.php?method=shareGroup";                          //分享到群
-  static GET_GOLD = "/Game/getGoldByShare";                         //分享/看视频获得金币
+  static GET_GOLD = "/Game/getGoldByShare";                                         //分享/看视频获得金币
   static ADConfig = "/weixinapi.php?method=getAdv";                                 //广告配置
   static VideoOpen = "/weixinapi.php?method=openAdv";                               //关闭视频广告时渠道统计
   static Diamond_NOTICE = "/weixinapi.php?method=moenynotice";                      //钻石增加通知
