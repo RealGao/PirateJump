@@ -10,26 +10,32 @@ export default class NewClass extends cc.Component {
     _mask=null;
     _boats=[];
 
-    init(){
+    _logNodeTag=10001;
+    _editHomeWorldTag=10002;
+    _seekDiamondTag=10003;
+
+
+    @property(cc.Prefab)
+    pfSeekDiamond:cc.Prefab=null;
+
+    @property(cc.Prefab)
+    pfEditHomeWord:cc.Prefab=null;
+
+    @property(cc.Prefab)
+    pfLog:cc.Prefab=null;
+    
+
+    onLoad(){
         this.initNode();
+        this.doAction();
     }
 
     initNode(){
         this._btn_log=this.node.getChildByName("btn_log");
         this._btn_seekDiamond=this.node.getChildByName("btn_seekDiamond");
         this._btn_editHomeWorld=this.node.getChildByName("btn_editHomeWorld");
-
-        this._logNode=this.node.getChildByName("logNode");
-        this._seekDiamondNode=this.node.getChildByName("seekDiamondNode");
-        this._editHomeWorldNode=this.node.getChildByName("editHomeWorldNode");
-
         this._mask=this.node.getChildByName("mask");
-
-        this._logNode.active=false;
-        this._editHomeWorldNode.active=false;
-        this._seekDiamondNode.active=false;
         this._mask.active=false;
-
         this.initBoats();
         this.initBtnEvent(this._btn_log);
         this.initBtnEvent(this._btn_seekDiamond);
@@ -48,43 +54,49 @@ export default class NewClass extends cc.Component {
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_log"){
-                if(this._logNode.active){return}
+                if(this.node.getChildByName("logNode")){
+                    return;
+                }
                 this.hideBoatsInfo();
-                this.hideEditHomeWorld();
-                this.hideSeekDiamond();
+                this.destroyEditHomeWorld();
+                this.destroySeekDiamond();
                 this.showLog();
             }else if(e.target.getName()=="btn_seekDiamond"){
-                if(this._seekDiamondNode.active){return}
-                this.hideLog();
+                if(this.node.getChildByName("seekDiamondNode")){
+                    return
+                }
+                this.detroyLog();
                 this.hideBoatsInfo();
-                this.hideEditHomeWorld();
+                this.destroyEditHomeWorld();
                 this.showSeekDiamond();
             }else if(e.target.getName()=="btn_editHomeWorld"){
-                if(this._editHomeWorldNode.active){return}
-                this.hideLog();
+                if(this.node.getChildByName("editHomeWorldNode")){
+                    return;
+                }
+                this.detroyLog();
                 this.hideBoatsInfo();
-                this.hideSeekDiamond();
+                this.destroySeekDiamond();
                 this.showEditHomeWorld();
             }else if(e.target.getName()=="mask"){
-                this.hideLog();
+                this.detroyLog();
                 this.hideBoatsInfo();
-                this.hideSeekDiamond();
-                this.hideEditHomeWorld();
+                this.destroySeekDiamond();
+                this.destroyEditHomeWorld();
             }
         })
     }
 
     showLog(){
-        this._logNode.active=true;
-        this.hideBoatsInfo();
-        this.hideSeekDiamond();
         this.setMaskVisit(true);
-        
-       
+        let logNode=cc.instantiate(this.pfLog);
+        logNode.parent=this.node;
+        logNode.tag=this._logNodeTag
     }
 
-    hideLog(){
-        this._logNode.active=false;
+    detroyLog(){
+        while(this.node.getChildByTag(this._logNodeTag)){
+            this.node.removeChildByTag(this._logNodeTag)
+        }
         this.setMaskVisit(false);
     }
 
@@ -100,35 +112,32 @@ export default class NewClass extends cc.Component {
     }
 
     showSeekDiamond(){
+        console.log("log-----------showSeekDiamond------------");
         this.setMaskVisit(true);
-        this._seekDiamondNode.active=true;
-        this._seekDiamondNode.scale=0.2;
-        this._seekDiamondNode.stopAllActions();
-        this._seekDiamondNode.runAction(cc.sequence(
-            cc.scaleTo(0.1,1.1),
-            cc.scaleTo(0.05,1.0)
-        ))
+        let seekDiamondNode=cc.instantiate(this.pfSeekDiamond);
+        seekDiamondNode.parent=this.node;
+        seekDiamondNode.tag=this._seekDiamondTag;
     }
 
-    hideSeekDiamond(){
+    destroySeekDiamond(){
+        while(this.node.getChildByTag(this._seekDiamondTag)){
+            this.node.removeChildByTag(this._seekDiamondTag);
+        }
         this.setMaskVisit(false);
-        this._seekDiamondNode.active=false;
     }
 
     showEditHomeWorld(){
         this.setMaskVisit(true);
-        this._editHomeWorldNode.active=true;
-        this._editHomeWorldNode.scale=0.2;
-        this._editHomeWorldNode.stopAllActions();
-        this._editHomeWorldNode.runAction(cc.sequence(
-            cc.scaleTo(0.1,1.1),
-            cc.scaleTo(0.05,1.0)
-        ))
+        let editHomeWorldNode=cc.instantiate(this.pfEditHomeWord);
+        editHomeWorldNode.parent=this.node;
+        editHomeWorldNode.tag=this._editHomeWorldTag;
     }
 
-    hideEditHomeWorld(){
+    destroyEditHomeWorld(){
         this.setMaskVisit(false);
-        this._editHomeWorldNode.active=false;
+        while(this.node.getChildByTag(this._editHomeWorldTag)){
+            this.node.removeChildByTag(this._editHomeWorldTag)
+        }
     }
 
     doAction(){

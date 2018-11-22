@@ -7,7 +7,13 @@ export default class NewClass extends cc.Component {
 
     _icon=null;
     _maps=[];
-    init(){
+    onLoad(){
+        this.initNode();
+        this.initMapsListener();
+        this.doAction();
+    }
+
+    initNode(){
         this._icon=this.node.getChildByName('icon');
         for(let i=0;i<4;i++){
             let map= this.node.getChildByName("mapContent").getChildByName("map"+i);
@@ -17,8 +23,6 @@ export default class NewClass extends cc.Component {
                 map.getComponent("mapItem").setSeletedState(true);
             }
         }
-
-        this.initMapsListener();
     }
 
     initMapsListener(){

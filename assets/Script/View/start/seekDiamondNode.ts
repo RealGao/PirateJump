@@ -20,13 +20,14 @@ export default class NewClass extends cc.Component {
     _str_hour='';
     _str_min='';
     _str_sec='';
+    _currentTime=null;
 
     onLoad(){
         this.initNode();
         this.initJewelTime();
         this.updateJewel();
+        this.updateCurrentTime();
     }
-
 
     initNode(){
         this._btn_levelUp=this.node.getChildByName("btn_levelUp");
@@ -124,4 +125,34 @@ export default class NewClass extends cc.Component {
 
 
 
+    //每天晚上12点收取钻石收益
+    updateCurrentTime(){
+        let date=new Date();
+        let hour=date.getHours();
+        let min=date.getMinutes();
+        let sec=date.getSeconds();
+        console.log("log----updateCurrentTime-----");
+        this.schedule(()=>{
+            sec+=1;
+            if(sec==60){
+                min+=1;
+                sec=0
+            }
+            if(min==60){
+                hour+=1;
+                min=0;
+            }
+            if(hour==24){
+                hour=0
+            }
+            console.log("log------------currentTime hour min sec=:",hour,min,sec);
+            if(hour==0 && min==0 && sec==0){
+                /*显示收取金币*/
+                GameData.diamond+=GameData.jewelTimeCount;
+                GameData.jewelTimeCount=0;
+                GameCtr.getInstance().getStart().showDiamond();
+                this._lb_jewelCount.getComponent(cc.Label).string=GameData.jewelCount;
+            }
+        },1,cc.macro.REPEAT_FOREVER)
+    }
 }

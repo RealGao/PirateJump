@@ -11,8 +11,9 @@ export default class NewClass extends cc.Component {
     _icon=null;
     _rolesContent=null;
 
-    init(){
-        this.initNode()
+    onLoad(){
+        this.initNode();
+        this.doAction();
     }
     
     initNode(){

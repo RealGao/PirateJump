@@ -48,6 +48,11 @@ const dataKeyConfig = {
         jewelLevel:"data2_3",                                                       //宝石等级
         jewelCount:"data2_4",                                                       //宝石数量
 
+
+        homeWorld_prop0:"data2_5",                                                  //家园道具1
+        homeWorld_prop1:"data2_6",                                                  //家园道具2
+        homeWorld_prop2:"data2_7",                                                  //家园道具3
+        homeWorld_prop3:"data2_8"                                                   //家园道具4
     };
 
 
@@ -95,6 +100,11 @@ export default class GameData {
     private static _jewelLevel:number=1;                                 //宝石等级
     private static _jewelCount:number=0;                                 //宝石数量
 
+    private static _homeWorld_prop0:number=0;                            //家园道具1
+    private static _homeWorld_prop1:number=0;                            //家园道具2
+    private static _homeWorld_prop2:number=0;                            //家园道具3
+    private static _homeWorld_prop3:number=0;                            //家园道具4
+
     public static jewelTimeCount=0;                                      //宝石收集倒计时
     public static powerTime=0;                                           //体力收集时间
 
@@ -120,6 +130,13 @@ export default class GameData {
         {name:"speedUp",     price:100},
         {name:"revive",      price:200},
         {name:"time",        price:100},
+    ]
+
+    static homeWorldPropsInfo=[
+        {name:"homeWorld_prop0",priceGet:1000,priceUpLevel:1000, initialDamage:1},
+        {name:"homeWorld_prop1",priceGet:1000,priceUpLevel:1000, initialDamage:2},
+        {name:"homeWorld_prop2",priceGet:1000,priceUpLevel:1000, initialDamage:3},
+        {name:"homeWorld_prop3",priceGet:1000,priceUpLevel:1000, initialDamage:4}
     ]
 
     /* 家园解锁条件 以宝石等级为依据 */
@@ -493,7 +510,7 @@ export default class GameData {
     static set gold_sparklet(gold_sparklet){
 
         GameData._gold_sparklet=gold_sparklet;
-        GameData.setUserData({roleLevel_sparklet:GameData._gold_sparklet})
+        GameData.setUserData({gold_sparklet:GameData._gold_sparklet})
     }
     //获取刀妹赚取金币
     static get gold_sparklet(){
@@ -667,6 +684,59 @@ export default class GameData {
         return GameData._jewelCount;
     }
 
+    //设置家园道具1（炸弹）等级
+    static set homeWorld_prop0(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._homeWorld_prop0=level;
+        GameData.setUserData({homeWorld_prop0:GameData._homeWorld_prop0})
+    }
+    //获取家园道具1（炸弹）等级
+    static get homeWorld_prop0(){
+        return GameData._homeWorld_prop0;
+    }
+
+    //设置家园道具2（炸弹）等级
+    static set homeWorld_prop1(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._homeWorld_prop1=level;
+        GameData.setUserData({homeWorld_prop1:GameData._homeWorld_prop1})
+    }
+    //获取家园道具2（炸弹）等级
+    static get homeWorld_prop1(){
+        return GameData._homeWorld_prop0;
+    }
+
+    //设置家园道具3（炸弹）等级
+    static set homeWorld_prop2(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._homeWorld_prop2=level;
+        GameData.setUserData({homeWorld_prop2:GameData._homeWorld_prop2})
+    }
+    //获取家园道具3（炸弹）等级
+    static get homeWorld_prop2(){
+        return GameData._homeWorld_prop2;
+    }
+
+
+    //设置家园道具4（炸弹）等级
+    static set homeWorld_prop3(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._homeWorld_prop3=level;
+        GameData.setUserData({homeWorld_prop3:GameData._homeWorld_prop3})
+    }
+    //获取家园道具4（炸弹）等级
+    static get homeWorld_prop3(){
+        return GameData._homeWorld_prop3;
+    }
+
 
     //获取本地所有游戏数据
     static getAllLocalGameData() {
@@ -714,7 +784,12 @@ export default class GameData {
 
         GameData.jewelLevel=WXCtr.getStorageData("jewelLevel",1);
         GameData.jewelCount=WXCtr.getStorageData("jewelCount",0);
-        
+
+        GameData.homeWorld_prop0=WXCtr.getStorageData("homeWorld_prop0",0);
+        GameData.homeWorld_prop1=WXCtr.getStorageData("homeWorld_prop1",0);
+        GameData.homeWorld_prop2=WXCtr.getStorageData("homeWorld_prop2",0);
+        GameData.homeWorld_prop3=WXCtr.getStorageData("homeWorld_prop3",0);
+
         GameCtr.getInstance().getStart().startGame();
     }
 
@@ -758,6 +833,11 @@ export default class GameData {
 
         GameData.jewelLevel=data.data2_3;
         GameData.jewelCount=data.data2_4;
+
+        GameData.homeWorld_prop0=data.data2_5;
+        GameData.homeWorld_prop1=data.data2_6;
+        GameData.homeWorld_prop2=data.data2_7;
+        GameData.homeWorld_prop3=data.data2_8;
 
         GameData.setUserData({ lastTime: data.data2_2});
         HttpCtr.submitUserData({});
@@ -900,6 +980,15 @@ export default class GameData {
         GameData[key]-=1;
     }
 
+
+    static getHomeWorldPropLevel(name){
+        console.log("log--------------homeWorldProp=:",GameData[name])
+        return GameData[name];
+    }
+    
+    static homeWorldPropLevelUp(name){
+        GameData[name]+=1
+    }
 
     static canBuyProps(){
         if(GameData.prop_luckyGrass==10 &&GameData.prop_revive==10 && GameData.prop_speedUp==10 &&GameData.prop_time==10){

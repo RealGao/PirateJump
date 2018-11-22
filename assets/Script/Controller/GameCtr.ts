@@ -63,7 +63,7 @@ export default class GameCtr {
     public static gameToken=-1;
 
     public static fightStartGold=0;
-    public static soundState=null;
+    public static musicState=null;
 
     public static StatisticType = cc.Enum({                         //统计类型
         SPEED: 1,                                                   //加速分享

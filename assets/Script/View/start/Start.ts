@@ -45,6 +45,7 @@ export default class Start extends cc.Component {
     onLoad () {
         GameCtr.getInstance().setStart(this); 
         this.initNode();
+        this.initSoundState();
         
     }
 
@@ -53,6 +54,7 @@ export default class Start extends cc.Component {
         this.showDiamond();
         this.showPower();
         this.initPowerTime();
+        this.updateBtnShopState();
     }
 
     initNode(){
@@ -101,17 +103,19 @@ export default class Start extends cc.Component {
         this.initBtnEvent(btn_addDiamond);
         this.initBtnEvent(btn_addPower);
 
-        this.updateBtnShopState()
+        
     }
 
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_music"){
-                GameCtr.soundState=-GameCtr.soundState;
-                localStorage.setItem("soundState",GameCtr.soundState+'')
-                this.showBtnSoundState();
+                GameCtr.musicState=-1*GameCtr.musicState;
+                localStorage.setItem("musicState",GameCtr.musicState+'')
+                this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
-                this.showHelp();
+                GameData.gold=200000;
+                GameData.diamond=10000;
+                //this.showHelp();
             }else if(e.target.getName()=="btn_start"){
                 
             }else if(e.target.getName()=="btn_invite"){
@@ -119,6 +123,7 @@ export default class Start extends cc.Component {
             }else if(e.target.getName()=="btn_achievement"){
                 this.showAchievement();
             }else if(e.target.getName()=="btn_shop"){
+               
                 this.showShop();
             }else if(e.target.getName()=="btn_addDiamond"){
 
@@ -129,13 +134,14 @@ export default class Start extends cc.Component {
     }
 
     initSoundState(){
-        GameCtr.soundState=localStorage.getItem('soundState');
-        if(!GameCtr.soundState){
-            localStorage.setItem('soundState',1+'');
+        GameCtr.musicState=localStorage.getItem('musicState');
+        if(!GameCtr.musicState){
+            GameCtr.musicState=1;
+            localStorage.setItem('musicState',1+'');
         }else {
-            GameCtr.soundState=Number(GameCtr.soundState)
+            GameCtr.musicState=Number(GameCtr.musicState)
         }
-        this.showBtnSoundState();
+        this.showBtnMusicState();
     }
 
     initPowerTime(){
@@ -192,9 +198,9 @@ export default class Start extends cc.Component {
         shop.parent=cc.find("Canvas");
     }
 
-    showBtnSoundState(){
-        let mask=this._btnsNode.getChildByName("btn_sound").getChildByName("mask");
-        if(GameCtr.soundState>0){//音乐 音效开启
+    showBtnMusicState(){
+        let mask=this._btnsNode.getChildByName("btn_music").getChildByName("mask");
+        if(GameCtr.musicState>0){//音乐 音效开启
             mask.active=false;
         }else{//音乐 音效关闭
             mask.active=true;
@@ -325,7 +331,6 @@ export default class Start extends cc.Component {
                 this.showPowerTime();   
                 this.showPower();
             }
-            console.log("log-------GameData.powerTime=:",GameData.powerTime);
         },1,cc.macro.REPEAT_FOREVER)
     }
 
