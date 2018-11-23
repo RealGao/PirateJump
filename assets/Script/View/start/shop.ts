@@ -42,7 +42,12 @@ export default class NewClass extends cc.Component {
     onLoad(){
         this.initNode();
         GameCtr.getInstance().setShop(this);
-        GameCtr.getInstance().getStart().showStartBtns(false);
+        console.log("log---------cc.director.getScene().name=:",cc.director.getScene().name);
+        if(cc.director.getScene().name=="Start"){
+            GameCtr.getInstance().getStart().showStartBtns(false);
+        }else{
+
+        }
     }
 
     start(){
@@ -87,9 +92,14 @@ export default class NewClass extends cc.Component {
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_back"){
-                this.node.destroy();
-                GameCtr.getInstance().getStart().showBgSprite(0);
-                GameCtr.getInstance().getStart().showStartBtns(true);
+                console.log("cc.director.getScene().name=:",cc.director.getScene().name);
+                if(cc.director.getScene().name=="Start"){
+                    this.node.destroy();
+                    GameCtr.getInstance().getStart().showBgSprite(0);
+                    GameCtr.getInstance().getStart().showStartBtns(true);
+                }else if(cc.director.getScene().name=="Game"){
+                    cc.director.loadScene("Start");
+                }
             }else if(e.target.getName()=="btn_maps"){
                 if(this.node.getChildByName("mapsNode")){return;}
                 this.showMapsNode();

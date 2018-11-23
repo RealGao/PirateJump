@@ -9,10 +9,14 @@ export default class NewClass extends cc.Component {
     _icon=null;
     _maps=[];
     onLoad(){
-        GameCtr.getInstance().getStart().showBgSprite(0);
         this.initNode();
         this.initMapsListener();
         this.doAction();
+        if(cc.director.getScene().name=="Start"){
+            GameCtr.getInstance().getStart().showBgSprite(0);
+        }else{
+
+        }
     }
 
     initNode(){
