@@ -23,14 +23,12 @@
     "WebView",
     "RichText",
     "MotionStreak",
-    "Graphics",
     "DragonBones",
     "Physics",
     "StudioComponent",
     "RenderTexture",
     "Chipmunk",
     "Camera",
-    "Intersection",
     "Native NetWork"
   ],
   "fit-height": false,
@@ -43,7 +41,7 @@
     "height": 640,
     "width": 960
   },
-  "start-scene": "aa764672-aa7b-41f9-8430-051a9f9eb4a3",
+  "start-scene": "60ceea1f-427b-473d-9cc3-bea924bb4fd6",
   "use-customize-simulator": false,
   "use-project-simulator-setting": false
 }

@@ -1,3 +1,5 @@
+import GameCtr from "../../Controller/GameCtr";
+import GameData from "../../Common/GameData";
 
 
 const {ccclass, property} = cc._decorator;
@@ -16,7 +18,7 @@ export default class GameOver extends cc.Component {
     @property(cc.Label)
     lbTotalScore: cc.Label = null;
     @property(cc.Label)
-    lbGoldScore: cc.Label = null;
+    lbLevelScore: cc.Label = null;
 
     @property(cc.Sprite)
     sprRole: cc.Sprite = null;
@@ -32,6 +34,14 @@ export default class GameOver extends cc.Component {
     }
 
     showScore() {
+        this.lbCombo.string = GameCtr.ins.mGame.maxCombo+"";
+        this.lbComboScore.string =  "" + GameCtr.ins.mGame.maxCombo * 10;
+        this.lbBest.string = GameData.maxScore + "";
+        // this.lbGoldScore.string = GameCtr.ins.mGame.goldNum * 10
+        // this.lbLevelScore.string = GameData.cu
+    }
+
+    showRoleInfo() {
 
     }
 
@@ -48,10 +58,6 @@ export default class GameOver extends cc.Component {
     }
 
     share() {
-        
-    }
-
-    showRoleInfo() {
 
     }
 
