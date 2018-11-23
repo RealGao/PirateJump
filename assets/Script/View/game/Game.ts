@@ -33,10 +33,10 @@ export default class Game extends cc.Component {
     @property(cc.Label)
     lbCombo: cc.Label = null;
     
-    private goldNum = 0;
+    public goldNum = 0;
     private time = 0;
     private combo = 0;                                  //连击数
-    private maxCombo = 0;                               //最大连击数
+    public maxCombo = 0;                               //最大连击数
 
     onLoad() {
         GameCtr.getInstance().setGame(this);
