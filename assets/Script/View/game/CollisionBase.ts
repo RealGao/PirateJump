@@ -11,8 +11,8 @@ export default class CollisionBase extends cc.Component {
         BOOM: 3,                                                //炸弹
         CHEST: 4,                                               //宝箱
         MAGNET: 5,                                              //磁铁
-        ALARM: 6,                                               //磁铁
-        SIGHT: 7,                                               //磁铁
+        ALARM: 6,                                               //时间
+        SIGHT: 7,                                               //路线
         ROTATE: 8,                                              //旋转
         SHIELD: 9,                                              //盾牌
         ISLAND: 10                                              //小岛

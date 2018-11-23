@@ -51,8 +51,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 90,
-      "height": 130
+      "width": 84,
+      "height": 101
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -105,8 +105,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 90,
-      "height": 130
+      "width": 84,
+      "height": 101
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -197,6 +197,7 @@
     "_enabled": true,
     "collisionType": 10,
     "type": 1,
+    "speed": 7,
     "sprWheel": null,
     "islandFrames": []
   },
