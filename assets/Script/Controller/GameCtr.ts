@@ -8,6 +8,7 @@ import Game from "../View/game/Game";
 import GameData from "../Common/GameData";
 import ViewManager from "../Common/ViewManager";
 import Start from "../View/start/Start";
+import Pirate from "../View/game/Pirate";
 import Shop from "../View/start/shop";
 const { ccclass, property } = cc._decorator;
 
@@ -15,6 +16,7 @@ const { ccclass, property } = cc._decorator;
 export default class GameCtr {
     public static ins: GameCtr;
     public mGame: Game;
+    public mPirate: Pirate;
     public mStart: Start;
     public mShop:Shop;
 
@@ -101,6 +103,10 @@ export default class GameCtr {
         this.mGame = game;
     }
 
+    setPirate(pirate: Pirate) {
+        this.mPirate = pirate;
+    }
+
     getGame(){
         return this.mGame;
     }
@@ -122,8 +128,6 @@ export default class GameCtr {
     getShop(){
         return this.mShop;
     }
-
-
 
     //场景切换
     static gotoScene(sceneName) {

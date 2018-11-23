@@ -11,8 +11,8 @@
       true
     ]
   ],
-  "design-resolution-height": 1920,
-  "design-resolution-width": 1080,
+  "design-resolution-height": 960,
+  "design-resolution-width": 540,
   "excluded-modules": [
     "TiledMap",
     "PageView",
@@ -44,7 +44,7 @@
     "height": 640,
     "width": 960
   },
-  "start-scene": "aa764672-aa7b-41f9-8430-051a9f9eb4a3",
+  "start-scene": "60ceea1f-427b-473d-9cc3-bea924bb4fd6",
   "use-customize-simulator": false,
   "use-project-simulator-setting": false
 }

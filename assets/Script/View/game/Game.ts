@@ -10,16 +10,33 @@ import GameData from "../../Common/GameData";
 import HttpCtr from "../../Controller/HttpCtr";
 import Util from "../../Common/Util";
 import WXCtr from "../../Controller/WXCtr";
+import CollisionMgr from "./CollisionMgr";
 
 
 const { ccclass, property } = cc._decorator;
+let collisionManager = cc.director.getCollisionManager();
+collisionManager.enabled = true;
 
 @ccclass
 export default class Game extends cc.Component {
 
     @property(cc.Node)
     ndGame: cc.Node = null;
+    @property(cc.Node)
+    ndCanvas: cc.Node = null;
+    @property(cc.Node)
+    ndIslandLayer: cc.Node = null;
+    @property(cc.Label)
+    lbGold: cc.Label = null;
+    @property(cc.Label)
+    lbTime: cc.Label = null;
+    @property(cc.Label)
+    lbCombo: cc.Label = null;
     
+    private goldNum = 0;
+    private time = 0;
+    private combo = 0;                                  //连击数
+    private maxCombo = 0;                               //最大连击数
 
     onLoad() {
         GameCtr.getInstance().setGame(this);
@@ -36,10 +53,59 @@ export default class Game extends cc.Component {
     }
 
     start() {
-        
+        this.registerTouch();
+        GameCtr.ins.mPirate.setType(GameData.currentRole);
+        this.initIslands();
+        this.time = 100;
+        this.countdown();
     }
 
+    registerTouch() {
+        this.ndCanvas.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
+    }
 
+    onTouchStart(event) {
+        GameCtr.ins.mPirate.jump();
+    }
+
+    initIslands() {
+        for(let i = 0; i < 5; i++) {
+            CollisionMgr.addIsland();
+        }
+    }
+
+    addGold(num = 1) {
+        this.goldNum += num;
+        this.lbGold.string = ""+this.goldNum;
+    }
+
+    addTime(num) {
+        this.time += num;
+        this.lbTime.string = this.time + "s";
+    }
+
+    addCombo() {
+        this.combo++;
+        this.lbCombo.string = this.combo + "";
+        if(this.combo > this.maxCombo) this.maxCombo = this.combo;
+    }
+
+    clearCombo() {
+        this.combo = 0;
+        this.lbCombo.string = this.combo + "";
+    }
+
+    countdown() {
+        this.lbTime.string = this.time + "s";
+        if(this.time > 0){
+            this.scheduleOnce(()=>{
+                this.time--;
+                this.countdown();
+            }, 1.0);
+        }else{
+            //game over
+        }
+    }
 
     /**
      * 显示离线收益弹窗
