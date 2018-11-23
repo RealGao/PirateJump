@@ -1007,7 +1007,7 @@ export default class GameData {
     }
 
     static getDayJewelOutPut() {
-        return 24 / (GameData.getJewelProductionCycle() / 60) * GameData.getJewelRate();
+        return 24 / (GameData.getJewelProductionCycle() / 60) * GameData.getJewelOutPut();
     }
 
 
@@ -1086,18 +1086,19 @@ export default class GameData {
         return true;
     }
 
-    getBonusDiamonds() {
+    static getBonusDiamonds() {
         let timeInterval = Math.floor((new Date().getTime() - WXCtr.getStorageData("lastTime")) / 1000);
+        console.log("log--------离线时间=",timeInterval/3600+"小时");
         let date = new Date();
         let hour = date.getHours();
         let min = date.getMinutes();
         let sec = date.getSeconds();
         let totalSeconds = hour * 3600 + min * 60 + sec;
         let bonusDiamond = 0;
-        if (totalSeconds >= timeInterval) {
-            totalSeconds -= timeInterval;
+        if (timeInterval >=totalSeconds ) {
+            timeInterval -= totalSeconds;
             bonusDiamond += GameData.getDayJewelOutPut();
-            let dayCount = Math.floor(totalSeconds / (24 * 3600));
+            let dayCount = Math.floor(timeInterval / (24 * 3600));
             bonusDiamond += dayCount * GameData.getDayJewelOutPut();
         }
         return bonusDiamond;

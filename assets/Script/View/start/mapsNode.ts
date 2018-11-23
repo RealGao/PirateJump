@@ -1,4 +1,5 @@
 import GameData from "../../Common/GameData";
+import GameCtr from "../../Controller/GameCtr";
 
 const {ccclass, property} = cc._decorator;
 
@@ -8,6 +9,7 @@ export default class NewClass extends cc.Component {
     _icon=null;
     _maps=[];
     onLoad(){
+        GameCtr.getInstance().getStart().showBgSprite(0);
         this.initNode();
         this.initMapsListener();
         this.doAction();

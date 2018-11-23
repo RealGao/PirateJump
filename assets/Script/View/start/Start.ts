@@ -42,10 +42,13 @@ export default class Start extends cc.Component {
     @property(cc.Prefab)
     ad:cc.Prefab=null;
 
+
+
     onLoad () {
         GameCtr.getInstance().setStart(this); 
         this.initNode();
         this.initSoundState();
+        this.showBgSprite(0);
         
     }
 
@@ -54,6 +57,7 @@ export default class Start extends cc.Component {
         this.showDiamond();
         this.showPower();
         this.initPowerTime();
+        this.getBonusDiamonds();
         this.updateBtnShopState();
     }
 
@@ -115,6 +119,7 @@ export default class Start extends cc.Component {
             }else if(e.target.getName()=="btn_help"){
                 GameData.gold=200000;
                 GameData.diamond=10000;
+                GameData.jewelLevel=1;
                 //this.showHelp();
             }else if(e.target.getName()=="btn_start"){
                 
@@ -170,6 +175,8 @@ export default class Start extends cc.Component {
             this.doPowerTimeCount();
         }
     }
+
+    
 
     showHelp(){
         if(cc.find("Canvas").getChildByName("help")){
@@ -345,8 +352,16 @@ export default class Start extends cc.Component {
         }
     }
 
+    showBgSprite(bgIndex){
+        this._bg.getComponent(cc.Sprite).spriteFrame=this.bgSpriteFrames[bgIndex];
+    }
 
-    
+    getBonusDiamonds(){
+        let bounusDiamonds=GameData.getBonusDiamonds();
+        if(bounusDiamonds>0){
 
-   
+        }else{
+
+        }
+    }
 }

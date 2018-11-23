@@ -88,6 +88,7 @@ export default class NewClass extends cc.Component {
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_back"){
                 this.node.destroy();
+                GameCtr.getInstance().getStart().showBgSprite(0);
                 GameCtr.getInstance().getStart().showStartBtns(true);
             }else if(e.target.getName()=="btn_maps"){
                 if(this.node.getChildByName("mapsNode")){return;}

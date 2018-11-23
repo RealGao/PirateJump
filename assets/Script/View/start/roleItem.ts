@@ -34,7 +34,6 @@ export default class NewClass extends cc.Component {
         this._roleInfo.id=info.id;
 
         this._roleLevelInfo=GameData.getRoleLevelInfoByName(this._roleInfo.name);
-        console.log("log------------this._rolelevelInfo=:",this._roleLevelInfo);
     }
 
     initNode(){
@@ -48,6 +47,11 @@ export default class NewClass extends cc.Component {
         this._icon_seletedFrame=this.node.getChildByName("icon_seletedFrame");
         this._progress=this.node.getChildByName("progress");
         this._progressBar=this.node.getChildByName("bar");
+
+
+        this._lb_level.setLocalZOrder(12);
+        this._progress.setLocalZOrder(10);
+        this._progressBar.setLocalZOrder(10);
 
         this._mask.active=false;
         this._icon_seleted.active=false;
@@ -125,18 +129,23 @@ export default class NewClass extends cc.Component {
         this._lb_level.active=bool;
         this._progress.active=bool;
         this._progressBar.active=bool;
-        this._lb_level.getComponent(cc.Label).string=this._roleLevelInfo._level;
     }
 
     showLevelInfo(){
         this._roleLevelInfo=GameData.getRoleLevelInfoByName(this._roleInfo.name);
+        console.log("log------------this._roleLevelInfo=:",this._roleLevelInfo);
 
         if(this._roleLevelInfo._level<0){//未解锁
             this.showLevel(false)
             return;
         }
         /* 已解锁 */
-        this.showLevel(true)
+        this.showLevel(true);
+
+        console.log("_lb_level.active=:",this._lb_level.active);
+        console.log("this._roleLevelInfo._level=:",this._roleLevelInfo._level);
+
+        this._lb_level.getComponent(cc.Label).string=this._roleLevelInfo._level;
         this._progress.getComponent(cc.ProgressBar).progress=this._roleLevelInfo._currentGold/this._roleLevelInfo._targetGold;
     }
 

@@ -1,9 +1,13 @@
+import GameCtr from "../../Controller/GameCtr";
+
 const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
     _btn_log=null;
     _btn_seekDiamond=null;
+    _btn_seekDiamond1=null;
     _btn_editHomeWorld=null;
+    
     _logNode=null;
     _seekDiamondNode=null;
     _editHomeWorldNode=null;
@@ -26,6 +30,7 @@ export default class NewClass extends cc.Component {
     
 
     onLoad(){
+        GameCtr.getInstance().getStart().showBgSprite(1);
         this.initNode();
         this.doAction();
     }
@@ -34,11 +39,13 @@ export default class NewClass extends cc.Component {
         this._btn_log=this.node.getChildByName("btn_log");
         this._btn_seekDiamond=this.node.getChildByName("btn_seekDiamond");
         this._btn_editHomeWorld=this.node.getChildByName("btn_editHomeWorld");
+        this._btn_seekDiamond1=this.node.getChildByName("diamondsBox").getChildByName("btn_seek");
         this._mask=this.node.getChildByName("mask");
         this._mask.active=false;
         this.initBoats();
         this.initBtnEvent(this._btn_log);
         this.initBtnEvent(this._btn_seekDiamond);
+        this.initBtnEvent(this._btn_seekDiamond1);
         this.initBtnEvent(this._btn_editHomeWorld);
         this.initBtnEvent(this._mask);
     }
@@ -61,7 +68,7 @@ export default class NewClass extends cc.Component {
                 this.destroyEditHomeWorld();
                 this.destroySeekDiamond();
                 this.showLog();
-            }else if(e.target.getName()=="btn_seekDiamond"){
+            }else if(e.target.getName()=="btn_seekDiamond"||e.target.getName()=="btn_seek"){
                 if(this.node.getChildByName("seekDiamondNode")){
                     return
                 }

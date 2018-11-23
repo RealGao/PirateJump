@@ -74,10 +74,10 @@ export default class NewClass extends cc.Component {
         node.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="boat"){
                 if(!this._infoNode.active){
-                    this.node.parent.getComponent("homeWorldNode").hideLog();
+                    this.node.parent.getComponent("homeWorldNode").detroyLog();
                     this.node.parent.getComponent("homeWorldNode").hideBoatsInfo();
-                    this.node.parent.getComponent("homeWorldNode").hideSeekDiamond();
-                    this.node.parent.getComponent("homeWorldNode").hideEditHomeWorld();
+                    this.node.parent.getComponent("homeWorldNode").destroySeekDiamond();
+                    this.node.parent.getComponent("homeWorldNode").destroyEditHomeWorld();
                     this.node.parent.getComponent("homeWorldNode").setMaskVisit(true);
                     this.showInfoNode();
                 }
