@@ -40,16 +40,16 @@ export default class Game extends cc.Component {
 
     onLoad() {
         GameCtr.getInstance().setGame(this);
-        WXCtr.onShow(() => {
-            WXCtr.isOnHide = false;
-            this.scheduleOnce(() => {
-                this.showOffLineProfitPop();
-            }, 2.5);
-        });
+        // WXCtr.onShow(() => {
+        //     WXCtr.isOnHide = false;
+        //     this.scheduleOnce(() => {
+        //         this.showOffLineProfitPop();
+        //     }, 2.5);
+        // });
     }
 
     onDestroy() {
-        WXCtr.offShow();
+        // WXCtr.offShow();
     }
 
     start() {
@@ -103,8 +103,12 @@ export default class Game extends cc.Component {
                 this.countdown();
             }, 1.0);
         }else{
-            //game over
+            GameCtr.gameOver();
         }
+    }
+
+    gameOver() {
+        this.ndGame.runAction(cc.fadeOut(0.5));
     }
 
     /**

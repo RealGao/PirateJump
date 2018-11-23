@@ -122,7 +122,7 @@ export default class Start extends cc.Component {
                 GameData.jewelLevel=1;
                 //this.showHelp();
             }else if(e.target.getName()=="btn_start"){
-                
+                GameCtr.gameStart();
             }else if(e.target.getName()=="btn_invite"){
                
             }else if(e.target.getName()=="btn_achievement"){
