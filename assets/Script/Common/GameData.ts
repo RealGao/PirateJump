@@ -953,6 +953,28 @@ export default class GameData {
         return data;
     }
 
+    static addGoldOfRole(num) {
+        switch (GameData.currentRole) {
+            case 0:
+                GameData.gold_captain+=num;;
+                break;
+            case 1:
+                GameData.gold_sparklet+=num;;
+                break;
+            case 2:
+                GameData.gold_hook+=num;;
+                break;
+            case 3:
+                GameData.gold_leavened+=num;;
+                break;
+            case 4:
+                GameData.gold_crutch+=num;;
+                break;
+            case 5:
+
+                break;
+        }
+    }
 
     static getMapStateByName(mapName) {
         let key = mapName;

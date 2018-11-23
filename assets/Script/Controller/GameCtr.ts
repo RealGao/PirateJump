@@ -10,12 +10,14 @@ import ViewManager from "../Common/ViewManager";
 import Start from "../View/start/Start";
 import Pirate from "../View/game/Pirate";
 import Shop from "../View/start/shop";
+import GameOver from "../View/game/GameOver";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameCtr {
     public static ins: GameCtr;
     public mGame: Game;
+    public mGameOver: GameOver;
     public mPirate: Pirate;
     public mStart: Start;
     public mShop:Shop;
@@ -27,8 +29,6 @@ export default class GameCtr {
 
     public static friendsCircleImg = "";                //分享到朋友圈图片地址
     public static reviewSwitch = false;                 //审核开关
-
-    public static lastZ = 10;
 
     static otherData = null;
     static sliderDatas = null;
@@ -49,6 +49,7 @@ export default class GameCtr {
 
     public static IPONEX_HEIGHT=2436;                                                 
     public static isStartGame = false;                              //游戏是否已经开始
+    public static isGameOver = false;
 
     public static onLineLastTime = null;
     public static OnClickStat = false;                              //点击统计开关，appid不受限制
@@ -129,6 +130,10 @@ export default class GameCtr {
         return this.mShop;
     }
 
+    setGameOver(gameOver: GameOver) {
+        this.mGameOver = gameOver;
+    }
+
     //场景切换
     static gotoScene(sceneName) {
         cc.director.loadScene(sceneName);
@@ -165,7 +170,18 @@ export default class GameCtr {
         return arr
     }
 
+    // 游戏结束
+    static gameOver() {
+        GameCtr.isGameOver = true;
+        GameCtr.ins.mGame.gameOver();
+        GameCtr.ins.mGameOver.showResult();
+    }
 
+    // 游戏开始
+    static gameStart() {
+        GameCtr.isGameOver = false;
+        GameCtr.gotoScene("Game");
+    }
 
     static canBuyRole(){
         // if(GameData.gold>=GameData.rolePrice[GameData.currentLockedRole].gold){

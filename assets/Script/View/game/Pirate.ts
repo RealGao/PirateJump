@@ -307,8 +307,9 @@ export default class Pirate extends CollisionBase {
         let radian = cc.pAngleSigned(vector, cc.v2(0, 1));
         let rotation = cc.radiansToDegrees(radian);
         this.node.rotation = rotation;
-        if (this.node.y < -520) {
-            // game over!!!!
+        let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+        if (wPos.y < -520) {
+            GameCtr.gameOver();
         }
     }
 
@@ -331,6 +332,7 @@ export default class Pirate extends CollisionBase {
     }
 
     update(dt) {
+        if(GameCtr.isGameOver) return;
         if ((this.beginJump || this.beginShoot) && !this.shakeChest) {
             this.moveDt += dt;
             this.movePirate(dt);

@@ -479,7 +479,6 @@ export default class CollisionMgr extends cc.Component {
         }
 
         let propNum = Math.ceil(Math.random() * (max - 1)) + 1;
-        cc.log("startIdx = ", startIdx);
         if (endIdx) {
             startIdx = endIdx - propNum;
         }
@@ -494,6 +493,7 @@ export default class CollisionMgr extends cc.Component {
         let lastProp = CollisionMgr.mCollisionMgr.propPool.get();
         if (!posArr[propNum + startIdx]) {
             cc.log("!!!!!!!!!!!!!!!!");
+            return;
         }
         let comp: Props = lastProp.getComponent(Props);
         CollisionMgr.mCollisionMgr.islandLayer.addChild(lastProp);
@@ -599,6 +599,7 @@ export default class CollisionMgr extends cc.Component {
     }
 
     static fitIslandLayer(vx) {
+        if(GameCtr.isGameOver) return;
         CollisionMgr.mCollisionMgr.fitLayer = true;
         CollisionMgr.mCollisionMgr.fitVx = vx;
     }

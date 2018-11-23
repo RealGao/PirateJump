@@ -117,7 +117,7 @@ export default class Start extends cc.Component {
                 GameData.diamond=10000;
                 //this.showHelp();
             }else if(e.target.getName()=="btn_start"){
-                
+                GameCtr.gameStart();
             }else if(e.target.getName()=="btn_invite"){
                
             }else if(e.target.getName()=="btn_achievement"){
