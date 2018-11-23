@@ -345,5 +345,8 @@ export default class Start extends cc.Component {
         }
     }
 
+
+    
+
    
 }

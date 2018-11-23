@@ -964,6 +964,10 @@ export default class GameData {
         }
     }
 
+    static getDayJewelOutPut(){
+        return 24/(GameData.getJewelProductionCycle()/60)*GameData.getJewelRate();
+    }
+
 
     static getProp(propName){
         let key="prop_"+propName;
@@ -1038,6 +1042,23 @@ export default class GameData {
             return false;
         }
         return true;
+    }
+
+    getBonusDiamonds(){
+        let timeInterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
+        let date=new Date();
+        let hour=date.getHours();
+        let min=date.getMinutes();
+        let sec=date.getSeconds();
+        let totalSeconds=hour*3600+min*60+sec;
+        let bonusDiamond=0;
+        if(totalSeconds>=timeInterval){
+            totalSeconds-=timeInterval;
+            bonusDiamond+=GameData.getDayJewelOutPut();
+            let dayCount=Math.floor(totalSeconds/(24*3600));
+            bonusDiamond+=dayCount*GameData.getDayJewelOutPut();
+        }
+        return bonusDiamond;
     }
 
 }
