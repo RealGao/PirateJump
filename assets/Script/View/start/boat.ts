@@ -17,16 +17,16 @@ export default class NewClass extends cc.Component {
     _posArr=[];
 
     onLoad(){
-        this.initData()
+        this.initData();
         this.initNode();
     }
 
     initData(){
         this._posArr=[
             [0],
-            [1,2],
+            [0,1],
             [0,1,2],
-            [1,2,3,4],
+            [0,1,2,3],
             [0,1,2,3,4],
         ]
     }
@@ -51,9 +51,9 @@ export default class NewClass extends cc.Component {
 
         this.initBntEvent(this._boat);
         this.initBntEvent(this._btn_go);
-
-        this.showStars(4);
     }
+
+
 
     init(info){
         this._maxScore=info.maxScore;
@@ -62,6 +62,8 @@ export default class NewClass extends cc.Component {
         this._lb_name.getComponent(cc.Label).string=info.name;
         this._lb_score.getComponent(cc.Label).string=info.maxScore;
         this._lb_jewel.getComponent(cc.Label).string=info.jewelCount;
+
+        this.showStars(4);
     }
 
     hideInfo(){
@@ -71,16 +73,28 @@ export default class NewClass extends cc.Component {
     initBntEvent(node){
         node.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="boat"){
-                this.node.parent.getComponent("homeWorldNode").hideLog();
-                this.node.parent.getComponent("homeWorldNode").hideBoatsInfo();
-                this.node.parent.getComponent("homeWorldNode").hideSeekDiamond();
-                this.node.parent.getComponent("homeWorldNode").hideEditHomeWorld();
-                this.node.parent.getComponent("homeWorldNode").setMaskVisit(true);
-                this._infoNode.active=true;
+                if(!this._infoNode.active){
+                    this.node.parent.getComponent("homeWorldNode").hideLog();
+                    this.node.parent.getComponent("homeWorldNode").hideBoatsInfo();
+                    this.node.parent.getComponent("homeWorldNode").hideSeekDiamond();
+                    this.node.parent.getComponent("homeWorldNode").hideEditHomeWorld();
+                    this.node.parent.getComponent("homeWorldNode").setMaskVisit(true);
+                    this.showInfoNode();
+                }
             }else if(e.target.getName()=="btn_go"){
                 console.log("log-----------click--btn_go-----");
             }
         })
+    }
+
+    showInfoNode(){
+        this._infoNode.active=true;
+        this._infoNode.scale=0.2;
+        this._infoNode.stopAllActions();
+        this._infoNode.runAction(cc.sequence(
+            cc.scaleTo(0.1,1.1),
+            cc.scaleTo(0.05,1.0),
+        ))
     }
 
 
@@ -88,8 +102,7 @@ export default class NewClass extends cc.Component {
         let stars=this._posArr[count-1];
         for(let i=0;i<stars.length;i++){
             this._stars[stars[i]].active=true;
-        }
-        
+        } 
     }
 
 }

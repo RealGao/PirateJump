@@ -16,8 +16,6 @@ export default class Start extends cc.Component {
     _carouselAdNode=null;
     _mask=null;
     _bg=null;
-
-
     _carouseAds=[];
     _carouselIndex=0;
     _powerTime_min=0;
@@ -45,16 +43,18 @@ export default class Start extends cc.Component {
     ad:cc.Prefab=null;
 
     onLoad () {
-        GameData.getAllLocalGameData();
-        GameCtr.getInstance().setStart(this);
+        GameCtr.getInstance().setStart(this); 
         this.initNode();
+        this.initSoundState();
+        
     }
 
-    start () {
-        //this.showLoading();
-
+    startGame() {
         this.showGold();
         this.showDiamond();
+        this.showPower();
+        this.initPowerTime();
+        this.updateBtnShopState();
     }
 
     initNode(){
@@ -88,7 +88,6 @@ export default class Start extends cc.Component {
         let btn_rank=this._btnsNode.getChildByName("btn_rank");
         let btn_more=this._btnsNode.getChildByName("btn_more");
         let btn_shop=this._btnsNode.getChildByName("btn_shop");
-
         let btn_addDiamond=this._infoNode.getChildByName("btn_addDiamond");
         let btn_addPower=this._infoNode.getChildByName("btn_addPower");
 
@@ -100,20 +99,23 @@ export default class Start extends cc.Component {
         this.initBtnEvent(btn_achievement);
         this.initBtnEvent(btn_rank);
         this.initBtnEvent(btn_more);
-
         this.initBtnEvent(btn_shop);
         this.initBtnEvent(btn_addDiamond);
         this.initBtnEvent(btn_addPower);
+
+        
     }
 
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_music"){
-                GameCtr.soundState=-GameCtr.soundState;
-                localStorage.setItem("soundState",GameCtr.soundState+'')
-                this.showBtnSoundState();
+                GameCtr.musicState=-1*GameCtr.musicState;
+                localStorage.setItem("musicState",GameCtr.musicState+'')
+                this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
-                this.showHelp();
+                GameData.gold=200000;
+                GameData.diamond=10000;
+                //this.showHelp();
             }else if(e.target.getName()=="btn_start"){
                 
             }else if(e.target.getName()=="btn_invite"){
@@ -121,6 +123,7 @@ export default class Start extends cc.Component {
             }else if(e.target.getName()=="btn_achievement"){
                 this.showAchievement();
             }else if(e.target.getName()=="btn_shop"){
+               
                 this.showShop();
             }else if(e.target.getName()=="btn_addDiamond"){
 
@@ -131,13 +134,41 @@ export default class Start extends cc.Component {
     }
 
     initSoundState(){
-        GameCtr.soundState=localStorage.getItem('soundState');
-        if(!GameCtr.soundState){
-            localStorage.setItem('soundState',1+'');
+        GameCtr.musicState=localStorage.getItem('musicState');
+        if(!GameCtr.musicState){
+            GameCtr.musicState=1;
+            localStorage.setItem('musicState',1+'');
         }else {
-            GameCtr.soundState=Number(GameCtr.soundState)
+            GameCtr.musicState=Number(GameCtr.musicState)
         }
-        this.showBtnSoundState();
+        this.showBtnMusicState();
+    }
+
+    initPowerTime(){
+        let powerTimeCount=WXCtr.getStorageData("powerTime");
+        console.log("log--------powerTimeCount=:",powerTimeCount);
+        if(!powerTimeCount){
+            console.log("log------------d1111111111111")
+            GameData.powerTime=5*60;
+            this.doPowerTimeCount();
+        }else{
+            console.log("log------------d2222222222222")
+            let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
+            console.log('log------------timeTerval=:',timeIterval);
+            if(timeIterval-powerTimeCount>=0){
+                GameData.power+=1;
+                timeIterval-=powerTimeCount;
+                let cycle=Math.floor(timeIterval/5*60);
+                GameData.power+=cycle;
+                GameData.powerTime=timeIterval-cycle*5*60;
+                console.log("log------------d3333333333333")
+            }else{
+                console.log("log------------d4444444444444")
+                GameData.powerTime=powerTimeCount-timeIterval;
+            }
+            console.log("log--------GameData.powerTime=:",GameData.powerTime);
+            this.doPowerTimeCount();
+        }
     }
 
     showHelp(){
@@ -167,9 +198,9 @@ export default class Start extends cc.Component {
         shop.parent=cc.find("Canvas");
     }
 
-    showBtnSoundState(){
-        let mask=this._btnsNode.getChildByName("btn_sound").getChildByName("mask");
-        if(GameCtr.soundState>0){//音乐 音效开启
+    showBtnMusicState(){
+        let mask=this._btnsNode.getChildByName("btn_music").getChildByName("mask");
+        if(GameCtr.musicState>0){//音乐 音效开启
             mask.active=false;
         }else{//音乐 音效关闭
             mask.active=true;
@@ -191,14 +222,19 @@ export default class Start extends cc.Component {
     }
 
     showPower(){
-        this._lb_power.getComponent(cc.Label).string=GameData.diamond+"";
+        this._lb_power.getComponent(cc.Label).string=GameData.power+"/99";
     }
 
     showPowerTime(){
-        this._powerTime_min =Math.floor(GameCtr.powerTime/60);
-        this._powerTime_sec =GameCtr.powerTime%60;
-        this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
+        // if(GameData.power>=99){
+        //     this._lb_powerTime.active=false
+        // }else{
+            this._lb_powerTime.active=true;
+            this._powerTime_min =Math.floor(GameData.powerTime/60);
+            this._powerTime_sec =GameData.powerTime%60;
+            this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
                                                      (this._powerTime_sec>=10?this._powerTime_sec:"0"+this._powerTime_sec);
+        //}
     }
 
     setMaskVisit(bool){
@@ -225,9 +261,7 @@ export default class Start extends cc.Component {
         }
     }
 
-    startGame() {
-        GameCtr.gotoScene("Game");
-    }
+   
 
     /*广告*/
     requestAds(){
@@ -287,25 +321,29 @@ export default class Start extends cc.Component {
 
     doPowerTimeCount(){
         this.showPowerTime();
-        setInterval(()=>{
-            GameCtr.powerTime--;
+        this.schedule(()=>{
+            GameData.powerTime--;
             this.showPowerTime();
-            if(GameCtr.powerTime<=0){
-                GameCtr.powerTime=5*60;
+            if(GameData.powerTime<=0){
+                GameData.powerTime=5*60;
                 GameData.power++;
+                GameData.power=GameData.power>=99?99:GameData.power;
                 this.showPowerTime();   
+                this.showPower();
             }
-        },1)
+        },1,cc.macro.REPEAT_FOREVER)
     }
 
-    
 
+    updateBtnShopState(){
+        let btn_shop=this._btnsNode.getChildByName("btn_shop");
+        let tipShopping=btn_shop.getChildByName("tipShopping");
+        if(GameData.canShopping()){
+            tipShopping.active=true;
+        }else{
+            tipShopping.active=false;
+        }
+    }
 
-    
    
-
-
-
-
-
 }

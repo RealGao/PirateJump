@@ -1,0 +1,60 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "smallBoatWave2",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1.5,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            -177,
+            -60
+          ]
+        },
+        {
+          "frame": 0.75,
+          "value": [
+            -177,
+            -64
+          ]
+        },
+        {
+          "frame": 1.5,
+          "value": [
+            -177,
+            -60
+          ]
+        }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.36666666666666664,
+          "value": -3
+        },
+        {
+          "frame": 0.75,
+          "value": 0
+        },
+        {
+          "frame": 1.1166666666666667,
+          "value": 3
+        },
+        {
+          "frame": 1.5,
+          "value": 0
+        }
+      ]
+    }
+  },
+  "events": []
+}

@@ -15,18 +15,34 @@ export default class NewClass extends cc.Component {
     _btnsNode=null;
     _lb_title=null;
     _mask=null;
-    _mapsNode=null;
-    _propsNode=null;
-    _homeWorldNode=null;
-    _charactersNode=null;
-
+    _tipBuyMaps=null;
+    _tipBuyProps=null;
+    _tipBuyCharactor=null;
     _lightBtns=[];
+
+    _mapNodeTag=10001;
+    _propsNodeTag=10002;
+    _homeWorldNodeTag=10003;
+    _charactersNodeTag=10004;
+
+    @property(cc.Prefab)
+    pfMapsNode:cc.Prefab=null;
+
+    @property(cc.Prefab)
+    pfPropsNode:cc.Prefab=null;
+
+    @property(cc.Prefab)
+    pfHomeWorldNode:cc.Prefab=null;
+
+    @property(cc.Prefab)
+    pfCharactersNode:cc.Prefab=null;
+
+
 
     onLoad(){
         this.initNode();
-        GameCtr.getInstance().setMenus(this);
+        GameCtr.getInstance().setShop(this);
         GameCtr.getInstance().getStart().showStartBtns(false);
-        
     }
 
     start(){
@@ -35,25 +51,9 @@ export default class NewClass extends cc.Component {
 
     initNode(){
         this._btnsNode=this.node.getChildByName("btnsNode");
-
         this._lb_title=this.node.getChildByName("lb_title");
-        this._mapsNode=this.node.getChildByName("mapsNode");
-        this._propsNode=this.node.getChildByName("propsNode");
-        this._homeWorldNode=this.node.getChildByName("homeWorldNode");
-        this._charactersNode=this.node.getChildByName("charactersNode");
-        
         this._mask=this.node.getChildByName("mask");
-
-        this._mapsNode.getComponent('mapsNode').init();
-        this._charactersNode.getComponent('charactersNode').init();
-        this._homeWorldNode.getComponent("homeWorldNode").init();
-
         this._mask.active=false;
-        this._mapsNode.active=false;
-        this._propsNode.active=false;
-        this._homeWorldNode.active=false;
-        this._charactersNode.active=false;
-
         this.initBtnsNode();
     }
 
@@ -64,6 +64,10 @@ export default class NewClass extends cc.Component {
         let btn_start=this._btnsNode.getChildByName("btn_start");
         let btn_homeWorld=this._btnsNode.getChildByName("btn_homeWorld");
         let btn_characters=this._btnsNode.getChildByName("btn_characters");
+
+        this._tipBuyMaps=btn_maps.getChildByName("tip");
+        this._tipBuyProps=btn_props.getChildByName("tip");
+        this._tipBuyCharactor=btn_characters.getChildByName("tip");
 
         this._lightBtns.push(btn_maps);
         this._lightBtns.push(btn_props);
@@ -76,6 +80,8 @@ export default class NewClass extends cc.Component {
         this.initBtnEvent(btn_start);
         this.initBtnEvent(btn_homeWorld);
         this.initBtnEvent(btn_characters);
+
+        this.upBtnsState();
     }
 
     initBtnEvent(btn){
@@ -84,51 +90,115 @@ export default class NewClass extends cc.Component {
                 this.node.destroy();
                 GameCtr.getInstance().getStart().showStartBtns(true);
             }else if(e.target.getName()=="btn_maps"){
-                this._mapsNode.active=true;
-                this._propsNode.active=false;
-                this._homeWorldNode.active=false;
-                this._charactersNode.active=false;
+                if(this.node.getChildByName("mapsNode")){return;}
+                this.showMapsNode();
+                this.destroyPropsNode();
+                this.destroyHomeWorldNode();
+                this.destroyCharactersNode();
+                GameData.currentShopIndex=Shop.maps;
                 this.seletedLightBtn("btn_maps");
+                //this._mapsNode.getComponent("mapsNode").doAction();
             }else if(e.target.getName()=="btn_props"){
-                this._mapsNode.active=false;
-                this._propsNode.active=true;
-                this._homeWorldNode.active=false;
-                this._charactersNode.active=false;
+                if(this.node.getChildByName("propsNode")){return}
+                this.showPropsNode();
+                this.destroyMapsNode();
+                this.destroyHomeWorldNode();
+                this.destroyCharactersNode();
+                GameData.currentShopIndex=Shop.props;
                 this.seletedLightBtn("btn_props");
+                //this._propsNode.getComponent("propsNode").doAction();
             }else if(e.target.getName()=="btn_characters"){
-                this._mapsNode.active=false;
-                this._propsNode.active=false;
-                this._homeWorldNode.active=false;
-                this._charactersNode.active=true;
+                if(this.node.getChildByName("charactersNode")){return}
+
+                this.showCharactersNode();
+                this.destroyMapsNode();
+                this.destroyPropsNode();
+                this.destroyHomeWorldNode();
+                GameData.currentShopIndex=Shop.characters;
                 this.seletedLightBtn("btn_characters");
+                //this._charactersNode.getComponent("charactersNode").doAction();
             }else if(e.target.getName()=="btn_start"){
                 cc.director.loadScene('Game');
             }else if(e.target.getName()=="btn_homeWorld"){
+                if(this.node.getChildByName("homeWorldNode")){return}
+
+                this.showHomeWorldNode();
+                this.destroyMapsNode();
+                this.destroyPropsNode();
+                this.destroyCharactersNode();
+
+                GameData.currentShopIndex=Shop.homeWorld;
                 this.seletedLightBtn("btn_homeWorld");
-                this._mapsNode.active=false;
-                this._propsNode.active=false;
-                this._homeWorldNode.active=true;
-                this._charactersNode.active=false;
+                //this._homeWorldNode.getComponent("homeWorldNode").doAction();
             }
         })
     }
 
     showCurrentShop(){
-        console.log("log---------GameData.currentShopIndex=:",GameData.currentShopIndex);
         if(GameData.currentShopIndex==Shop.maps){
-            this._mapsNode.active=true;
+            this.showMapsNode();
             this.seletedLightBtn("btn_maps");
         }else if(GameData.currentShopIndex==Shop.props){
-            this._mapsNode.active=true;
+            this.showPropsNode();
             this.seletedLightBtn("btn_props");
         }else if(GameData.currentShopIndex==Shop.characters){
-            this._charactersNode.active=true;
+            this.showCharactersNode();
             this.seletedLightBtn("btn_characters");
         }else if(GameData.currentShopIndex==Shop.homeWorld){
-            this._homeWorldNode.active=true;
+            this.showHomeWorldNode();
             this.seletedLightBtn("btn_homeWorld");
         }
     }
+
+    showMapsNode(){
+        let mapNode=cc.instantiate(this.pfMapsNode);
+        mapNode.parent=this.node;
+        mapNode.tag=this._mapNodeTag;
+    }
+
+    showPropsNode(){
+        let propsNode=cc.instantiate(this.pfPropsNode);
+        propsNode.parent=this.node;
+        propsNode.tag=this._propsNodeTag;
+    }
+
+    showCharactersNode(){
+        let charactersNode=cc.instantiate(this.pfCharactersNode);
+        charactersNode.parent=this.node;
+        charactersNode.tag=this._charactersNodeTag;
+    }
+
+    showHomeWorldNode(){
+        let homeWorldNode=cc.instantiate(this.pfHomeWorldNode);
+        homeWorldNode.parent=this.node;
+        homeWorldNode.tag=this._homeWorldNodeTag;
+    }
+
+    destroyMapsNode(){
+        while(this.node.getChildByTag(this._mapNodeTag)){
+            this.node.removeChildByTag(this._mapNodeTag);
+        }
+    }
+
+    destroyPropsNode(){
+        while(this.node.getChildByTag(this._propsNodeTag)){
+            this.node.removeChildByTag(this._propsNodeTag);
+        }
+    }
+
+    destroyCharactersNode(){
+        while(this.node.getChildByTag(this._charactersNodeTag)){
+            this.node.removeChildByTag(this._charactersNodeTag)
+        }
+    }
+
+    destroyHomeWorldNode(){
+        while(this.node.getChildByTag(this._homeWorldNodeTag)){
+            this.node.removeChildByTag(this._homeWorldNodeTag)
+        }
+    }
+
+
 
     seletedLightBtn(btnName){
         for(let i=0;i<this._lightBtns.length;i++){
@@ -148,6 +218,36 @@ export default class NewClass extends cc.Component {
 
     setMaskVisit(bool){
         this._mask.active=bool;
+    }
+
+    updateBtnMapsState(){
+        if(GameData.canBuyMaps()){
+            this._tipBuyMaps.active=true;
+        }else{
+            this._tipBuyMaps.active=false;
+        }
+    }
+
+    updateBtnPropsState(){
+        if(GameData.canBuyProps()){
+            this._tipBuyProps.active=true;
+        }else{
+            this._tipBuyProps.active=false;
+        }
+    }
+
+    updateBtnCharactorsState(){
+        if(GameData.canBuyCharactors()){
+            this._tipBuyCharactor.active=true;
+        }else{
+            this._tipBuyCharactor.active=false;
+        }
+    }
+
+    upBtnsState(){
+        this.updateBtnMapsState();
+        this.updateBtnPropsState();
+        this.updateBtnCharactorsState();
     }
 
 }

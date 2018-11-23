@@ -38,10 +38,12 @@ export default class HttpCtr {
         this.loginRequestTimes++;
         Http.send({
             url: Http.UrlConfig.LOGIN,
+            rootUrl:Http.UrlConfig.rootUrl,
             success: (resp) => {
                 console.log("登陆服务器成功", resp);
                 if (resp.success == Http.Code.OK) {
                     if (resp.data) {
+                        Http.UrlConfig.rootUrl_dynamic="https://"+resp.data.host+"/api_game_hdtyt";
                         console.log("获取网络数据！！！！");
                         UserManager.user_id = resp.data.uid;
                         UserManager.voucher = resp.data.voucher;
@@ -50,7 +52,7 @@ export default class HttpCtr {
                             HttpCtr.chanelCheck(WXCtr.launchOption.query.channel);
                         }
                         
-                        HttpCtr.getShareConfig();
+                        //HttpCtr.getShareConfig();
                         HttpCtr.getGameConfig();
                         HttpCtr.getAdConfig();
                         HttpCtr.invitedByFriend(WXCtr.launchOption.query);
@@ -107,6 +109,7 @@ export default class HttpCtr {
     static getGameConfig() {
         Http.send({
             url: Http.UrlConfig.GET_SETTING,
+            rootUrl:Http.UrlConfig.rootUrl,
             success: (resp) => {
                 if (resp.success == Http.Code.OK) {
 
@@ -145,15 +148,17 @@ export default class HttpCtr {
 
     //获取个人信息
     static getUserInfo(callBack = null) {
-        // 个人信息，data_29表示上次保存数据到服务器时间戳， data_30退出游戏时间 
+        // 个人信息，data2_1表示上次保存数据到服务器时间戳， data2_2退出游戏时间 
         Http.send({
             url: Http.UrlConfig.GET_USERINFO,
+            rootUrl:Http.UrlConfig.rootUrl_dynamic,
             success: (resp) => {
                 if (resp.success == Http.Code.OK) {
                     UserManager.user = resp.user;
                     if (callBack) {
                         callBack(resp.user);
                     } else {
+                        console.log("log---------getUserInfo-----------resp=:",resp);
                         HttpCtr.compareData(resp.user);
                     }
                 }
@@ -169,19 +174,17 @@ export default class HttpCtr {
     }
 
     static compareData(data) {
-        console.log("log------compareData----data=:",data);
-        
-        if (!data.data_29) {
+        if (!data.data2_1) {
             GameData.getAllLocalGameData();
             console.log("1111111111111111")
         } else {
-            console.log("data.data_29 == ", data.data_29);
+            console.log("data.data2_1 == ", data.data2_1);
             let saveTime = WXCtr.getStorageData("saveTime", null);
             if (saveTime) {
                 console.log("saveTime ==", saveTime);
-                if (data.data_29 > saveTime) {
+                if (data.data2_1 > saveTime) {
                     GameData.getOnlineGameData(data);
-                    console.log("222222222222222:", data.data_29 - saveTime)
+                    console.log("222222222222222:", data.data2_1 - saveTime)
                 } else {
                     GameData.getAllLocalGameData();
                     console.log("44444444444444444")
@@ -202,10 +205,11 @@ export default class HttpCtr {
         for (let key in data) {
             sendData[key] = data[key];
         }
-        sendData["data_29"] = new Date().getTime();
-        sendData["data_30"] = new Date().getTime();
+        sendData["data2_1"] = new Date().getTime();
+        sendData["data2_2"] = new Date().getTime();
         Http.send({
             url: Http.UrlConfig.SET_DATA,
+            rootUrl:Http.UrlConfig.rootUrl_dynamic,
             success: (resp) => {
             },
             data: sendData
@@ -216,6 +220,7 @@ export default class HttpCtr {
     static invitedByFriend(query) {
         Http.send({
             url: Http.UrlConfig.INVITE_FRIEND,
+            rootUrl:Http.UrlConfig.rootUrl_dynamic,
             success: () => { },
             data: {
                 uid: UserManager.user_id,
@@ -353,6 +358,7 @@ export default class HttpCtr {
     static getAdConfig() {
         Http.send({
             url: Http.UrlConfig.ADConfig,
+            rootUrl:Http.UrlConfig.rootUrl_dynamic,
             success: (res) => {
                 if (res.banner) {
                     let day = Util.getCurrTimeYYMMDD();

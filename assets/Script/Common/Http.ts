@@ -34,6 +34,7 @@ export default class Http {
         mountNode = null as cc.Node,//挂载节点
         tag = null as any,//请求标识
         url = null as string,//请求地址
+        rootUrl= null as string,//请求地址
         data = {} as any,//请求数据
         method = 'POST',//请求方式
         success = (result, tag?) => { },//成功回调
@@ -42,8 +43,8 @@ export default class Http {
         if (!url) {
             return;
         }
-        if (!/^http/.test(url) && Http.rootUrl) {
-            url = Http.rootUrl + url;
+        if (!/^http/.test(url) && rootUrl) {
+            url = rootUrl + url;
         }
         cc.log('request url:%s method:%s', url, method);
 

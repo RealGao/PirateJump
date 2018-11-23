@@ -73,8 +73,10 @@ export default class WXCtr {
             wx.onHide(() => {
                 console.log("退到后台！！！！！");
                 let time = new Date().getTime();
-                HttpCtr.submitUserData({ data_30: time });
+                HttpCtr.submitUserData({ data2_2: time});
                 WXCtr.setStorageData("lastTime", time);
+                WXCtr.setStorageData("powerTime", GameData.powerTime);
+                WXCtr.setStorageData("jewelTimeCount", GameData.jewelTimeCount);
                 WXCtr.isOnHide = true;
             });
         }
@@ -531,10 +533,8 @@ export default class WXCtr {
         if (window.wx != undefined) {
             let value = wx.getStorageSync(key);
             if(!value) value = defaultValue;
-            console.log("key == "+key+"  value == ", value);
+            console.log("log getStorage key value=:",key,value);
             return value;
-        }else {
-            return defaultValue;
         }
     }
 
@@ -544,7 +544,6 @@ export default class WXCtr {
                 key: key,
                 data: data,
                 success: (resp) => {
-
                 }
             });
         }

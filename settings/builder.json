@@ -26,12 +26,12 @@
     "orientation": "portrait"
   },
   "renderMode": "0",
-  "startScene": "60ceea1f-427b-473d-9cc3-bea924bb4fd6",
-  "title": "AirCraft",
+  "startScene": "aa764672-aa7b-41f9-8430-051a9f9eb4a3",
+  "title": "PirateJump",
   "webOrientation": "auto",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
-    "appid": "wx1b8a63802c9c94c4",
+    "appid": "wx339c5b9692a660bb",
     "isSubdomain": false,
     "orientation": "portrait",
     "subContext": "SubGame"
