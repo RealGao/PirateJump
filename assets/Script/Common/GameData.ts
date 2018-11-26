@@ -109,34 +109,16 @@ export default class GameData {
 
     public static jewelTimeCount = 0;                                      //宝石收集倒计时
     public static powerTime = 0;                                           //体力收集时间
+    public static lotteryTimes=0;                                          //宝箱开箱次数
 
     private static _maxScore: number = 0;                                  //最高分纪录
 
     static rolesDes=[
-        { title:"路飞船长", des:["传说是海盗王和海之女神的孩子，天生的海盗","未知原因，无法觉醒天赋"]},
-        { title:"女帝船长", des:["太平洋东岸的盲女海盗王，出身卑微","偶然吃下神奇的食物，恢复了视力，觉醒","【加速】（小岛速度增加1级）"]},
-        { title:"白胡子",   des:["表面是来至偏远海域的老年海盗王","实则因妻子意外死亡，隐藏身份的传奇海盗王","【幸运】（无限幸运草）"]},
-        { title:"香克斯",   des:["太平洋南岸海盗王，世界实力最强，势力最大的海盗王","座右铭：时间就是生命","【加时】（进入游戏增加10秒时间）"]},
-        { title:"小骷髅",   des:["溺死在海中的强大海盗，被海之女神赐予不死之身","【不死】（死亡后无限复活）"]},
-    ]
-
-    static TrapsDes=[
-        {title:"迟缓雷",   des:["踩中会爆炸，爆炸烟雾会让你郁闷变绿  跳跃能力降低"]},
-        {title:"兴奋雷",   des:["踩中会爆炸，爆炸烟雾会让你兴奋变红  跳跃能力提高"]},
-        {title:"山炮",     des:["向下发射炮弹，威力巨大，谁炸谁知道"]},
-        {title:"激光炮",   des:["向左，发射激光，没有人想体验灼烧的感觉"]},
-        {title:"高速岛",   des:["顺时针自转，会进化的小岛，是一个潜力股，但需要长大"]},
-        {title:"逆速岛",   des:["逆时针自转，会进化的小岛，未来的核武器，但需要成长"]},
-        {title:"雾岛",     des:["被迷雾遮挡的小岛，不过容易被驱散"]},
-        {title:"尖刺岛",   des:["有一点诡异，小岛上怎么会长尖尖的东西，细思极恐！"]},
-        {title:"火精灵",   des:["迷路的精灵，惹不起，碰到他就会和你玩命。"]},
-        {title:"大鲲",     des:["神奇的生物，海里是乖宝宝，但是小心他跳到天生飞走。"]},
-        {title:"天降陨石", des:["如果被天生掉下来的陨石砸中，你可以去买彩票了。"]},
-        {title:"浓雾",     des:["这是什么，还能好好玩耍吗？"]},
-        {title:"蚊子",     des:["烦人的蚊子，咬人那是真的疼"]},
-        {title:"意大利炮", des:["飞行轨迹，有点像被抛弃的炮弹，据说真相是炮太重了"]},
-        {title:"自爆岛",   des:["不喜欢被人踩着的小岛，被踩就危险你自爆"]},
-        {title:"变速岛",   des:["过山车一样的小岛，忽快忽慢、"]},
+        { title:"路飞船长", des:"传说是海盗王和海之女神的孩子，天生的\n海盗\n\n未知原因，无法觉醒天赋"},
+        { title:"女帝船长", des:"太平洋东岸的盲女海盗王，出身卑微\n\n偶然吃下神奇的食物，恢复了视力，\n觉醒\n\n[加速]（小岛速度增加1级）"},
+        { title:"白胡子",   des:"表面是来至偏远海域的老年海盗王,实则\n因妻子意外死亡，隐藏身份的传奇海盗王\n\n[幸运]（无限幸运草）"},
+        { title:"香克斯",   des:"太平洋南岸海盗王，世界实力最强，\n势力最大的海盗王\n\n座右铭：时间就是生命\n\n[加时]（进入游戏增加10秒时间）"},
+        { title:"小骷髅",   des:"溺死在海中的强大海盗，被海之女神赐\n予不死之身\n\n[不死]（死亡后无限复活）"},
     ]
 
     static rolesInfo = [
@@ -144,23 +126,22 @@ export default class GameData {
         { id: 1, name: "sparklet", price_gold: 2000,   price_diamond: 0,    des:GameData.rolesDes[1]},
         { id: 2, name: "hook",     price_gold: 5000,   price_diamond: 0,    des:GameData.rolesDes[2]},
         { id: 3, name: "leavened", price_gold: 10000,  price_diamond: 0,    des:GameData.rolesDes[3]},
-        { id: 4, name: "crutch",   price_gold: 15000,  price_diamond: 0,    des:GameData.rolesDes[4]},
-        { id: 5, name: "captain",  price_gold: 0,      price_diamond: 1000, des:null}
+        { id: 4, name: "crutch",   price_gold: 15000,  price_diamond: 0,    des:GameData.rolesDes[4]}
     ]
 
    
     static mapsInfo = [
-        { name: "map0", gold_price: 0, diamond_price: 0, rate: [200, 600, 900] },
-        { name: "map1", gold_price: 2000, diamond_price: 0, rate: [800, 1100, 1350] },
-        { name: "map2", gold_price: 0, diamond_price: 2000, rate: [700, 1100, 1200] },
-        { name: "map3", gold_price: 20000, diamond_price: 0, rate: [-1, -1, -1] }
+        { name: "map0", title:"新手图",  gold_price: 0,      diamond_price: 0,    rate: [200, 600, 900],   des:"比较安全的小岛，刚刚开发出来\n\n比较简单，道具较少"},
+        { name: "map1", title:"高手图",  gold_price: 2000,   diamond_price: 0,    rate: [800, 1100, 1350], des:"有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容"},
+        { name: "map2", title:"职业图",  gold_price: 0,      diamond_price: 2000, rate: [700, 1100, 1200], des:"危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多"},
+        { name: "map3", title:"无线模式", gold_price: 20000, diamond_price: 0,    rate: [-1, -1, -1],      des:"知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好"}
     ]
 
     static propsInfo = [
-        { name: "luckyGrass", price: 50,  title:"加速",   des:["召唤强风，让小岛快速转起来","加快小岛旋转速度"]},
-        { name: "speedUp",    price: 100, title:"复活",   des:["装有蓝色液体的神奇瓶子","死亡后，复活到小岛上"]},
-        { name: "revive",     price: 200, title:"幸运草", des:["让你变得幸运起来，值得拥有","抵消COMBO断掉的惩罚"]},
-        { name: "time",       price: 100, title:"加时器", des:["让你向天再借10秒的神器","入场时，增加10秒跳跃时间"]},
+        { name: "luckyGrass", price: 50, title:"幸运草",  des:"让你变得幸运起来，值得拥有\n\n抵消COMBO断掉的惩罚"},
+        { name: "speedUp",    price: 20, title:"加速",    des:"召唤强风，让小岛快速转起来\n\n加快小岛旋转速度"},
+        { name: "revive",     price: 50, title:"复活",    des:"装有蓝色液体的神奇瓶子\n\n死亡后，复活到小岛上"},
+        { name: "time",       price: 20, title:"加时器",  des:"让你向天再借10秒的神器\n\n入场时，增加10秒跳跃时间"},
     ]
 
     
@@ -178,110 +159,110 @@ export default class GameData {
 
     /*收集金币*/
     static collectGoldCof = [
-        { target: 10000, bonus: 500 },
-        { target: 20000, bonus: 1000 },
-        { target: 40000, bonus: 2000 },
-        { target: 80000, bonus: 3000 },
-        { target: 200000, bonus: 5000 }
+        {title:"收集金币Ⅰ", des:"收集10000枚金币",  target: 10000, bonus: 500 },
+        {title:"收集金币Ⅱ", des:"收集20000枚金币",  target: 20000, bonus: 1000 },
+        {title:"收集金币Ⅲ", des:"收集40000枚金币",  target: 40000, bonus: 2000 },
+        {title:"收集金币Ⅳ", des:"收集80000枚金币",  target: 80000, bonus: 3000 },
+        {title:"收集金币Ⅴ", des:"收集200000枚金币", target: 200000, bonus: 5000 }
     ]
 
     /*连击*/
     static ComboCof = [
-        { target: 1000, bonus: 500 },
-        { target: 3000, bonus: 1000 },
-        { target: 5000, bonus: 2000 },
-        { target: 10000, bonus: 3000 },
-        { target: 20000, bonus: 5000 },
+        {title:"连击Ⅰ", des:"连击1000次",  target: 1000, bonus: 500 },
+        {title:"连击Ⅱ", des:"连击3000次",  target: 3000, bonus: 1000 },
+        {title:"连击Ⅲ", des:"连击5000次",  target: 5000, bonus: 2000 },
+        {title:"连击Ⅳ", des:"连击10000次", target: 10000, bonus: 3000 },
+        {title:"连击Ⅴ", des:"连击20000次", target: 20000, bonus: 5000 },
     ]
 
     /*连跳*/
     static doubleJumpCof = [
-        { target: 100, bonus: 500 },
-        { target: 300, bonus: 1000 },
-        { target: 1000, bonus: 2000 },
-        { target: 5000, bonus: 3000 },
-        { target: 10000, bonus: 5000 },
+        {title:"连跳Ⅰ", des:"连跳100次",   target: 100, bonus: 500 },
+        {title:"连跳Ⅱ", des:"连跳300次",   target: 300, bonus: 1000 },
+        {title:"连跳Ⅲ", des:"连跳1000次",  target: 1000, bonus: 2000 },
+        {title:"连跳Ⅳ", des:"连跳5000次",  target: 5000, bonus: 3000 },
+        {title:"连跳Ⅴ", des:"连跳10000次", target: 10000, bonus: 5000 },
     ]
 
     /*飞行的金币*/
     static flyingGoldCof = [
-        { target: 40, bonus: 500 },
-        { target: 200, bonus: 1000 },
-        { target: 500, bonus: 2000 },
-        { target: 2000, bonus: 3000 },
-        { target: 50000, bonus: 5000 },
+        {title:"飞行的金币Ⅰ", des:"用磁铁吸收40枚金币", target: 40, bonus: 500 },
+        {title:"飞行的金币Ⅱ", des:"用磁铁吸收200枚金币", target: 200, bonus: 1000 },
+        {title:"飞行的金币Ⅲ", des:"用磁铁吸收500枚金币", target: 500, bonus: 2000 },
+        {title:"飞行的金币Ⅳ", des:"用磁铁吸收2000枚金币", target: 2000, bonus: 3000 },
+        {title:"飞行的金币Ⅴ", des:"用磁铁吸收50000枚金币", target: 50000, bonus: 5000 },
     ]
 
     /*穿过金币*/
     static omitGoldCof = [
-        { target: 500, bonus: 500 },
-        { target: 2000, bonus: 1000 },
-        { target: 5000, bonus: 2000 },
-        { target: 10000, bonus: 3000 },
-        { target: 20000, bonus: 5000 },
+        { title:"穿过金币Ⅰ", des:"漏了500枚金币",  target: 500, bonus: 500 },
+        { title:"穿过金币Ⅱ", des:"漏了2000枚金币", target: 2000, bonus: 1000 },
+        { title:"穿过金币Ⅲ", des:"漏了5000枚金币", target: 5000, bonus: 2000 },
+        { title:"穿过金币Ⅳ", des:"漏了10000枚金币",target: 10000, bonus: 3000 },
+        { title:"穿过金币Ⅴ", des:"漏了20000枚金币",target: 20000, bonus: 5000 },
     ]
 
     /*头铁*/
     static hitBoxCof = [
-        { target: 100, bonus: 500 },
-        { target: 300, bonus: 1000 },
-        { target: 1000, bonus: 2000 },
-        { target: 5000, bonus: 3000 },
-        { target: 10000, bonus: 5000 },
+        { title:"头铁Ⅰ", des:"用女帝船长撞100个箱子",  target: 100, bonus: 500 },
+        { title:"头铁Ⅱ", des:"用女帝船长撞300个箱子",  target: 300, bonus: 1000 },
+        { title:"头铁Ⅲ", des:"用女帝船长撞1000个箱子", target: 1000, bonus: 2000 },
+        { title:"头铁Ⅳ", des:"用女帝船长撞5000个箱子", target: 5000, bonus: 3000 },
+        { title:"头铁Ⅴ", des:"用女帝船长撞10000个箱子",target: 10000, bonus: 5000 },
     ]
 
     /*时间之子*/
     static gatherTimerCof = [
-        { target: 50, bonus: 500 },
-        { target: 200, bonus: 1000 },
-        { target: 500, bonus: 2000 },
-        { target: 2000, bonus: 3000 },
-        { target: 5000, bonus: 5000 },
+        { title:"时间之子Ⅰ", des:"用香克斯收集50个时间", target: 50, bonus: 500 },
+        { title:"时间之子Ⅱ", des:"用香克斯收集200个时间", target: 200, bonus: 1000 },
+        { title:"时间之子Ⅲ", des:"用香克斯收集500个时间", target: 500, bonus: 2000 },
+        { title:"时间之子Ⅳ", des:"用香克斯收集2000个时间", target: 2000, bonus: 3000 },
+        { title:"时间之子Ⅴ", des:"用香克斯收集5000个时间", target: 5000, bonus: 5000 },
     ]
 
     /*不死亡灵*/
     static reviveTimesCof = [
-        { target: 10, bonus: 500 },
-        { target: 50, bonus: 1000 },
-        { target: 200, bonus: 2000 },
-        { target: 1000, bonus: 3000 },
-        { target: 10000, bonus: 5000 },
+        { title:"时间之子Ⅰ", des:"用小骷髅复活10次",target: 10, bonus: 500 },
+        { title:"时间之子Ⅱ", des:"用小骷髅复活50次",target: 50, bonus: 1000 },
+        { title:"时间之子Ⅲ", des:"用小骷髅复活200次",target: 200, bonus: 2000 },
+        { title:"时间之子Ⅳ", des:"用小骷髅复活1000次",target: 1000, bonus: 3000 },
+        { title:"时间之子Ⅴ", des:"用小骷髅复活10000次",target: 10000, bonus: 5000 },
     ]
 
     /*拆弹专家*/
     static dismantleBombCof = [
-        { target: 1000, bonus: 500 },
-        { target: 2000, bonus: 1000 },
-        { target: 5000, bonus: 2000 },
-        { target: 10000, bonus: 3000 },
-        { target: 20000, bonus: 5000 },
+        { title:"拆弹专家Ⅰ", des:"用盾牌拆除1000个炸弹",target: 1000, bonus: 500 },
+        { title:"拆弹专家Ⅱ", des:"用盾牌拆除2000个炸弹",target: 2000, bonus: 1000 },
+        { title:"拆弹专家Ⅲ", des:"用盾牌拆除5000个炸弹",target: 5000, bonus: 2000 },
+        { title:"拆弹专家Ⅳ", des:"用盾牌拆除10000个炸弹",target: 10000, bonus: 3000 },
+        { title:"拆弹专家Ⅴ", des:"用盾牌拆除20000个炸弹",target: 20000, bonus: 5000 },
     ]
 
     /*大团圆*/
     static unlockRolesCof = [
-        { target: 2, bonus: 500 },
-        { target: 3, bonus: 1000 },
-        { target: 4, bonus: 2000 },
-        { target: 5, bonus: 3000 },
-        { target: 6, bonus: 5000 },
+        { title:"大团圆Ⅰ", des:"解锁2个角色", target: 2, bonus: 500 },
+        { title:"大团圆Ⅱ", des:"解锁3个角色",target: 3, bonus: 1000 },
+        { title:"大团圆Ⅲ", des:"解锁4个角色",target: 4, bonus: 2000 },
+        { title:"大团圆Ⅳ", des:"解锁5个角色",target: 5, bonus: 3000 },
+        { title:"大团圆Ⅴ", des:"解锁6个角色",target: 6, bonus: 5000 },
     ]
 
     /*升级*/
     static levelUpCof = [
-        { target: 5, bonus: 500 },
-        { target: 10, bonus: 1000 },
-        { target: 15, bonus: 2000 },
-        { target: 20, bonus: 3000 },
-        { target: 25, bonus: 5000 },
+        { title:"升级Ⅰ", des:"所有角色5级",target: 5, bonus: 500 },
+        { title:"升级Ⅱ", des:"所有角色10级",target: 10, bonus: 1000 },
+        { title:"升级Ⅲ", des:"所有角色15级",target: 15, bonus: 2000 },
+        { title:"升级Ⅳ", des:"所有角色20级",target: 20, bonus: 3000 },
+        { title:"升级Ⅴ", des:"所有角色25级",target: 25, bonus: 5000 },
     ]
 
     /*钩宝箱*/
     static captainHitBoxCof = [
-        { target: 200, bonus: 500 },
-        { target: 500, bonus: 1000 },
-        { target: 2000, bonus: 2000 },
-        { target: 10000, bonus: 3000 },
-        { target: 20000, bonus: 5000 },
+        { title:"钩宝箱Ⅰ", des:"白胡子撞破200箱子",target: 200, bonus: 500 },
+        { title:"钩宝箱Ⅱ", des:"白胡子撞破500箱子",target: 500, bonus: 1000 },
+        { title:"钩宝箱Ⅲ", des:"白胡子撞破2000箱子",target: 2000, bonus: 2000 },
+        { title:"钩宝箱Ⅳ", des:"白胡子撞破10000箱子",target: 10000, bonus: 3000 },
+        { title:"钩宝箱Ⅴ", des:"白胡子撞破20000箱子",target: 20000, bonus: 5000 },
     ]
 
     //设置玩家金币
@@ -305,6 +286,7 @@ export default class GameData {
         GameData._diamond = diamond;
         GameData.setUserData({ money: GameData._diamond })
     }
+
     //获取玩家钻石
     static get diamond() {
         return GameData._diamond;
@@ -806,8 +788,6 @@ export default class GameData {
         GameData.prop_revive = WXCtr.getStorageData("prop_revive");
         GameData.prop_luckyGrass = WXCtr.getStorageData("prop_luckyGrass");
         GameData.prop_time = WXCtr.getStorageData("prop_time");
-
-
         GameData.gold_captain = WXCtr.getStorageData("gold_captain", 0);
         GameData.gold_sparklet = WXCtr.getStorageData("gold_sparklet", -1);
         GameData.gold_hook = WXCtr.getStorageData("gold_hook", -1);
@@ -1094,7 +1074,7 @@ export default class GameData {
         }
 
         for (let i = 0; i < GameData.propsInfo.length; i++) {
-            if (GameData.gold >= GameData.propsInfo[i].price) {
+            if (GameData.diamond >= GameData.propsInfo[i].price) {
                 return true;
             }
         }

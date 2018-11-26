@@ -42,7 +42,8 @@ export default class Start extends cc.Component {
     @property(cc.Prefab)
     ad:cc.Prefab=null;
 
-
+    @property(cc.Prefab)
+    treatureBox:cc.Prefab=null;
 
     onLoad () {
         GameCtr.getInstance().setStart(this); 
@@ -92,8 +93,11 @@ export default class Start extends cc.Component {
         let btn_rank=this._btnsNode.getChildByName("btn_rank");
         let btn_more=this._btnsNode.getChildByName("btn_more");
         let btn_shop=this._btnsNode.getChildByName("btn_shop");
+        let btn_treatureBox=this._btnsNode.getChildByName("btn_treatureBox");
+
         let btn_addDiamond=this._infoNode.getChildByName("btn_addDiamond");
         let btn_addPower=this._infoNode.getChildByName("btn_addPower");
+        
 
 
         this.initBtnEvent(btn_music);
@@ -104,6 +108,7 @@ export default class Start extends cc.Component {
         this.initBtnEvent(btn_rank);
         this.initBtnEvent(btn_more);
         this.initBtnEvent(btn_shop);
+        this.initBtnEvent(btn_treatureBox); 
         this.initBtnEvent(btn_addDiamond);
         this.initBtnEvent(btn_addPower);
 
@@ -127,8 +132,9 @@ export default class Start extends cc.Component {
                
             }else if(e.target.getName()=="btn_achievement"){
                 this.showAchievement();
+            }else if(e.target.getName()=="btn_treatureBox"){
+                this.showTreatureBox();
             }else if(e.target.getName()=="btn_shop"){
-               
                 this.showShop();
             }else if(e.target.getName()=="btn_addDiamond"){
 
@@ -203,6 +209,14 @@ export default class Start extends cc.Component {
         }
         let shop=cc.instantiate(this.shop);
         shop.parent=cc.find("Canvas");
+    }
+
+    showTreatureBox(){
+        if(cc.find("Canvas").getChildByName("treatureBox")){
+            return;
+        }
+        let treatrueBox=cc.instantiate(this.treatureBox);
+        treatrueBox.parent=cc.find("Canvas");
     }
 
     showBtnMusicState(){

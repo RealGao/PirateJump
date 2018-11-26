@@ -43,16 +43,16 @@ export default class NewClass extends cc.Component {
             if(e.target.getName()=="btn_help"){
                 this.showDes();
             }else if(e.target.getName()=="btn_buy"){
-                if(GameData.gold>=this._info.price){
+                if(GameData.diamond>=this._info.price){
                     if(GameData.getProp(this._info.name)>=10){return}
                     GameData.addProp(this._info.name);
-                    GameData.gold-=this._info.price;
-                    GameCtr.getInstance().getStart().showGold();
+                    GameData.diamond-=this._info.price;
+                    GameCtr.getInstance().getStart().showDiamond();
                     GameCtr.getInstance().getStart().updateBtnShopState();
                     GameCtr.getInstance().getShop().upBtnsState();
                     this.showCount();
                 }else{
-                    ViewManager.toast("金币不足");
+                    ViewManager.toast("钻石不足");
                 }
             }
         })

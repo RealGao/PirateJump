@@ -76,7 +76,6 @@ export default class NewClass extends cc.Component {
 
         this._lightBtns.push(btn_maps);
         this._lightBtns.push(btn_props);
-        this._lightBtns.push(btn_homeWorld);
         this._lightBtns.push(btn_characters);
         
         this.initBtnEvent(btn_back);

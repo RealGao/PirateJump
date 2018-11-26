@@ -32,6 +32,7 @@ export default class NewClass extends cc.Component {
             let homeWorldProp=this._propsContent.getChildByName("homeWorldprop"+i);
             homeWorldProp.getComponent("homeWorldPropItem").init(GameData.homeWorldPropsInfo[i]);
             this._homeWorldProps.push(homeWorldProp);
+            homeWorldProp.active=false;
         }
     }
 
