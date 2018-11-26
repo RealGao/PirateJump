@@ -86,7 +86,7 @@ export default class Island extends CollisionBase {
         }
 
         let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-        if (wPos.x < -200 || ((wPos.y > 1050 || wPos.y < -200) && this.isLanded)) {
+        if (wPos.x < -500 || ((wPos.y > 1200 || wPos.y < -200) && this.isLanded)) {
             CollisionMgr.removeIsland(this.node);
         }
     }

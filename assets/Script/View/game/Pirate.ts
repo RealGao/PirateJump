@@ -3,6 +3,7 @@ import CollisionBase from "./CollisionBase";
 import CollisionMgr from "./CollisionMgr";
 import Island from "./Island";
 import Props from "./Props";
+import GameData from "../../Common/GameData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,6 +64,8 @@ export default class Pirate extends CollisionBase {
     private landOnCannon = false;                           //是否降落在大炮上
     private beginJump = false;                              //是否开始跳跃
     private beginShoot = false;                             //是否开始发射
+    private isPirateAlive = true;                           //角色是否死亡
+    private isInitial = true;                               //是否刚初始
     private jumpTime = 0;                                   //跳跃次数
     private vx = 0;                                         //跳跃初速度X
     private vy = 0;                                         //跳跃初速度Y
@@ -142,6 +145,7 @@ export default class Pirate extends CollisionBase {
                 this.vx = Math.sin(radian) * this.vec;
                 this.vy = Math.cos(radian) * this.vec;
             }
+            GameData.doubleJump++;
         } else {
             return;
         }
@@ -167,6 +171,9 @@ export default class Pirate extends CollisionBase {
                 case CollisionBase.CollisionType.GOLD:
                     CollisionMgr.removeProp(other.node);
                     GameCtr.ins.mGame.addGold();
+                    if(this.magnetTime > 0) {
+                        GameData.flyingGold++;
+                    }
                     break;
                 case CollisionBase.CollisionType.CHEST:
                     this.shakeChest = true;
@@ -183,10 +190,18 @@ export default class Pirate extends CollisionBase {
                             this.shakeChest = false;
                         }),
                     ));
+                    if(GameData.currentRole == 1) {
+                        GameData.hitBox++;
+                    }else if(GameData.currentRole == 2) {
+                        GameData.captainHitBox++;
+                    }
                     break;
                 case CollisionBase.CollisionType.ALARM:
                     CollisionMgr.removeProp(other.node);
                     GameCtr.ins.mGame.addTime(10);
+                    if(GameData.currentRole == 3) {
+                        GameData.gatherTimer++;
+                    }
                     break;
                 case CollisionBase.CollisionType.MAGNET:
                     this.showMagnet();
@@ -208,6 +223,8 @@ export default class Pirate extends CollisionBase {
                     CollisionMgr.removeProp(other.node);
                     if (this.shieldTime <= 0) {
                         GameCtr.ins.mGame.addTime(-1);
+                    }else{
+                        GameData.dismantleBomb++;
                     }
                     break;
             }
@@ -245,6 +262,7 @@ export default class Pirate extends CollisionBase {
     landOnIsland(island) {
         this.beginJump = false;
         this.beginShoot = false;
+        this.isInitial = false;
         this.ndLine.active = true;
         CollisionMgr.addIsland();
         CollisionMgr.stopFit();
@@ -293,6 +311,7 @@ export default class Pirate extends CollisionBase {
             if (lastComp.props.length == 0) {
                 GameCtr.ins.mGame.addCombo();
             } else {
+                GameData.omitGold += lastComp.props.length;
                 GameCtr.ins.mGame.clearCombo();
             }
         }
@@ -306,11 +325,38 @@ export default class Pirate extends CollisionBase {
         let vector = cc.v2(cPos.x - lastPos.x, cPos.y - lastPos.y);
         let radian = cc.pAngleSigned(vector, cc.v2(0, 1));
         let rotation = cc.radiansToDegrees(radian);
-        this.node.rotation = rotation;
+        if(!this.isInitial) {
+            this.node.rotation = rotation;
+        }
         let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         if (wPos.y < -520) {
             GameCtr.gameOver();
+            if(GameData.currentRole == 4) {
+                this.revive();
+                GameData.reviveTimes++;
+            }else if(GameData.prop_time > 0) {
+                this.revive();
+            }
         }
+    }
+
+    
+    revive() {
+        this.isPirateAlive = false;
+        CollisionMgr.stopFit();
+        this.vx = 0;
+        this.vy = 0;
+        this.node.rotation = 0;
+        this.moveDt = 0;
+        this.node.position = cc.v2(this.lastIsland.x, this.lastIsland.y + 150);
+        this.originPos = this.node.position;
+        let tmpPos = GameCtr.ins.mGame.ndIslandLayer.position;
+        let offset = cc.pSub(tmpPos, this.islandLayerOrigin);
+        CollisionMgr.moveIslandLayer(offset);
+        this.scheduleOnce(()=>{
+            this.isInitial = true;
+            this.isPirateAlive = true;
+        }, 0.5);
     }
 
     // 显示瞄准线
@@ -333,7 +379,7 @@ export default class Pirate extends CollisionBase {
 
     update(dt) {
         if(GameCtr.isGameOver) return;
-        if ((this.beginJump || this.beginShoot) && !this.shakeChest) {
+        if ((this.beginJump || this.beginShoot) && !this.shakeChest && this.isPirateAlive) {
             this.moveDt += dt;
             this.movePirate(dt);
         }
