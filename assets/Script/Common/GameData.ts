@@ -110,18 +110,45 @@ export default class GameData {
     public static jewelTimeCount = 0;                                      //宝石收集倒计时
     public static powerTime = 0;                                           //体力收集时间
 
-    private static _maxScore: number = 0;                                //最高分纪录
+    private static _maxScore: number = 0;                                  //最高分纪录
 
-
-    static rolesInfo = [
-        { id: 0, name: "captain", price_gold: 0, price_diamond: 0 },
-        { id: 1, name: "sparklet", price_gold: 2000, price_diamond: 0 },
-        { id: 2, name: "hook", price_gold: 5000, price_diamond: 0 },
-        { id: 3, name: "leavened", price_gold: 10000, price_diamond: 0 },
-        { id: 4, name: "crutch", price_gold: 15000, price_diamond: 0 },
-        { id: 5, name: "captain", price_gold: 0, price_diamond: 1000 }
+    static rolesDes=[
+        { title:"路飞船长", des:["传说是海盗王和海之女神的孩子，天生的海盗","未知原因，无法觉醒天赋"]},
+        { title:"女帝船长", des:["太平洋东岸的盲女海盗王，出身卑微","偶然吃下神奇的食物，恢复了视力，觉醒","【加速】（小岛速度增加1级）"]},
+        { title:"白胡子",   des:["表面是来至偏远海域的老年海盗王","实则因妻子意外死亡，隐藏身份的传奇海盗王","【幸运】（无限幸运草）"]},
+        { title:"香克斯",   des:["太平洋南岸海盗王，世界实力最强，势力最大的海盗王","座右铭：时间就是生命","【加时】（进入游戏增加10秒时间）"]},
+        { title:"小骷髅",   des:["溺死在海中的强大海盗，被海之女神赐予不死之身","【不死】（死亡后无限复活）"]},
     ]
 
+    static TrapsDes=[
+        {title:"迟缓雷",   des:["踩中会爆炸，爆炸烟雾会让你郁闷变绿  跳跃能力降低"]},
+        {title:"兴奋雷",   des:["踩中会爆炸，爆炸烟雾会让你兴奋变红  跳跃能力提高"]},
+        {title:"山炮",     des:["向下发射炮弹，威力巨大，谁炸谁知道"]},
+        {title:"激光炮",   des:["向左，发射激光，没有人想体验灼烧的感觉"]},
+        {title:"高速岛",   des:["顺时针自转，会进化的小岛，是一个潜力股，但需要长大"]},
+        {title:"逆速岛",   des:["逆时针自转，会进化的小岛，未来的核武器，但需要成长"]},
+        {title:"雾岛",     des:["被迷雾遮挡的小岛，不过容易被驱散"]},
+        {title:"尖刺岛",   des:["有一点诡异，小岛上怎么会长尖尖的东西，细思极恐！"]},
+        {title:"火精灵",   des:["迷路的精灵，惹不起，碰到他就会和你玩命。"]},
+        {title:"大鲲",     des:["神奇的生物，海里是乖宝宝，但是小心他跳到天生飞走。"]},
+        {title:"天降陨石", des:["如果被天生掉下来的陨石砸中，你可以去买彩票了。"]},
+        {title:"浓雾",     des:["这是什么，还能好好玩耍吗？"]},
+        {title:"蚊子",     des:["烦人的蚊子，咬人那是真的疼"]},
+        {title:"意大利炮", des:["飞行轨迹，有点像被抛弃的炮弹，据说真相是炮太重了"]},
+        {title:"自爆岛",   des:["不喜欢被人踩着的小岛，被踩就危险你自爆"]},
+        {title:"变速岛",   des:["过山车一样的小岛，忽快忽慢、"]},
+    ]
+
+    static rolesInfo = [
+        { id: 0, name: "captain",  price_gold: 0,      price_diamond: 0,    des:GameData.rolesDes[0]},
+        { id: 1, name: "sparklet", price_gold: 2000,   price_diamond: 0,    des:GameData.rolesDes[1]},
+        { id: 2, name: "hook",     price_gold: 5000,   price_diamond: 0,    des:GameData.rolesDes[2]},
+        { id: 3, name: "leavened", price_gold: 10000,  price_diamond: 0,    des:GameData.rolesDes[3]},
+        { id: 4, name: "crutch",   price_gold: 15000,  price_diamond: 0,    des:GameData.rolesDes[4]},
+        { id: 5, name: "captain",  price_gold: 0,      price_diamond: 1000, des:null}
+    ]
+
+   
     static mapsInfo = [
         { name: "map0", gold_price: 0, diamond_price: 0, rate: [200, 600, 900] },
         { name: "map1", gold_price: 2000, diamond_price: 0, rate: [800, 1100, 1350] },
@@ -130,11 +157,13 @@ export default class GameData {
     ]
 
     static propsInfo = [
-        { name: "luckyGrass", price: 50 },
-        { name: "speedUp", price: 100 },
-        { name: "revive", price: 200 },
-        { name: "time", price: 100 },
+        { name: "luckyGrass", price: 50,  title:"加速",   des:["召唤强风，让小岛快速转起来","加快小岛旋转速度"]},
+        { name: "speedUp",    price: 100, title:"复活",   des:["装有蓝色液体的神奇瓶子","死亡后，复活到小岛上"]},
+        { name: "revive",     price: 200, title:"幸运草", des:["让你变得幸运起来，值得拥有","抵消COMBO断掉的惩罚"]},
+        { name: "time",       price: 100, title:"加时器", des:["让你向天再借10秒的神器","入场时，增加10秒跳跃时间"]},
     ]
+
+    
 
     static homeWorldPropsInfo = [
         { name: "homeWorld_prop0", priceGet: 1000, priceUpLevel: 1000, initialDamage: 1 },

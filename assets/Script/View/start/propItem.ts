@@ -10,21 +10,21 @@ export default class NewClass extends cc.Component {
     _lb_count=null;
     _lb_price=null;
     _mask=null;
-    _info={name:null,price:null};
+    _info=null;
+
+    @property(cc.Prefab)
+    pfNote:cc.Prefab=null;
    
     
     init(info){
         console.log("log------propItem initInfo=:",info);
-        this._info.name=info.name;
-        this._info.price=info.price;
-
+        this._info=info;
         this.initNode();
         this.showPrice();
         this.showCount();
     }
         
     
-
     initNode(){
         this._mask=this.node.getChildByName("mask");
         this._btn_buy=this.node.getChildByName("btn_buy");
@@ -41,7 +41,7 @@ export default class NewClass extends cc.Component {
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_help"){
-                this.showHelp();
+                this.showDes();
             }else if(e.target.getName()=="btn_buy"){
                 if(GameData.gold>=this._info.price){
                     if(GameData.getProp(this._info.name)>=10){return}
@@ -72,7 +72,12 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    showHelp(){
-       
+    showDes(){
+        if(cc.find("Canvas").getChildByName("note")){
+            return;
+        }
+        let des=cc.instantiate(this.pfNote);
+        des.parent=cc.find("Canvas");
+        des.getComponent("note").showNote(this._info);
     }
 }

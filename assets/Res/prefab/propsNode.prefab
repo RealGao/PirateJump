@@ -1321,7 +1321,10 @@
     "node": {
       "__id__": 10
     },
-    "_enabled": true
+    "_enabled": true,
+    "pfNote": {
+      "__uuid__": "248768bd-97b9-4a83-8b40-af2af9b68798"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2309,7 +2312,10 @@
     "node": {
       "__id__": 41
     },
-    "_enabled": true
+    "_enabled": true,
+    "pfNote": {
+      "__uuid__": "248768bd-97b9-4a83-8b40-af2af9b68798"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3297,7 +3303,10 @@
     "node": {
       "__id__": 72
     },
-    "_enabled": true
+    "_enabled": true,
+    "pfNote": {
+      "__uuid__": "248768bd-97b9-4a83-8b40-af2af9b68798"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4285,7 +4294,10 @@
     "node": {
       "__id__": 103
     },
-    "_enabled": true
+    "_enabled": true,
+    "pfNote": {
+      "__uuid__": "248768bd-97b9-4a83-8b40-af2af9b68798"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",

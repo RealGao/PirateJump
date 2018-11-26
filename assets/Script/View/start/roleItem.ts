@@ -15,12 +15,15 @@ export default class NewClass extends cc.Component {
     _icon_seletedFrame=null;
     _progress=null;
     _progressBar=null;
-    _roleInfo={id:-1,name:"",price_gold:0,price_diamond:0};
+    _roleInfo=null;
     _roleLevelInfo=null;
     _roleSeletedAniTag=500;
 
     @property(cc.Prefab)
-    roleSeletedAni:cc.Prefab=null;
+    pfRoleSeletedAni:cc.Prefab=null;
+
+    @property(cc.Prefab)
+    pfNote:cc.Prefab=null;
 
     init(info){
         this.initInfo(info);
@@ -28,11 +31,8 @@ export default class NewClass extends cc.Component {
     }
 
     initInfo(info){
-        this._roleInfo.price_gold=info.price_gold;
-        this._roleInfo.price_diamond=info.price_diamond;
-        this._roleInfo.name=info.name;
-        this._roleInfo.id=info.id;
-
+        this._roleInfo=info;
+        console.log("log----------------this._roleInfo=:",this._roleInfo);
         this._roleLevelInfo=GameData.getRoleLevelInfoByName(this._roleInfo.name);
     }
 
@@ -69,7 +69,7 @@ export default class NewClass extends cc.Component {
             if(e.target.getName()=="btn_buy"){
                 this.doBuy();
             }else if(e.target.getName()=="btn_help"){
-                //this.showHelp();
+                this.showDes();
             }
         })
     }
@@ -149,6 +149,15 @@ export default class NewClass extends cc.Component {
         this._progress.getComponent(cc.ProgressBar).progress=this._roleLevelInfo._currentGold/this._roleLevelInfo._targetGold;
     }
 
+    showDes(){
+        if(cc.find("Canvas").getChildByName("note")){
+            return;
+        }
+        let note=cc.instantiate(this.pfNote);
+        note.parent=cc.find("Canvas");
+        note.getComponent("note").showNote(this._roleInfo.des);
+    }
+
     getLevel(){
         return this._roleLevelInfo._level;
     }
@@ -191,7 +200,7 @@ export default class NewClass extends cc.Component {
 
     addSeletedAni(){
         this._icon_role.active=false;
-        let roleSeleted=cc.instantiate(this.roleSeletedAni);
+        let roleSeleted=cc.instantiate(this.pfRoleSeletedAni);
         roleSeleted.parent=this.node;
         roleSeleted.tag=this._roleSeletedAniTag;
         roleSeleted.getComponent("roleSeletedAni").init(this._roleInfo.id);
