@@ -73,6 +73,7 @@ export default class GameOver extends cc.Component {
 
     showScore() {
         this.combo = GameCtr.ins.mGame.maxCombo;
+        GameData.combo += this.combo;
         this.gold = GameCtr.ins.mGame.goldNum;
         this.lbCombo.string = this.combo+"";
         this.lbComboScore.string =  "" + this.combo * 10;
@@ -108,6 +109,7 @@ export default class GameOver extends cc.Component {
 
     restart() {
         GameCtr.gameStart();
+        
     }
 
     share() {

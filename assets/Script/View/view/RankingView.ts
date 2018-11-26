@@ -77,7 +77,7 @@ export default class RankingView extends cc.Component {
         WXCtr.wxGetUsrInfo((data) => {
             Util.loadImg(comp.sprHead, data.avatarUrl);
             comp.lbName.string = data.nickName;
-            comp.lbGold.string = Util.formatNum(GameData.fightLevel);
+            // comp.lbGold.string = Util.formatNum(GameData.fightLevel);
             if (top < 3) {
                 comp.lbRanking.node.active = false;
                 comp.sprMedal.node.active = true;

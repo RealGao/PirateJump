@@ -620,9 +620,9 @@ export default class CollisionMgr extends cc.Component {
             cc.log("wrong idx!!!!!!");
         }
         let lastScale = CollisionMgr.mCollisionMgr.islandLayer.scale;
-        let radius = island.getComponent(Island).radius + nextIsland.getComponent(Island).radius;
-        let distanceX = nextIsland.position.x - island.position.x;
-        let distanceY = island.position.y - nextIsland.position.y;
+        // let radius = island.getComponent(Island).radius + nextIsland.getComponent(Island).radius;
+        // let distanceX = nextIsland.position.x - island.position.x;
+        // let distanceY = island.position.y - nextIsland.position.y;
         // if (distanceX > 10) {
         //     scale = GameCtr.ins.mGame.ndCanvas.width / (distanceX + radius + 50);
         // } else {
