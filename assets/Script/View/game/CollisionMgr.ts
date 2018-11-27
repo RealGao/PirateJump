@@ -452,6 +452,9 @@ export default class CollisionMgr extends cc.Component {
 
     // 增加道具
     static addProp(posArr, lastIsland) {
+        if(posArr.length == 0) {
+            return;
+        }
         let data = CollisionMgr.getPropRank();
         let posRand = Math.random() * 100;
         let startIdx = 1;

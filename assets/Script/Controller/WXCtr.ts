@@ -473,6 +473,7 @@ export default class WXCtr {
         profit?: boolean,
         callback?: Function
     }) {
+        let shareTime = new Date().getTime();
         let qureyInfo = "";
         if (data && data.runway) {
             qureyInfo = "runway=";
@@ -484,29 +485,14 @@ export default class WXCtr {
                 title: WXCtr.shareTitle,
                 imageUrl: WXCtr.shareImg,
                 query: qureyInfo + UserManager.user_id,
-                // success: (res) => {
-                //     if (GameCtr.shareSwitch) {
-                //         if (GameData.maxPlaneLevel < GameCtr.shareMax) {
-                //             if (data.callback) {
-                //                 data.callback();
-                //             }
-                //         }
-                //         else if (res.shareTickets != undefined && res.shareTickets.length > 0) {
-                //             console.log("shareTickets == ", res.shareTickets);
-                //             WXCtr.getWxShareInfo(res.shareTickets[0], data.callback);
-                //         } else {
-                //             ViewManager.toast("请分享到群！");
-                //         }
-                //     } else {
-                        // if (data.callback) {
-                        //     data.callback();
-                        // }
-                //     }
-
-                // },
                 complete: () => {
-                    if (data.callback) {
-                        data.callback();
+                    let completeTime = new Date().getTime();
+                    if(completeTime - shareTime >= 2000) {
+                        if (data.callback) {
+                            data.callback();
+                        }
+                    }else {
+                        ViewManager.toast("分享失败！");
                     }
                 }
             });

@@ -40,20 +40,12 @@ export default class Game extends cc.Component {
 
     onLoad() {
         GameCtr.getInstance().setGame(this);
-        // WXCtr.onShow(() => {
-        //     WXCtr.isOnHide = false;
-        //     this.scheduleOnce(() => {
-        //         this.showOffLineProfitPop();
-        //     }, 2.5);
-        // });
     }
 
     onDestroy() {
-        // WXCtr.offShow();
     }
 
     start() {
-        console.log("log----------------");
         this.registerTouch();
         GameCtr.isGameOver = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
@@ -113,14 +105,7 @@ export default class Game extends cc.Component {
         this.ndGame.runAction(cc.fadeOut(0.5));
     }
 
-    /**
-     * 显示离线收益弹窗
-     */
-    showOffLineProfitPop() {
-        console.log("离线收益！！！！！！");
-        
-    }
-
+    
     /**
      * 更多游戏
      */
