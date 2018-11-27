@@ -124,6 +124,9 @@ export default class Pirate extends CollisionBase {
             this.gravity = -800;
             this.islandLayerOrigin = GameCtr.ins.mGame.ndIslandLayer.position;
             let selfWPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+            if(!this.node.parent.parent) {
+                cc.log("something wrong!!!!!!!!!!!!");
+            }
             let parentWPos = this.node.parent.parent.convertToWorldSpaceAR(this.node.parent.position);
             let vector = cc.v2(selfWPos.x - parentWPos.x, selfWPos.y - parentWPos.y);
             let radian = cc.pAngleSigned(vector, cc.v2(0, 1));
@@ -271,7 +274,6 @@ export default class Pirate extends CollisionBase {
         this.jumpTime = 0;
         this.moveDt = 0;
         let comp: Island = island.getComponent(Island);
-        comp.isLanded = true;
         let selfWPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         this.node.parent = island;
         let parentWPos = island.parent.convertToWorldSpaceAR(island.position);
@@ -295,6 +297,8 @@ export default class Pirate extends CollisionBase {
             this.lastIsland = island;
             return;
         } else {
+            let lastComp = this.lastIsland.getComponent(Island);
+            lastComp.isLanded = true;
             this.lastIsland = island;
             CollisionMgr.moveIslandLayer(offset);
         }
@@ -330,6 +334,7 @@ export default class Pirate extends CollisionBase {
         }
         let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         if (wPos.y < -520) {
+            CollisionMgr.stopFit();
             GameCtr.gameOver();
             if(GameData.currentRole == 4) {
                 this.revive();
@@ -343,7 +348,6 @@ export default class Pirate extends CollisionBase {
     
     revive() {
         this.isPirateAlive = false;
-        CollisionMgr.stopFit();
         this.vx = 0;
         this.vy = 0;
         this.node.rotation = 0;

@@ -179,7 +179,6 @@ export default class GameCtr {
 
     // 游戏开始
     static gameStart() {
-        GameCtr.isGameOver = false;
         GameCtr.gotoScene("Game");
     }
 
