@@ -55,6 +55,7 @@ export default class Game extends cc.Component {
     start() {
         console.log("log----------------");
         this.registerTouch();
+        GameCtr.isGameOver = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
         this.initIslands();
         this.time = 100;

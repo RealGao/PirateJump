@@ -27,6 +27,8 @@ export default class CollisionMgr extends cc.Component {
     @property(cc.Node)
     islandLayer: cc.Node = null;
     @property(cc.Node)
+    ndBg: cc.Node = null;
+    @property(cc.Node)
     ndGraphic: cc.Node = null;
     @property(cc.Node)
     ndPos: cc.Node = null;
@@ -522,6 +524,9 @@ export default class CollisionMgr extends cc.Component {
     static addGold(posArr, propNum, startIdx, lastIsland) {
         for (let i = startIdx; i < propNum + startIdx; i++) {
             let info = posArr[i];
+            if(!info) {
+                cc.log("idx wrong!!!!!!");
+            }
             let gold = CollisionMgr.mCollisionMgr.propPool.get();
             let comp: Props = gold.getComponent(Props);
             CollisionMgr.mCollisionMgr.islandLayer.addChild(gold);
@@ -657,6 +662,13 @@ export default class CollisionMgr extends cc.Component {
     update(dt) {
         if (CollisionMgr.mCollisionMgr.fitLayer) {
             CollisionMgr.mCollisionMgr.islandLayer.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
+            for(let i=0; i<CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
+                let nd = CollisionMgr.mCollisionMgr.ndBg.children[i];
+                nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt/2;
+                if(nd.x <= -1461) {
+                    nd.x += 1842;
+                }
+            }
         }
     }
 }
