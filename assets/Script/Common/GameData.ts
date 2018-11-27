@@ -239,7 +239,7 @@ export default class GameData {
     ]
 
     /*大团圆*/
-    static unlockRolesCof = [
+    static lockRolesCof = [
         { title:"大团圆Ⅰ", des:"解锁2个角色", target: 2, bonus: 500 },
         { title:"大团圆Ⅱ", des:"解锁3个角色",target: 3, bonus: 1000 },
         { title:"大团圆Ⅲ", des:"解锁4个角色",target: 4, bonus: 2000 },
@@ -263,6 +263,22 @@ export default class GameData {
         { title:"钩宝箱Ⅲ", des:"白胡子撞破2000箱子",target: 2000, bonus: 2000 },
         { title:"钩宝箱Ⅳ", des:"白胡子撞破10000箱子",target: 10000, bonus: 3000 },
         { title:"钩宝箱Ⅴ", des:"白胡子撞破20000箱子",target: 20000, bonus: 5000 },
+    ]
+
+    /*成就表*/
+    static achievementsConf=[
+        {id:0,   confName:"collectGoldCof",   valueName:"collectGolds"},
+        {id:1,   confName:"ComboCof",         valueName:"combo"},
+        {id:2,   confName:"doubleJumpCof",    valueName:"doubleJump"},
+        {id:3,   confName:"flyingGoldCof",    valueName:"flyingGold"},
+        {id:4,   confName:"omitGoldCof" ,     valueName:"omitGold"},
+        {id:5,   confName:"hitBoxCof"   ,     valueName:"hitBox"},
+        {id:6,   confName:"gatherTimerCof",   valueName:"gatherTimer"},
+        {id:7,   confName:"reviveTimesCof",   valueName:"reviveTimes"},
+        {id:8,   confName:"dismantleBombCof", valueName:"dismantleBomb"},
+        {id:9,   confName:"lockRolesCof",     valueName:"lockedRoles"},
+        {id:10,  confName:"levelUpCof",       valueName:"minRoleLevel"},
+        {id:11,  confName:"captainHitBoxCof", valueName:"captainHitBox"},
     ]
 
     //设置玩家金币
@@ -764,6 +780,48 @@ export default class GameData {
         return GameData._maxScore;
     }
 
+    //获取收集到的金币
+    static get collectGolds(){
+        let collectGolds=0;
+        collectGolds=GameData.gold_captain>=0?collectGolds+GameData.gold_captain:collectGolds;
+        collectGolds=GameData.gold_sparklet>=0?collectGolds+GameData.gold_sparklet:collectGolds;
+        collectGolds=GameData.gold_hook>=0?collectGolds+GameData.gold_hook:collectGolds;
+        collectGolds=GameData.gold_leavened>=0?collectGolds+GameData.gold_leavened:collectGolds;
+        collectGolds=GameData.gold_crutch>=0?collectGolds+GameData.gold_crutch:collectGolds;
+
+        return collectGolds;
+    }
+
+    //获取解锁角色数量
+    static get lockedRoles(){
+        let lockedRolesCount=0;
+        lockedRolesCount=GameData.gold_captain>=0?lockedRolesCount+1:lockedRolesCount;
+        lockedRolesCount=GameData.gold_sparklet>=0?lockedRolesCount+1:lockedRolesCount;
+        lockedRolesCount=GameData.gold_hook>=0?lockedRolesCount+1:lockedRolesCount;
+        lockedRolesCount=GameData.gold_leavened>=0?lockedRolesCount+1:lockedRolesCount;
+        lockedRolesCount=GameData.gold_crutch>=0?lockedRolesCount+1:lockedRolesCount;
+        console.log("log-------------lockedRolesCount=:",lockedRolesCount);
+        return lockedRolesCount;
+    }
+
+    //获取解锁角色最小等级
+    static get minRoleLevel(){
+        let levelArr=[];
+        let level_captain= GameData.getLevelInfo(GameData.gold_captain);
+        let level_sparklet= GameData.getLevelInfo(GameData.gold_sparklet);
+        let level_hook= GameData.getLevelInfo(GameData.gold_hook);
+        let level_leavened= GameData.getLevelInfo(GameData.gold_leavened);
+        let level_crutch= GameData.getLevelInfo(GameData.gold_crutch);
+
+        levelArr.push(level_captain._level);
+        levelArr.push(level_sparklet._level);
+        levelArr.push(level_hook._level);
+        levelArr.push(level_leavened._level);
+        levelArr.push(level_crutch._level);
+        levelArr.sort();
+        return levelArr[0];
+    }
+
 
     //获取本地所有游戏数据
     static getAllLocalGameData() {
@@ -1134,5 +1192,8 @@ export default class GameData {
         }
         return bonusDiamond;
     }
+
+
+
 
 }

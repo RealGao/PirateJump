@@ -188,7 +188,6 @@ export default class Start extends cc.Component {
         if(cc.find("Canvas").getChildByName("help")){
             return;
         }
-        this.setMaskVisit(true);
         let help=cc.instantiate(this.help);
         help.parent=cc.find("Canvas")
     }
@@ -197,9 +196,9 @@ export default class Start extends cc.Component {
         if(cc.find("Canvas").getChildByName("achievement")){
             return;
         }
-        this.setMaskVisit(true);
         let achievement=cc.instantiate(this.achievement);
         achievement.parent=cc.find("Canvas");
+        achievement.setLocalZOrder(10);
     }
 
 
