@@ -68,7 +68,7 @@ export default class Island extends CollisionBase {
         if (this.type == Island.IslandType.Cannon) return;
         let frame = CollisionMgr.mCollisionMgr.islandFrames[idx];
         if(!this.sprWheel) {
-            cc.log("!!!!!!!!!!!!!");
+            cc.log("no Wheel frame!!!!");
         }
         this.sprWheel.spriteFrame = frame;
         let collider = this.node.getComponent(cc.CircleCollider);
