@@ -69,6 +69,7 @@ export default class GameOver extends cc.Component {
         this.showRoleInfo();
         this.showScore();
         this.showBagInfo();
+        this.showAchievementsBonus();
     }
 
     showScore() {
@@ -80,11 +81,13 @@ export default class GameOver extends cc.Component {
         let score = this.gold + this.combo * 10;
         this.lbTotalScore.string = score + "";
         this.lbLevelScore.string = "" + this.roleData._level * 10;
-        GameData.maxScore = score > GameData.maxScore ? score : GameData.maxScore;
 
+        GameData.maxScore = score > GameData.maxScore ? score : GameData.maxScore;
         this.lbBest.string = GameData.maxScore + "";
 
         this.addGold(this.roleData._level * 10+ score);
+        GameData.submitScore(score);
+        
         GameData.addGoldOfRole(score);
     }
 
@@ -160,5 +163,22 @@ export default class GameOver extends cc.Component {
         this.ndArchieve.active = false;
     }
 
-    // update (dt) {}
+
+    showAchievementsBonus(){
+        let data=GameData.getAchieveBounusData();
+        for(let i=0;i<data.length;i++){
+            this.node.runAction(cc.sequence(
+                cc.delayTime(1.0*i+0.8),
+                cc.callFunc(()=>{
+                    let callFunc=()=>{
+                        //GameData.gold+=data[i].bonus;
+                        //GameDa
+                        console.log("增加金币",data[i].bonus);
+                    }
+                    GameCtr.getInstance().getToast().toast(data[i].title+" 奖励金币:"+data[i].bonus,callFunc,0.8);
+                })
+            ))
+            
+        }
+    }
 }

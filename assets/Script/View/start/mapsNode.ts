@@ -1,25 +1,31 @@
 import GameData from "../../Common/GameData";
 import GameCtr from "../../Controller/GameCtr";
+import WXCtr from "../../Controller/WXCtr";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
-
     _icon=null;
     _maps=[];
+    _tex: cc.Texture2D = null;
+
+    @property(cc.Sprite)
+    recorderSprite:cc.Sprite=null;
+
     onLoad(){
+        WXCtr.initSharedCanvas();
         this.initNode();
         this.initMapsListener();
         this.doAction();
+        WXCtr.showMapsRecorder();
         if(cc.director.getScene().name=="Start"){
             GameCtr.getInstance().getStart().showBgSprite(0);
-        }else{
-
         }
     }
 
     initNode(){
+        this._tex= new cc.Texture2D();
         this._icon=this.node.getChildByName('icon');
         for(let i=0;i<4;i++){
             let map= this.node.getChildByName("mapContent").getChildByName("map"+i);
@@ -71,5 +77,19 @@ export default class NewClass extends cc.Component {
             cc.scaleTo(0.2,0.9),
             cc.scaleTo(0.2,1.0),
         ))
+    }
+
+    update() {
+        this._updateSubDomainCanvas();
+    }
+
+    // 刷新子域的纹理
+    _updateSubDomainCanvas() {
+        if (window.sharedCanvas != undefined && this._tex != null ) {
+            //console.log("log---------刷新子域的纹理");
+            this._tex.initWithElement(window.sharedCanvas);
+            this._tex.handleLoadedTexture();
+            this.recorderSprite.spriteFrame = new cc.SpriteFrame(this._tex);
+        }
     }
 }

@@ -90,7 +90,7 @@ export default class NewClass extends cc.Component {
                 this._btn_buy.active=false;
                 this.node.getComponent(cc.Button).interactable=true;
             }else{
-                ViewManager.toast("金币不足")
+                GameCtr.getInstance().getToast().toast("金币不足")
             }
         }
         
@@ -109,7 +109,7 @@ export default class NewClass extends cc.Component {
                 this._btn_buy.active=false;
                 this.node.getComponent(cc.Button).interactable=true;
             }else{
-                ViewManager.toast("钻石不足")
+                GameCtr.getInstance().getToast().toast("钻石不足")
             }
         }
     }

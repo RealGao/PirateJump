@@ -20,6 +20,8 @@ enum Message_Type {
     Show_OverRanking,                   //显示结束排行榜
     Close_WholeRanking,                 //关闭好友排行
     Close_OverRanking,                  //关闭结束排行
+    Show_recorder,                      //显示地图记录
+    Close_recorder,                     //关闭地图记录
 };
 
 const I6P = {
@@ -572,8 +574,8 @@ export default class WXCtr {
 
     static initSharedCanvas() {
         if (window.wx != undefined) {
-            window.sharedCanvas.width = 880;
-            window.sharedCanvas.height = 1200;
+            window.sharedCanvas.width = 540;
+            window.sharedCanvas.height = 960;
         }
     }
 
@@ -615,19 +617,22 @@ export default class WXCtr {
             // 发消息给子域
             window.wx.postMessage({
                 messageType: Message_Type.Get_FriendData,
-                SCORE_KEY: "Rank_SCORE",
-                LOCATION_KEY: "LOACTION",
+                SCORE_KEY1: "map1Score",
+                SCORE_KEY2: "map2Score",
+                SCORE_KEY3: "map3Score",
+                SCORE_KEY4: "map4Score",
             });
         }
     }
 
     //显示完整好友排行
-    static showFriendRanking(page = 1) {
+    static showFriendRanking(map,page = 0) {
         if (window.wx != undefined) {
             console.log("主域发送消息____显示好友排行");
             window.wx.postMessage({
                 messageType: Message_Type.Show_WholeRanking,
-                page: page
+                page: page,
+                map: map,
             });
         }
     }
@@ -642,16 +647,32 @@ export default class WXCtr {
         }
     }
 
-    //提交分数到微信
-    static submitScoreToWx(score, location) {
+    static showMapsRecorder(){
         if (window.wx != undefined) {
-            console.log("主域发送消息____提交分数");
+            console.log("主域发送消息____显示地图得分记录者");
+            window.wx.postMessage({
+                messageType: Message_Type.Show_recorder,
+            });
+        } 
+    }
+
+    //提交分数到微信
+    static submitScoreToWx(_score1,_score2,_score3,_score4) {
+        console.log("log------------提交分数到微信 score1,score2,score3,score4",_score1,_score2,_score3,_score4);
+        if (window.wx != undefined) {
             window.wx.postMessage({
                 messageType: Message_Type.Submit_SelfScore,
-                SCORE_KEY: "Rank_SCORE",
-                score: score,
-                LOCATION_KEY: "LOACTION",
-                location: location
+                SCORE_KEY1: "map1Score",
+                score1: _score1,
+
+                SCORE_KEY2: "map2Score",
+                score2: _score2,
+
+                SCORE_KEY3: "map3Score",
+                score3: _score3,
+
+                SCORE_KEY4: "map4Score",
+                score4: _score4,
             });
         }
     }

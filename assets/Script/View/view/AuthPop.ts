@@ -17,7 +17,7 @@ export default class AuthPop extends PromptDialog {
         WXCtr.onUserInfoBtnTap((res)=>{
             if(res){
                 this.dismiss();
-                GameCtr.ins.mGame.showRanking();
+                GameCtr.getInstance().getStart().showRank();
             }
         });
     }

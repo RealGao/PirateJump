@@ -41,6 +41,7 @@ export default class NewClass extends cc.Component {
     showProgress(){
         let level=this.getAchievelevel();
         let valueTemp=this._value>=this._achieveConf[level].target?this._achieveConf[level].target:this._value;
+        console.log("log----------valueTemp=:",valueTemp);
         this._progress.getComponent(cc.ProgressBar).progress=valueTemp/this._achieveConf[level].target;
     }
 

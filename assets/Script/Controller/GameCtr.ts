@@ -10,6 +10,7 @@ import ViewManager from "../Common/ViewManager";
 import Start from "../View/start/Start";
 import Pirate from "../View/game/Pirate";
 import Shop from "../View/start/shop";
+import Toast from "../Common/Toast"
 import GameOver from "../View/game/GameOver";
 const { ccclass, property } = cc._decorator;
 
@@ -21,9 +22,10 @@ export default class GameCtr {
     public mPirate: Pirate;
     public mStart: Start;
     public mShop:Shop;
+    public mToast:Toast;
+    
 
     public static bannerId = null;
-
     public static score: number = 0;
     public static rankingEntrance = "Start";            //排行榜界面入口，默认开始界面
 
@@ -128,6 +130,14 @@ export default class GameCtr {
 
     getShop(){
         return this.mShop;
+    }
+
+    setToast(toast:Toast){
+        this.mToast=toast
+    }
+
+    getToast(){
+        return this.mToast;
     }
 
     setGameOver(gameOver: GameOver) {

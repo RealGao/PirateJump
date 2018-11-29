@@ -119,7 +119,7 @@ export default class NewClass extends cc.Component {
             this._btn_upLevel.active=true;
 
         }else{
-            ViewManager.toast("钻石不足");
+            GameCtr.getInstance().getToast().toast("钻石不足");
         }
     }
 
@@ -139,7 +139,7 @@ export default class NewClass extends cc.Component {
             this._btn_buy.active=false;
             this._btn_upLevel.active=true;
         }else{
-            ViewManager.toast("钻石不足");
+            GameCtr.getInstance().getToast().toast("钻石不足");
         }
     }
 

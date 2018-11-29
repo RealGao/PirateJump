@@ -48,7 +48,7 @@ export default class NewClass extends cc.Component {
                     GameData.jewelTimeCount=GameData.getJewelProductionCycle()*60;
                     this.updateJewel();
                 }else{
-                    ViewManager.toast("金币不足")
+                    GameCtr.getInstance().getToast().toast("金币不足")
                 }
             }
         })
