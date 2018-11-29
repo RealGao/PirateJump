@@ -117,6 +117,7 @@ export default class GameData {
     public static powerTime = 0;                                           //体力收集时间
     public static achievementsLevelData=[];                                //成就等级数据
     public static maxScoreData=[];                                         //各个地图的最大得分数据
+    public static userInfo=null;
 
    
 

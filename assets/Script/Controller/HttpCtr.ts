@@ -161,6 +161,7 @@ export default class HttpCtr {
                         callBack(resp.user);
                     } else {
                         console.log("log---------getUserInfo-----------resp=:",resp);
+                        GameData.userInfo=resp.user;
                         HttpCtr.compareData(resp.user);
                     }
                 }

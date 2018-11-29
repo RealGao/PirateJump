@@ -74,6 +74,9 @@ export default class Util {
         let str_len = 0;
         let str_cut = new String();
         str_len = str.length;
+        if(str_len<=len){
+            return str;
+        }
         for (var i = 0; i < str_len; i++) {
             let a = str.charAt(i);
             str_length++;

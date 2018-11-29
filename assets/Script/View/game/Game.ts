@@ -41,11 +41,21 @@ export default class Game extends cc.Component {
     lbGold: cc.Label = null;
     @property(cc.Label)
     lbTime: cc.Label = null;
+
     @property(cc.Label)
     lbCombo: cc.Label = null;
 
+    @property(cc.Label)
+    lbDiamond:cc.Label=null;
+
+    @property(cc.Label)
+    lbName:cc.Label=null;
+
     @property(cc.Prefab)
     pfBgMusic:cc.Prefab=null;
+
+    @property(cc.Sprite)
+    spHead:cc.Sprite=null;
     
 
     @property(cc.Label)
@@ -69,6 +79,7 @@ export default class Game extends cc.Component {
     }
 
     start() {
+        this.initInfo();
         this.registerTouch();
         GameCtr.isGameOver = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
@@ -78,6 +89,14 @@ export default class Game extends cc.Component {
 
         AudioManager.getInstance().playSound("audio/gameStart", false);
         this.scheduleOnce(() => { GameCtr.playBgm(); }, 1.5);
+    }
+
+    initInfo(){
+        this.lbDiamond.string=GameData.diamond+'';
+        this.lbName.string=Util.cutstr(GameData.userInfo.nick,3);
+        if(GameData.userInfo.icon){
+            Util.loadImg(this.spHead,GameData.userInfo.icon);
+        } 
     }
 
     initBgMusic(){
