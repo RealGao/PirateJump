@@ -223,6 +223,7 @@ export default class Game extends cc.Component {
 
     gameOver() {
         this.ndGame.runAction(cc.fadeOut(0.5));
+        CollisionMgr.stopFit();
     }
 
 

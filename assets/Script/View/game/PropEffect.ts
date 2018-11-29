@@ -17,6 +17,8 @@ export default class PropEffect extends cc.Component {
     bombAni: cc.Animation = null;
     @property(cc.Animation)
     goldAni: cc.Animation = null;
+    @property(cc.Animation)
+    chestAni: cc.Animation = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -32,6 +34,10 @@ export default class PropEffect extends cc.Component {
 
     showGoldEffect() {
         this.goldAni.play();
+    }
+
+    showChestEffect() {
+        this.chestAni.play();
     }
 
     // update (dt) {}

@@ -179,7 +179,7 @@ export default class Pirate extends CollisionBase {
                     AudioManager.getInstance().playSound("audio/land", false);
                     break;
                 case CollisionBase.CollisionType.GOLD:
-                CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.GOLD);
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.GOLD);
                     CollisionMgr.removeProp(other.node);
                     GameCtr.ins.mGame.addGold();
                     if (this.magnetTime > 0) {
@@ -189,6 +189,7 @@ export default class Pirate extends CollisionBase {
                     AudioManager.getInstance().playSound("audio/gold", false);
                     break;
                 case CollisionBase.CollisionType.CHEST:
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.CHEST);
                     this.shakeChest = true;
                     other.node.runAction(cc.sequence(
                         cc.moveBy(0.025, cc.v2(-5, 0)),
@@ -297,7 +298,7 @@ export default class Pirate extends CollisionBase {
         this.beginJump = false;
         this.beginShoot = false;
         this.isInitial = false;
-        
+
         CollisionMgr.stopFit();
         this.judgeCombo();
 
@@ -339,7 +340,7 @@ export default class Pirate extends CollisionBase {
             this.lastIsland = island;
             CollisionMgr.moveIslandLayer(offset);
             let num = comp.idx - lastComp.idx;
-            for(let i=0; i<num; i++) {
+            for (let i = 0; i < num; i++) {
                 CollisionMgr.addIsland();
             }
         }

@@ -558,6 +558,9 @@ export default class CollisionMgr extends cc.Component {
             case CollisionBase.CollisionType.GOLD:
                 propEffect.showGoldEffect();
                 break;
+            case CollisionBase.CollisionType.CHEST:
+                propEffect.showChestEffect();
+                break;
             case CollisionBase.CollisionType.BOOM:
                 propEffect.showBombEffect();
                 CollisionMgr.mCollisionMgr.islandLayer.runAction(cc.sequence(
@@ -568,7 +571,7 @@ export default class CollisionMgr extends cc.Component {
                 break;
         }
 
-        setTimeout(()=>{CollisionMgr.mCollisionMgr.propEffectPool.put(nd)}, 2000);
+        setTimeout(() => { CollisionMgr.mCollisionMgr.propEffectPool.put(nd) }, 2000);
     }
 
     // 设置道具皮肤
