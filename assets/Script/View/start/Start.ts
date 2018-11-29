@@ -55,6 +55,9 @@ export default class Start extends cc.Component {
     @property(cc.Prefab)
     pfRank:cc.Prefab=null;
 
+    @property(cc.Prefab)
+    pfBgMusic:cc.Prefab=null;
+
     onLoad () {
         GameCtr.getInstance().setStart(this); 
         this.initNode();
@@ -64,16 +67,21 @@ export default class Start extends cc.Component {
     }
 
     startGame() {
+
         this.showGold();
         this.showDiamond();
         this.showPower();
+        this.initBgMusic();
         this.initPowerTime();
         this.getBonusDiamonds();
         this.updateBtnShopState();
         GameData.achievementsLevelData=GameData.getAchievementsLevelData();
-        console.log("log-----start achievementsLevelData=:",GameData.achievementsLevelData);
 
-        GameData.getAchieveBounusData()
+        WXCtr.onShow(() => {
+            WXCtr.isOnHide = false;
+            this.initBgMusic();
+        });
+        //GameData.getAchieveBounusData()
     }
 
     initNode(){
@@ -170,6 +178,18 @@ export default class Start extends cc.Component {
         this.showBtnMusicState();
     }
 
+    initBgMusic(){
+        while (cc.find("Canvas").getChildByTag(GameCtr.musicTag)) {
+            cc.find("Canvas").removeChildByTag(GameCtr.musicTag)
+        }
+        let music = cc.instantiate(this.pfBgMusic);
+        if (music) {
+            music.parent = cc.find("Canvas");
+            music.tag = GameCtr.musicTag;
+            music.getComponent("music").updatePlayState();
+        }
+    }
+
     initPowerTime(){
         let powerTimeCount=WXCtr.getStorageData("powerTime");
         console.log("log--------powerTimeCount=:",powerTimeCount);
@@ -259,6 +279,11 @@ export default class Start extends cc.Component {
             mask.active=true;
             AudioManager.getInstance().soundOn = false;
             AudioManager.getInstance().musicOn = false;
+        }
+
+        let music = cc.find("Canvas").getChildByTag(GameCtr.musicTag);
+        if (music) {
+            music.getComponent("music").updatePlayState();
         }
     }
 
