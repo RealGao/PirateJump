@@ -5,6 +5,8 @@ import Island from "./Island";
 import Props from "./Props";
 import GameData from "../../Common/GameData";
 import AudioManager from "../../Common/AudioManager";
+import Game from "./Game";
+import Util from "../../Common/Util";
 
 const { ccclass, property } = cc._decorator;
 
@@ -81,6 +83,8 @@ export default class Pirate extends CollisionBase {
     private sightTime = 0;                                  //瞄准时间
     private shakeChest = false;
 
+    private tmpGold = 0;                                    //每次跳跃临时金币数
+
     onLoad() {
         GameCtr.getInstance().setPirate(this);
     }
@@ -125,7 +129,7 @@ export default class Pirate extends CollisionBase {
             this.gravity = -800;
             this.islandLayerOrigin = GameCtr.ins.mGame.ndIslandLayer.position;
             let selfWPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-            if(!this.node.parent.parent) {
+            if (!this.node.parent.parent) {
                 cc.log("something wrong!!!!!!!!!!!!");
             }
             let parentWPos = this.node.parent.parent.convertToWorldSpaceAR(this.node.parent.position);
@@ -175,11 +179,13 @@ export default class Pirate extends CollisionBase {
                     AudioManager.getInstance().playSound("audio/land", false);
                     break;
                 case CollisionBase.CollisionType.GOLD:
+                CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.GOLD);
                     CollisionMgr.removeProp(other.node);
                     GameCtr.ins.mGame.addGold();
-                    if(this.magnetTime > 0) {
+                    if (this.magnetTime > 0) {
                         GameData.flyingGold++;
                     }
+                    this.tmpGold++;
                     AudioManager.getInstance().playSound("audio/gold", false);
                     break;
                 case CollisionBase.CollisionType.CHEST:
@@ -197,46 +203,60 @@ export default class Pirate extends CollisionBase {
                             this.shakeChest = false;
                         }),
                     ));
-                    if(GameData.currentRole == 1) {
+                    this.tmpGold += 10;
+                    if (GameData.currentRole == 1) {
                         GameData.hitBox++;
-                    }else if(GameData.currentRole == 2) {
+                    } else if (GameData.currentRole == 2) {
                         GameData.captainHitBox++;
                     }
                     AudioManager.getInstance().playSound("audio/propChest", false);
+                    let collision = other.node.getComponent(cc.BoxCollider);
+                    collision.enabled = false;
                     break;
                 case CollisionBase.CollisionType.ALARM:
                     CollisionMgr.removeProp(other.node);
                     GameCtr.ins.mGame.addTime(10);
-                    if(GameData.currentRole == 3) {
+                    if (GameData.currentRole == 3) {
                         GameData.gatherTimer++;
                     }
                     AudioManager.getInstance().playSound("audio/propTime", false);
+                    GameCtr.ins.mGame.showPropEffect(Game.GoodsType.ALARM);
+                    this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.MAGNET:
                     this.showMagnet();
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
+                    GameCtr.ins.mGame.showPropEffect(CollisionBase.CollisionType.MAGNET);
+                    this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.SHIELD:
                     this.showShield();
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
+                    GameCtr.ins.mGame.showPropEffect(CollisionBase.CollisionType.SHIELD);
+                    this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.SIGHT:
                     this.showSight();
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
+                    GameCtr.ins.mGame.showPropEffect(CollisionBase.CollisionType.SIGHT);
+                    this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.ROTATE:
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
+                    GameCtr.ins.mGame.showPropEffect(CollisionBase.CollisionType.ROTATE);
                     CollisionMgr.rightIsland();
+                    this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.BOOM:
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.BOOM);
                     CollisionMgr.removeProp(other.node);
                     if (this.shieldTime <= 0) {
                         GameCtr.ins.mGame.addTime(-1);
-                    }else{
+                    } else {
                         GameData.dismantleBomb++;
                     }
                     AudioManager.getInstance().playSound("audio/propBomb", false);
@@ -277,11 +297,11 @@ export default class Pirate extends CollisionBase {
         this.beginJump = false;
         this.beginShoot = false;
         this.isInitial = false;
-        this.ndLine.active = true;
-        CollisionMgr.addIsland();
+        
         CollisionMgr.stopFit();
         this.judgeCombo();
 
+        this.tmpGold = 0;
         this.jumpTime = 0;
         this.moveDt = 0;
         let comp: Island = island.getComponent(Island);
@@ -295,7 +315,7 @@ export default class Pirate extends CollisionBase {
         let distance = comp.radius + 15;
         let x = island.x + distance * Math.sin(radian);
         let y = island.y + distance * Math.cos(radian);
-        selfWPos = island.parent.convertToWorldSpaceAR(cc.v2(x,y));
+        selfWPos = island.parent.convertToWorldSpaceAR(cc.v2(x, y));
 
         let cPos = island.convertToNodeSpaceAR(selfWPos);
         this.node.position = cPos;
@@ -305,6 +325,7 @@ export default class Pirate extends CollisionBase {
             this.landOnCannon = true;
         } else {
             this.landOnCannon = false;
+            this.ndLine.active = true;
         }
 
         let tmpPos = GameCtr.ins.mGame.ndIslandLayer.position;
@@ -317,12 +338,29 @@ export default class Pirate extends CollisionBase {
             lastComp.isLanded = true;
             this.lastIsland = island;
             CollisionMgr.moveIslandLayer(offset);
+            let num = comp.idx - lastComp.idx;
+            for(let i=0; i<num; i++) {
+                CollisionMgr.addIsland();
+            }
         }
 
         if (comp.type == Island.IslandType.Cannon) {
-            this.node.position = cc.v2(-8, -3);
+            this.node.position = cc.v2(-6, 0);
+            let mask = Util.findChildByName("Root", island);
+            mask.zIndex = 100;
+            this.node.zIndex = 1;
             AudioManager.getInstance().playSound("audio/cannon", false);
-            this.scheduleOnce(() => { this.shoot(); }, 1.0);
+            let ani = island.getChildByName("Root").getComponent(cc.Animation);
+            ani.play();
+            this.node.runAction(cc.sequence(
+                cc.delayTime(0.5),
+                cc.moveBy(0.2, cc.v2(0, 30)),
+                cc.delayTime(0.2),
+                cc.moveBy(0.2, cc.v2(0, 10)),
+                cc.delayTime(0.2),
+                cc.moveBy(0.2, cc.v2(0, 10)),
+            ));
+            this.scheduleOnce(() => { this.shoot(); }, 1.7);
         }
     }
 
@@ -330,10 +368,15 @@ export default class Pirate extends CollisionBase {
         if (this.lastIsland) {
             let lastComp: Island = this.lastIsland.getComponent(Island);
             if (lastComp.props.length == 0) {
-                GameCtr.ins.mGame.addCombo();
+                GameCtr.ins.mGame.addCombo(this.tmpGold);
             } else {
-                GameData.omitGold += lastComp.props.length;
-                GameCtr.ins.mGame.clearCombo();
+                if (GameData.prop_luckyGrass > 0) {
+                    GameData.prop_luckyGrass--;
+                    GameCtr.ins.mGame.showPropEffect(Game.GoodsType.LUCKY_GRASS);
+                } else {
+                    GameData.omitGold += lastComp.props.length;
+                    GameCtr.ins.mGame.clearCombo();
+                }
             }
         }
     }
@@ -342,9 +385,9 @@ export default class Pirate extends CollisionBase {
         let lastPos = this.node.position;
         let vx = this.vx;
         let vy = this.vy;
-        if(this.beginShoot) {
-            vx*=1.5;
-            vy*=1.5;
+        if (this.beginShoot) {
+            vx *= 1.5;
+            vy *= 1.5;
         }
         this.node.x = this.originPos.x + vx * this.moveDt;
         this.node.y = this.originPos.y + (vy * this.moveDt + this.gravity * this.moveDt * this.moveDt / 2);
@@ -352,26 +395,26 @@ export default class Pirate extends CollisionBase {
         let vector = cc.v2(cPos.x - lastPos.x, cPos.y - lastPos.y);
         let radian = cc.pAngleSigned(vector, cc.v2(0, 1));
         let rotation = cc.radiansToDegrees(radian);
-        if(!this.isInitial) {
+        if (!this.isInitial) {
             this.node.rotation = rotation;
         }
         let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         if (wPos.y < -520) {
             CollisionMgr.stopFit();
-            if(GameData.currentRole == 4) {
+            if (GameData.currentRole == 4) {
                 this.revive();
                 GameData.reviveTimes++;
-            }else if(GameData.prop_revive > 0) {
+            } else if (GameData.prop_revive > 0) {
                 this.revive();
-            }else{
+            } else {
                 AudioManager.getInstance().playSound("audio/dead", false);
                 GameCtr.isGameOver = true;
-                this.scheduleOnce(()=>{GameCtr.gameOver();}, 1.5);
+                this.scheduleOnce(() => { GameCtr.gameOver(); }, 1.5);
             }
         }
     }
 
-    
+
     revive() {
         this.isPirateAlive = false;
         this.vx = 0;
@@ -383,11 +426,12 @@ export default class Pirate extends CollisionBase {
         let tmpPos = GameCtr.ins.mGame.ndIslandLayer.position;
         let offset = cc.pSub(tmpPos, this.islandLayerOrigin);
         CollisionMgr.moveIslandLayer(offset);
-        this.scheduleOnce(()=>{
+        this.scheduleOnce(() => {
             this.isInitial = true;
             this.isPirateAlive = true;
         }, 0.5);
         AudioManager.getInstance().playSound("audio/revive", false);
+        GameCtr.ins.mGame.showPropEffect(Game.GoodsType.REVIVE);
     }
 
     // 显示瞄准线
@@ -409,7 +453,7 @@ export default class Pirate extends CollisionBase {
     }
 
     update(dt) {
-        if(GameCtr.isGameOver) return;
+        if (GameCtr.isGameOver) return;
         if ((this.beginJump || this.beginShoot) && !this.shakeChest && this.isPirateAlive) {
             this.moveDt += dt;
             this.movePirate(dt);
