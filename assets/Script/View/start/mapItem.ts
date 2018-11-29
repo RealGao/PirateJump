@@ -103,7 +103,7 @@ export default class NewClass extends cc.Component {
                 this.setLockState(true);
                 GameData.setMapStateByName(this._info.name,0)
             }else{
-                ViewManager.toast("金币不足");
+                GameCtr.getInstance().getToast().toast("金币不足");
             }
         }
 
@@ -117,7 +117,7 @@ export default class NewClass extends cc.Component {
                 this.setLockState(true);
                 GameData.setMapStateByName(this._info.name,0)
             }else{
-                ViewManager.toast("钻石不足");
+                GameCtr.getInstance().getToast().toast("钻石不足");
             }
         }
     }

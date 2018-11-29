@@ -93,6 +93,7 @@ export default class HttpCtr {
     static saveUserInfo(data) {
         Http.send({
             url: Http.UrlConfig.SAVE_INFO,
+            rootUrl:Http.UrlConfig.rootUrl,
             data:
                 {
                     uid: UserManager.user_id,
@@ -101,6 +102,7 @@ export default class HttpCtr {
                     iv: data.iv
                 },
             success: () => {
+                console.log("log------保存自己的信息（头像，昵称等）到服务器"); 
             }
         });
     }
@@ -340,16 +342,20 @@ export default class HttpCtr {
 
 
     //获取世界排行
-    static getWorldRankingList(callBack) {
+    static getWorldRankingList(callBack,type) {
         Http.send({
             url: Http.UrlConfig.GET_WORLDLIST,
+            rootUrl:Http.UrlConfig.rootUrl_dynamic,
             success: (resp) => {
-                callBack(resp);
+                console.log("log----------getWorldRankingList-->resp=:",resp);
+                if(callBack){
+                    callBack(resp);
+                }
             },
             data: {
                 uid: UserManager.user_id,
                 voucher: UserManager.voucher,
-                type: "level"
+                type: type
             }
         });
     }

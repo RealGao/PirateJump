@@ -52,7 +52,7 @@ export default class NewClass extends cc.Component {
                     GameCtr.getInstance().getShop().upBtnsState();
                     this.showCount();
                 }else{
-                    ViewManager.toast("钻石不足");
+                    GameCtr.getInstance().getToast().toast("钻石不足");
                 }
             }
         })

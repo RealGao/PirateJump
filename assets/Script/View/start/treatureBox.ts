@@ -10,9 +10,10 @@ import HttpCtr from "../../Controller/HttpCtr";
 const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
-    _btn_close=null;
+    _bg=null;
+    _btn_fight=null;
+    _btn_return=null;
     _btn_open=null;
-    _btn_buy=null;
     _btn_watchVedio=null;
     _tipNode=null;
     _bonusNode=null;
@@ -20,15 +21,13 @@ export default class NewClass extends cc.Component {
     _lb_timeCount=null;
     _lottery=null;
     _progress=null;
-    _bonusArr=[];
+    _bonusPosArr=[];
     _bonusData=[];
     _bonusTimesArr=[];
     _timeCount=0;
     _isLotterying=false;
-
-    _tipWatchVedio=null;
-    _tipBuy=null;
-
+    _icon_time0=null;
+    _icon_time1=null;
     _hour=-1;
     _min=-1;
     _sec=-1;
@@ -37,8 +36,8 @@ export default class NewClass extends cc.Component {
         this.initLotteryTimes();
         this.initData();
         this.initNode();
-        this.initBonus();
         this.caculateTimeCount();
+        this.opAction();
     }
 
     initLotteryTimes(){
@@ -59,55 +58,59 @@ export default class NewClass extends cc.Component {
 
     initData(){
         this._bonusData=[
-            {gold:0,   diamond:10, propIndex:-1},
-            {gold:0,   diamond:0,  prop:"prop_revive"},//"复活"
-            {gold:100, diamond:0,  propIndex:-1},
-            {gold:0,   diamond:20, propIndex:-1},
-            {gold:0,   diamond:0,  prop:"prop_speedUp"},//转速
-            {gold:200, diamond:0,  propIndex:-1},
-            {gold:0,   diamond:50, propIndex:-1},
-            {gold:0,   diamond:0,  prop:"prop_luckyGrass"},//幸运草
-            {gold:200, diamond:0,  propIndex:-1},
-            {gold:0,   diamond:0,  prop:"prop_time"},//加时器
+            {gold:0,   diamond:10, prop:null,             des:"获取10颗钻石"},
+            {gold:0,   diamond:0,  prop:"prop_revive",    des:"获取复活道具"},
+            {gold:100, diamond:0,  prop:null,             des:"获取100颗金币"},
+            {gold:0,   diamond:20, prop:null,             des:"获取20颗钻石"},
+            {gold:0,   diamond:0,  prop:"prop_speedUp",   des:"获取加速道具"},
+            {gold:200, diamond:0,  prop:null,             des:"获取200颗金币"},
+            {gold:0,   diamond:50, prop:null,             des:"获取50颗钻石"},
+            {gold:0,   diamond:0,  prop:"prop_luckyGrass",des:"获取幸运草道具"},
+            {gold:500, diamond:0,  prop:null,             des:"获取500颗金币"},
+            {gold:0,   diamond:0,  prop:"prop_time",      des:"获取加时器道具"},
         ]
+
+        this._bonusPosArr=[{x:-172,y:132},{x:-53,y:132},{x:63,y:132},{x:179,y:132},{x:179,y:13},
+                            {x:179,y:-105},{x:63,y:-105},{x:-53,y:-105},{x:-172,y:-105},{x:-172,y:13}]
     }
 
     initNode(){
-        this._tipNode=this.node.getChildByName("tipNode");
-        this._bonusNode=this.node.getChildByName("bonusNode");
-        this._btn_close=this.node.getChildByName('btn_close');
-        this._btn_open=this.node.getChildByName('btn_open');
-        this._btn_buy=this.node.getChildByName('btn_buy');
-        this._btn_watchVedio=this.node.getChildByName('btn_watchVedio');
+        this._bg=this.node.getChildByName("bg");
+        this._btn_fight=this.node.getChildByName("btn_fight");
+        this._btn_return=this.node.getChildByName("btn_return");
 
-        this._lb_surplusTimes=this.node.getChildByName("lb_surplusTimes");
-        this._lb_timeCount=this.node.getChildByName("lb_timeCount");
-        this._lottery=this.node.getChildByName("lottery");
+        this._icon_time0=this._bg.getChildByName("icon_time0");
+        this._icon_time1=this._bg.getChildByName("icon_time1");
+
+        this._tipNode=this._bg.getChildByName("tipNode");
+        this._bonusNode=this._bg.getChildByName("bonusNode");
+        this._btn_open=this._bg.getChildByName('btn_open');
+        this._btn_watchVedio=this._bg.getChildByName('btn_watchVedio');
+
+        this._lb_surplusTimes=this._bg.getChildByName("lb_surplusTimes");
+        this._lb_timeCount=this._bg.getChildByName("lb_timeCount");
+        this._lottery=this._bg.getChildByName("lottery");
         this._progress=this._tipNode.getChildByName("progress");
-        this._tipWatchVedio=this._tipNode.getChildByName('tip01');
-        this._tipBuy=this._tipNode.getChildByName("tip02");
 
-        this.initBtnEvent(this._btn_close);
+        this.initBtnEvent(this._btn_fight);
+        this.initBtnEvent(this._btn_return);
         this.initBtnEvent(this._btn_open);
-        this.initBtnEvent(this._btn_buy);
         this.initBtnEvent(this._btn_watchVedio);
 
         if (!WXCtr.videoAd || GameCtr.surplusVideoTimes <= 0) {
             this._btn_watchVedio.active = false;
-            this._tipWatchVedio.active=false;
-            this._btn_buy.x=0;
-            this._tipBuy.x=0;
+            this._icon_time0.active=false;
+            this._icon_time1.active=false;
         }
-
         this.setLotteryTimes();
     }
 
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             AudioManager.getInstance().playSound("audio/click", false);
-            if(e.target.getName()=="btn_close"){
+            if(e.target.getName()=="btn_return"){
                 if(this._isLotterying){
-                    ViewManager.toast("宝箱开启中.....");
+                    GameCtr.getInstance().getToast().toast("宝箱开启中.....");
                     return;
                 }
                 this.node.destroy();
@@ -115,10 +118,10 @@ export default class NewClass extends cc.Component {
                 if(!this._isLotterying){
                     this.doLottery();
                 }else {
-                    ViewManager.toast("宝箱开启中.....");
+                    GameCtr.getInstance().getToast().toast("宝箱开启中.....");
                 }
-            }else if(e.target.getName()=="btn_buy"){
-                this.buyLotteryTimes();
+            }else if(e.target.getName()=="btn_fight"){
+                cc.director.loadScene("Game");
             }else if(e.target.getName()=="btn_watchVedio"){
                 if (WXCtr.videoAd) {
                     WXCtr.showVideoAd();
@@ -129,7 +132,7 @@ export default class NewClass extends cc.Component {
                             GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
                             this.setLotteryTimes();
                         }else{
-                            ViewManager.toast("视频未看完");
+                            GameCtr.getInstance().getToast().toast("视频未看完");
                         }
                     });
                     HttpCtr.clickStatistics(GameCtr.StatisticType.OFF_LINE_VEDIO);          //离线视频收益点击统计
@@ -138,13 +141,7 @@ export default class NewClass extends cc.Component {
         })
     }
 
-    initBonus(){
-        for(let i=0;i<10;i++){
-            let bonus=this._bonusNode.getChildByName("bonus"+i);
-            let bonusName=bonus.getChildByName("lbName");
-            this._bonusArr.push(bonus);
-        }
-    }
+
 
     setLotteryTimes(){
         this._lb_surplusTimes.getComponent(cc.Label).string="("+GameData.lotteryTimes+"/"+10+")";
@@ -153,13 +150,9 @@ export default class NewClass extends cc.Component {
 
 
     doLottery(){
-        if(this.isAirPortFull()){
-            ViewManager.toast("没有空的机位");
-            return;
-        }
 
         if(GameData.lotteryTimes<=0){
-            ViewManager.toast("开宝箱次数不足");
+            GameCtr.getInstance().getToast().toast("开宝箱次数不足");
             return;
         }
         this._isLotterying=true;
@@ -184,11 +177,10 @@ export default class NewClass extends cc.Component {
                     index++;
                     currentIndex++;
                     currentIndex=currentIndex>=10?0:currentIndex;
-                    this._lottery.x=this._bonusArr[currentIndex].x;
-                    this._lottery.y=this._bonusArr[currentIndex].y;
+                    this._lottery.x=this._bonusPosArr[currentIndex].x;
+                    this._lottery.y=this._bonusPosArr[currentIndex].y;
                     if(index==random){
                         this.getBonus(currentIndex)
-                        //GameData.setMissonData("boxTimes", GameData.missionData.boxTimes+1);
                     }
                 })
             ))
@@ -197,59 +189,38 @@ export default class NewClass extends cc.Component {
 
 
     getLotteryIndex(){
-        for(let i=0;i<this._bonusArr.length;i++){
-            if(this._lottery.x==this._bonusArr[i].x && this._lottery.y==this._bonusArr[i].y){
+        for(let i=0;i<this._bonusPosArr.length;i++){
+            if(this._lottery.x==this._bonusPosArr[i].x && this._lottery.y==this._bonusPosArr[i].y){
                 return i;
             }
         }
         return null;
     }
 
-    buyLotteryTimes(){
-        if(GameData.lotteryTimes==10){
-            ViewManager.toast("开宝箱次数已满");
-        }
 
-        if(GameData.diamond>=50){
-            GameData.lotteryTimes++;
-            GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
-            this.setLotteryTimes();
-            GameData.diamond-=50
-            GameCtr.getInstance().getStart().showDiamond();;
-        }else{
-            ViewManager.toast("钻石不足");
-        }
-    }
 
     getBonus(index){
         this._isLotterying=false;
         let bonus=this._bonusData[index];
-        if(bonus.airLevel>0){
-            for(let i=0;i<GameCtr.selfPlanes.length;i++){
-                if(GameCtr.selfPlanes[i]==0){
-                    GameCtr.selfPlanes[i]=bonus.airLevel;
-                    ViewManager.toast("获得"+bonus.airLevel+"级飞机");
-                    GameCtr.getInstance().getGame().addPlane(bonus.airLevel);
-                    return;
-                }
-            }
-            ViewManager.toast("没有空的机位");
-        }
 
         if(bonus.diamond>0){
-            GameData.diamonds+=bonus.diamond;
-            GameCtr.getInstance().getGame().setDiamonds();
-            ViewManager.toast("获得"+bonus.diamond+"钻石"); 
+            GameData.diamond+=bonus.diamond;
+            GameCtr.getInstance().getStart().showDiamond();
         }
-    }
 
-    isAirPortFull(){
-        for(let i=0;i<GameCtr.selfPlanes.length;i++){
-            if(GameCtr.selfPlanes[i]<=0){
-                return false;
-            }
+        if(bonus.gold>0){
+            GameData.gold+=bonus.gold;
+            GameCtr.getInstance().getStart().showGold();
         }
-        return true;
+
+        if(bonus.prop){
+            if(GameData[bonus.prop]>=10){
+                GameCtr.getInstance().getToast().toast("该道具已满"); 
+                return;
+            }
+            GameData[bonus.prop]+=1;
+        }
+        GameCtr.getInstance().getToast().toast(bonus.des); 
     }
 
     caculateTimeCount(){
@@ -289,6 +260,13 @@ export default class NewClass extends cc.Component {
         },1);
     }
 
-
+    opAction(){
+        this._bg.scale=0.2;
+        this._bg.stopAllActions();
+        this._bg.runAction(cc.sequence(
+            cc.scaleTo(0.1,1.1),
+            cc.scaleTo(0.05,1.0),
+        ))
+    }
 
 }

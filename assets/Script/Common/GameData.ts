@@ -53,8 +53,7 @@ const dataKeyConfig = {
     homeWorld_prop1: "data2_6",                                                  //家园道具2
     homeWorld_prop2: "data2_7",                                                  //家园道具3
     homeWorld_prop3: "data2_8",                                                  //家园道具4
-
-    maxScore: "data2_9",                                                        //最高分纪录
+    maxScore: "data2_9",                                                         //最高分纪录
 };
 
 
@@ -106,12 +105,20 @@ export default class GameData {
     private static _homeWorld_prop1: number = 0;                            //家园道具2
     private static _homeWorld_prop2: number = 0;                            //家园道具3
     private static _homeWorld_prop3: number = 0;                            //家园道具4
+    private static _maxScore: number = 0;                                   //最高分纪录
+
+    private static _level1=null;                                            //地图1最大得分
+    private static _level2=null;                                            //地图2最大得分
+    private static _level3=null;                                            //地图3最大得分
+    private static _level4=null;                                            //地图4最大得分
+    private static _lotteryTimes=0;                                          //宝箱开箱次数
 
     public static jewelTimeCount = 0;                                      //宝石收集倒计时
     public static powerTime = 0;                                           //体力收集时间
-    public static lotteryTimes=0;                                          //宝箱开箱次数
+    public static achievementsLevelData=[];                                //成就等级数据
+    public static maxScoreData=[];                                         //各个地图的最大得分数据
 
-    private static _maxScore: number = 0;                                  //最高分纪录
+   
 
     static rolesDes=[
         { title:"路飞船长", des:"传说是海盗王和海之女神的孩子，天生的\n海盗\n\n未知原因，无法觉醒天赋"},
@@ -132,9 +139,9 @@ export default class GameData {
    
     static mapsInfo = [
         { name: "map0", title:"新手图",  gold_price: 0,      diamond_price: 0,    rate: [200, 600, 900],   des:"比较安全的小岛，刚刚开发出来\n\n比较简单，道具较少"},
-        { name: "map1", title:"高手图",  gold_price: 2000,   diamond_price: 0,    rate: [800, 1100, 1350], des:"有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容"},
-        { name: "map2", title:"职业图",  gold_price: 0,      diamond_price: 2000, rate: [700, 1100, 1200], des:"危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多"},
-        { name: "map3", title:"无线模式", gold_price: 20000, diamond_price: 0,    rate: [-1, -1, -1],      des:"知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好"}
+        { name: "map1", title:"进阶图",  gold_price: 2000,   diamond_price: 0,    rate: [800, 1100, 1350], des:"有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容"},
+        { name: "map2", title:"挑战图",  gold_price: 0,      diamond_price: 2000, rate: [700, 1100, 1200], des:"危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多"},
+        { name: "map3", title:"无限模式", gold_price: 20000, diamond_price: 0,    rate: [-1, -1, -1],      des:"知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好"}
     ]
 
     static propsInfo = [
@@ -381,7 +388,7 @@ export default class GameData {
             hitBox = 0;
         }
         GameData._hitBox = hitBox;
-        GameData.setUserData({ omitGold: GameData._hitBox })
+        GameData.setUserData({ hitBox: GameData._hitBox })
     }
     //获取头铁（刀妹撞箱子数量）
     static get hitBox() {
@@ -780,6 +787,66 @@ export default class GameData {
         return GameData._maxScore;
     }
 
+    //设置地图1最高得分
+    static set level1(score){
+        if(!score){return }
+
+        if(score<0){
+            score=0;
+        }
+        GameData._level1=score;
+        GameData.setUserData({ level1: GameData._level1 });
+    }
+
+    //获取地图1最高得分
+    static get level1(){
+        return GameData._level1;
+    }
+
+    //设置地图2排行数据
+    static set level2(score){
+        if(!score){return }
+        if(score<0){
+            score=0;
+        }
+        GameData._level2=score;
+        GameData.setUserData({ level2: GameData._level2 });
+    }
+
+    //获取地图2最高得分
+    static get level2(){
+        return GameData._level2;
+    }
+
+    //设置地图3排行数据
+    static set level3(score){
+        if(!score){return }
+        if(score<0){
+            score=0;
+        }
+        GameData._level3=score;
+        GameData.setUserData({ level3: GameData._level3 });
+    }
+
+    //获取地图3最高得分
+    static get level3(){
+        return GameData._level3;
+    }
+
+    //设置地图4最高得分
+    static set level4(score){
+        if(!score){return }
+        if(score<0){
+            score=0;
+        }
+        GameData._level4=score;
+        GameData.setUserData({ level4: GameData._level4 });
+    }
+    //获取地图4最高得分
+    static get level4(){
+        return GameData._level4;
+    }
+
     //获取收集到的金币
     static get collectGolds(){
         let collectGolds=0;
@@ -873,6 +940,13 @@ export default class GameData {
         GameData.homeWorld_prop2 = WXCtr.getStorageData("homeWorld_prop2", 0);
         GameData.homeWorld_prop3 = WXCtr.getStorageData("homeWorld_prop3", 0);
 
+        GameData.maxScore= WXCtr.getStorageData("maxScore", 0);
+
+        GameData.level1=WXCtr.getStorageData("level1", null);
+        GameData.level2=WXCtr.getStorageData("level2", null);
+        GameData.level3=WXCtr.getStorageData("level3", null);
+        GameData.level4=WXCtr.getStorageData("level4", null);
+
         GameCtr.getInstance().getStart().startGame();
     }
 
@@ -922,6 +996,11 @@ export default class GameData {
         GameData.homeWorld_prop2 = data.data2_7;
         GameData.homeWorld_prop3 = data.data2_8;
 
+        GameData.level1=data.level1;
+        GameData.level2=data.level2;
+        GameData.level3=data.level3;
+        GameData.level4=data.level4;
+
         GameData.setUserData({ lastTime: data.data2_2 });
         HttpCtr.submitUserData({});
         GameCtr.getInstance().getStart().startGame()
@@ -942,17 +1021,20 @@ export default class GameData {
         HttpCtr.submitUserData(data);
     }
 
-
-    static submitGameData() {
-        HttpCtr.submitUserData({
-            gold: GameData._gold,
-            money: GameData._diamond,
-        });
-        let city = "未知";
-        if (UserManager.user.city) city = UserManager.user.city;
-        WXCtr.submitScoreToWx(GameData.maxFightGold, city);
+    // 设置宝箱抽奖次数
+    static set lotteryTimes(lotteryTimes) {
+        if (lotteryTimes < 0) {
+            GameData._lotteryTimes = 0;
+        }
+        GameData._lotteryTimes = lotteryTimes;
+        localStorage.setItem("lottery", JSON.stringify({ day: Util.getCurrTimeYYMMDD(), times: GameData._lotteryTimes }))
     }
 
+    // 获取宝箱抽奖次数
+    static get lotteryTimes() {
+        return GameData._lotteryTimes;
+    }
+    
 
     static getRoleLevelInfoByName(roleName) {
         let key = "gold_" + roleName;
@@ -1038,7 +1120,6 @@ export default class GameData {
                 GameData.gold_crutch+=num;;
                 break;
             case 5:
-
                 break;
         }
     }
@@ -1194,6 +1275,70 @@ export default class GameData {
     }
 
 
+    static getAchievementsLevelData(){
+        let achieveLevelArr=[];
+        for(let i =0;i<GameData.achievementsConf.length;i++){
+            let achieveLevel=GameData.getAchieveLevel(GameData.achievementsConf[i].valueName,GameData.achievementsConf[i].confName);
+            achieveLevelArr.push(achieveLevel);
+        }
+        return achieveLevelArr;
+    }
+
+    static getAchieveLevel(valueName,confName){
+        for(let i=0;i<GameData[confName].length;i++){
+            if(GameData[valueName]<GameData[confName][i].target){
+                return i;
+            }
+        }
+
+        return GameData[confName].length-1
+    }
+
+    static getAchieveBounusData(){
+        let achivementLevelupArr=[];
+        let achieveBounusData=[];
+        let achievementsLevelData=GameData.getAchievementsLevelData();
+        for(let i=0;i<achievementsLevelData.length;i++){
+            if(achievementsLevelData[i]>GameData.achievementsLevelData[i]){
+                for(let level=GameData.achievementsLevelData[i];level<achievementsLevelData[i];level++){
+                    achivementLevelupArr.push({_id:i,_level:level});
+                }
+            }
+        }
+
+        for(let i=0;i<achivementLevelupArr.length;i++){
+            for(let j=0;j<GameData.achievementsConf.length;j++){
+                if(achivementLevelupArr[i]._id==GameData.achievementsConf[j].id){
+                    for(let k=0;k<GameData[GameData.achievementsConf[j].confName].length;k++){
+                        if(achivementLevelupArr[i]._level==k){
+                            let data={
+                                title:GameData[GameData.achievementsConf[j].confName][k].title,
+                                des:GameData[GameData.achievementsConf[j].confName][k].des,
+                                bonus:GameData[GameData.achievementsConf[j].confName][k].bonus,
+                            }
+                            achieveBounusData.push(data)
+                        }
+                    }
+                }
+            }
+        }
+
+        GameData.achievementsLevelData=GameData.getAchievementsLevelData();
+        return achieveBounusData;
+    }
 
 
+    static submitScore(score){
+        console.log("log--------currentMap=",GameData.currentMap);
+        let key="level"+(GameData.currentMap+1);
+        if(!GameData[key]){
+            GameData[key]=score;
+            WXCtr.submitScoreToWx(GameData.level1,GameData.level2,GameData.level3,GameData.level4);
+        }else{
+            //if(score>GameData[key]){
+                GameData[key]=score;
+                WXCtr.submitScoreToWx(GameData.level1,GameData.level2,GameData.level3,GameData.level4);
+            //}
+        }
+    }
 }

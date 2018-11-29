@@ -1,6 +1,9 @@
 import GameCtr from "../../Controller/GameCtr";
 import WXCtr from "../../Controller/WXCtr";
 import GameData from "../../Common/GameData";
+import Toast from "../../Common/Toast";
+import HttpCtr from "../../Controller/HttpCtr";
+import ViewManager from "../../Common/ViewManager";
 const {ccclass, property} = cc._decorator;
 declare let require: any;
 @ccclass
@@ -31,26 +34,29 @@ export default class Start extends cc.Component {
     bgSpriteFrames:cc.SpriteFrame[]=[];
 
     @property(cc.Prefab)
-    help:cc.Prefab=null;
+    pfHelp:cc.Prefab=null;
 
     @property(cc.Prefab)
-    achievement:cc.Prefab=null;
+    pfAchievement:cc.Prefab=null;
 
     @property(cc.Prefab)
-    shop:cc.Prefab=null;
+    pfShop:cc.Prefab=null;
 
     @property(cc.Prefab)
     ad:cc.Prefab=null;
 
     @property(cc.Prefab)
-    treatureBox:cc.Prefab=null;
+    pfTreatureBox:cc.Prefab=null;
+
+    @property(cc.Prefab)
+    pfRank:cc.Prefab=null;
 
     onLoad () {
         GameCtr.getInstance().setStart(this); 
         this.initNode();
         this.initSoundState();
         this.showBgSprite(0);
-        
+        WXCtr.getFriendRankingData();
     }
 
     startGame() {
@@ -60,6 +66,10 @@ export default class Start extends cc.Component {
         this.initPowerTime();
         this.getBonusDiamonds();
         this.updateBtnShopState();
+        GameData.achievementsLevelData=GameData.getAchievementsLevelData();
+        console.log("log-----start achievementsLevelData=:",GameData.achievementsLevelData);
+
+        GameData.getAchieveBounusData()
     }
 
     initNode(){
@@ -122,10 +132,9 @@ export default class Start extends cc.Component {
                 localStorage.setItem("musicState",GameCtr.musicState+'')
                 this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
-                GameData.gold=200000;
-                GameData.diamond=10000;
-                GameData.jewelLevel=1;
                 //this.showHelp();
+                GameData.gold=100000;
+                GameData.diamond=50000;
             }else if(e.target.getName()=="btn_start"){
                 GameCtr.gameStart();
             }else if(e.target.getName()=="btn_invite"){
@@ -140,6 +149,8 @@ export default class Start extends cc.Component {
 
             }else if(e.target.getName()=="btn_addPower"){
 
+            }else if(e.target.getName()=="btn_rank"){
+                this.showRank();
             }
         })
     }
@@ -188,7 +199,7 @@ export default class Start extends cc.Component {
         if(cc.find("Canvas").getChildByName("help")){
             return;
         }
-        let help=cc.instantiate(this.help);
+        let help=cc.instantiate(this.pfHelp);
         help.parent=cc.find("Canvas")
     }
 
@@ -196,7 +207,7 @@ export default class Start extends cc.Component {
         if(cc.find("Canvas").getChildByName("achievement")){
             return;
         }
-        let achievement=cc.instantiate(this.achievement);
+        let achievement=cc.instantiate(this.pfAchievement);
         achievement.parent=cc.find("Canvas");
         achievement.setLocalZOrder(10);
     }
@@ -206,16 +217,32 @@ export default class Start extends cc.Component {
         if(cc.find("Canvas").getChildByName("shop")){
             return;
         }
-        let shop=cc.instantiate(this.shop);
+        let shop=cc.instantiate(this.pfShop);
         shop.parent=cc.find("Canvas");
+    }
+
+    showRank(){
+        if (WXCtr.authed) {
+            if(cc.find("Canvas").getChildByName("rank")){
+                return;
+            }
+            let rank=cc.instantiate(this.pfRank);
+            rank.parent=cc.find("Canvas");
+            rank.setLocalZOrder(10);
+            HttpCtr.clickStatistics(GameCtr.StatisticType.RANKING);                               //排行榜点击统计
+        } else {
+            ViewManager.showAuthPop();
+        }
+        
     }
 
     showTreatureBox(){
         if(cc.find("Canvas").getChildByName("treatureBox")){
             return;
         }
-        let treatrueBox=cc.instantiate(this.treatureBox);
+        let treatrueBox=cc.instantiate(this.pfTreatureBox);
         treatrueBox.parent=cc.find("Canvas");
+        treatrueBox.setLocalZOrder(10);
     }
 
     showBtnMusicState(){
