@@ -4,6 +4,8 @@ import Island from "./Island";
 import Util from "../../Common/Util";
 import Props from "./Props";
 import GameData from "../../Common/GameData";
+import PropEffect from "./PropEffect";
+import CollisionBase from "./CollisionBase";
 
 
 const { ccclass, property } = cc._decorator;
@@ -39,6 +41,8 @@ export default class CollisionMgr extends cc.Component {
     pfCannonIsland: cc.Prefab = null;
     @property(cc.Prefab)
     pfProp: cc.Prefab = null;
+    @property(cc.Prefab)
+    pfPropEffect: cc.Prefab = null;
     // LIFE-CYCLE CALLBACKS:
 
     @property([cc.SpriteFrame])
@@ -48,6 +52,7 @@ export default class CollisionMgr extends cc.Component {
     private wheelIslandPool;
     private cannonIslandPool;
     private propPool;
+    private propEffectPool;
 
     private fitLayer = false;
     private fitVx = 0;
@@ -83,6 +88,7 @@ export default class CollisionMgr extends cc.Component {
         this.wheelIslandPool = NodePoolManager.create(this.pfWheelIsland);
         this.cannonIslandPool = NodePoolManager.create(this.pfCannonIsland);
         this.propPool = NodePoolManager.create(this.pfProp);
+        this.propEffectPool = NodePoolManager.create(this.pfPropEffect);
     }
 
     // 添加小岛
@@ -122,10 +128,14 @@ export default class CollisionMgr extends cc.Component {
         } else if (randType <= 15) {
             comp.setType(Island.IslandType.Normal);
         } else if (randType > 15 && randType <= 19) {
-            comp.setType(Island.IslandType.Vertical);
+            if (lastComp.type != Island.IslandType.Cannon) {
+                comp.setType(Island.IslandType.Vertical);
+            } else {
+                comp.setType(Island.IslandType.Normal);
+            }
         }
         let idx = Math.floor(Math.random() * CollisionMgr.mCollisionMgr.islandFrames.length);
-        
+
         comp.setWheel(idx);
         island.parent = GameCtr.ins.mGame.ndIslandLayer;
         CollisionMgr.mCollisionMgr.setIslandPostion(island);
@@ -147,12 +157,9 @@ export default class CollisionMgr extends cc.Component {
                         rotation = Math.random() * 10 + 35;
                         time = Math.random() * 2 / 10 + 0.7;
                         addNum = 60;
-                    } else if (rNum >= 2 && rNum < 7.5) {
+                    } else if (rNum >= 2 && rNum < 8) {
                         rotation = Math.random() * 30 + 50;
                         time = Math.random() * 1 / 10 + 0.6;
-                    } else if (rNum >= 7.5 && rNum > 8) {
-                        rotation = Math.random() * 5 + 25;
-                        time = Math.random() * 1 / 10 + 1.3;
                     } else {
                         rotation = Math.random() * 40 + 90;
                         time = Math.random() * 1 / 10 + 0.6;
@@ -453,7 +460,7 @@ export default class CollisionMgr extends cc.Component {
 
     // 增加道具
     static addProp(posArr, lastIsland) {
-        if(posArr.length == 0) {
+        if (posArr.length == 0) {
             return;
         }
         let data = CollisionMgr.getPropRank();
@@ -528,7 +535,7 @@ export default class CollisionMgr extends cc.Component {
     static addGold(posArr, propNum, startIdx, lastIsland) {
         for (let i = startIdx; i < propNum + startIdx; i++) {
             let info = posArr[i];
-            if(!info) {
+            if (!info) {
                 cc.log("idx wrong!!!!!!");
             }
             let gold = CollisionMgr.mCollisionMgr.propPool.get();
@@ -540,6 +547,28 @@ export default class CollisionMgr extends cc.Component {
             comp.shake(info.time);
             lastIsland.props.push(gold);
         }
+    }
+
+    static addPropEffect(pos, type) {
+        let nd = CollisionMgr.mCollisionMgr.propEffectPool.get();
+        nd.parent = CollisionMgr.mCollisionMgr.islandLayer;
+        nd.position = pos;
+        let propEffect: PropEffect = nd.getComponent(PropEffect);
+        switch (type) {
+            case CollisionBase.CollisionType.GOLD:
+                propEffect.showGoldEffect();
+                break;
+            case CollisionBase.CollisionType.BOOM:
+                propEffect.showBombEffect();
+                CollisionMgr.mCollisionMgr.islandLayer.runAction(cc.sequence(
+                    cc.moveBy(0.06, cc.v2(0, 3)),
+                    cc.moveBy(0.12, cc.v2(0, -6)),
+                    cc.moveBy(0.06, cc.v2(0, 3)),
+                ));
+                break;
+        }
+
+        setTimeout(()=>{CollisionMgr.mCollisionMgr.propEffectPool.put(nd)}, 2000);
     }
 
     // 设置道具皮肤
@@ -608,7 +637,7 @@ export default class CollisionMgr extends cc.Component {
     }
 
     static fitIslandLayer(vx) {
-        if(GameCtr.isGameOver) return;
+        if (GameCtr.isGameOver) return;
         CollisionMgr.mCollisionMgr.fitLayer = true;
         CollisionMgr.mCollisionMgr.fitVx = vx;
     }
@@ -666,10 +695,10 @@ export default class CollisionMgr extends cc.Component {
     update(dt) {
         if (CollisionMgr.mCollisionMgr.fitLayer) {
             CollisionMgr.mCollisionMgr.islandLayer.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
-            for(let i=0; i<CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
+            for (let i = 0; i < CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
                 let nd = CollisionMgr.mCollisionMgr.ndBg.children[i];
-                nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt/2;
-                if(nd.x <= -1461) {
+                nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
+                if (nd.x <= -1461) {
                     nd.x += 1842;
                 }
             }

@@ -84,9 +84,45 @@ export default class GameOver extends cc.Component {
 
         this.lbBest.string = GameData.maxScore + "";
 
-        GameData.gold += this.roleData._level * 10+ score;
-        this.lbGold.string = GameData.gold + "";
+        this.addGold(this.roleData._level * 10+ score);
         GameData.addGoldOfRole(score);
+    }
+
+    addGold(num) {
+        let tmp = 0;
+        if(num <= 20) {
+            this.lbGold.node.runAction(cc.sequence(
+                cc.repeat(cc.sequence(
+                    cc.callFunc(() => {
+                        tmp += 1;
+                        this.lbGold.string = (GameData.gold + tmp) + "";
+                    }),
+                    cc.delayTime(0.05),
+                ), num),
+                cc.callFunc(()=>{
+                    GameData.gold += tmp;
+                })
+            ));
+        }else{
+            let average = Math.floor(num / 20);
+            let overplus = num - (average*20);
+            this.lbGold.node.runAction(cc.sequence(
+                cc.repeat(cc.sequence(
+                    cc.callFunc(() => {
+                        tmp += average;
+                        this.lbGold.string = (GameData.gold + tmp) + "";
+                    }),
+                    cc.delayTime(0.05),
+                ), 20),
+                cc.callFunc(()=>{
+                    if(overplus > 0) {
+                        tmp += overplus;
+                        this.lbGold.string = (GameData.gold + tmp) + "";
+                        GameData.gold += tmp;
+                    }
+                })
+            ));
+        }
     }
 
     showRoleInfo() {

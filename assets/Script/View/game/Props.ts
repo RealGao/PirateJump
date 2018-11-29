@@ -132,6 +132,8 @@ export default class Props extends CollisionBase {
         this.ndBg.active = false;
         this.autoMove = false;
         this.isDynamic = false;
+        let collision = this.node.getComponent(cc.BoxCollider);
+        collision.enabled = true;
     }
 
     moveToPirate() {
