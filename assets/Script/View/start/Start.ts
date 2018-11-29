@@ -60,18 +60,18 @@ export default class Start extends cc.Component {
 
     onLoad () {
         GameCtr.getInstance().setStart(this); 
+        this.loadPackages();
         this.initNode();
+        this.initBgMusic();
         this.initSoundState();
         this.showBgSprite(0);
         WXCtr.getFriendRankingData();
     }
 
     startGame() {
-
         this.showGold();
         this.showDiamond();
         this.showPower();
-        this.initBgMusic();
         this.initPowerTime();
         this.getBonusDiamonds();
         this.updateBtnShopState();
@@ -82,6 +82,12 @@ export default class Start extends cc.Component {
             this.initBgMusic();
         });
         //GameData.getAchieveBounusData()
+    }
+
+    loadPackages() {
+        WXCtr.loadSubPackages("Animation", () => {
+            console.log("log............分包加载完成---------");
+        });
     }
 
     initNode(){
