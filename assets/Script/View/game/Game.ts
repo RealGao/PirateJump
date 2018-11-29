@@ -33,6 +33,8 @@ export default class Game extends cc.Component {
     lbTime: cc.Label = null;
     @property(cc.Label)
     lbCombo: cc.Label = null;
+    @property(cc.Prefab)
+    pfBgMusic:cc.Prefab=null;
     
     public goldNum = 0;
     private time = 0;
@@ -41,6 +43,10 @@ export default class Game extends cc.Component {
 
     onLoad() {
         GameCtr.getInstance().setGame(this);
+        WXCtr.onShow(() => {
+            WXCtr.isOnHide = false;
+            this.initBgMusic();
+        });
     }
 
     onDestroy() {
@@ -56,6 +62,18 @@ export default class Game extends cc.Component {
 
         AudioManager.getInstance().playSound("audio/gameStart", false);
         this.scheduleOnce(()=>{GameCtr.playBgm();}, 1.5);
+    }
+
+    initBgMusic(){
+        while (cc.find("Canvas").getChildByTag(GameCtr.musicTag)) {
+            cc.find("Canvas").removeChildByTag(GameCtr.musicTag)
+        }
+        let music = cc.instantiate(this.pfBgMusic);
+        if (music) {
+            music.parent = cc.find("Canvas");
+            music.tag = GameCtr.musicTag;
+            music.getComponent("music").updatePlayState();
+        }
     }
 
     registerTouch() {
