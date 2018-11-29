@@ -4,6 +4,7 @@ import CollisionMgr from "./CollisionMgr";
 import Island from "./Island";
 import Props from "./Props";
 import GameData from "../../Common/GameData";
+import AudioManager from "../../Common/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -154,6 +155,7 @@ export default class Pirate extends CollisionBase {
         }
         this.originPos = this.node.position;
         this.jumpTime++;
+        AudioManager.getInstance().playSound("audio/jump", false);
     }
 
     onCollisionEnter(other, self) {
@@ -170,6 +172,7 @@ export default class Pirate extends CollisionBase {
             switch (otherCollision.collisionType) {
                 case CollisionBase.CollisionType.ISLAND:
                     this.landOnIsland(other.node);
+                    AudioManager.getInstance().playSound("audio/land", false);
                     break;
                 case CollisionBase.CollisionType.GOLD:
                     CollisionMgr.removeProp(other.node);
@@ -177,6 +180,7 @@ export default class Pirate extends CollisionBase {
                     if(this.magnetTime > 0) {
                         GameData.flyingGold++;
                     }
+                    AudioManager.getInstance().playSound("audio/gold", false);
                     break;
                 case CollisionBase.CollisionType.CHEST:
                     this.shakeChest = true;
@@ -198,6 +202,7 @@ export default class Pirate extends CollisionBase {
                     }else if(GameData.currentRole == 2) {
                         GameData.captainHitBox++;
                     }
+                    AudioManager.getInstance().playSound("audio/propChest", false);
                     break;
                 case CollisionBase.CollisionType.ALARM:
                     CollisionMgr.removeProp(other.node);
@@ -205,21 +210,26 @@ export default class Pirate extends CollisionBase {
                     if(GameData.currentRole == 3) {
                         GameData.gatherTimer++;
                     }
+                    AudioManager.getInstance().playSound("audio/propTime", false);
                     break;
                 case CollisionBase.CollisionType.MAGNET:
                     this.showMagnet();
                     CollisionMgr.removeProp(other.node);
+                    AudioManager.getInstance().playSound("audio/prop", false);
                     break;
                 case CollisionBase.CollisionType.SHIELD:
                     this.showShield();
                     CollisionMgr.removeProp(other.node);
+                    AudioManager.getInstance().playSound("audio/prop", false);
                     break;
                 case CollisionBase.CollisionType.SIGHT:
                     this.showSight();
                     CollisionMgr.removeProp(other.node);
+                    AudioManager.getInstance().playSound("audio/prop", false);
                     break;
                 case CollisionBase.CollisionType.ROTATE:
                     CollisionMgr.removeProp(other.node);
+                    AudioManager.getInstance().playSound("audio/prop", false);
                     CollisionMgr.rightIsland();
                     break;
                 case CollisionBase.CollisionType.BOOM:
@@ -229,6 +239,7 @@ export default class Pirate extends CollisionBase {
                     }else{
                         GameData.dismantleBomb++;
                     }
+                    AudioManager.getInstance().playSound("audio/propBomb", false);
                     break;
             }
             this.removePropOfLastIsland(other.node);
@@ -281,6 +292,11 @@ export default class Pirate extends CollisionBase {
         let radian = cc.pAngleSigned(vector, cc.v2(0, 1));
         let rotation = cc.radiansToDegrees(radian);
 
+        let distance = comp.radius + 15;
+        let x = island.x + distance * Math.sin(radian);
+        let y = island.y + distance * Math.cos(radian);
+        selfWPos = island.parent.convertToWorldSpaceAR(cc.v2(x,y));
+
         let cPos = island.convertToNodeSpaceAR(selfWPos);
         this.node.position = cPos;
         this.node.rotation = rotation - island.rotation;
@@ -305,6 +321,7 @@ export default class Pirate extends CollisionBase {
 
         if (comp.type == Island.IslandType.Cannon) {
             this.node.position = cc.v2(-8, -3);
+            AudioManager.getInstance().playSound("audio/cannon", false);
             this.scheduleOnce(() => { this.shoot(); }, 1.0);
         }
     }
@@ -323,8 +340,14 @@ export default class Pirate extends CollisionBase {
 
     movePirate(dt) {
         let lastPos = this.node.position;
-        this.node.x = this.originPos.x + this.vx * this.moveDt;
-        this.node.y = this.originPos.y + (this.vy * this.moveDt + this.gravity * this.moveDt * this.moveDt / 2);
+        let vx = this.vx;
+        let vy = this.vy;
+        if(this.beginShoot) {
+            vx*=1.5;
+            vy*=1.5;
+        }
+        this.node.x = this.originPos.x + vx * this.moveDt;
+        this.node.y = this.originPos.y + (vy * this.moveDt + this.gravity * this.moveDt * this.moveDt / 2);
         let cPos = this.node.position;
         let vector = cc.v2(cPos.x - lastPos.x, cPos.y - lastPos.y);
         let radian = cc.pAngleSigned(vector, cc.v2(0, 1));
@@ -335,12 +358,15 @@ export default class Pirate extends CollisionBase {
         let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         if (wPos.y < -520) {
             CollisionMgr.stopFit();
-            GameCtr.gameOver();
             if(GameData.currentRole == 4) {
                 this.revive();
                 GameData.reviveTimes++;
-            }else if(GameData.prop_time > 0) {
+            }else if(GameData.prop_revive > 0) {
                 this.revive();
+            }else{
+                AudioManager.getInstance().playSound("audio/dead", false);
+                GameCtr.isGameOver = true;
+                this.scheduleOnce(()=>{GameCtr.gameOver();}, 1.5);
             }
         }
     }
@@ -361,6 +387,7 @@ export default class Pirate extends CollisionBase {
             this.isInitial = true;
             this.isPirateAlive = true;
         }, 0.5);
+        AudioManager.getInstance().playSound("audio/revive", false);
     }
 
     // 显示瞄准线

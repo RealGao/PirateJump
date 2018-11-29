@@ -11,6 +11,7 @@ import HttpCtr from "../../Controller/HttpCtr";
 import Util from "../../Common/Util";
 import WXCtr from "../../Controller/WXCtr";
 import CollisionMgr from "./CollisionMgr";
+import AudioManager from "../../Common/AudioManager";
 
 
 const { ccclass, property } = cc._decorator;
@@ -40,26 +41,21 @@ export default class Game extends cc.Component {
 
     onLoad() {
         GameCtr.getInstance().setGame(this);
-        // WXCtr.onShow(() => {
-        //     WXCtr.isOnHide = false;
-        //     this.scheduleOnce(() => {
-        //         this.showOffLineProfitPop();
-        //     }, 2.5);
-        // });
     }
 
     onDestroy() {
-        // WXCtr.offShow();
     }
 
     start() {
-        console.log("log----------------");
         this.registerTouch();
         GameCtr.isGameOver = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
         this.initIslands();
         this.time = 100;
         this.countdown();
+
+        AudioManager.getInstance().playSound("audio/gameStart", false);
+        this.scheduleOnce(()=>{GameCtr.playBgm();}, 1.5);
     }
 
     registerTouch() {
@@ -105,7 +101,11 @@ export default class Game extends cc.Component {
                 this.countdown();
             }, 1.0);
         }else{
+            GameCtr.isGameOver = true;
             GameCtr.gameOver();
+        }
+        if(this.time < 10) {
+            AudioManager.getInstance().playSound("audio/countdown", false);
         }
     }
 
@@ -113,14 +113,7 @@ export default class Game extends cc.Component {
         this.ndGame.runAction(cc.fadeOut(0.5));
     }
 
-    /**
-     * 显示离线收益弹窗
-     */
-    showOffLineProfitPop() {
-        console.log("离线收益！！！！！！");
-        
-    }
-
+    
     /**
      * 更多游戏
      */

@@ -1,9 +1,13 @@
 import GameCtr from "../../Controller/GameCtr";
 import WXCtr from "../../Controller/WXCtr";
 import GameData from "../../Common/GameData";
+
 import Toast from "../../Common/Toast";
 import HttpCtr from "../../Controller/HttpCtr";
 import ViewManager from "../../Common/ViewManager";
+
+import AudioManager from "../../Common/AudioManager";
+
 const {ccclass, property} = cc._decorator;
 declare let require: any;
 @ccclass
@@ -249,8 +253,12 @@ export default class Start extends cc.Component {
         let mask=this._btnsNode.getChildByName("btn_music").getChildByName("mask");
         if(GameCtr.musicState>0){//音乐 音效开启
             mask.active=false;
+            AudioManager.getInstance().soundOn = true;
+            AudioManager.getInstance().musicOn = true;
         }else{//音乐 音效关闭
             mask.active=true;
+            AudioManager.getInstance().soundOn = false;
+            AudioManager.getInstance().musicOn = false;
         }
     }
 

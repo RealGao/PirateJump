@@ -125,6 +125,7 @@ export default class CollisionMgr extends cc.Component {
             comp.setType(Island.IslandType.Vertical);
         }
         let idx = Math.floor(Math.random() * CollisionMgr.mCollisionMgr.islandFrames.length);
+        
         comp.setWheel(idx);
         island.parent = GameCtr.ins.mGame.ndIslandLayer;
         CollisionMgr.mCollisionMgr.setIslandPostion(island);
@@ -283,8 +284,8 @@ export default class CollisionMgr extends cc.Component {
             finalRotation = 180 - cc.radiansToDegrees(Math.atan(vx / cY));
         }
         let finalRadian = cc.degreesToRadians(finalRotation);
-        let addX = lastComp.radius * Math.sin(finalRadian);
-        let addY = lastComp.radius * Math.cos(finalRadian);
+        let addX = comp.radius * Math.sin(finalRadian);
+        let addY = comp.radius * Math.cos(finalRadian);
 
         island.x = lastIsland.x + originX + offsetX + addX;
         island.y = lastIsland.y + originY + offsetY + addY;
@@ -452,6 +453,9 @@ export default class CollisionMgr extends cc.Component {
 
     // 增加道具
     static addProp(posArr, lastIsland) {
+        if(posArr.length == 0) {
+            return;
+        }
         let data = CollisionMgr.getPropRank();
         let posRand = Math.random() * 100;
         let startIdx = 1;

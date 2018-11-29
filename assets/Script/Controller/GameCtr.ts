@@ -159,7 +159,7 @@ export default class GameCtr {
 
     //播放背景音乐
     static playBgm() {
-        AudioManager.getInstance().playMusic("audio/main_music", true);
+        AudioManager.getInstance().playMusic("audio/bgm", true);
     }
 
     //增加分数
@@ -182,9 +182,9 @@ export default class GameCtr {
 
     // 游戏结束
     static gameOver() {
-        GameCtr.isGameOver = true;
         GameCtr.ins.mGame.gameOver();
         GameCtr.ins.mGameOver.showResult();
+        AudioManager.getInstance().playSound("audio/gameOver", false);
     }
 
     // 游戏开始
