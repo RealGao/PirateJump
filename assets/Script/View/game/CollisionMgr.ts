@@ -156,8 +156,8 @@ export default class CollisionMgr extends cc.Component {
                 {
                     let rNum = Math.random() * 10;
                     if (rNum < 2) {
-                        rotation = Math.random() * 10 + 35;
-                        time = Math.random() * 2 / 10 + 0.7;
+                        rotation = 35;
+                        time = Math.random() * 1 / 10 + 0.7;
                         addNum = 60;
                     } else if (rNum >= 2 && rNum < 8) {
                         rotation = Math.random() * 30 + 50;
@@ -171,11 +171,11 @@ export default class CollisionMgr extends cc.Component {
             case 1:
                 {
                     let rNum = Math.random() * 10;
-                    if (rNum < 3) {
-                        rotation = Math.random() * 10 + 35;
-                        time = Math.random() * 2 / 10 + 0.7;
+                    if (rNum < 2) {
+                        rotation = 35;
+                        time = Math.random() * 1 / 10 + 0.7;
                         addNum = 60;
-                    } else if (rNum >= 3 && rNum < 6) {
+                    } else if (rNum >= 2 && rNum < 6) {
                         rotation = Math.random() * 30 + 60;
                         time = Math.random() * 1 / 10 + 0.6;
                     } else if (rNum >= 6 && rNum > 8) {
@@ -190,11 +190,11 @@ export default class CollisionMgr extends cc.Component {
             case 2:
                 {
                     let rNum = Math.random() * 10;
-                    if (rNum < 3) {
-                        rotation = Math.random() * 10 + 35;
-                        time = Math.random() * 2 / 10 + 0.7;
+                    if (rNum < 2) {
+                        rotation = 35;
+                        time = Math.random() * 1 / 10 + 0.7;
                         addNum = 60;
-                    } else if (rNum >= 3 && rNum < 5) {
+                    } else if (rNum >= 2 && rNum < 5) {
                         rotation = Math.random() * 30 + 60;
                         time = Math.random() * 1 / 10 + 0.6;
                     } else if (rNum >= 5 && rNum > 8) {
@@ -217,8 +217,8 @@ export default class CollisionMgr extends cc.Component {
                     } else {
                         let rNum = Math.random() * 10;
                         if (rNum < 1) {
-                            rotation = Math.random() * 10 + 35;
-                            time = Math.random() * 2 / 10 + 0.7;
+                            rotation = 35;
+                            time = Math.random() * 1 / 10 + 0.7;
                             addNum = 60;
                         } else if (rNum >= 1 && rNum < 3) {
                             rotation = Math.random() * 30 + 60;
