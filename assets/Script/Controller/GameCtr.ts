@@ -182,7 +182,6 @@ export default class GameCtr {
     static gameOver() {
         GameCtr.ins.mGame.gameOver();
         GameCtr.ins.mGameOver.showResult();
-        AudioManager.getInstance().playSound("audio/gameOver", false);
     }
 
     // 游戏开始

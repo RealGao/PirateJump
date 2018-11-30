@@ -258,7 +258,9 @@ export default class Pirate extends CollisionBase {
                     this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.BOOM:
-                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.BOOM);
+                    let isShowTime = true;
+                    if (this.shieldTime > 0) isShowTime = false;
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.BOOM, isShowTime);
                     CollisionMgr.removeProp(other.node);
                     if (this.shieldTime <= 0) {
                         GameCtr.ins.mGame.addTime(-1);
@@ -312,9 +314,10 @@ export default class Pirate extends CollisionBase {
         this.moveDt = 0;
         let comp: Island = island.getComponent(Island);
 
-        if(GameCtr.ins.mGame.time <= 0 && comp.type != Island.IslandType.Cannon) {
+        if (GameCtr.ins.mGame.time <= 0 && comp.type != Island.IslandType.Cannon) {
             GameCtr.isGameOver = true;
             GameCtr.gameOver();
+            AudioManager.getInstance().playSound("audio/gameOver", false);
         }
 
         let selfWPos = this.node.parent.convertToWorldSpaceAR(this.node.position);

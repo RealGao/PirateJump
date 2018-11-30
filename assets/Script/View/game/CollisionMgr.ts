@@ -551,7 +551,7 @@ export default class CollisionMgr extends cc.Component {
         }
     }
 
-    static addPropEffect(pos, type) {
+    static addPropEffect(pos, type, isShowTime = false) {
         let nd = CollisionMgr.mCollisionMgr.propEffectPool.get();
         nd.parent = CollisionMgr.mCollisionMgr.islandLayer;
         nd.position = pos;
@@ -565,6 +565,7 @@ export default class CollisionMgr extends cc.Component {
                 break;
             case CollisionBase.CollisionType.BOOM:
                 propEffect.showBombEffect();
+                if(isShowTime) propEffect.showTimeEffect();
                 CollisionMgr.mCollisionMgr.islandLayer.runAction(cc.sequence(
                     cc.moveBy(0.06, cc.v2(0, 3)),
                     cc.moveBy(0.12, cc.v2(0, -6)),
