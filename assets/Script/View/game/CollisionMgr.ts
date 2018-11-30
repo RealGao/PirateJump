@@ -95,8 +95,6 @@ export default class CollisionMgr extends cc.Component {
     static addIsland() {
         let island = CollisionMgr.mCollisionMgr.wheelIslandPool.get();
         let comp: Island = island.getComponent(Island);
-        comp.idx = CollisionMgr.mCollisionMgr.islandNum;
-        CollisionMgr.mCollisionMgr.islandNum++;
         let length = CollisionMgr.mCollisionMgr.islandArr.length;
         if (length == 0) {
             island.position = cc.v2(90, 480);
@@ -104,6 +102,8 @@ export default class CollisionMgr extends cc.Component {
             comp.setWheel();
             CollisionMgr.mCollisionMgr.islandArr.push(island);
             island.parent = GameCtr.ins.mGame.ndIslandLayer;
+            comp.idx = CollisionMgr.mCollisionMgr.islandNum;
+            CollisionMgr.mCollisionMgr.islandNum++;
             return;
         }
         let randNum = Math.random() * 100;
@@ -134,6 +134,8 @@ export default class CollisionMgr extends cc.Component {
                 comp.setType(Island.IslandType.Normal);
             }
         }
+        comp.idx = CollisionMgr.mCollisionMgr.islandNum;
+        CollisionMgr.mCollisionMgr.islandNum++;
         let idx = Math.floor(Math.random() * CollisionMgr.mCollisionMgr.islandFrames.length);
 
         comp.setWheel(idx);
@@ -569,6 +571,9 @@ export default class CollisionMgr extends cc.Component {
                     cc.moveBy(0.06, cc.v2(0, 3)),
                 ));
                 break;
+            default:
+                propEffect.showCommonEffect();
+                break;
         }
 
         setTimeout(() => { CollisionMgr.mCollisionMgr.propEffectPool.put(nd) }, 2000);
@@ -696,6 +701,7 @@ export default class CollisionMgr extends cc.Component {
     }
 
     update(dt) {
+        if (GameCtr.isGameOver || GameCtr.isPause) return;
         if (CollisionMgr.mCollisionMgr.fitLayer) {
             CollisionMgr.mCollisionMgr.islandLayer.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
             for (let i = 0; i < CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {

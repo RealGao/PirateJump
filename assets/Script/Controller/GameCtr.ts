@@ -38,16 +38,8 @@ export default class GameCtr {
     static shareSwitch = null;
 
     public static shareGoldTimes = 5;                           //剩余分享得金币次数
-    public static freeShareGoldTimes = 10;                      //无限制分享的金币次数
-    public static freeShareGoldCD = 10;                         //分享得金币冷却时间
-    public static mall = null;
-
-    public static leftUfoBox = 0;                          //剩余的ufo盒子
-    public static UfoBoxLevel = 0;
-    public static ufoProfitBuff = false;
 
     public static surplusVideoTimes = 6;                            //剩余看视频次数
-    public static ufoDelayTime = 60;                                //UFO出现时间间隔
 
     public static IPONEX_HEIGHT=2436;                                                 
     public static isStartGame = false;                              //游戏是否已经开始
@@ -55,20 +47,14 @@ export default class GameCtr {
 
     public static onLineLastTime = null;
     public static OnClickStat = false;                              //点击统计开关，appid不受限制
-    
-    public static strikePool=null;                                  
-    public static lbGoldPool=null;                
-    public static lbHurtPool=null;
-    public static enemyPoolArr=[];
-
-    public static isFight=false;
-    public static autoCompose=false;
 
     public static musicTag=-2000;
     public static gameToken=-1;
 
     public static fightStartGold=0;
     public static musicState=null;
+
+    public static isPause = false;                                  //游戏暂停
 
     public static StatisticType = cc.Enum({                         //统计类型
         SPEED: 1,                                                   //加速分享
