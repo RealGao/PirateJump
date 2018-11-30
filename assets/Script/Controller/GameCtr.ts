@@ -12,6 +12,7 @@ import Pirate from "../View/game/Pirate";
 import Shop from "../View/start/shop";
 import Toast from "../Common/Toast"
 import GameOver from "../View/game/GameOver";
+import Public from "../View/start/PublicNode";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -23,6 +24,8 @@ export default class GameCtr {
     public mStart: Start;
     public mShop:Shop;
     public mToast:Toast;
+
+    public mPublic:Public;
     
 
     public static bannerId = null;
@@ -50,7 +53,7 @@ export default class GameCtr {
     public static ufoDelayTime = 60;                                //UFO出现时间间隔
 
     public static IPONEX_HEIGHT=2436;                                                 
-    public static isStartGame = false;                              //游戏是否已经开始
+    public static HadEnterdGame = false;                              //游戏是否已经开始
     public static isGameOver = false;
 
     public static onLineLastTime = null;
@@ -138,6 +141,14 @@ export default class GameCtr {
 
     getToast(){
         return this.mToast;
+    }
+
+    setPublic(publicNode:Public){
+        this.mPublic=publicNode;
+    }
+
+    getPublic(){
+        return this.mPublic;
     }
 
     setGameOver(gameOver: GameOver) {

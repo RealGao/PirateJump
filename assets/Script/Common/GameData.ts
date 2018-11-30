@@ -119,6 +119,11 @@ export default class GameData {
     public static maxScoreData=[];                                         //各个地图的最大得分数据
     public static userInfo=null;
 
+    public static mapNodeTag=10001;
+    public static propsNodeTag=10002;
+    public static homeWorldNodeTag=10003;
+    public static charactersNodeTag=10004;
+
    
 
     static rolesDes=[

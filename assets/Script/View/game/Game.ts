@@ -68,6 +68,8 @@ export default class Game extends cc.Component {
     public maxCombo = 0;                               //最大连击数
 
     onLoad() {
+        GameCtr.HadEnterdGame=true;
+        GameData.power-=5;
         GameCtr.getInstance().setGame(this);
         WXCtr.onShow(() => {
             WXCtr.isOnHide = false;

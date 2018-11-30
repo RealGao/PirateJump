@@ -1,5 +1,7 @@
 import HttpCtr from "../../Controller/HttpCtr";
 import WXCtr from "../../Controller/WXCtr";
+import GameData from "../../Common/GameData";
+import GameCtr from "../../Controller/GameCtr";
 
 const {ccclass, property} = cc._decorator;
 
@@ -106,7 +108,11 @@ export default class NewClass extends cc.Component {
                 this.showRank();
             }else if(e.target.getName()=="btn_fight"){
                 this.node.destroy();
-                cc.director.loadScene("Game");
+                if(GameData.power>=5){
+                    cc.director.loadScene("Game");
+                }else{
+                    GameCtr.getInstance().getToast().toast("体力值不足");
+                }
             }else if(e.target.getName()=="btn_return"){
                 this.node.destroy();
             }
@@ -173,6 +179,7 @@ export default class NewClass extends cc.Component {
             rankItem.parent=this._rankWorldNode;
             rankItem.x=-11;
             rankItem.y=280-91.5*(i%6);
+            rankItem.getComponent("rankItem").setModel(this._currentModel);
             rankItem.getComponent("rankItem").setName(this._currentRankList[i].nick);
             rankItem.getComponent("rankItem").setRank(this._currentRankList[i].top);
             rankItem.getComponent("rankItem").setScore(this._currentRankList[i].value);

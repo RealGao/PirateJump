@@ -1,7 +1,6 @@
-import GameCtr from "../../Controller/GameCtr";
 import GameData from "../../Common/GameData";
-
-const {ccclass, property} = cc._decorator;
+import WXCtr from "../../Controller/WXCtr";
+import GameCtr from "../../Controller/GameCtr";
 
 enum Shop{
     maps=0,
@@ -10,11 +9,19 @@ enum Shop{
     characters,
 }
 
+const {ccclass, property} = cc._decorator;
+
 @ccclass
 export default class NewClass extends cc.Component {
+    _infoNode=null;
     _btnsNode=null;
-    _lb_title=null;
-    _mask=null;
+    _lb_gold=null;
+    _lb_diamond=null;
+    _lb_power=null;
+    _lb_powerTime=null;
+    _powerTime_min=0;
+    _powerTime_sec=0;
+
     _tipBuyMaps=null;
     _tipBuyProps=null;
     _tipBuyCharactor=null;
@@ -34,26 +41,40 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     pfCharactersNode:cc.Prefab=null;
 
+
     onLoad(){
         this.initNode();
-        GameCtr.getInstance().setShop(this);
-        console.log("log---------cc.director.getScene().name=:",cc.director.getScene().name);
-        if(cc.director.getScene().name=="Start"){
-            GameCtr.getInstance().getStart().showStartBtns(false);
-        }
+        GameCtr.getInstance().setPublic(this);
     }
 
     start(){
         this.showCurrentShop();
+        this.showGold();
+        this.showDiamond();
+        this.showPower();
     }
 
     initNode(){
+        this._infoNode=this.node.getChildByName("infoNode");
         this._btnsNode=this.node.getChildByName("btnsNode");
-        this._lb_title=this.node.getChildByName("lb_title");
-        this._mask=this.node.getChildByName("mask");
-        this._mask.active=false;
+        this.initInfoNode();
         this.initBtnsNode();
     }
+
+    initInfoNode(){
+        this._lb_gold=this._infoNode.getChildByName("lb_gold");
+        this._lb_diamond=this._infoNode.getChildByName("lb_diamond");
+        this._lb_power=this._infoNode.getChildByName("lb_power");
+        this._lb_powerTime=this._infoNode.getChildByName("lb_powerTime");
+        let btn_addDiamond=this._infoNode.getChildByName("btn_addDiamond");
+        let btn_addPower=this._infoNode.getChildByName("btn_addPower");
+
+        this.initBtnEvent(btn_addDiamond);
+        this.initBtnEvent(btn_addPower);
+
+        this.initPowerTime();
+    }
+
 
     initBtnsNode(){
         let btn_back=this._btnsNode.getChildByName("btn_back");
@@ -81,12 +102,84 @@ export default class NewClass extends cc.Component {
         this.upBtnsState();
     }
 
+    hideBtnNode(){
+        this._btnsNode.active=false;
+    }
+
+
+    showGold(){
+        this._lb_gold.getComponent(cc.Label).string=GameData.gold+"";
+    }
+
+    showDiamond(){
+        this._lb_diamond.getComponent(cc.Label).string=GameData.diamond+"";
+    }
+
+    showPower(){
+        this._lb_power.getComponent(cc.Label).string=GameData.power+"/99";
+    }
+
+    showPowerTime(){
+        if(GameData.power>=99){
+            this._lb_powerTime.active=false
+        }else{
+            this._lb_powerTime.active=true;
+            this._powerTime_min =Math.floor(GameData.powerTime/60);
+            this._powerTime_sec =GameData.powerTime%60;
+            this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
+                                                     (this._powerTime_sec>=10?this._powerTime_sec:"0"+this._powerTime_sec);
+        }
+    }
+
+    initPowerTime(){
+        let powerTimeCount=WXCtr.getStorageData("powerTime");
+        console.log("log--------powerTimeCount=:",powerTimeCount);
+        if(!powerTimeCount){
+            console.log("log------------d1111111111111")
+            GameData.powerTime=5*60;
+            this.doPowerTimeCount();
+        }else{
+            console.log("log------------d2222222222222")
+            let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
+            console.log('log------------timeTerval=:',timeIterval);
+            if(timeIterval-powerTimeCount>=0){
+                GameData.power+=1;
+                timeIterval-=powerTimeCount;
+                let cycle=Math.floor(timeIterval/5*60);
+                GameData.power+=cycle;
+                GameData.powerTime=timeIterval-cycle*5*60;
+                console.log("log------------d3333333333333")
+            }else{
+                console.log("log------------d4444444444444")
+                GameData.powerTime=powerTimeCount-timeIterval;
+            }
+            console.log("log--------GameData.powerTime=:",GameData.powerTime);
+            this.doPowerTimeCount();
+        }
+    }
+
+    doPowerTimeCount(){
+        this.showPowerTime();
+        this.schedule(()=>{
+            GameData.powerTime--;
+            this.showPowerTime();
+            if(GameData.powerTime<=0){
+                GameData.powerTime=5*60;
+                GameData.power++;
+                GameData.power=GameData.power>=99?99:GameData.power;
+                this.showPowerTime();   
+                this.showPower();
+            }
+        },1,cc.macro.REPEAT_FOREVER)
+    }
+
+
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_back"){
                 console.log("cc.director.getScene().name=:",cc.director.getScene().name);
                 if(cc.director.getScene().name=="Start"){
-                    this.node.destroy();
+                    this.node.parent.destroy();
                     GameCtr.getInstance().getStart().showStartBtns(true);
                 }else if(cc.director.getScene().name=="Game"){
                     cc.director.loadScene("Start");
@@ -141,18 +234,16 @@ export default class NewClass extends cc.Component {
     }
 
     showCurrentShop(){
-        this.node.destroy();
         if(GameData.currentShopIndex==Shop.maps){
-            this.showMapsNode();
             this.seletedLightBtn("btn_maps");
         }else if(GameData.currentShopIndex==Shop.props){
-            this.showPropsNode();
+
             this.seletedLightBtn("btn_props");
         }else if(GameData.currentShopIndex==Shop.characters){
-            this.showCharactersNode();
+
             this.seletedLightBtn("btn_characters");
         }else if(GameData.currentShopIndex==Shop.homeWorld){
-            this.showHomeWorldNode();
+
             this.seletedLightBtn("btn_homeWorld");
         }
     }
@@ -223,9 +314,7 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    setMaskVisit(bool){
-        this._mask.active=bool;
-    }
+
 
     updateBtnMapsState(){
         if(GameData.canBuyMaps()){
@@ -256,5 +345,4 @@ export default class NewClass extends cc.Component {
         this.updateBtnPropsState();
         this.updateBtnCharactorsState();
     }
-
 }

@@ -8,7 +8,10 @@ export default class NewClass extends cc.Component {
     _lb_scroe=null;
     _lb_rank=null;
     _img_head=null;
-
+    _modelSprite=null;
+    
+    @property(cc.SpriteFrame)
+    modelSpritesFrame:cc.SpriteFrame[]=[];
     onLoad(){
         this.initNode();
     }
@@ -17,6 +20,7 @@ export default class NewClass extends cc.Component {
         this._lb_name=this.node.getChildByName('lb_name');
         this._lb_rank=this.node.getChildByName('lb_rank');
         this._lb_scroe=this.node.getChildByName('lb_score');
+        this._modelSprite=this.node.getChildByName("nameFrame");
         this._img_head=this.node.getChildByName("headFrame").getChildByName("head");
     }
 
@@ -35,6 +39,11 @@ export default class NewClass extends cc.Component {
     setHeadImg(url){
         let sp=this._img_head.getComponent(cc.Sprite);
         Util.loadImg(sp,url);
+    }
+
+    setModel(model){
+        let sp=this._modelSprite.getComponent(cc.Sprite)
+        sp.spriteFrame=this.modelSpritesFrame[model];
     }
 
 

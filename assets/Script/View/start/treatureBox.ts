@@ -121,7 +121,11 @@ export default class NewClass extends cc.Component {
                     GameCtr.getInstance().getToast().toast("宝箱开启中.....");
                 }
             }else if(e.target.getName()=="btn_fight"){
-                cc.director.loadScene("Game");
+                if(GameData.power>=5){
+                    cc.director.loadScene("Game");
+                }else{
+                    GameCtr.getInstance().getToast().toast("体力值不足");
+                }
             }else if(e.target.getName()=="btn_watchVedio"){
                 if (WXCtr.videoAd) {
                     WXCtr.showVideoAd();
@@ -205,12 +209,12 @@ export default class NewClass extends cc.Component {
 
         if(bonus.diamond>0){
             GameData.diamond+=bonus.diamond;
-            GameCtr.getInstance().getStart().showDiamond();
+            GameCtr.getInstance().getPublic().showDiamond();
         }
 
         if(bonus.gold>0){
             GameData.gold+=bonus.gold;
-            GameCtr.getInstance().getStart().showGold();
+            GameCtr.getInstance().getPublic().showGold();
         }
 
         if(bonus.prop){

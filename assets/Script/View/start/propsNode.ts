@@ -8,14 +8,13 @@ export default class NewClass extends cc.Component {
     _props=[];
     _homeWorldProps=[];
 
+    @property(cc.Prefab)
+    pfPublicNode:cc.Prefab=null;
+
     onLoad(){
         this.initNode();
+        this.initPublicNode();
         this.doAction();
-        if(cc.director.getScene().name=="Start"){
-            GameCtr.getInstance().getStart().showBgSprite(1);
-        }else{
-
-        }
     }
 
     initNode(){
@@ -34,6 +33,11 @@ export default class NewClass extends cc.Component {
             this._homeWorldProps.push(homeWorldProp);
             homeWorldProp.active=false;
         }
+    }
+
+    initPublicNode(){
+        let publicNode=cc.instantiate(this.pfPublicNode);
+        publicNode.parent=this.node;
     }
 
     doAction(){

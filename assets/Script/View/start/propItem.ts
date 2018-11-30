@@ -47,9 +47,9 @@ export default class NewClass extends cc.Component {
                     if(GameData.getProp(this._info.name)>=10){return}
                     GameData.addProp(this._info.name);
                     GameData.diamond-=this._info.price;
-                    GameCtr.getInstance().getStart().showDiamond();
+                    GameCtr.getInstance().getPublic().showDiamond();
                     GameCtr.getInstance().getStart().updateBtnShopState();
-                    GameCtr.getInstance().getShop().upBtnsState();
+                    GameCtr.getInstance().getPublic().upBtnsState();
                     this.showCount();
                 }else{
                     GameCtr.getInstance().getToast().toast("钻石不足");
