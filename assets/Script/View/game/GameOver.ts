@@ -51,6 +51,9 @@ export default class GameOver extends cc.Component {
     @property(cc.Prefab)
     pfMall: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    pfAchievement: cc.Prefab = null;
+
     // LIFE-CYCLE CALLBACKS:
 
     private combo = 0;
@@ -161,6 +164,14 @@ export default class GameOver extends cc.Component {
         this.ndMall.active = true;
         this.ndResult.active = false;
         this.ndArchieve.active = false;
+    }
+
+    showAchievement(){
+        let nd = cc.instantiate(this.pfAchievement);
+        nd.parent = this.ndArchieve;
+        this.ndMall.active = false;
+        this.ndResult.active = false;
+        this.ndArchieve.active = true;
     }
 
 

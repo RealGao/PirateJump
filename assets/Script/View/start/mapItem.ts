@@ -96,9 +96,9 @@ export default class NewClass extends cc.Component {
         if(this._info.gold_price>0){
             if(GameData.gold>=this._info.gold_price){
                 GameData.gold-=this._info.gold_price;
-                GameCtr.getInstance().getStart().showGold();
+                GameCtr.getInstance().getPublic().showGold();
                 GameCtr.getInstance().getStart().updateBtnShopState();
-                GameCtr.getInstance().getShop().upBtnsState();
+                GameCtr.getInstance().getPublic().upBtnsState();
                 this._btn_buy.active=false;
                 this.setLockState(true);
                 GameData.setMapStateByName(this._info.name,0)
@@ -110,9 +110,9 @@ export default class NewClass extends cc.Component {
         if(this._info.diamond_price>0){
             if(GameData.diamond>=this._info.diamond_price){
                 GameData.diamond-=this._info.diamond_price;
-                GameCtr.getInstance().getStart().showDiamond();
+                GameCtr.getInstance().getPublic().showDiamond();
                 GameCtr.getInstance().getStart().updateBtnShopState();
-                GameCtr.getInstance().getShop().upBtnsState();
+                GameCtr.getInstance().getPublic().upBtnsState();
                 this._btn_buy.active=false;
                 this.setLockState(true);
                 GameData.setMapStateByName(this._info.name,0)

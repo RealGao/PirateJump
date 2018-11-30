@@ -241,6 +241,7 @@ export default class CanvasCtr extends cc.Component {
             rankItem.parent=this.ndRank;
             rankItem.x=-11;
             rankItem.y=280-91.5*(i%6);
+            rankItem.getComponent("rankItem").setModel(mapIndex);
             rankItem.getComponent("rankItem").setRank(i+1);
             rankItem.getComponent("rankItem").setName(this.ranks[mapIndex][i].data.nickname);
             rankItem.getComponent("rankItem").setScore(this.ranks[mapIndex][i].data.score);
@@ -299,6 +300,10 @@ export default class CanvasCtr extends cc.Component {
     }
 
     doData(){
+        for(let i=0;i<this.ranks.length;i++){
+            this.ranks[i].splice(0,this.ranks[i].length);
+        }
+        
         for(let i=0;i<this.mFriendRankData.length;i++){
             for(let j=0;j<this.mFriendRankData[i].KVDataList.length;j++){
                 if(this.mFriendRankData[i].KVDataList[j].value && this.mFriendRankData[i].KVDataList[j].value!="null"){

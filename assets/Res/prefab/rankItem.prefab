@@ -842,7 +842,21 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "modelSpritesFrame": [
+      {
+        "__uuid__": "5cbcf3ab-3c7d-4787-bbd6-8ac121f90067"
+      },
+      {
+        "__uuid__": "37601e9f-6941-45a0-9ed3-c446f49388a0"
+      },
+      {
+        "__uuid__": "d10e1a4d-70bb-47ca-8b4f-710aab5bdee1"
+      },
+      {
+        "__uuid__": "d4d36c31-59de-4649-8f8a-dde73e79e27d"
+      }
+    ]
   },
   {
     "__type__": "cc.PrefabInfo",

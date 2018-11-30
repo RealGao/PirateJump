@@ -13,15 +13,17 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite)
     recorderSprite:cc.Sprite=null;
 
+    @property(cc.Prefab)
+    pfPublicNode:cc.Prefab=null;
+
     onLoad(){
         WXCtr.initSharedCanvas();
         this.initNode();
+        this.initPublicNode();
         this.initMapsListener();
         this.doAction();
         WXCtr.showMapsRecorder();
-        if(cc.director.getScene().name=="Start"){
-            GameCtr.getInstance().getStart().showBgSprite(0);
-        }
+       
     }
 
     initNode(){
@@ -35,6 +37,11 @@ export default class NewClass extends cc.Component {
                 map.getComponent("mapItem").setSeletedState(true);
             }
         }
+    }
+
+    initPublicNode(){
+        let publicNode=cc.instantiate(this.pfPublicNode);
+        publicNode.parent=this.node;
     }
 
     initMapsListener(){

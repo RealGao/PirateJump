@@ -32,11 +32,6 @@ export default class NewClass extends cc.Component {
     onLoad(){
         this.initNode();
         this.doAction();
-        if(cc.director.getScene().name=="Start"){
-            GameCtr.getInstance().getStart().showBgSprite(1);
-        }else{
-
-        }
     }
 
     initNode(){

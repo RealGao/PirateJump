@@ -44,7 +44,7 @@ export default class NewClass extends cc.Component {
                 if(GameData.gold>=GameData.getJewelLevelUpPrice()){
                     GameData.jewelLevel+=1;
                     GameData.gold-=GameData.getJewelLevelUpPrice();
-                    GameCtr.getInstance().getStart().showGold();
+                    GameCtr.getInstance().getPublic().showGold();
                     GameData.jewelTimeCount=GameData.getJewelProductionCycle()*60;
                     this.updateJewel();
                 }else{
@@ -150,7 +150,7 @@ export default class NewClass extends cc.Component {
                 /*显示收取金币*/
                 GameData.diamond+=GameData.jewelTimeCount;
                 GameData.jewelTimeCount=0;
-                GameCtr.getInstance().getStart().showDiamond();
+                GameCtr.getInstance().getPublic().showDiamond();
                 this._lb_jewelCount.getComponent(cc.Label).string=GameData.jewelCount;
             }
         },1,cc.macro.REPEAT_FOREVER)

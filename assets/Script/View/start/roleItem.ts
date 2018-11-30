@@ -79,9 +79,9 @@ export default class NewClass extends cc.Component {
             if(GameData.gold>=this._roleInfo.price_gold){
                 GameData.currentRole=this._roleInfo.id;
                 GameData.gold-=this._roleInfo.price_gold;
-                GameCtr.getInstance().getStart().showGold();
+                GameCtr.getInstance().getPublic().showGold();
                 GameCtr.getInstance().getStart().updateBtnShopState();
-                GameCtr.getInstance().getShop().upBtnsState();
+                GameCtr.getInstance().getPublic().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();
@@ -98,9 +98,9 @@ export default class NewClass extends cc.Component {
             if(GameData.diamond>=this._roleInfo.price_diamond){
                 GameData.currentRole=this._roleInfo.id;
                 GameData.diamond-=this._roleInfo.price_diamond;
-                GameCtr.getInstance().getStart().showDiamond();
+                GameCtr.getInstance().getPublic().showDiamond();
                 GameCtr.getInstance().getStart().updateBtnShopState();
-                GameCtr.getInstance().getShop().upBtnsState();
+                GameCtr.getInstance().getPublic().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();
