@@ -16,6 +16,8 @@ export default class PropEffect extends cc.Component {
     @property(cc.Animation)
     bombAni: cc.Animation = null;
     @property(cc.Animation)
+    timeAni: cc.Animation = null;
+    @property(cc.Animation)
     goldAni: cc.Animation = null;
     @property(cc.Animation)
     chestAni: cc.Animation = null;
@@ -32,6 +34,10 @@ export default class PropEffect extends cc.Component {
 
     showBombEffect() {
         this.bombAni.play();
+    }
+
+    showTimeEffect() {
+        this.timeAni.play();
     }
 
     showGoldEffect() {

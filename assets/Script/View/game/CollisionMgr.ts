@@ -125,9 +125,9 @@ export default class CollisionMgr extends cc.Component {
                 comp = island.getComponent(Island);
                 comp.setType(Island.IslandType.Normal);
             }
-        } else if (randType <= 15) {
+        } else if (randType <= 18) {
             comp.setType(Island.IslandType.Normal);
-        } else if (randType > 15 && randType <= 19) {
+        } else if (randType > 18 && randType <= 19) {
             if (lastComp.type != Island.IslandType.Cannon) {
                 comp.setType(Island.IslandType.Vertical);
             } else {
@@ -551,7 +551,7 @@ export default class CollisionMgr extends cc.Component {
         }
     }
 
-    static addPropEffect(pos, type) {
+    static addPropEffect(pos, type, isShowTime = false) {
         let nd = CollisionMgr.mCollisionMgr.propEffectPool.get();
         nd.parent = CollisionMgr.mCollisionMgr.islandLayer;
         nd.position = pos;
@@ -565,6 +565,7 @@ export default class CollisionMgr extends cc.Component {
                 break;
             case CollisionBase.CollisionType.BOOM:
                 propEffect.showBombEffect();
+                if(isShowTime) propEffect.showTimeEffect();
                 CollisionMgr.mCollisionMgr.islandLayer.runAction(cc.sequence(
                     cc.moveBy(0.06, cc.v2(0, 3)),
                     cc.moveBy(0.12, cc.v2(0, -6)),

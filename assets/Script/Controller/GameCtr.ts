@@ -58,6 +58,7 @@ export default class GameCtr {
     public static musicState=null;
 
     public static isPause = false;                                  //游戏暂停
+    public static speedUp = false;                                  //小岛转动加速
 
     public static StatisticType = cc.Enum({                         //统计类型
         SPEED: 1,                                                   //加速分享
@@ -181,7 +182,6 @@ export default class GameCtr {
     static gameOver() {
         GameCtr.ins.mGame.gameOver();
         GameCtr.ins.mGameOver.showResult();
-        AudioManager.getInstance().playSound("audio/gameOver", false);
     }
 
     // 游戏开始

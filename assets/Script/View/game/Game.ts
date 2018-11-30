@@ -48,13 +48,13 @@ export default class Game extends cc.Component {
     lbCombo: cc.Label = null;
 
     @property(cc.Prefab)
-    pfBgMusic:cc.Prefab=null;
+    pfBgMusic: cc.Prefab = null;
 
     @property(cc.Label)
     lbCountDown: cc.Label = null;
 
     public goldNum = 0;
-    private time = 0;
+    public time = 0;
     private combo = 0;                                  //连击数
     public maxCombo = 0;                               //最大连击数
 
@@ -76,14 +76,37 @@ export default class Game extends cc.Component {
         GameCtr.isGameOver = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
         this.initIslands();
-        this.time = 100;
+
+        this.initProp();
         this.countdown();
 
         AudioManager.getInstance().playSound("audio/gameStart", false);
         this.scheduleOnce(() => { GameCtr.playBgm(); }, 1.5);
     }
 
-    initBgMusic(){
+    initProp() {
+        switch (GameData.currentMap) {
+            case 0:
+                this.time = 60;
+                break;
+            case 1:
+                this.time = 90;
+                break;
+            case 2:
+                this.time = 120;
+                break;
+        }
+        if (GameData.prop_time > 0) {
+            this.time += 10;
+            GameData.prop_time--;
+        }
+        if (GameData.prop_speedUp && GameData.currentRole != 1) {
+            GameCtr.speedUp = true;
+            GameData.prop_speedUp--;
+        }
+    }
+
+    initBgMusic() {
         while (cc.find("Canvas").getChildByTag(GameCtr.musicTag)) {
             cc.find("Canvas").removeChildByTag(GameCtr.musicTag)
         }
@@ -141,6 +164,7 @@ export default class Game extends cc.Component {
         this.ndPause.active = false;
         GameCtr.isPause = false;
         AudioManager.getInstance().musicOn = true;
+        this.countdown();
     }
 
     showPropEffect(type) {
@@ -154,6 +178,8 @@ export default class Game extends cc.Component {
                 break;
             case Game.GoodsType.REVIVE:
                 nd = Util.findChildByName("propRevive", this.ndPropEffect);
+                let ani = Util.findChildByName("reviveEffect", this.ndPropEffect).getComponent(cc.Animation);
+                ani.play();
                 break;
             case CollisionBase.CollisionType.MAGNET:
                 nd = Util.findChildByName("ndMagent", this.ndPropEffect);
@@ -191,16 +217,14 @@ export default class Game extends cc.Component {
     }
 
     countdown() {
+        if (GameCtr.isPause) return;
         this.lbTime.string = this.time + "s";
-        if (this.time >= 0) {
+        if (this.time > 0) {
             this.scheduleOnce(() => {
                 this.time--;
                 this.countdown();
             }, 1.0);
-        } else {
-            GameCtr.isGameOver = true;
-            GameCtr.gameOver();
-        }
+        } 
         if (this.time < 10) {
             AudioManager.getInstance().playSound("audio/countdown", false);
             this.lbCountDown.string = this.time + "";

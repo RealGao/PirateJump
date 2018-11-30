@@ -166,7 +166,6 @@ export default class GameOver extends cc.Component {
     showMall() {
         let nd = cc.instantiate(this.pfMall);
         nd.parent = this.ndMall;
-        this.ndRank.active=false;
         this.ndMall.active = true;
         this.ndResult.active = false;
         this.ndArchieve.active = false;
