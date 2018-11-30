@@ -78,6 +78,7 @@ export default class Island extends CollisionBase {
     }
 
     setRotateSpeed(speed = 1) {
+        if(GameCtr.speedUp) this.speed *= 1.2;
         this.rotateSpeed = speed * (this.speed / 5);
     }
 

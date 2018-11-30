@@ -311,6 +311,12 @@ export default class Pirate extends CollisionBase {
         this.jumpTime = 0;
         this.moveDt = 0;
         let comp: Island = island.getComponent(Island);
+
+        if(GameCtr.ins.mGame.time <= 0 && comp.type != Island.IslandType.Cannon) {
+            GameCtr.isGameOver = true;
+            GameCtr.gameOver();
+        }
+
         let selfWPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         this.node.parent = island;
         let parentWPos = island.parent.convertToWorldSpaceAR(island.position);

@@ -125,9 +125,9 @@ export default class CollisionMgr extends cc.Component {
                 comp = island.getComponent(Island);
                 comp.setType(Island.IslandType.Normal);
             }
-        } else if (randType <= 15) {
+        } else if (randType <= 18) {
             comp.setType(Island.IslandType.Normal);
-        } else if (randType > 15 && randType <= 19) {
+        } else if (randType > 18 && randType <= 19) {
             if (lastComp.type != Island.IslandType.Cannon) {
                 comp.setType(Island.IslandType.Vertical);
             } else {
