@@ -189,7 +189,6 @@ export default class Pirate extends CollisionBase {
                     AudioManager.getInstance().playSound("audio/gold", false);
                     break;
                 case CollisionBase.CollisionType.CHEST:
-                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.CHEST);
                     this.shakeChest = true;
                     other.node.runAction(cc.sequence(
                         cc.moveBy(0.025, cc.v2(-5, 0)),
@@ -199,6 +198,7 @@ export default class Pirate extends CollisionBase {
                         cc.moveBy(0.05, cc.v2(-10, 0)),
                         cc.moveBy(0.025, cc.v2(5, 0)),
                         cc.callFunc(() => {
+                            CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.CHEST);
                             CollisionMgr.removeProp(other.node);
                             GameCtr.ins.mGame.addGold(10);
                             this.shakeChest = false;
@@ -215,6 +215,7 @@ export default class Pirate extends CollisionBase {
                     collision.enabled = false;
                     break;
                 case CollisionBase.CollisionType.ALARM:
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.ALARM);
                     CollisionMgr.removeProp(other.node);
                     GameCtr.ins.mGame.addTime(10);
                     if (GameData.currentRole == 3) {
@@ -225,6 +226,7 @@ export default class Pirate extends CollisionBase {
                     this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.MAGNET:
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.MAGNET);
                     this.showMagnet();
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
@@ -232,6 +234,7 @@ export default class Pirate extends CollisionBase {
                     this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.SHIELD:
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.SHIELD);
                     this.showShield();
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
@@ -239,6 +242,7 @@ export default class Pirate extends CollisionBase {
                     this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.SIGHT:
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.SIGHT);
                     this.showSight();
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
@@ -246,6 +250,7 @@ export default class Pirate extends CollisionBase {
                     this.tmpGold++;
                     break;
                 case CollisionBase.CollisionType.ROTATE:
+                    CollisionMgr.addPropEffect(other.node.position, CollisionBase.CollisionType.ROTATE);
                     CollisionMgr.removeProp(other.node);
                     AudioManager.getInstance().playSound("audio/prop", false);
                     GameCtr.ins.mGame.showPropEffect(CollisionBase.CollisionType.ROTATE);
@@ -407,6 +412,7 @@ export default class Pirate extends CollisionBase {
                 GameData.reviveTimes++;
             } else if (GameData.prop_revive > 0) {
                 this.revive();
+                GameData.prop_revive--;
             } else {
                 AudioManager.getInstance().playSound("audio/dead", false);
                 GameCtr.isGameOver = true;
@@ -454,7 +460,7 @@ export default class Pirate extends CollisionBase {
     }
 
     update(dt) {
-        if (GameCtr.isGameOver) return;
+        if (GameCtr.isGameOver || GameCtr.isPause) return;
         if ((this.beginJump || this.beginShoot) && !this.shakeChest && this.isPirateAlive) {
             this.moveDt += dt;
             this.movePirate(dt);

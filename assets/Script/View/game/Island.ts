@@ -1,5 +1,6 @@
 import CollisionBase from "./CollisionBase";
 import CollisionMgr from "./CollisionMgr";
+import GameCtr from "../../Controller/GameCtr";
 
 const { ccclass, property } = cc._decorator;
 
@@ -81,6 +82,7 @@ export default class Island extends CollisionBase {
     }
 
     update(dt) {
+        if (GameCtr.isPause) return;
         if (this.type != Island.IslandType.Cannon) {
             this.node.rotation += this.rotateSpeed;
         }

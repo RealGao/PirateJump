@@ -37,6 +37,8 @@ export default class Game extends cc.Component {
     ndIslandLayer: cc.Node = null;
     @property(cc.Node)
     ndPropEffect: cc.Node = null;
+    @property(cc.Node)
+    ndPause: cc.Node = null;
     @property(cc.Label)
     lbGold: cc.Label = null;
     @property(cc.Label)
@@ -45,18 +47,8 @@ export default class Game extends cc.Component {
     @property(cc.Label)
     lbCombo: cc.Label = null;
 
-    @property(cc.Label)
-    lbDiamond:cc.Label=null;
-
-    @property(cc.Label)
-    lbName:cc.Label=null;
-
     @property(cc.Prefab)
     pfBgMusic:cc.Prefab=null;
-
-    @property(cc.Sprite)
-    spHead:cc.Sprite=null;
-    
 
     @property(cc.Label)
     lbCountDown: cc.Label = null;
@@ -81,7 +73,6 @@ export default class Game extends cc.Component {
     }
 
     start() {
-        this.initInfo();
         this.registerTouch();
         GameCtr.isGameOver = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
@@ -91,14 +82,6 @@ export default class Game extends cc.Component {
 
         AudioManager.getInstance().playSound("audio/gameStart", false);
         this.scheduleOnce(() => { GameCtr.playBgm(); }, 1.5);
-    }
-
-    initInfo(){
-        this.lbDiamond.string=GameData.diamond+'';
-        this.lbName.string=Util.cutstr(GameData.userInfo.nick,3);
-        if(GameData.userInfo.icon){
-            Util.loadImg(this.spHead,GameData.userInfo.icon);
-        } 
     }
 
     initBgMusic(){
@@ -147,6 +130,18 @@ export default class Game extends cc.Component {
     clearCombo() {
         this.combo = 0;
         this.lbCombo.string = this.combo + "";
+    }
+
+    pause() {
+        this.ndPause.active = true;
+        GameCtr.isPause = true;
+        AudioManager.getInstance().musicOn = false;
+    }
+
+    resume() {
+        this.ndPause.active = false;
+        GameCtr.isPause = false;
+        AudioManager.getInstance().musicOn = true;
     }
 
     showPropEffect(type) {
@@ -209,7 +204,7 @@ export default class Game extends cc.Component {
         }
         if (this.time < 10) {
             AudioManager.getInstance().playSound("audio/countdown", false);
-            this.lbCountDown.string = this.time + "s";
+            this.lbCountDown.string = this.time + "";
             this.lbCountDown.node.runAction(cc.sequence(
                 cc.spawn(
                     cc.fadeIn(0.5),

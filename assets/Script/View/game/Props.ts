@@ -141,6 +141,7 @@ export default class Props extends CollisionBase {
     }
 
     update(dt) {
+        if (GameCtr.isPause) return;
         let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         if (wPos.x < -200 || wPos.y > 1200) {
             CollisionMgr.removeProp(this.node);
