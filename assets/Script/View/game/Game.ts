@@ -53,7 +53,6 @@ export default class Game extends cc.Component {
     @property(cc.Label)
     lbCountDown: cc.Label = null;
 
-
     public goldNum = 0;
     private time = 0;
     private combo = 0;                                  //连击数

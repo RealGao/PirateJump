@@ -16,6 +16,8 @@ export default class GameOver extends cc.Component {
     ndMall: cc.Node = null;
     @property(cc.Node)
     ndArchieve: cc.Node = null;
+    @property(cc.Node)
+    ndRank: cc.Node = null;
 
     @property(cc.Label)
     lbGold: cc.Label = null;
@@ -53,6 +55,9 @@ export default class GameOver extends cc.Component {
 
     @property(cc.Prefab)
     pfAchievement: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    pfRank: cc.Prefab = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -161,17 +166,27 @@ export default class GameOver extends cc.Component {
     showMall() {
         let nd = cc.instantiate(this.pfMall);
         nd.parent = this.ndMall;
+        this.ndRank.active=false;
         this.ndMall.active = true;
         this.ndResult.active = false;
         this.ndArchieve.active = false;
     }
 
     showAchievement(){
+        if(cc.find("Canvas").getChildByName("achievement")){
+            return;
+        }
         let nd = cc.instantiate(this.pfAchievement);
-        nd.parent = this.ndArchieve;
-        this.ndMall.active = false;
-        this.ndResult.active = false;
-        this.ndArchieve.active = true;
+        nd.parent = cc.find("Canvas");
+    }
+
+
+    showRank(){
+        if(cc.find("Canvas").getChildByName("achievement")){
+            return;
+        }
+        let nd = cc.instantiate(this.pfRank);
+        nd.parent = cc.find("Canvas");
     }
 
 
@@ -182,8 +197,7 @@ export default class GameOver extends cc.Component {
                 cc.delayTime(1.0*i+0.8),
                 cc.callFunc(()=>{
                     let callFunc=()=>{
-                        //GameData.gold+=data[i].bonus;
-                        //GameDa
+                        GameData.gold+=data[i].bonus;
                         console.log("增加金币",data[i].bonus);
                     }
                     GameCtr.getInstance().getToast().toast(data[i].title+" 奖励金币:"+data[i].bonus,callFunc,0.8);

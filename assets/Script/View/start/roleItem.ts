@@ -1,6 +1,7 @@
 import GameData from "../../Common/GameData";
 import ViewManager from "../../Common/ViewManager";
 import GameCtr from "../../Controller/GameCtr";
+import AudioManager from "../../Common/AudioManager";
 
 const {ccclass, property} = cc._decorator;
 @ccclass
@@ -50,8 +51,8 @@ export default class NewClass extends cc.Component {
 
 
         this._lb_level.setLocalZOrder(12);
-        this._progress.setLocalZOrder(10);
         this._progressBar.setLocalZOrder(10);
+        this._progress.setLocalZOrder(10);
 
         this._mask.active=false;
         this._icon_seleted.active=false;
@@ -77,6 +78,7 @@ export default class NewClass extends cc.Component {
     doBuy(){
         if(this._roleInfo.price_gold>0){
             if(GameData.gold>=this._roleInfo.price_gold){
+                AudioManager.getInstance().playSound("audio/buy");
                 GameData.currentRole=this._roleInfo.id;
                 GameData.gold-=this._roleInfo.price_gold;
                 GameCtr.getInstance().getPublic().showGold();

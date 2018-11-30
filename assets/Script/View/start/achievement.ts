@@ -54,9 +54,10 @@ export default class NewClass extends cc.Component {
         }
         
         for(let i=0;i<this._achieveArr.length;i++){
-            this._achieveArr[i].on(cc.Node.EventType.TOUCH_END,(e)=>{
+            let icon=this._achieveArr[i].getChildByName("bg");
+            icon.on(cc.Node.EventType.TOUCH_END,(e)=>{
                 for(let i=0;i<this._achieveArr.length;i++){
-                    if(e.target.getName()==this._achieveArr[i].name){
+                    if(e.target.parent.name==this._achieveArr[i].name){
                         this.showAchieve(i);
                     }
                 }
@@ -65,7 +66,6 @@ export default class NewClass extends cc.Component {
     }
 
     showAchieve(index){
-        this._achieveArr[index].getComponent("achieveItem").showProgress();
         let des=this._achieveArr[index].getComponent("achieveItem").getDes();
         this.showAchieveDes(des);
         this._icon_seleted.x=this._achieveArr[index].x;

@@ -68,10 +68,10 @@ export default class NewClass extends cc.Component {
         this._lb_powerTime=this._infoNode.getChildByName("lb_powerTime");
         let btn_addDiamond=this._infoNode.getChildByName("btn_addDiamond");
         let btn_addPower=this._infoNode.getChildByName("btn_addPower");
+        this._lb_powerTime.active=true;
 
         this.initBtnEvent(btn_addDiamond);
         this.initBtnEvent(btn_addPower);
-
         this.initPowerTime();
     }
 
@@ -120,10 +120,12 @@ export default class NewClass extends cc.Component {
     }
 
     showPowerTime(){
+        console.log("log----------showPowerTime");
         if(GameData.power>=99){
-            this._lb_powerTime.active=false
+            this._lb_powerTime.getComponent(cc.Label).string="体力值已满";
+            this._lb_powerTime.scale=0.7;
         }else{
-            this._lb_powerTime.active=true;
+            this._lb_powerTime.scale=1.0;
             this._powerTime_min =Math.floor(GameData.powerTime/60);
             this._powerTime_sec =GameData.powerTime%60;
             this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
@@ -156,6 +158,7 @@ export default class NewClass extends cc.Component {
             console.log("log--------GameData.powerTime=:",GameData.powerTime);
             this.doPowerTimeCount();
         }
+        this.showPowerTime();
     }
 
     doPowerTimeCount(){

@@ -9,10 +9,12 @@ export default class NewClass extends cc.Component {
     _lb_rank=null;
     _img_head=null;
     _modelSprite=null;
+    _defaultHeadUrl=null;
     
     @property(cc.SpriteFrame)
     modelSpritesFrame:cc.SpriteFrame[]=[];
     onLoad(){
+        this._defaultHeadUrl="https://2-00.oss-cn-qingdao.aliyuncs.com/game/share/tall_icon.png";
         this.initNode();
     }
 
@@ -37,6 +39,10 @@ export default class NewClass extends cc.Component {
     }
 
     setHeadImg(url){
+        if(url==this._defaultHeadUrl){
+            return;
+        }
+
         let sp=this._img_head.getComponent(cc.Sprite);
         Util.loadImg(sp,url);
     }

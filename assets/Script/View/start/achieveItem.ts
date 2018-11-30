@@ -7,12 +7,18 @@ export default class NewClass extends cc.Component {
     _achieveConf=null;
     _progress=null;
     _value=null;
+    _bg=null;
     
     onLoad(){
         this.initNode();
     }
 
+    start(){
+        this.showProgress();
+    }
+
     initNode(){
+        this._bg=this.node.getChildByName("bg");
         this._progress=this.node.getChildByName('progress') 
     }
 
@@ -43,6 +49,12 @@ export default class NewClass extends cc.Component {
         let valueTemp=this._value>=this._achieveConf[level].target?this._achieveConf[level].target:this._value;
         console.log("log----------valueTemp=:",valueTemp);
         this._progress.getComponent(cc.ProgressBar).progress=valueTemp/this._achieveConf[level].target;
+
+        if(level<4){
+            this._bg.getComponent(cc.Button).interactable=false;
+        }else{
+            this._bg.getComponent(cc.Button).interactable=true;
+        }
     }
 
 }

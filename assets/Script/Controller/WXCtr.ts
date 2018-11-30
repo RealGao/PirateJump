@@ -532,6 +532,7 @@ export default class WXCtr {
                 key: key,
                 data: data,
                 success: (resp) => {
+                    console.log("log-------------setStorageData=:resp  key data",resp,key,data);
                 }
             });
         }

@@ -111,7 +111,7 @@ export default class Start extends cc.Component {
     initBtnsNode(){
         let btn_music=this._btnsNode.getChildByName("btn_music");
         let btn_help=this._btnsNode.getChildByName("btn_help");
-        let btn_start=this._btnsNode.getChildByName("btnStartNode").getChildByName("btn_start");
+        let btn_start=this._btnsNode.getChildByName("StartBtn").getChildByName("btnStartNode").getChildByName("btn_start");
         let btn_invite=this._btnsNode.getChildByName("btn_invite");
         let btn_achievement=this._btnsNode.getChildByName("btn_achievement");
         let btn_rank=this._btnsNode.getChildByName("btn_rank");
@@ -137,11 +137,21 @@ export default class Start extends cc.Component {
                 localStorage.setItem("musicState",GameCtr.musicState+'')
                 this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
-                //this.showHelp();
+                this.showHelp();
                 GameData.gold=100000;
                 GameData.diamond=50000;
+                GameData.power=99;
+                GameCtr.getInstance().getPublic().showGold();
+                GameCtr.getInstance().getPublic().showDiamond();
+                GameCtr.getInstance().getPublic().showPower();
+
             }else if(e.target.getName()=="btn_start"){
-                GameCtr.gameStart();
+                //GameCtr.gameStart();
+                if(GameData.power>=5){
+                    cc.director.loadScene("Game");
+                }else{
+                    GameCtr.getInstance().getToast().toast("体力值不足");
+                }
             }else if(e.target.getName()=="btn_invite"){
                
             }else if(e.target.getName()=="btn_achievement"){

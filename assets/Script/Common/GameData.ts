@@ -131,7 +131,7 @@ export default class GameData {
         { title:"女帝船长", des:"太平洋东岸的盲女海盗王，出身卑微\n\n偶然吃下神奇的食物，恢复了视力，\n觉醒\n\n[加速]（小岛速度增加1级）"},
         { title:"白胡子",   des:"表面是来至偏远海域的老年海盗王,实则\n因妻子意外死亡，隐藏身份的传奇海盗王\n\n[幸运]（无限幸运草）"},
         { title:"香克斯",   des:"太平洋南岸海盗王，世界实力最强，\n势力最大的海盗王\n\n座右铭：时间就是生命\n\n[加时]（进入游戏增加10秒时间）"},
-        { title:"小骷髅",   des:"溺死在海中的强大海盗，被海之女神赐\n予不死之身\n\n[不死]（死亡后无限复活）"},
+        { title:"小髅髅",   des:"溺死在海中的强大海盗，被海之女神赐\n予不死之身\n\n[不死]（死亡后无限复活）"},
     ]
 
     static rolesInfo = [
@@ -153,7 +153,7 @@ export default class GameData {
     static propsInfo = [
         { name: "luckyGrass", price: 50, title:"幸运草",  des:"让你变得幸运起来，值得拥有\n\n抵消COMBO断掉的惩罚"},
         { name: "speedUp",    price: 20, title:"加速",    des:"召唤强风，让小岛快速转起来\n\n加快小岛旋转速度"},
-        { name: "revive",     price: 50, title:"复活",    des:"装有蓝色液体的神奇瓶子\n\n死亡后，复活到小岛上"},
+        { name: "revive",     price: 50, title:"复活",    des:"装有蓝色液体的神奇瓶子\n\n死亡后，复活到小岛上\n\n无限模式不生效"},
         { name: "time",       price: 20, title:"加时器",  des:"让你向天再借10秒的神器\n\n入场时，增加10秒跳跃时间"},
     ]
 
@@ -899,10 +899,9 @@ export default class GameData {
     //获取本地所有游戏数据
     static getAllLocalGameData() {
         console.log("获取本地数据！！！！！！！！！！！！");
-        GameData.gold = WXCtr.getStorageData("gold", 3000);
-        GameData.diamond = WXCtr.getStorageData("diamonds", 2000);
-
-        GameData.power = WXCtr.getStorageData("power");
+        GameData.gold = WXCtr.getStorageData("gold", 0);
+        GameData.diamond = WXCtr.getStorageData("diamonds", 0);
+        GameData.power = WXCtr.getStorageData("power",99);
         GameData.combo = WXCtr.getStorageData("combo");
         GameData.doubleJump = WXCtr.getStorageData("doubleJump");
         GameData.flyingGold = WXCtr.getStorageData("flyingGold");
@@ -1341,10 +1340,10 @@ export default class GameData {
             GameData[key]=score;
             WXCtr.submitScoreToWx(GameData.level1,GameData.level2,GameData.level3,GameData.level4);
         }else{
-            //if(score>GameData[key]){
+            if(score>GameData[key]){
                 GameData[key]=score;
                 WXCtr.submitScoreToWx(GameData.level1,GameData.level2,GameData.level3,GameData.level4);
-            //}
+            }
         }
     }
 }

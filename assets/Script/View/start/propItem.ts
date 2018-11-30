@@ -1,6 +1,7 @@
 import GameData from "../../Common/GameData";
 import ViewManager from "../../Common/ViewManager";
 import GameCtr from "../../Controller/GameCtr";
+import AudioManager from "../../Common/AudioManager";
 
 const {ccclass, property} = cc._decorator;
 @ccclass
@@ -45,6 +46,7 @@ export default class NewClass extends cc.Component {
             }else if(e.target.getName()=="btn_buy"){
                 if(GameData.diamond>=this._info.price){
                     if(GameData.getProp(this._info.name)>=10){return}
+                    AudioManager.getInstance().playSound("audio/buy");
                     GameData.addProp(this._info.name);
                     GameData.diamond-=this._info.price;
                     GameCtr.getInstance().getPublic().showDiamond();

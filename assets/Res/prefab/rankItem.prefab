@@ -387,7 +387,9 @@
       "__id__": 9
     },
     "_enabled": true,
-    "_spriteFrame": null,
+    "_spriteFrame": {
+      "__uuid__": "47e88753-5f1a-4fe0-8618-21b5cb0e627e"
+    },
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,

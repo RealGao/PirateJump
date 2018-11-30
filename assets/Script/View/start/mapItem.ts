@@ -1,6 +1,7 @@
 import GameData from "../../Common/GameData";
 import ViewManager from "../../Common/ViewManager";
 import GameCtr from "../../Controller/GameCtr";
+import AudioManager from "../../Common/AudioManager";
 
 const {ccclass, property} = cc._decorator;
 @ccclass
@@ -95,6 +96,7 @@ export default class NewClass extends cc.Component {
     doBuy(){
         if(this._info.gold_price>0){
             if(GameData.gold>=this._info.gold_price){
+                AudioManager.getInstance().playSound("audio/buy");
                 GameData.gold-=this._info.gold_price;
                 GameCtr.getInstance().getPublic().showGold();
                 GameCtr.getInstance().getStart().updateBtnShopState();
@@ -108,6 +110,7 @@ export default class NewClass extends cc.Component {
         }
 
         if(this._info.diamond_price>0){
+            AudioManager.getInstance().playSound("audio/buy");
             if(GameData.diamond>=this._info.diamond_price){
                 GameData.diamond-=this._info.diamond_price;
                 GameCtr.getInstance().getPublic().showDiamond();
