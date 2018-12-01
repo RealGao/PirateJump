@@ -3,7 +3,7 @@
   "_name": "propCommon",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 0.6333333333333333,
+  "_duration": 0.63,
   "sample": 30,
   "speed": 1,
   "wrapMode": 1,
@@ -125,6 +125,18 @@
           }
         ]
       }
+    },
+    "props": {
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 150
+        },
+        {
+          "frame": 0.6,
+          "value": 150
+        }
+      ]
     }
   },
   "events": []
