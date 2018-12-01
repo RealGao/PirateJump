@@ -113,6 +113,8 @@ export default class CollisionMgr extends cc.Component {
         let randNum = Math.random() * 100;
         if (randNum <= 5) {
             comp.setRotateSpeed(-1);
+        }else {
+            comp.setRotateSpeed(1);
         }
 
         let lastIsland = CollisionMgr.mCollisionMgr.islandArr[length - 1];
@@ -712,9 +714,9 @@ export default class CollisionMgr extends cc.Component {
             CollisionMgr.mCollisionMgr.islandLayer.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
             for (let i = 0; i < CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
                 let nd = CollisionMgr.mCollisionMgr.ndBg.children[i];
-                nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
-                if (nd.x <= -1461) {
-                    nd.x += 1842;
+                nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt;
+                if (nd.x <= -1021) {
+                    nd.x += 1502;
                 }
             }
         }

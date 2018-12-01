@@ -278,7 +278,7 @@ export default class Pirate extends CollisionBase {
     }
 
     removePropOfLastIsland(prop) {
-        if (!this.lastIsland) return;
+        if (!this.lastIsland || this.isLanded) return;
         let comp: Island = this.lastIsland.getComponent(Island);
         for (let i = 0; i < comp.props.length; i++) {
             let nd = comp.props[i];
@@ -319,7 +319,7 @@ export default class Pirate extends CollisionBase {
 
         if (GameCtr.ins.mGame.time <= 0 && comp.type != Island.IslandType.Cannon) {
             GameCtr.isGameOver = true;
-            GameCtr.gameOver();
+            GameCtr.ins.mGame.timeUp();
             AudioManager.getInstance().playSound("audio/gameOver", false);
         }
 
@@ -477,6 +477,11 @@ export default class Pirate extends CollisionBase {
         if ((this.beginJump || this.beginShoot) && !this.shakeChest && this.isPirateAlive) {
             this.moveDt += dt;
             this.movePirate(dt);
+        }
+
+        if (this.isLanded) {
+            let comp: Island = this.node.parent.getComponent(Island);
+            console.log("this.rotateSpeed == ", comp.rotateSpeed);
         }
 
         // 盾牌
