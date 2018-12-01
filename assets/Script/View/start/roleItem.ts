@@ -82,7 +82,9 @@ export default class NewClass extends cc.Component {
                 GameData.currentRole=this._roleInfo.id;
                 GameData.gold-=this._roleInfo.price_gold;
                 GameCtr.getInstance().getPublic().showGold();
-                GameCtr.getInstance().getStart().updateBtnShopState();
+                if(cc.director.getScene().name=="Start"){
+                    GameCtr.getInstance().getStart().updateBtnShopState();
+                }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
@@ -101,7 +103,9 @@ export default class NewClass extends cc.Component {
                 GameData.currentRole=this._roleInfo.id;
                 GameData.diamond-=this._roleInfo.price_diamond;
                 GameCtr.getInstance().getPublic().showDiamond();
-                GameCtr.getInstance().getStart().updateBtnShopState();
+                if(cc.director.getScene().name=="Start"){
+                    GameCtr.getInstance().getStart().updateBtnShopState();
+                }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();

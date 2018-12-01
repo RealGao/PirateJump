@@ -37,8 +37,7 @@ export default class Game extends cc.Component {
     ndIslandLayer: cc.Node = null;
     @property(cc.Node)
     ndPropEffect: cc.Node = null;
-    @property(cc.Node)
-    ndPause: cc.Node = null;
+
     @property(cc.Label)
     lbGold: cc.Label = null;
     @property(cc.Label)
@@ -52,6 +51,9 @@ export default class Game extends cc.Component {
 
     @property(cc.Label)
     lbCountDown: cc.Label = null;
+
+    @property(cc.Prefab)
+    pfPause:cc.Prefab=null;
 
     public goldNum = 0;
     public time = 0;
@@ -74,6 +76,7 @@ export default class Game extends cc.Component {
     start() {
         this.registerTouch();
         GameCtr.isGameOver = false;
+        GameCtr.isPause = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
         this.initIslands();
 
@@ -155,13 +158,16 @@ export default class Game extends cc.Component {
     }
 
     pause() {
-        this.ndPause.active = true;
+        if(cc.find("Canvas").getChildByName("ndPause")){
+            return;
+        }
+        let ndPause=cc.instantiate(this.pfPause);
+        ndPause.parent=cc.find("Canvas")
         GameCtr.isPause = true;
         AudioManager.getInstance().musicOn = false;
     }
 
     resume() {
-        this.ndPause.active = false;
         GameCtr.isPause = false;
         AudioManager.getInstance().musicOn = true;
         this.countdown();

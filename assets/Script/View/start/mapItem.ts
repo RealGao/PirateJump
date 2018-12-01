@@ -99,7 +99,9 @@ export default class NewClass extends cc.Component {
                 AudioManager.getInstance().playSound("audio/buy");
                 GameData.gold-=this._info.gold_price;
                 GameCtr.getInstance().getPublic().showGold();
-                GameCtr.getInstance().getStart().updateBtnShopState();
+                if(cc.director.getScene().name=="Start"){
+                    GameCtr.getInstance().getStart().updateBtnShopState();
+                }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 this._btn_buy.active=false;
                 this.setLockState(true);
@@ -114,7 +116,9 @@ export default class NewClass extends cc.Component {
             if(GameData.diamond>=this._info.diamond_price){
                 GameData.diamond-=this._info.diamond_price;
                 GameCtr.getInstance().getPublic().showDiamond();
-                GameCtr.getInstance().getStart().updateBtnShopState();
+                if(cc.director.getScene().name=="Start"){
+                    GameCtr.getInstance().getStart().updateBtnShopState();
+                }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 this._btn_buy.active=false;
                 this.setLockState(true);

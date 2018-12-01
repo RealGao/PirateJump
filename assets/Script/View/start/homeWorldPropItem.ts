@@ -111,7 +111,9 @@ export default class NewClass extends cc.Component {
             GameData.diamond-=this._priceGet;
             GameData.homeWorldPropLevelUp(this._name);
             GameCtr.getInstance().getPublic().showDiamond();
-            GameCtr.getInstance().getStart().updateBtnShopState();
+            if(cc.director.getScene().name=="Start"){
+                GameCtr.getInstance().getStart().updateBtnShopState();
+            }
             GameCtr.getInstance().getPublic().upBtnsState();
             this.setLevel();
             this.updateHomeWorldProps();
@@ -132,7 +134,9 @@ export default class NewClass extends cc.Component {
             GameData.diamond-=this._priceLevelUp;
             GameData.homeWorldPropLevelUp(this._name);
             GameCtr.getInstance().getPublic().showDiamond();
-            GameCtr.getInstance().getStart().updateBtnShopState();
+            if(cc.director.getScene().name=="Start"){
+                GameCtr.getInstance().getStart().updateBtnShopState();
+            }
             GameCtr.getInstance().getPublic().upBtnsState();
             this.setLevel();
             this.updateHomeWorldProps();

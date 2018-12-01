@@ -59,6 +59,9 @@ export default class GameOver extends cc.Component {
     @property(cc.Prefab)
     pfRank: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    pfPublicNode:cc.Prefab=null;
+
     // LIFE-CYCLE CALLBACKS:
 
     private combo = 0;
@@ -67,17 +70,34 @@ export default class GameOver extends cc.Component {
 
     onLoad () {
         GameCtr.getInstance().setGameOver(this);
+        this.initPublicNode();
     }
 
     start () {
 
     }
+
+    initPublicNode(){
+        let publicNode=cc.instantiate(this.pfPublicNode);
+        publicNode.parent=cc.find("Canvas");
+        publicNode.getComponent("PublicNode").hideBtnNode();
+        publicNode.active=false;
+    }
+
+    showPublicNode(){
+        let publicNode=cc.find("Canvas").getChildByName("publicNode");
+        if(publicNode){
+            publicNode.active=true;
+        }
+    }
+
     showResult() {
         this.ndOver.active = true;
         this.showRoleInfo();
         this.showScore();
         this.showBagInfo();
         this.showAchievementsBonus();
+        this.showPublicNode();
     }
 
     showScore() {
@@ -150,10 +170,6 @@ export default class GameOver extends cc.Component {
         this.lbTime.string = GameData.prop_time + "/10";
     }
 
-    showArchievement() {
-
-    }
-
     restart() {
         GameCtr.gameStart();
         
@@ -172,9 +188,11 @@ export default class GameOver extends cc.Component {
     }
 
     showAchievement(){
+        console.log("log----------showAchievement-------1111");
         if(cc.find("Canvas").getChildByName("achievement")){
             return;
         }
+        console.log("log----------showAchievement-------2222");
         let nd = cc.instantiate(this.pfAchievement);
         nd.parent = cc.find("Canvas");
     }

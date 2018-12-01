@@ -134,7 +134,7 @@ export default class Start extends cc.Component {
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_music"){
                 GameCtr.musicState=-1*GameCtr.musicState;
-                localStorage.setItem("musicState",GameCtr.musicState+'')
+                localStorage.setItem("musicState",GameCtr.musicState+'');
                 this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
                 this.showHelp();

@@ -50,7 +50,9 @@ export default class NewClass extends cc.Component {
                     GameData.addProp(this._info.name);
                     GameData.diamond-=this._info.price;
                     GameCtr.getInstance().getPublic().showDiamond();
-                    GameCtr.getInstance().getStart().updateBtnShopState();
+                    if(cc.director.getScene().name=="Start"){
+                        GameCtr.getInstance().getStart().updateBtnShopState();
+                    }
                     GameCtr.getInstance().getPublic().upBtnsState();
                     this.showCount();
                 }else{
