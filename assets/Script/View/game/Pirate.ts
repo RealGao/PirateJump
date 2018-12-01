@@ -67,6 +67,8 @@ export default class Pirate extends CollisionBase {
     private landOnCannon = false;                           //是否降落在大炮上
     private beginJump = false;                              //是否开始跳跃
     private beginShoot = false;                             //是否开始发射
+    public isLanded = false;                                //是否着陆
+
     private isPirateAlive = true;                           //角色是否死亡
     private isInitial = true;                               //是否刚初始
     private jumpTime = 0;                                   //跳跃次数
@@ -124,6 +126,7 @@ export default class Pirate extends CollisionBase {
     jump() {
         if (this.beginShoot || this.landOnCannon) return;
         this.beginJump = true;
+        this.isLanded = false;
         this.ndLine.active = false;
         if (this.jumpTime == 0) {
             this.gravity = -800;
@@ -341,6 +344,7 @@ export default class Pirate extends CollisionBase {
         } else {
             this.landOnCannon = false;
             this.ndLine.active = true;
+            this.isLanded = true;
         }
 
         let tmpPos = GameCtr.ins.mGame.ndIslandLayer.position;
@@ -425,7 +429,7 @@ export default class Pirate extends CollisionBase {
             } else {
                 AudioManager.getInstance().playSound("audio/dead", false);
                 GameCtr.isGameOver = true;
-                this.scheduleOnce(() => { GameCtr.gameOver(); }, 1.5);
+                GameCtr.gameOver();
             }
         }
     }

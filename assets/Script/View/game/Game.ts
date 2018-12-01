@@ -231,7 +231,11 @@ export default class Game extends cc.Component {
                 this.time--;
                 this.countdown();
             }, 1.0);
-        } 
+        }else{
+            if(GameCtr.ins.mPirate.isLanded) {
+                GameCtr.gameOver();
+            }
+        }
         if (this.time < 10) {
             AudioManager.getInstance().playSound("audio/countdown", false);
             this.lbCountDown.string = this.time + "";

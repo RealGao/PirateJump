@@ -181,7 +181,9 @@ export default class GameCtr {
     // 游戏结束
     static gameOver() {
         GameCtr.ins.mGame.gameOver();
-        GameCtr.ins.mGameOver.showResult();
+        setTimeout(() => {
+            GameCtr.ins.mGameOver.showResult();
+        }, 1500);
     }
 
     // 游戏开始
