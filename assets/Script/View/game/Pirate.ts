@@ -319,7 +319,7 @@ export default class Pirate extends CollisionBase {
 
         if (GameCtr.ins.mGame.time <= 0 && comp.type != Island.IslandType.Cannon) {
             GameCtr.isGameOver = true;
-            GameCtr.gameOver();
+            GameCtr.ins.mGame.timeUp();
             AudioManager.getInstance().playSound("audio/gameOver", false);
         }
 
@@ -479,7 +479,7 @@ export default class Pirate extends CollisionBase {
             this.movePirate(dt);
         }
 
-        if(this.isLanded) {
+        if (this.isLanded) {
             let comp: Island = this.node.parent.getComponent(Island);
             console.log("this.rotateSpeed == ", comp.rotateSpeed);
         }

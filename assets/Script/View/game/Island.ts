@@ -100,7 +100,7 @@ export default class Island extends CollisionBase {
     }
 
     update(dt) {
-        if (GameCtr.isPause) return;
+        if (GameCtr.isPause || GameCtr.isGameOver) return;
         if (this.type != Island.IslandType.Cannon) {
             this.node.rotation += this.rotateSpeed;
         }

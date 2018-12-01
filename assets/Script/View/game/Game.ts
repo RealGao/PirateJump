@@ -37,6 +37,8 @@ export default class Game extends cc.Component {
     ndIslandLayer: cc.Node = null;
     @property(cc.Node)
     ndPropEffect: cc.Node = null;
+    @property(cc.Node)
+    ndTimeUp: cc.Node = null;
 
     @property(cc.Label)
     lbGold: cc.Label = null;
@@ -233,7 +235,8 @@ export default class Game extends cc.Component {
             }, 1.0);
         }else{
             if(GameCtr.ins.mPirate.isLanded) {
-                GameCtr.gameOver();
+                GameCtr.isGameOver = true;
+                this.timeUp();
             }
         }
         if (this.time < 10) {
@@ -250,6 +253,16 @@ export default class Game extends cc.Component {
                 ),
             ))
         }
+    }
+
+    timeUp() {
+        this.ndTimeUp.runAction(cc.sequence(
+            cc.scaleTo(0, 1.5),
+            cc.fadeIn(0.2),
+            cc.delayTime(1),
+            cc.fadeOut(0.5),
+            cc.callFunc(()=>{GameCtr.gameOver();})
+        ));
     }
 
     gameOver() {
