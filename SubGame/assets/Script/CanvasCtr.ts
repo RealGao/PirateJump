@@ -342,10 +342,17 @@ export default class CanvasCtr extends cc.Component {
         recoreder.parent=this.ndRecorder;
 
         for(let i=0;i<4;i++){
-            let lb_recoreder=recoreder.getChildByName("lb_recordHolder"+i);
+            let lb_score=recoreder.getChildByName("lb_score"+i);
+            let headFrame=recoreder.getChildByName("headFram"+i);
+            let imgHead=headFrame.getChildByName("head");
             if(this.ranks[i].length>=1){
-                console.log("子域 显示地图最高得分记录--",this.ranks[i][0].data.score)
-                lb_recoreder.getComponent(cc.Label).string=this.cutstr(this.ranks[i][0].data.nickname,3) +" :"+this.ranks[i][0].data.score;
+                console.log("子域 显示地图最高得分记录--",this.ranks[i][0].data.score);
+                lb_score.getComponent(cc.Label).string=this.ranks[i][0].data.score;
+                let imgHeadSp=imgHead.getComponent(cc.Sprite);
+                this.createImage(this.ranks[i][0].data.avatarUrl,imgHeadSp,imgHead);
+            }else{
+                lb_score.active=false;
+                headFrame.active=false;
             }
         }
     }
@@ -373,6 +380,36 @@ export default class CanvasCtr extends cc.Component {
         //     return str;
         // }
         return str;
+    }
+
+    createImage(avatarUrl,sp,spNode) {
+        if (window.wx != undefined) {
+            try {
+                let image = wx.createImage();
+                image.onload = () => {
+                    try {
+                        let texture = new cc.Texture2D();
+                        texture.initWithElement(image);
+                        texture.handleLoadedTexture();
+                        sp.spriteFrame = new cc.SpriteFrame(texture);
+                    } catch (e) {
+                        cc.log(e);
+                        spNode.active = false;
+                    }
+                };
+                image.src = avatarUrl;
+            } catch (e) {
+                cc.log(e);
+                spNode.active = false;
+            }
+        } else {
+            cc.loader.load({
+                url: avatarUrl,
+                type: 'jpg'
+            }, (err, texture) => {
+                sp.spriteFrame = new cc.SpriteFrame(texture);
+            });
+        }
     }
 
     // start () {

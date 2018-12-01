@@ -32,7 +32,7 @@ export default class NewClass extends cc.Component {
 
     onBtnRestart(){
         this.node.destroy();
-        GameCtr.ins.mGame.start();
+        GameCtr.gameStart();
     }
 
     onBtnReturn(){

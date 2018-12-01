@@ -9,7 +9,7 @@
     },
 
     "subpackages": [{
-        "name": "Animation",
-        "root": "res/raw-assets/Res/texture/animation"
+        "name": "subPackage",
+        "root": "res/raw-assets/Res/texture/subPackage"
     }]
 }

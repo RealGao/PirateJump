@@ -79,7 +79,7 @@ export default class Start extends cc.Component {
     }
 
     loadPackages() {
-        WXCtr.loadSubPackages("Animation", () => {
+        WXCtr.loadSubPackages("subPackage", () => {
             console.log("log............分包加载完成---------");
         });
     }

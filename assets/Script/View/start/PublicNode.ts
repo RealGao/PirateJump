@@ -145,6 +145,7 @@ export default class NewClass extends cc.Component {
 
     initPowerTime(){
         let powerTimeCount=WXCtr.getStorageData("powerTime");
+        let lastPowerTime=WXCtr.getStorageData("lastPowerTime");
         console.log("log--------powerTimeCount=:",powerTimeCount);
         if(!powerTimeCount){
             console.log("log------------d1111111111111")
@@ -153,12 +154,17 @@ export default class NewClass extends cc.Component {
         }else{
             console.log("log------------d2222222222222")
             let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
-            console.log('log------------timeTerval=:',timeIterval);
+            if(lastPowerTime){
+                if(lastPowerTime>WXCtr.getStorageData("lastTime")){
+                    timeIterval=Math.floor((new Date().getTime()-lastPowerTime)/1000);
+                }
+            }
             if(timeIterval-powerTimeCount>=0){
                 GameData.power+=1;
                 timeIterval-=powerTimeCount;
                 let cycle=Math.floor(timeIterval/5*60);
                 GameData.power+=cycle;
+                GameData.power= GameData.power>99?99:GameData.power;
                 GameData.powerTime=timeIterval-cycle*5*60;
                 console.log("log------------d3333333333333")
             }else{
@@ -360,5 +366,10 @@ export default class NewClass extends cc.Component {
         this.updateBtnMapsState();
         this.updateBtnPropsState();
         this.updateBtnCharactorsState();
+    }
+
+
+    onDestroy(){
+        WXCtr.setStorageData("lastPowerTime",new Date().getTime());
     }
 }

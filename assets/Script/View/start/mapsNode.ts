@@ -24,6 +24,9 @@ export default class NewClass extends cc.Component {
         this.doAction();
         WXCtr.showMapsRecorder();
        
+        this.scheduleOnce(()=>{
+            this._updateSubDomainCanvas();
+        },1.0)
     }
 
     initNode(){
@@ -86,9 +89,7 @@ export default class NewClass extends cc.Component {
         ))
     }
 
-    update() {
-        this._updateSubDomainCanvas();
-    }
+
 
     // 刷新子域的纹理
     _updateSubDomainCanvas() {

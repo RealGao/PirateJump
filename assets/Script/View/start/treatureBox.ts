@@ -49,7 +49,7 @@ export default class NewClass extends cc.Component {
             if(lotteryObj.day==Util.getCurrTimeYYMMDD()){
                 GameData.lotteryTimes=lotteryObj.times;
             }else{
-                GameData.lotteryTimes=lotteryObj.times+5;
+                GameData.lotteryTimes=lotteryObj.times+3;
                 GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
             }
         }
