@@ -114,13 +114,12 @@ export default class HttpCtr {
             rootUrl:Http.UrlConfig.rootUrl,
             success: (resp) => {
                 if (resp.success == Http.Code.OK) {
-
+                    console.log("log---------获取游戏配置信息 resp=:",resp);
                     GameCtr.reviewSwitch = resp.ok;
                     if (resp.nav.index) GameCtr.otherData = resp.nav.index;
                     if (resp.nav.nav) GameCtr.sliderDatas = resp.nav.nav;
                     if (resp.nav.banner) GameCtr.bannerDatas = resp.nav.banner;
                     if (resp.share) GameCtr.shareSwitch = resp.share;
-                    if (resp.advTime) GameCtr.ufoDelayTime = resp.advTime;
                     if (resp.onclick) GameCtr.OnClickStat = resp.onclick;
                 }
             },
