@@ -118,6 +118,13 @@ export default class NewClass extends cc.Component {
         this._lb_diamond.getComponent(cc.Label).string=GameData.diamond+"";
     }
 
+
+    hideGoldNode(){
+        this._lb_gold.active=false;
+        let icon_gold=this._infoNode.getChildByName("icon_gold");
+        icon_gold.active=false;
+    }
+
     showPower(){
         this._lb_power.getComponent(cc.Label).string=GameData.power+"/99";
     }

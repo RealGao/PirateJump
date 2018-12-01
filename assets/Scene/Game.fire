@@ -1954,8 +1954,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 95,
-      "y": 1.5
+      "x": 141,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2079,7 +2079,7 @@
     "_alignFlags": 1,
     "_left": 0,
     "_right": 0,
-    "_top": 25,
+    "_top": 26.5,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -2140,7 +2140,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -211,
+      "x": -226,
       "y": 0
     },
     "_skewX": 0,
@@ -2328,7 +2328,9 @@
     "lbCountDown": {
       "__id__": 91
     },
-    "pfPause": null
+    "pfPause": {
+      "__uuid__": "a6b2bedf-7d7e-4735-94d3-b67f6edf2020"
+    }
   },
   {
     "__type__": "cc.Node",
@@ -4407,7 +4409,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 209
@@ -6198,8 +6200,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 95,
-      "y": 436.5
+      "x": 140,
+      "y": 437
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -6247,7 +6249,7 @@
     "_alignFlags": 1,
     "_left": 0,
     "_right": 0,
-    "_top": 25,
+    "_top": 24.5,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -7867,7 +7869,7 @@
       "__id__": 148
     },
     "component": "GameOver",
-    "handler": "showArchievement",
+    "handler": "showAchievement",
     "customEventData": ""
   },
   {
@@ -7918,8 +7920,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81,
-      "height": 118
+      "width": 73,
+      "height": 121
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -7927,8 +7929,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 1,
-      "y": -72.8
+      "x": -185.8,
+      "y": 98.8
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -7946,7 +7948,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "d6b1d309-f575-4ce2-9804-76041ecaaa9e"
+      "__uuid__": "16ebd532-8752-4dfa-a9e8-ff1a6b6018ca"
     },
     "_type": 0,
     "_sizeMode": 1,
