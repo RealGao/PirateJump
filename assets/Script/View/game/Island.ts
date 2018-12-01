@@ -64,7 +64,6 @@ export default class Island extends CollisionBase {
                 this.speed = Island.SpeedType.Fast;
                 break;
         }
-        this.setRotateSpeed();
     }
 
     setType(type) {
