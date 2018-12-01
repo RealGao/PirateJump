@@ -81,6 +81,7 @@ export default class GameOver extends cc.Component {
         let publicNode=cc.instantiate(this.pfPublicNode);
         publicNode.parent=cc.find("Canvas");
         publicNode.getComponent("PublicNode").hideBtnNode();
+        publicNode.getComponent("PublicNode").hideGoldNode();
         publicNode.active=false;
     }
 

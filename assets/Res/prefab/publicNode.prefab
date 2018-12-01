@@ -3862,6 +3862,9 @@
     },
     "pfCharactersNode": {
       "__uuid__": "c91dcc7e-f409-4744-a0d7-fd49a0f5c1b9"
+    },
+    "pfPowerNotEnough": {
+      "__uuid__": "8943a016-f2c9-40d7-bee0-92fd870eda5c"
     }
   },
   {

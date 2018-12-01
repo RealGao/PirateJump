@@ -41,6 +41,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     pfCharactersNode:cc.Prefab=null;
 
+    @property(cc.Prefab)
+    pfPowerNotEnough:cc.Prefab=null;
+
 
     onLoad(){
         this.initNode();
@@ -113,6 +116,13 @@ export default class NewClass extends cc.Component {
 
     showDiamond(){
         this._lb_diamond.getComponent(cc.Label).string=GameData.diamond+"";
+    }
+
+
+    hideGoldNode(){
+        this._lb_gold.active=false;
+        let icon_gold=this._infoNode.getChildByName("icon_gold");
+        icon_gold.active=false;
     }
 
     showPower(){
@@ -188,33 +198,29 @@ export default class NewClass extends cc.Component {
                     cc.director.loadScene("Start");
                 }
             }else if(e.target.getName()=="btn_maps"){
-                if(this.node.getChildByName("mapsNode")){return;}
+                if(cc.find("Canvas").getChildByName("mapsNode")){return;}
                 this.showMapsNode();
                 this.destroyPropsNode();
                 this.destroyHomeWorldNode();
                 this.destroyCharactersNode();
                 GameData.currentShopIndex=Shop.maps;
                 this.seletedLightBtn("btn_maps");
-                //this._mapsNode.getComponent("mapsNode").doAction();
             }else if(e.target.getName()=="btn_props"){
-                if(this.node.getChildByName("propsNode")){return}
+                if(cc.find("Canvas").getChildByName("propsNode")){return}
                 this.showPropsNode();
                 this.destroyMapsNode();
                 this.destroyHomeWorldNode();
                 this.destroyCharactersNode();
                 GameData.currentShopIndex=Shop.props;
                 this.seletedLightBtn("btn_props");
-                //this._propsNode.getComponent("propsNode").doAction();
             }else if(e.target.getName()=="btn_characters"){
-                if(this.node.getChildByName("charactersNode")){return}
-
+                if(cc.find("Canvas").getChildByName("charactersNode")){return}
                 this.showCharactersNode();
                 this.destroyMapsNode();
                 this.destroyPropsNode();
                 this.destroyHomeWorldNode();
                 GameData.currentShopIndex=Shop.characters;
                 this.seletedLightBtn("btn_characters");
-                //this._charactersNode.getComponent("charactersNode").doAction();
             }else if(e.target.getName()=="btn_start"){
                 if(GameData.power>=5){
                     cc.director.loadScene("Game");
@@ -222,16 +228,18 @@ export default class NewClass extends cc.Component {
                     GameCtr.getInstance().getToast().toast("体力值不足");
                 }
             }else if(e.target.getName()=="btn_homeWorld"){
-                if(this.node.getChildByName("homeWorldNode")){return}
-
+                if(cc.find("Canvas").getChildByName("homeWorldNode")){return}
                 this.showHomeWorldNode();
                 this.destroyMapsNode();
                 this.destroyPropsNode();
                 this.destroyCharactersNode();
-
                 GameData.currentShopIndex=Shop.homeWorld;
                 this.seletedLightBtn("btn_homeWorld");
-                //this._homeWorldNode.getComponent("homeWorldNode").doAction();
+            }else if(e.target.getName()=="btn_addPower"){
+                if(cc.find("Canvas").getChildByName("powerNotEnough")){
+                    return;
+                }
+                this.showPowerNotEnough();
             }
         })
     }
@@ -273,6 +281,11 @@ export default class NewClass extends cc.Component {
         let homeWorldNode=cc.instantiate(this.pfHomeWorldNode);
         homeWorldNode.parent=cc.find("Canvas");
         homeWorldNode.tag=GameData.homeWorldNodeTag;
+    }
+
+    showPowerNotEnough(){
+        let powerNotEnough=cc.instantiate(this.pfPowerNotEnough);
+        powerNotEnough.parent=cc.find("Canvas");
     }
 
     destroyMapsNode(){
