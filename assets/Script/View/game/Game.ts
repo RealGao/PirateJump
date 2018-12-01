@@ -75,9 +75,9 @@ export default class Game extends cc.Component {
         this.registerTouch();
         GameCtr.isGameOver = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
+        this.initProp();
         this.initIslands();
 
-        this.initProp();
         this.countdown();
 
         AudioManager.getInstance().playSound("audio/gameStart", false);
@@ -99,6 +99,7 @@ export default class Game extends cc.Component {
         if (GameData.prop_time > 0) {
             this.time += 10;
             GameData.prop_time--;
+            this.showPropEffect(Game.GoodsType.ALARM);
         }
         if (GameData.prop_speedUp && GameData.currentRole != 1) {
             GameCtr.speedUp = true;

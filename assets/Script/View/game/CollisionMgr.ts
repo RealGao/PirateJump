@@ -38,6 +38,8 @@ export default class CollisionMgr extends cc.Component {
     @property(cc.Prefab)
     pfWheelIsland: cc.Prefab = null;
     @property(cc.Prefab)
+    pfWheelShadow: cc.Prefab = null;
+    @property(cc.Prefab)
     pfCannonIsland: cc.Prefab = null;
     @property(cc.Prefab)
     pfProp: cc.Prefab = null;
@@ -49,6 +51,8 @@ export default class CollisionMgr extends cc.Component {
     propFrames: cc.SpriteFrame[] = [];
     @property([cc.SpriteFrame])
     islandFrames: cc.SpriteFrame[] = [];
+    @property([cc.SpriteFrame])
+    shadowFrames: cc.SpriteFrame[] = [];
     private wheelIslandPool;
     private cannonIslandPool;
     private propPool;
@@ -137,6 +141,7 @@ export default class CollisionMgr extends cc.Component {
         comp.idx = CollisionMgr.mCollisionMgr.islandNum;
         CollisionMgr.mCollisionMgr.islandNum++;
         let idx = Math.floor(Math.random() * CollisionMgr.mCollisionMgr.islandFrames.length);
+        if(idx == 3 && GameData.currentMap == 0) idx = 4;
 
         comp.setWheel(idx);
         island.parent = GameCtr.ins.mGame.ndIslandLayer;
