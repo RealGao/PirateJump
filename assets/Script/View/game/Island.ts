@@ -1,6 +1,7 @@
 import CollisionBase from "./CollisionBase";
 import CollisionMgr from "./CollisionMgr";
 import GameCtr from "../../Controller/GameCtr";
+import GameData from "../../Common/GameData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -42,11 +43,28 @@ export default class Island extends CollisionBase {
     // LIFE-CYCLE CALLBACKS: 
 
     onLoad() {
-        this.setRotateSpeed();
+
     }
 
     start() {
-
+        switch (GameData.currentRole) {
+            case 0:
+                this.speed = Island.SpeedType.Fast;
+                break;
+            case 1:
+                this.speed = Island.SpeedType.Flash;
+                break;
+            case 2:
+                this.speed = Island.SpeedType.Normal;
+                break;
+            case 3:
+                this.speed = Island.SpeedType.Slow;
+                break;
+            case 4:
+                this.speed = Island.SpeedType.Fast;
+                break;
+        }
+        this.setRotateSpeed();
     }
 
     setType(type) {
@@ -54,7 +72,7 @@ export default class Island extends CollisionBase {
         if (type == Island.IslandType.Cannon) {
             this.node.rotation = Math.random() * 40;
             this.radius = 65;
-        } 
+        }
     }
 
     set idx(idx) {
@@ -68,7 +86,7 @@ export default class Island extends CollisionBase {
     setWheel(idx = 0) {
         if (this.type == Island.IslandType.Cannon) return;
         let frame = CollisionMgr.mCollisionMgr.islandFrames[idx];
-        if(!this.sprWheel) {
+        if (!this.sprWheel) {
             cc.log("no Wheel frame!!!!");
         }
         this.sprWheel.spriteFrame = frame;
@@ -78,7 +96,7 @@ export default class Island extends CollisionBase {
     }
 
     setRotateSpeed(speed = 1) {
-        if(GameCtr.speedUp) this.speed *= 1.2;
+        if (GameCtr.speedUp) this.speed *= 1.2;
         this.rotateSpeed = speed * (this.speed / 5);
     }
 

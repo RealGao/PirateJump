@@ -708,7 +708,7 @@ export default class CollisionMgr extends cc.Component {
 
     update(dt) {
         if (GameCtr.isGameOver || GameCtr.isPause) return;
-        if (CollisionMgr.mCollisionMgr.fitLayer) {
+        if (CollisionMgr.mCollisionMgr.fitLayer && CollisionMgr.mCollisionMgr.fitVx > 0) {
             CollisionMgr.mCollisionMgr.islandLayer.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
             for (let i = 0; i < CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
                 let nd = CollisionMgr.mCollisionMgr.ndBg.children[i];
