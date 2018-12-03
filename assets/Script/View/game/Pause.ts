@@ -13,6 +13,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     pfHelp:cc.Prefab=null;
 
+    @property(cc.Prefab)
+    pfTip:cc.Prefab=null;
+
     @property(cc.Label)
     lb_luckyGrass:cc.Label=null;
 
@@ -31,12 +34,16 @@ export default class NewClass extends cc.Component {
     }
 
     onBtnRestart(){
-        this.node.destroy();
-        GameCtr.gameStart();
+        this.showTip(()=>{
+            this.node.destroy();
+            GameCtr.gameStart();
+        },"你确定离开游戏,重新开始吗?");
     }
 
     onBtnReturn(){
-        cc.director.loadScene("Start")
+        this.showTip(()=>{
+            cc.director.loadScene("Start")
+        },"你确定离开游戏,回到主页吗?");
     }
 
     onBtnContinue(){
@@ -65,6 +72,16 @@ export default class NewClass extends cc.Component {
 
         let help=cc.instantiate(this.pfHelp);
         help.parent=this.node;
+    }
+
+    showTip(callFunc,des){
+        if(this.node.getChildByName("tip")){
+            return
+        }
+
+        let tip=cc.instantiate(this.pfTip);
+        tip.parent=this.node;
+        tip.getComponent("tip").initCallFunc(callFunc,des);
     }
 
     showPropsCount(){

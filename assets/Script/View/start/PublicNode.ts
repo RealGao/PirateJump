@@ -47,12 +47,8 @@ export default class NewClass extends cc.Component {
 
     onLoad(){
         this.initNode();
+        this.initPowerTime();
         GameCtr.getInstance().setPublic(this);
-    }
-
-    start(){
-        this.showCurrentShop();
-
     }
 
     initNode(){
@@ -61,6 +57,7 @@ export default class NewClass extends cc.Component {
         this.initInfoNode();
         this.initBtnsNode();
         this.hideBtnNode();
+        
     }
 
     initInfoNode(){
@@ -74,7 +71,6 @@ export default class NewClass extends cc.Component {
 
         this.initBtnEvent(btn_addDiamond);
         this.initBtnEvent(btn_addPower);
-        this.initPowerTime();
     }
 
 
@@ -108,11 +104,6 @@ export default class NewClass extends cc.Component {
         this._btnsNode.active=false;
     }
 
-    showChu(){
-        this._btnsNode.active=true;
-    }
-
-
     showGold(){
         this._lb_gold.getComponent(cc.Label).string=GameData.gold+"";
     }
@@ -122,10 +113,11 @@ export default class NewClass extends cc.Component {
     }
 
 
-    hideGoldNode(){
-        this._lb_gold.active=false;
+
+    setGoldNodeActive(bool){
+        this._lb_gold.active=bool;
         let icon_gold=this._infoNode.getChildByName("icon_gold");
-        icon_gold.active=false;
+        icon_gold.active=bool;
     }
 
     showPower(){
@@ -147,21 +139,17 @@ export default class NewClass extends cc.Component {
     }
 
     initPowerTime(){
-        let powerTimeCount=WXCtr.getStorageData("powerTime");
-        let lastPowerTime=WXCtr.getStorageData("lastPowerTime");
-        console.log("log--------powerTimeCount=:",powerTimeCount);
-        if(!powerTimeCount){
-            console.log("log------------d1111111111111")
+        let powerTimeCount=WXCtr.getStorageData("powerTime",-1);
+        if(powerTimeCount<0){
             GameData.powerTime=5*60;
             this.doPowerTimeCount();
         }else{
-            console.log("log------------d2222222222222")
             let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
-            if(lastPowerTime){
-                if(lastPowerTime>WXCtr.getStorageData("lastTime")){
-                    timeIterval=Math.floor((new Date().getTime()-lastPowerTime)/1000);
-                }
+            let timeIterval1=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastPowerTime"))/1000);
+            if(timeIterval1<timeIterval){
+                timeIterval=timeIterval1;
             }
+           
             if(timeIterval-powerTimeCount>=0){
                 GameData.power+=1;
                 timeIterval-=powerTimeCount;
@@ -169,12 +157,11 @@ export default class NewClass extends cc.Component {
                 GameData.power+=cycle;
                 GameData.power= GameData.power>99?99:GameData.power;
                 GameData.powerTime=timeIterval-cycle*5*60;
-                console.log("log------------d3333333333333")
+              
             }else{
-                console.log("log------------d4444444444444")
+               
                 GameData.powerTime=powerTimeCount-timeIterval;
             }
-            console.log("log--------GameData.powerTime=:",GameData.powerTime);
             this.doPowerTimeCount();
         }
         this.showPowerTime();
@@ -201,7 +188,11 @@ export default class NewClass extends cc.Component {
             if(e.target.getName()=="btn_back"){
                 console.log("cc.director.getScene().name=:",cc.director.getScene().name);
                 if(cc.director.getScene().name=="Start"){
-                    this.node.parent.destroy();
+                    this.hideBtnNode();
+                    this.destroyMapsNode();
+                    this.destroyPropsNode();
+                    this.destroyHomeWorldNode();
+                    this.destroyCharactersNode();
                     GameCtr.getInstance().getStart().showStartBtns(true);
                 }else if(cc.director.getScene().name=="Game"){
                     cc.director.loadScene("Start");
@@ -255,6 +246,7 @@ export default class NewClass extends cc.Component {
 
     showCurrentShop(){
         this._btnsNode.active=true;
+        this.setGoldNodeActive(true);
         if(GameData.currentShopIndex==Shop.maps){
             this.seletedLightBtn("btn_maps");
         }else if(GameData.currentShopIndex==Shop.props){
@@ -375,5 +367,6 @@ export default class NewClass extends cc.Component {
 
     onDestroy(){
         WXCtr.setStorageData("lastPowerTime",new Date().getTime());
+        WXCtr.setStorageData("powerTime", GameData.powerTime);
     }
 }

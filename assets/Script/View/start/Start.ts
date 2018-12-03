@@ -61,6 +61,12 @@ export default class Start extends cc.Component {
         this.initSoundState();
         WXCtr.getFriendRankingData();
         this.initPublicNode();
+        if(GameCtr.HadEnterdGame){
+            GameCtr.getInstance().getPublic().showGold();
+            GameCtr.getInstance().getPublic().showDiamond();
+            GameCtr.getInstance().getPublic().showPower();
+        }
+        
     }
 
     startGame() {
@@ -202,7 +208,8 @@ export default class Start extends cc.Component {
             return;
         }
         let help=cc.instantiate(this.pfHelp);
-        help.parent=cc.find("Canvas")
+        help.parent=cc.find("Canvas");
+        help.setLocalZOrder(30);
     }
 
     showAchievement(){
@@ -211,7 +218,7 @@ export default class Start extends cc.Component {
         }
         let achievement=cc.instantiate(this.pfAchievement);
         achievement.parent=cc.find("Canvas");
-        achievement.setLocalZOrder(10);
+        achievement.setLocalZOrder(30);
     }
 
 
@@ -230,7 +237,7 @@ export default class Start extends cc.Component {
             }
             let rank=cc.instantiate(this.pfRank);
             rank.parent=cc.find("Canvas");
-            rank.setLocalZOrder(10);
+            rank.setLocalZOrder(30);
             HttpCtr.clickStatistics(GameCtr.StatisticType.RANKING);                               //排行榜点击统计
         } else {
             ViewManager.showAuthPop();
@@ -244,7 +251,7 @@ export default class Start extends cc.Component {
         }
         let treatrueBox=cc.instantiate(this.pfTreatureBox);
         treatrueBox.parent=cc.find("Canvas");
-        treatrueBox.setLocalZOrder(10);
+        treatrueBox.setLocalZOrder(30);
     }
 
     showBtnMusicState(){
