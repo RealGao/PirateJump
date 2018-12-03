@@ -185,7 +185,7 @@ export default class CollisionMgr extends cc.Component {
                     } else if (rNum >= 2 && rNum < 6) {
                         rotation = Math.random() * 30 + 60;
                         time = Math.random() * 1 / 10 + 0.6;
-                    } else if (rNum >= 6 && rNum > 8) {
+                    } else if (rNum >= 6 && rNum < 8) {
                         rotation = Math.random() * 5 + 25;
                         time = Math.random() * 2 / 10 + 1.3;
                     } else {
@@ -204,7 +204,7 @@ export default class CollisionMgr extends cc.Component {
                     } else if (rNum >= 2 && rNum < 5) {
                         rotation = Math.random() * 30 + 60;
                         time = Math.random() * 1 / 10 + 0.6;
-                    } else if (rNum >= 5 && rNum > 8) {
+                    } else if (rNum >= 5 && rNum < 8) {
                         rotation = Math.random() * 5 + 25;
                         time = Math.random() * 4 / 10 + 1.3;
                     } else {
