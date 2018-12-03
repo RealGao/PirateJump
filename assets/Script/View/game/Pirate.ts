@@ -310,7 +310,6 @@ export default class Pirate extends CollisionBase {
         this.isInitial = false;
 
         CollisionMgr.stopFit();
-        this.judgeCombo();
 
         this.tmpGold = 0;
         this.jumpTime = 0;
@@ -354,6 +353,9 @@ export default class Pirate extends CollisionBase {
             return;
         } else {
             let lastComp = this.lastIsland.getComponent(Island);
+            if(lastComp.idx < comp.idx && !comp.isLanded) {
+                this.judgeCombo();
+            }
             lastComp.isLanded = true;
             this.lastIsland = island;
             CollisionMgr.moveIslandLayer(offset);
@@ -396,7 +398,9 @@ export default class Pirate extends CollisionBase {
                     GameCtr.ins.mGame.showPropEffect(Game.GoodsType.LUCKY_GRASS);
                 } else {
                     GameData.omitGold += lastComp.props.length;
-                    GameCtr.ins.mGame.clearCombo();
+                    if(GameData.currentRole != 2) {
+                        GameCtr.ins.mGame.clearCombo();
+                    }
                 }
             }
         }

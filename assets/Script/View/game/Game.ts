@@ -262,8 +262,8 @@ export default class Game extends cc.Component {
             cc.fadeIn(0.2),
             cc.delayTime(1),
             cc.fadeOut(0.5),
-            cc.callFunc(()=>{GameCtr.gameOver();})
         ));
+        GameCtr.gameOver();
     }
 
     gameOver() {
