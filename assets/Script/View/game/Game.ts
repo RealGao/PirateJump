@@ -228,10 +228,10 @@ export default class Game extends cc.Component {
 
     countdown() {
         if (GameCtr.isPause) return;
-        this.lbTime.string = this.time + "s";
         if (this.time > 0) {
             this.scheduleOnce(() => {
                 this.time--;
+                this.lbTime.string = this.time + "s";
                 this.countdown();
             }, 1.0);
         }else{
