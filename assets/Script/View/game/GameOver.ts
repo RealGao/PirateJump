@@ -204,7 +204,7 @@ export default class GameOver extends cc.Component {
         console.log("log----------showAchievement-------2222");
         let nd = cc.instantiate(this.pfAchievement);
         nd.parent = cc.find("Canvas");
-        nd.setLocalZOrder(10);
+        nd.setLocalZOrder(25);
     }
 
 
@@ -214,7 +214,7 @@ export default class GameOver extends cc.Component {
         }
         let nd = cc.instantiate(this.pfRank);
         nd.parent = cc.find("Canvas");
-        nd.setLocalZOrder(10);
+        nd.setLocalZOrder(25);
     }
 
 
