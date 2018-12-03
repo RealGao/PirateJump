@@ -50,11 +50,6 @@ export default class NewClass extends cc.Component {
         GameCtr.getInstance().setPublic(this);
     }
 
-    start(){
-        this.showCurrentShop();
-
-    }
-
     initNode(){
         this._infoNode=this.node.getChildByName("infoNode");
         this._btnsNode=this.node.getChildByName("btnsNode");
@@ -201,7 +196,11 @@ export default class NewClass extends cc.Component {
             if(e.target.getName()=="btn_back"){
                 console.log("cc.director.getScene().name=:",cc.director.getScene().name);
                 if(cc.director.getScene().name=="Start"){
-                    this.node.parent.destroy();
+                    this.hideBtnNode();
+                    this.destroyMapsNode();
+                    this.destroyPropsNode();
+                    this.destroyHomeWorldNode();
+                    this.destroyCharactersNode();
                     GameCtr.getInstance().getStart().showStartBtns(true);
                 }else if(cc.director.getScene().name=="Game"){
                     cc.director.loadScene("Start");
