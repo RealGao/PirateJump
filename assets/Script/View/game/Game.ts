@@ -57,7 +57,7 @@ export default class Game extends cc.Component {
     lbCountDown: cc.Label = null;
 
     @property(cc.Prefab)
-    pfPause:cc.Prefab=null;
+    pfPause: cc.Prefab = null;
 
     public goldNum = 0;
     public time = 0;
@@ -66,8 +66,8 @@ export default class Game extends cc.Component {
 
     onLoad() {
         this.alignSceen();
-        GameCtr.HadEnterdGame=true;
-        GameData.power-=5;
+        GameCtr.HadEnterdGame = true;
+        GameData.power -= 5;
         GameCtr.getInstance().setGame(this);
         WXCtr.onShow(() => {
             WXCtr.isOnHide = false;
@@ -79,15 +79,13 @@ export default class Game extends cc.Component {
     }
 
     alignSceen() {
-        if (WXCtr.brand && WXCtr.brand == "iPhone") {
-            var size = cc.view.getFrameSize();
-            var isIphoneX = (size.width == 812 && size.height == 375)
-                || (size.width == 375 && size.height == 812);
-            if (isIphoneX) {
-                let widget = this.ndAlign.getComponent(cc.Widget);
-                widget.top = 100;
-                widget.bottom = 0;
-            }
+        var size = cc.view.getFrameSize();
+        let long = size.width > size.height ? size.width : size.height;
+        let short = size.width <= size.height ? size.width : size.height;
+        if (long / short > (896 / 414)) {
+            let widget = this.ndAlign.getComponent(cc.Widget);
+            widget.top = 40;
+            widget.bottom = 0;
         }
     }
 
@@ -161,7 +159,7 @@ export default class Game extends cc.Component {
     }
 
     addTime(num) {
-        if(this.time <= 0) return; 
+        if (this.time <= 0) return;
         this.time += num;
         this.lbTime.string = this.time + "s";
     }
@@ -179,11 +177,11 @@ export default class Game extends cc.Component {
     }
 
     pause() {
-        if(cc.find("Canvas").getChildByName("ndPause")){
+        if (cc.find("Canvas").getChildByName("ndPause")) {
             return;
         }
-        let ndPause=cc.instantiate(this.pfPause);
-        ndPause.parent=cc.find("Canvas");
+        let ndPause = cc.instantiate(this.pfPause);
+        ndPause.parent = cc.find("Canvas");
         ndPause.setLocalZOrder(10);
         GameCtr.isPause = true;
         AudioManager.getInstance().musicOn = false;
@@ -252,8 +250,8 @@ export default class Game extends cc.Component {
                 this.lbTime.string = this.time + "s";
                 this.countdown();
             }, 1.0);
-        }else{
-            if(GameCtr.ins.mPirate.isLanded) {
+        } else {
+            if (GameCtr.ins.mPirate.isLanded) {
                 GameCtr.isGameOver = true;
                 this.timeUp();
             }

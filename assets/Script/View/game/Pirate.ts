@@ -311,7 +311,6 @@ export default class Pirate extends CollisionBase {
 
         CollisionMgr.stopFit();
 
-        this.tmpGold = 0;
         this.jumpTime = 0;
         this.moveDt = 0;
         let comp: Island = island.getComponent(Island);
@@ -384,6 +383,7 @@ export default class Pirate extends CollisionBase {
             this.scheduleOnce(() => { this.shoot(); }, 1.7);
         }
 
+        this.tmpGold = 0;
         CollisionMgr.removeIsland(comp.idx);
     }
 
@@ -411,8 +411,8 @@ export default class Pirate extends CollisionBase {
         let vx = this.vx;
         let vy = this.vy;
         if (this.beginShoot) {
-            vx *= 1.5;
-            vy *= 1.5;
+            vx *= 2;
+            vy *= 2;
         }
         this.node.x = this.originPos.x + vx * this.moveDt;
         this.node.y = this.originPos.y + (vy * this.moveDt + this.gravity * this.moveDt * this.moveDt / 2);
