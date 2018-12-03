@@ -3728,9 +3728,7 @@
       "__id__": 92
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "b2ba62be-1632-4780-81e8-392440157b7a"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -7932,7 +7930,7 @@
       "__id__": 148
     },
     "component": "GameOver",
-    "handler": "showArchievement",
+    "handler": "showAchievement",
     "customEventData": ""
   },
   {
@@ -7983,8 +7981,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81,
-      "height": 118
+      "width": 73,
+      "height": 121
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -7992,8 +7990,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 1,
-      "y": -72.8
+      "x": -199,
+      "y": 87
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -8011,7 +8009,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "d6b1d309-f575-4ce2-9804-76041ecaaa9e"
+      "__uuid__": "16ebd532-8752-4dfa-a9e8-ff1a6b6018ca"
     },
     "_type": 0,
     "_sizeMode": 1,
