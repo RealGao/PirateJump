@@ -144,6 +144,7 @@ export default class Game extends cc.Component {
     }
 
     addTime(num) {
+        if(this.time <= 0) return; 
         this.time += num;
         this.lbTime.string = this.time + "s";
     }
