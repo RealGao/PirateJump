@@ -715,8 +715,8 @@ export default class CollisionMgr extends cc.Component {
             for (let i = 0; i < CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
                 let nd = CollisionMgr.mCollisionMgr.ndBg.children[i];
                 nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt;
-                if (nd.x <= -1021) {
-                    nd.x += 1502;
+                if (nd.x <= -1191) {
+                    nd.x += 1842;
                 }
             }
         }

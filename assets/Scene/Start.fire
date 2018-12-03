@@ -399,8 +399,8 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0.49666458203043573,
+      "y": 0.50093808630394
     },
     "_contentSize": {
       "__type__": "cc.Size",

@@ -13,7 +13,8 @@ export default class NewClass extends cc.Component {
 
     onLoad(){
         this.initNode();
-        this.initPublicNode();
+        //this.initPublicNode();
+        GameCtr.getInstance().getPublic().showCurrentShop();
         this.doAction();
     }
 

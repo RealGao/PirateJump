@@ -52,9 +52,7 @@ export default class NewClass extends cc.Component {
 
     start(){
         this.showCurrentShop();
-        this.showGold();
-        this.showDiamond();
-        this.showPower();
+
     }
 
     initNode(){
@@ -62,6 +60,7 @@ export default class NewClass extends cc.Component {
         this._btnsNode=this.node.getChildByName("btnsNode");
         this.initInfoNode();
         this.initBtnsNode();
+        this.hideBtnNode();
     }
 
     initInfoNode(){
@@ -107,6 +106,10 @@ export default class NewClass extends cc.Component {
 
     hideBtnNode(){
         this._btnsNode.active=false;
+    }
+
+    showChu(){
+        this._btnsNode.active=true;
     }
 
 
@@ -251,6 +254,7 @@ export default class NewClass extends cc.Component {
     }
 
     showCurrentShop(){
+        this._btnsNode.active=true;
         if(GameData.currentShopIndex==Shop.maps){
             this.seletedLightBtn("btn_maps");
         }else if(GameData.currentShopIndex==Shop.props){

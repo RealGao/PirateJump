@@ -96,6 +96,7 @@ export default class GameCtr {
         this.mGame = game;
     }
 
+    
     setPirate(pirate: Pirate) {
         this.mPirate = pirate;
     }

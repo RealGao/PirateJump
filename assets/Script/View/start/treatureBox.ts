@@ -41,6 +41,7 @@ export default class NewClass extends cc.Component {
     }
 
     initLotteryTimes(){
+        GameData.lotteryTimes=10;
         let lottery=localStorage.getItem("lottery")
         if(!lottery){
             GameData.lotteryTimes=10;
@@ -107,7 +108,6 @@ export default class NewClass extends cc.Component {
 
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
-            AudioManager.getInstance().playSound("audio/click", false);
             if(e.target.getName()=="btn_return"){
                 if(this._isLotterying){
                     GameCtr.getInstance().getToast().toast("宝箱开启中.....");

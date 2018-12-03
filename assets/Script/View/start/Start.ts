@@ -60,17 +60,16 @@ export default class Start extends cc.Component {
         this.initBgMusic();
         this.initSoundState();
         WXCtr.getFriendRankingData();
-        if(GameCtr.HadEnterdGame){
-            this.initPublicNode();
-        }
+        this.initPublicNode();
     }
 
     startGame() {
-        this.initPublicNode();
         this.getBonusDiamonds();
         this.updateBtnShopState();
         GameData.achievementsLevelData=GameData.getAchievementsLevelData();
-
+        GameCtr.getInstance().getPublic().showGold();
+        GameCtr.getInstance().getPublic().showDiamond();
+        GameCtr.getInstance().getPublic().showPower();
         WXCtr.onShow(() => {
             WXCtr.isOnHide = false;
             this.initBgMusic();
@@ -105,6 +104,7 @@ export default class Start extends cc.Component {
         let publicNode=cc.instantiate(this.pfPublicNode);
         publicNode.parent=this.node;
         publicNode.getComponent("PublicNode").hideBtnNode();
+        publicNode.setLocalZOrder(20);
     }
 
 

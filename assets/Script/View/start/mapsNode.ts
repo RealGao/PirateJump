@@ -19,11 +19,11 @@ export default class NewClass extends cc.Component {
     onLoad(){
         WXCtr.initSharedCanvas();
         this.initNode();
-        this.initPublicNode();
+        //this.initPublicNode();
         this.initMapsListener();
         this.doAction();
         WXCtr.showMapsRecorder();
-       
+        GameCtr.getInstance().getPublic().showCurrentShop();
         this.scheduleOnce(()=>{
             this._updateSubDomainCanvas();
         },1.0)
