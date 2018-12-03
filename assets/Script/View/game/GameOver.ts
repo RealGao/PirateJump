@@ -81,13 +81,18 @@ export default class GameOver extends cc.Component {
         let publicNode=cc.instantiate(this.pfPublicNode);
         publicNode.parent=cc.find("Canvas");
         publicNode.getComponent("PublicNode").hideBtnNode();
-        publicNode.getComponent("PublicNode").hideGoldNode();
+        publicNode.getComponent("PublicNode").setGoldNodeActive(false);
+        publicNode.setLocalZOrder(20);
         publicNode.active=false;
     }
 
     showPublicNode(){
         let publicNode=cc.find("Canvas").getChildByName("publicNode");
         if(publicNode){
+            GameCtr.getInstance().getPublic().showGold();
+            GameCtr.getInstance().getPublic().showDiamond();
+            GameCtr.getInstance().getPublic().showPower();
+            GameCtr.getInstance().getPublic().initPowerTime();
             publicNode.active=true;
         }
     }
@@ -196,6 +201,7 @@ export default class GameOver extends cc.Component {
         console.log("log----------showAchievement-------2222");
         let nd = cc.instantiate(this.pfAchievement);
         nd.parent = cc.find("Canvas");
+        nd.setLocalZOrder(10);
     }
 
 
@@ -205,6 +211,7 @@ export default class GameOver extends cc.Component {
         }
         let nd = cc.instantiate(this.pfRank);
         nd.parent = cc.find("Canvas");
+        nd.setLocalZOrder(10);
     }
 
 

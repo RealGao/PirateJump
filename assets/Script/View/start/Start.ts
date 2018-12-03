@@ -61,6 +61,12 @@ export default class Start extends cc.Component {
         this.initSoundState();
         WXCtr.getFriendRankingData();
         this.initPublicNode();
+        if(GameCtr.HadEnterdGame){
+            GameCtr.getInstance().getPublic().showGold();
+            GameCtr.getInstance().getPublic().showDiamond();
+            GameCtr.getInstance().getPublic().showPower();
+        }
+        
     }
 
     startGame() {

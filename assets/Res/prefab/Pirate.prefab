@@ -488,6 +488,7 @@
     },
     "_enabled": true,
     "collisionType": 1,
+    "type": 0,
     "vec": 500,
     "buff": 0,
     "sprPirate": {
@@ -504,7 +505,8 @@
     },
     "magnetCollider": {
       "__id__": 15
-    }
+    },
+    "frames": []
   },
   {
     "__type__": "cc.PrefabInfo",

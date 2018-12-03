@@ -166,7 +166,8 @@ export default class Game extends cc.Component {
             return;
         }
         let ndPause=cc.instantiate(this.pfPause);
-        ndPause.parent=cc.find("Canvas")
+        ndPause.parent=cc.find("Canvas");
+        ndPause.setLocalZOrder(10);
         GameCtr.isPause = true;
         AudioManager.getInstance().musicOn = false;
     }
