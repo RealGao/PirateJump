@@ -407,7 +407,7 @@ export default class CollisionMgr extends cc.Component {
     static addBoom(origin, posArr, vec, gravity) {
         if (CollisionMgr.mCollisionMgr.islandNum <= 5) return;                       //前五关不出炸弹
         let tmpRand = Math.random() * 100;
-        if (tmpRand > 10) return;                                                    //炸弹概率10%
+        // if (tmpRand > 10) return;                                                    //炸弹概率10%
         let rand = Math.random() * 10;
         let boomNum = 0;
         if (rand < 2) {
@@ -606,19 +606,26 @@ export default class CollisionMgr extends cc.Component {
     }
 
     // 移除小岛
-    static removeIsland(island) {
-        let comp: Island = island.getComponent(Island);
-        if (comp.type == Island.IslandType.Cannon) {
-            CollisionMgr.mCollisionMgr.cannonIslandPool.put(island);
-        } else {
-            CollisionMgr.mCollisionMgr.wheelIslandPool.put(island);
-        }
-        comp.isLanded = false;
-        comp.props = [];
-        comp.idx = 0;
+    static removeIsland(idx) {
+        let tmpArr = [];
 
-        let idx = CollisionMgr.getIslandIdx(island);
-        CollisionMgr.mCollisionMgr.islandArr.splice(idx, 1);
+        for(let i = 0; i<CollisionMgr.mCollisionMgr.islandArr.length; i++) {
+            let nd = CollisionMgr.mCollisionMgr.islandArr[i];
+            let comp: Island = nd.getComponent(Island);
+            cc.log("comp.idx == ", comp.idx);
+            if(comp.idx < idx-1) {
+                if (comp.type == Island.IslandType.Cannon) {
+                    CollisionMgr.mCollisionMgr.cannonIslandPool.put(nd);
+                } else {
+                    CollisionMgr.mCollisionMgr.wheelIslandPool.put(nd);
+                }
+                comp.isLanded = false;
+                comp.props = [];
+                comp.idx = 0;
+
+                CollisionMgr.mCollisionMgr.islandArr.splice(i, 1);
+            }
+        }
     }
 
     // 移除道具
