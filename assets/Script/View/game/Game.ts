@@ -79,15 +79,13 @@ export default class Game extends cc.Component {
     }
 
     alignSceen() {
-        if (WXCtr.brand && WXCtr.brand == "iPhone") {
-            var size = cc.view.getFrameSize();
-            var isIphoneX = (size.width == 812 && size.height == 375)
-                || (size.width == 375 && size.height == 812);
-            if (isIphoneX) {
-                let widget = this.ndAlign.getComponent(cc.Widget);
-                widget.top = 100;
-                widget.bottom = 0;
-            }
+        var size = cc.view.getFrameSize();
+        let long = size.width > size.height ? size.width : size.height;
+        let short = size.width <= size.height ? size.width : size.height;
+        if (long / short > (896 / 414)) {
+            let widget = this.ndAlign.getComponent(cc.Widget);
+            widget.top = 40;
+            widget.bottom = 0;
         }
     }
 
