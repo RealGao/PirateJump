@@ -407,7 +407,7 @@ export default class CollisionMgr extends cc.Component {
     static addBoom(origin, posArr, vec, gravity) {
         if (CollisionMgr.mCollisionMgr.islandNum <= 5) return;                       //前五关不出炸弹
         let tmpRand = Math.random() * 100;
-        // if (tmpRand > 10) return;                                                    //炸弹概率10%
+        if (tmpRand > 10) return;                                                    //炸弹概率10%
         let rand = Math.random() * 10;
         let boomNum = 0;
         if (rand < 2) {
