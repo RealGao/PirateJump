@@ -177,8 +177,11 @@ export default class GameOver extends cc.Component {
     }
 
     restart() {
-        GameCtr.gameStart();
-        
+        if(GameData.power>=5){
+            GameCtr.gameStart();
+        }else{
+            GameCtr.getInstance().getToast().toast("体力值不足");
+        }
     }
 
     share() {
