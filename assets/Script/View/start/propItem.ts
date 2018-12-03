@@ -44,26 +44,53 @@ export default class NewClass extends cc.Component {
             if(e.target.getName()=="btn_help"){
                 this.showDes();
             }else if(e.target.getName()=="btn_buy"){
-                if(GameData.diamond>=this._info.price){
-                    if(GameData.getProp(this._info.name)>=10){return}
-                    AudioManager.getInstance().playSound("audio/buy");
-                    GameData.addProp(this._info.name);
-                    GameData.diamond-=this._info.price;
-                    GameCtr.getInstance().getPublic().showDiamond();
-                    if(cc.director.getScene().name=="Start"){
-                        GameCtr.getInstance().getStart().updateBtnShopState();
-                    }
-                    GameCtr.getInstance().getPublic().upBtnsState();
-                    this.showCount();
-                }else{
-                    GameCtr.getInstance().getToast().toast("钻石不足");
-                }
+                this.doBuy();
+                
             }
         })
     }
 
+    doBuy(){
+        if(this._info.priceGold>0){
+            if(GameData.gold>=this._info.priceGold){
+                if(GameData.getProp(this._info.name)>=10){return}
+                AudioManager.getInstance().playSound("audio/buy");
+                GameData.addProp(this._info.name);
+                GameData.gold-=this._info.priceGold;
+                GameCtr.getInstance().getPublic().showGold();
+                if(cc.director.getScene().name=="Start"){
+                    GameCtr.getInstance().getStart().updateBtnShopState();
+                }
+                GameCtr.getInstance().getPublic().upBtnsState();
+                this.showCount();
+            }else{
+                GameCtr.getInstance().getToast().toast("金币不足");
+            }
+        }else if(this._info.priceDiamond>0){
+            if(GameData.diamond>=this._info.priceDiamond){
+                if(GameData.getProp(this._info.name)>=10){return}
+                AudioManager.getInstance().playSound("audio/buy");
+                GameData.addProp(this._info.name);
+                GameData.diamond-=this._info.priceDiamond;
+                GameCtr.getInstance().getPublic().showDiamond();
+                if(cc.director.getScene().name=="Start"){
+                    GameCtr.getInstance().getStart().updateBtnShopState();
+                }
+                GameCtr.getInstance().getPublic().upBtnsState();
+                this.showCount();
+            }else{
+                GameCtr.getInstance().getToast().toast("钻石不足");
+            }
+        }
+    }
+
     showPrice(){
-        this._lb_price.getComponent(cc.Label).string=this._info.price;
+        if(this._info.priceGold>0){
+            this._lb_price.getComponent(cc.Label).string=this._info.priceGold;
+        }else if(this._info.priceDiamond>0){
+            this._lb_price.getComponent(cc.Label).string=this._info.priceDiamond;
+        }
+        
     }
 
     showCount(){

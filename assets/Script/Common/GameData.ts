@@ -139,22 +139,22 @@ export default class GameData {
         { id: 1, name: "sparklet", price_gold: 2000,   price_diamond: 0,    des:GameData.rolesDes[1]},
         { id: 2, name: "hook",     price_gold: 5000,   price_diamond: 0,    des:GameData.rolesDes[2]},
         { id: 3, name: "leavened", price_gold: 10000,  price_diamond: 0,    des:GameData.rolesDes[3]},
-        { id: 4, name: "crutch",   price_gold: 15000,  price_diamond: 0,    des:GameData.rolesDes[4]}
+        { id: 4, name: "crutch",   price_gold: 0,      price_diamond: 2000, des:GameData.rolesDes[4]}
     ]
 
    
     static mapsInfo = [
         { name: "map0", title:"新手图",  gold_price: 0,      diamond_price: 0,    rate: [200, 600, 900],   des:"比较安全的小岛，刚刚开发出来\n\n比较简单，道具较少"},
         { name: "map1", title:"进阶图",  gold_price: 2000,   diamond_price: 0,    rate: [800, 1100, 1350], des:"有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容"},
-        { name: "map2", title:"挑战图",  gold_price: 0,      diamond_price: 2000, rate: [700, 1100, 1200], des:"危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多"},
+        { name: "map2", title:"挑战图",  gold_price: 0,      diamond_price: 1000, rate: [700, 1100, 1200], des:"危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多"},
         { name: "map3", title:"无限模式", gold_price: 20000, diamond_price: 0,    rate: [-1, -1, -1],      des:"知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好"}
     ]
 
     static propsInfo = [
-        { name: "luckyGrass", price: 50, title:"幸运草",  des:"让你变得幸运起来，值得拥有\n\n抵消COMBO断掉的惩罚"},
-        { name: "speedUp",    price: 20, title:"加速",    des:"召唤强风，让小岛快速转起来\n\n加快小岛旋转速度"},
-        { name: "revive",     price: 50, title:"复活",    des:"装有蓝色液体的神奇瓶子\n\n死亡后，复活到小岛上\n\n无限模式不生效"},
-        { name: "time",       price: 20, title:"加时器",  des:"让你向天再借10秒的神器\n\n入场时，增加10秒跳跃时间"},
+        { name: "luckyGrass", priceGold: 100, priceDiamond: 0,  title:"幸运草",  des:"让你变得幸运起来，值得拥有\n\n抵消COMBO断掉的惩罚"},
+        { name: "speedUp",    priceGold: 100, priceDiamond: 0,  title:"加速",    des:"召唤强风，让小岛快速转起来\n\n加快小岛旋转速度"},
+        { name: "revive",     priceGold: 0,   priceDiamond: 20, title:"复活",    des:"装有蓝色液体的神奇瓶子\n\n死亡后，复活到小岛上\n\n无限模式不生效"},
+        { name: "time",       priceGold: 100, priceDiamond: 0,  title:"加时器",  des:"让你向天再借10秒的神器\n\n入场时，增加10秒跳跃时间"},
     ]
 
     
@@ -1218,7 +1218,7 @@ export default class GameData {
         }
 
         for (let i = 0; i < GameData.propsInfo.length; i++) {
-            if (GameData.diamond >= GameData.propsInfo[i].price) {
+            if (GameData.diamond >= GameData.propsInfo[i].priceDiamond &&  GameData.gold >= GameData.propsInfo[i].priceGold) {
                 return true;
             }
         }

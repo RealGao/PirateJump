@@ -69,6 +69,20 @@ export default class Start extends cc.Component {
         
     }
 
+    alignSceen() {
+        if (WXCtr.brand && WXCtr.brand == "iPhone") {
+            var size = cc.view.getFrameSize();
+            var isIphoneX = (size.width == 812 && size.height == 375)
+                || (size.width == 375 && size.height == 812);
+            if (isIphoneX) {
+                let widget = this.ndAlign.getComponent(cc.Widget);
+                widget.top = 100;
+                widget.bottom = 0;
+            }
+        }
+    }
+
+
     startGame() {
         this.getBonusDiamonds();
         this.updateBtnShopState();
