@@ -41,7 +41,6 @@ export default class NewClass extends cc.Component {
     }
 
     initLotteryTimes(){
-        GameData.lotteryTimes=10;
         let lottery=localStorage.getItem("lottery")
         if(!lottery){
             GameData.lotteryTimes=10;

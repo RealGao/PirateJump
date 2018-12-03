@@ -62,6 +62,7 @@ export default class NewClass extends cc.Component {
                             GameData.power+=20;
                             GameData.power=GameData.power>99?99:GameData.power;
                             GameCtr.getInstance().getPublic().showPower();
+                            this.showPower();
                         }else{
                             GameCtr.getInstance().getToast().toast("视频未看完");
                         }
@@ -80,6 +81,7 @@ export default class NewClass extends cc.Component {
                     GameData.power+=10;
                     GameData.power=GameData.power>99?99:GameData.power;
                     GameCtr.getInstance().getPublic().showPower();
+                    this.showPower();
                }
                 WXCtr.share({callback:callFunc});  
             }else if(e.target.getName()=="btn_close"){
