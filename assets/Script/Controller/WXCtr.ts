@@ -53,6 +53,8 @@ export default class WXCtr {
 
     static isOnHide = false;
 
+    static brand = null;
+
     constructor() {
 
     }
@@ -92,6 +94,8 @@ export default class WXCtr {
                     WXCtr.screenHeight = res.screenHeight;
                     WXCtr.widthRatio = WXCtr.screenWidth / I6P.w;
                     WXCtr.heightRatio = WXCtr.screenHeight / I6P.h;
+
+                    WXCtr.brand = res.brand;
                 }
             });
         }

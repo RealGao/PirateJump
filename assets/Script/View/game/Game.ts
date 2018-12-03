@@ -34,6 +34,8 @@ export default class Game extends cc.Component {
     @property(cc.Node)
     ndCanvas: cc.Node = null;
     @property(cc.Node)
+    ndAlign: cc.Node = null;
+    @property(cc.Node)
     ndIslandLayer: cc.Node = null;
     @property(cc.Node)
     ndPropEffect: cc.Node = null;
@@ -63,6 +65,7 @@ export default class Game extends cc.Component {
     public maxCombo = 0;                               //最大连击数
 
     onLoad() {
+        this.alignSceen();
         GameCtr.HadEnterdGame=true;
         GameData.power-=5;
         GameCtr.getInstance().setGame(this);
@@ -73,6 +76,19 @@ export default class Game extends cc.Component {
     }
 
     onDestroy() {
+    }
+
+    alignSceen() {
+        if (WXCtr.brand && WXCtr.brand == "iPhone") {
+            var size = cc.view.getFrameSize();
+            var isIphoneX = (size.width == 812 && size.height == 375)
+                || (size.width == 375 && size.height == 812);
+            if (isIphoneX) {
+                let widget = this.ndAlign.getComponent(cc.Widget);
+                widget.top = 100;
+                widget.bottom = 0;
+            }
+        }
     }
 
     start() {
@@ -101,6 +117,7 @@ export default class Game extends cc.Component {
                 this.time = 120;
                 break;
         }
+        this.lbTime.string = this.time + "s";
         if (GameData.prop_time > 0) {
             this.time += 10;
             GameData.prop_time--;

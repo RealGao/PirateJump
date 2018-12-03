@@ -485,11 +485,6 @@ export default class Pirate extends CollisionBase {
             this.movePirate(dt);
         }
 
-        if (this.isLanded) {
-            let comp: Island = this.node.parent.getComponent(Island);
-            console.log("this.rotateSpeed == ", comp.rotateSpeed);
-        }
-
         // 盾牌
         if (this.shieldTime > 0) {
             this.shieldTime -= dt;

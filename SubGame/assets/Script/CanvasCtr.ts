@@ -224,7 +224,7 @@ export default class CanvasCtr extends cc.Component {
     }
 
     compareWithScore(selfScore) {
-
+       
     }
 
     showFriendRanking(mapIndex,page=0) {
