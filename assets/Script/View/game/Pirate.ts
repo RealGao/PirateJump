@@ -381,6 +381,8 @@ export default class Pirate extends CollisionBase {
             ));
             this.scheduleOnce(() => { this.shoot(); }, 1.7);
         }
+
+        CollisionMgr.removeIsland(comp.idx);
     }
 
     judgeCombo() {
