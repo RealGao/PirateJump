@@ -62,6 +62,12 @@ export default class GameOver extends cc.Component {
     @property(cc.Prefab)
     pfPublicNode:cc.Prefab=null;
 
+    @property(cc.Node)
+    tipShopping:cc.Node=null;
+
+    @property(cc.Node)
+    tipAchieve:cc.Node=null;
+
     // LIFE-CYCLE CALLBACKS:
 
     private combo = 0;
@@ -102,8 +108,9 @@ export default class GameOver extends cc.Component {
         this.showRoleInfo();
         this.showScore();
         this.showBagInfo();
-        this.showAchievementsBonus();
         this.showPublicNode();
+        this.updateBtnShopState();
+        this.updateBtnAchieveState();
     }
 
     showScore() {
@@ -217,21 +224,19 @@ export default class GameOver extends cc.Component {
         nd.setLocalZOrder(25);
     }
 
-
-    showAchievementsBonus(){
-        let data=GameData.getAchieveBounusData();
-        for(let i=0;i<data.length;i++){
-            this.node.runAction(cc.sequence(
-                cc.delayTime(1.0*i+0.8),
-                cc.callFunc(()=>{
-                    let callFunc=()=>{
-                        GameData.gold+=data[i].bonus;
-                        console.log("增加金币",data[i].bonus);
-                    }
-                    GameCtr.getInstance().getToast().toast(data[i].title+" 奖励金币:"+data[i].bonus,callFunc,0.8);
-                })
-            ))
-            
+    updateBtnShopState(){
+        if(GameData.canShopping()){
+            this.tipShopping.active=true;
+        }else{
+            this.tipShopping.active=false;
         }
+    }
+
+    updateBtnAchieveState(){
+        if(GameData.canGetAchieve()){
+            this.tipAchieve.active=true;
+        }else{
+            this.tipAchieve.active=false;
+        }  
     }
 }

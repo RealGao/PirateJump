@@ -10,15 +10,7 @@ export default class Toast extends cc.Component {
     @property(cc.Label)
     lb_note: cc.Label = null;
 
-    onLoad(){
-        GameCtr.getInstance().setToast(this);
-    }
-
-    toast(str,callFunc=null,duration=1.5){
-        if(this.Toast.opacity>0){
-            return;
-        }
-
+    init(str,callFunc=null,duration=1.5){
         this.lb_note.string=str;
         this.Toast.stopAllActions();
         this.Toast.y=80;
@@ -32,6 +24,7 @@ export default class Toast extends cc.Component {
                 if(callFunc){
                     callFunc()
                 }
+                this.node.destroy();
             })
         ))
 

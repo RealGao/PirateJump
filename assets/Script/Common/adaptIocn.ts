@@ -16,8 +16,6 @@ export default class NewClass extends cc.Component {
                 widget.target=cc.find("Canvas");
                 widget.top = 50;
             }
-          
-        
     }
  }
 }

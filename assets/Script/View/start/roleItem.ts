@@ -84,6 +84,8 @@ export default class NewClass extends cc.Component {
                 GameCtr.getInstance().getPublic().showGold();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
+                }else if(cc.director.getScene().name=="Game"){
+                    GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
@@ -105,6 +107,8 @@ export default class NewClass extends cc.Component {
                 GameCtr.getInstance().getPublic().showDiamond();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
+                }else if(cc.director.getScene().name=="Game"){
+                    GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);

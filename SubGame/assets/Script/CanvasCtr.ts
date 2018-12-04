@@ -74,7 +74,7 @@ export default class CanvasCtr extends cc.Component {
                 } else if(data.messageType == Message_Type.Show_recorder){            //显示地图最高记录
                     this.showMapsRecorder();
                 } else if(data.messageType == Message_Type.Close_recorder){           //关闭地图最高记录
-                    //this.closeMapsRecorder();
+                    this.closeMapsRecorder();
                 }
             });
         } else {
@@ -355,6 +355,10 @@ export default class CanvasCtr extends cc.Component {
                 headFrame.active=false;
             }
         }
+    }
+
+    closeMapsRecorder(){
+        this.ndRecorder.active=false;
     }
 
     cutstr(str, len) {

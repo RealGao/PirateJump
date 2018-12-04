@@ -29,6 +29,7 @@ export default class NewClass extends cc.Component {
         // this._price.diamond_price=info.diamond_price;
         // this._name=info.name;
 
+        console.log("log-------------this._info=:",info);
         this.initNode();
         this.showPrice();
         this.showMapState();
@@ -101,11 +102,13 @@ export default class NewClass extends cc.Component {
                 GameCtr.getInstance().getPublic().showGold();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
+                }else if(cc.director.getScene().name=="Game"){
+                    GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 this._btn_buy.active=false;
                 this.setLockState(true);
-                GameData.setMapStateByName(this._info.name,0)
+                GameData.setMap(this._info.name,0)
             }else{
                 GameCtr.getInstance().getToast().toast("金币不足");
             }
@@ -118,11 +121,13 @@ export default class NewClass extends cc.Component {
                 GameCtr.getInstance().getPublic().showDiamond();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
+                }else if(cc.director.getScene().name=="Game"){
+                    GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 this._btn_buy.active=false;
                 this.setLockState(true);
-                GameData.setMapStateByName(this._info.name,0)
+                GameData.setMap(this._info.name,0)
             }else{
                 GameCtr.getInstance().getToast().toast("钻石不足");
             }
@@ -139,18 +144,18 @@ export default class NewClass extends cc.Component {
 
 
     showMapState(){
-        if(GameData.getMapStateByName(this._info.name)<0){
+        if(GameData.getMap(this._info.name)<0){
             /* 未解锁 */
             this.setLockState(false);
         }else{
             /* 已解锁 */
             this.setLockState(true);
-            this.showStars()
+            this.showStars();
         }
     }
 
     showBtnBuyState(){
-        if(GameData.getMapStateByName(this._info.name)>=0){
+        if(GameData.getMap(this._info.name)>=0){
             /* 已解锁 */
             this._btn_buy.active=false;
         }else {
@@ -169,10 +174,12 @@ export default class NewClass extends cc.Component {
     }
 
     showStars(){
-        console.log("log-----showMapStars=:");
-        for(let i=0;i<GameData.getMapStateByName(this._info.name);i++){
-            let star=this._starsNode.getChildByName("star"+i);
-            star.ative=true;
+        for(let i=0;i<this._info.rate.length;i++){
+            console.log("log-----score rate[i]=:",this.getScore(),this._info.rate[i]);
+            if(this.getScore()>=this._info.rate[i] && this._info.rate[i]>=0){
+                let star=this._starsNode.getChildByName("star"+i);
+                star.ative=true;
+            }
         }
     }
 
@@ -185,7 +192,7 @@ export default class NewClass extends cc.Component {
         note.getComponent("note").showNote(this._info)
     }
 
-    getState(){
-        return GameData.getMapStateByName(this._info.name);
+    getScore(){
+        return GameData.getMap(this._info.name);
     }
 }

@@ -54,6 +54,19 @@ const dataKeyConfig = {
     homeWorld_prop2: "data2_7",                                                  //家园道具3
     homeWorld_prop3: "data2_8",                                                  //家园道具4
     maxScore: "data2_9",                                                         //最高分纪录
+
+    achieveLevel0:"data2_10",                                                    //成就0等级
+    achieveLevel1:"data2_11",                                                    //成就1等级
+    achieveLevel2:"data2_12",                                                    //成就2等级
+    achieveLevel3:"data2_13",                                                    //成就3等级
+    achieveLevel4:"data2_14",                                                    //成就4等级
+    achieveLevel5:"data2_15",                                                    //成就5等级
+    achieveLevel6:"data2_16",                                                    //成就6等级
+    achieveLevel7:"data2_17",                                                    //成就7等级
+    achieveLevel8:"data2_18",                                                    //成就8等级
+    achieveLevel9:"data2_19",                                                    //成就9等级
+    achieveLevel10:"data2_20",                                                   //成就10等级
+    achieveLevel11:"data2_21",                                                   //成就11等级
 };
 
 
@@ -111,7 +124,21 @@ export default class GameData {
     private static _level2=null;                                            //地图2最大得分
     private static _level3=null;                                            //地图3最大得分
     private static _level4=null;                                            //地图4最大得分
-    private static _lotteryTimes=0;                                          //宝箱开箱次数
+
+    private static _achieveLevel0=0;                                        //成就0等级
+    private static _achieveLevel1=0;                                        //成就1等级
+    private static _achieveLevel2=0;                                        //成就2等级
+    private static _achieveLevel3=0;                                        //成就3等级
+    private static _achieveLevel4=0;                                        //成就4等级
+    private static _achieveLevel5=0;                                        //成就5等级
+    private static _achieveLevel6=0;                                        //成就6等级
+    private static _achieveLevel7=0;                                        //成就7等级
+    private static _achieveLevel8=0;                                        //成就8等级
+    private static _achieveLevel9=0;                                        //成就9等级
+    private static _achieveLevel10=0;                                       //成就10等级
+    private static _achieveLevel11=0;                                       //成就11等级
+
+    private static _lotteryTimes=0;                                         //宝箱开箱次数
 
     public static jewelTimeCount = 0;                                      //宝石收集倒计时
     public static powerTime = 0;                                           //体力收集时间
@@ -853,6 +880,163 @@ export default class GameData {
         return GameData._level4;
     }
 
+    //设置成就0等级
+    static set achieveLevel0(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel0=level;
+        GameData.setUserData({ achieveLevel0: GameData._achieveLevel0 });
+    }
+    //获取成就0等级
+    static get achieveLevel0(){
+        return GameData._achieveLevel0;
+    }
+
+    //设置成就1等级
+    static set achieveLevel1(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel1=level;
+        GameData.setUserData({ achieveLevel1: GameData._achieveLevel1 });
+    }
+    //获取成就1等级
+    static get achieveLevel1(){
+        return GameData._achieveLevel1;
+    }
+
+    //设置成就2等级
+    static set achieveLevel2(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel2=level;
+        GameData.setUserData({ achieveLevel2: GameData._achieveLevel2 });
+    }
+    //获取成就2等级
+    static get achieveLevel2(){
+        return GameData._achieveLevel2;
+    }
+
+    //设置成就3等级
+    static set achieveLevel3(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel3=level;
+        GameData.setUserData({ achieveLevel3: GameData._achieveLevel3 });
+    }
+    //获取成就3等级
+    static get achieveLevel3(){
+        return GameData._achieveLevel3;
+    }
+
+
+    //设置成就4等级
+    static set achieveLevel4(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel4=level;
+        GameData.setUserData({ achieveLevel4: GameData._achieveLevel4 });
+    }
+    //获取成就4等级
+    static get achieveLevel4(){
+        return GameData._achieveLevel4;
+    }
+
+    //设置成就5等级
+    static set achieveLevel5(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel5=level;
+        GameData.setUserData({ achieveLevel5: GameData._achieveLevel5 });
+    }
+    //获取成就5等级
+    static get achieveLevel5(){
+        return GameData._achieveLevel5;
+    }
+
+    //设置成就6等级
+    static set achieveLevel6(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel6=level;
+        GameData.setUserData({ achieveLevel6: GameData._achieveLevel6 });
+    }
+    //获取成就6等级
+    static get achieveLevel6(){
+        return GameData._achieveLevel6;
+    }
+
+    //设置成就7等级
+    static set achieveLevel7(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel7=level;
+        GameData.setUserData({ achieveLevel7: GameData._achieveLevel7 });
+    }
+    //获取成就7等级
+    static get achieveLevel7(){
+        return GameData._achieveLevel7;
+    }
+
+    //设置成就8等级
+    static set achieveLevel8(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel8=level;
+        GameData.setUserData({ achieveLevel8: GameData._achieveLevel8 });
+    }
+    //获取成就8等级
+    static get achieveLevel8(){
+        return GameData._achieveLevel8;
+    }
+
+    //设置成就9等级
+    static set achieveLevel9(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel9=level;
+        GameData.setUserData({ achieveLevel9: GameData._achieveLevel9 });
+    }
+    //获取成就9等级
+    static get achieveLevel9(){
+        return GameData._achieveLevel9;
+    }
+
+    //设置成就10等级
+    static set achieveLevel10(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel10=level;
+        GameData.setUserData({ achieveLevel10: GameData._achieveLevel10 });
+    }
+    //获取成就10等级
+    static get achieveLevel10(){
+        return GameData._achieveLevel10;
+    }
+
+    //设置成就11等级
+    static set achieveLevel11(level){
+        if(level<0){
+            level=0;
+        }
+        GameData._achieveLevel11=level;
+        GameData.setUserData({ achieveLevel11: GameData._achieveLevel11 });
+    }
+    //获取成就10等级
+    static get achieveLevel11(){
+        return GameData._achieveLevel11;
+    }
+
     //获取收集到的金币
     static get collectGolds(){
         let collectGolds=0;
@@ -952,6 +1136,19 @@ export default class GameData {
         GameData.level3=WXCtr.getStorageData("level3", null);
         GameData.level4=WXCtr.getStorageData("level4", null);
 
+        GameData.achieveLevel0=WXCtr.getStorageData("achieveLevel0",0);
+        GameData.achieveLevel1=WXCtr.getStorageData("achieveLevel1",0);
+        GameData.achieveLevel2=WXCtr.getStorageData("achieveLevel2",0);
+        GameData.achieveLevel3=WXCtr.getStorageData("achieveLevel3",0);
+        GameData.achieveLevel4=WXCtr.getStorageData("achieveLevel4",0);
+        GameData.achieveLevel5=WXCtr.getStorageData("achieveLevel5",0);
+        GameData.achieveLevel6=WXCtr.getStorageData("achieveLevel6",0);
+        GameData.achieveLevel7=WXCtr.getStorageData("achieveLevel7",0);
+        GameData.achieveLevel8=WXCtr.getStorageData("achieveLevel8",0);
+        GameData.achieveLevel9=WXCtr.getStorageData("achieveLevel9",0);
+        GameData.achieveLevel10=WXCtr.getStorageData("achieveLevel10",0);
+        GameData.achieveLevel11=WXCtr.getStorageData("achieveLevel11",0);
+
         GameCtr.getInstance().getStart().startGame();
     }
 
@@ -1001,10 +1198,26 @@ export default class GameData {
         GameData.homeWorld_prop2 = data.data2_7;
         GameData.homeWorld_prop3 = data.data2_8;
 
+        GameData.maxScore=data.data2_9;
+
         GameData.level1=data.level1;
         GameData.level2=data.level2;
         GameData.level3=data.level3;
         GameData.level4=data.level4;
+        
+
+        GameData.achieveLevel0=data.data2_10;
+        GameData.achieveLevel1=data.data2_11;
+        GameData.achieveLevel2=data.data2_12;
+        GameData.achieveLevel3=data.data2_13;
+        GameData.achieveLevel4=data.data2_14;
+        GameData.achieveLevel5=data.data2_15;
+        GameData.achieveLevel6=data.data2_16;
+        GameData.achieveLevel7=data.data2_17;
+        GameData.achieveLevel8=data.data2_18;
+        GameData.achieveLevel9=data.data2_19;
+        GameData.achieveLevel10=data.data2_20;
+        GameData.achieveLevel11=data.data2_21;
 
         GameData.setUserData({ lastTime: data.data2_2 });
         HttpCtr.submitUserData({});
@@ -1129,12 +1342,12 @@ export default class GameData {
         }
     }
 
-    static getMapStateByName(mapName) {
+    static getMap(mapName) {
         let key = mapName;
         return GameData[key];
     }
 
-    static setMapStateByName(mapName, state) {
+    static setMap(mapName, state) {
         let key = mapName;
         GameData[key] = state;
     }
@@ -1261,6 +1474,18 @@ export default class GameData {
         return true;
     }
 
+    static canGetAchieve(){
+        for(let i=0;i<this.achievementsConf.length;i++){
+            let key="achieveLevel"+i;
+            if(GameData[key]>4)continue
+            console.log("log--------canGetAchieve value target=:",GameData[this.achievementsConf[i].valueName],GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
+            if(GameData[this.achievementsConf[i].valueName]>=GameData[GameData.achievementsConf[i].confName][GameData[key]].target){
+                return true;
+            }
+        }
+        return false;
+    }
+
     static getBonusDiamonds() {
         let timeInterval = Math.floor((new Date().getTime() - WXCtr.getStorageData("lastTime")) / 1000);
         console.log("log--------离线时间=",timeInterval/3600+"小时");
@@ -1299,39 +1524,6 @@ export default class GameData {
         return GameData[confName].length-1
     }
 
-    static getAchieveBounusData(){
-        let achivementLevelupArr=[];
-        let achieveBounusData=[];
-        let achievementsLevelData=GameData.getAchievementsLevelData();
-        for(let i=0;i<achievementsLevelData.length;i++){
-            if(achievementsLevelData[i]>GameData.achievementsLevelData[i]){
-                for(let level=GameData.achievementsLevelData[i];level<achievementsLevelData[i];level++){
-                    achivementLevelupArr.push({_id:i,_level:level});
-                }
-            }
-        }
-
-        for(let i=0;i<achivementLevelupArr.length;i++){
-            for(let j=0;j<GameData.achievementsConf.length;j++){
-                if(achivementLevelupArr[i]._id==GameData.achievementsConf[j].id){
-                    for(let k=0;k<GameData[GameData.achievementsConf[j].confName].length;k++){
-                        if(achivementLevelupArr[i]._level==k){
-                            let data={
-                                title:GameData[GameData.achievementsConf[j].confName][k].title,
-                                des:GameData[GameData.achievementsConf[j].confName][k].des,
-                                bonus:GameData[GameData.achievementsConf[j].confName][k].bonus,
-                            }
-                            achieveBounusData.push(data)
-                        }
-                    }
-                }
-            }
-        }
-
-        GameData.achievementsLevelData=GameData.getAchievementsLevelData();
-        return achieveBounusData;
-    }
-
 
     static submitScore(score){
         console.log("log--------currentMap=",GameData.currentMap);
@@ -1344,6 +1536,11 @@ export default class GameData {
                 GameData[key]=score;
                 WXCtr.submitScoreToWx(GameData.level1,GameData.level2,GameData.level3,GameData.level4);
             }
+        }
+
+        let key1="map"+GameData.currentMap;
+        if(score> GameData[key1]){
+            GameData[key1]=score;
         }
     }
 }
