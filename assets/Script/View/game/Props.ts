@@ -139,7 +139,7 @@ export default class Props extends CollisionBase {
     moveToPirate() {
         this.autoMove = true;
     }
-
+    
     update(dt) {
         if (GameCtr.isPause) return;
         let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);

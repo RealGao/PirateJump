@@ -34,6 +34,8 @@ export default class Game extends cc.Component {
     @property(cc.Node)
     ndCanvas: cc.Node = null;
     @property(cc.Node)
+    ndBg: cc.Node = null;
+    @property(cc.Node)
     ndAlign: cc.Node = null;
     @property(cc.Node)
     ndIslandLayer: cc.Node = null;
@@ -59,10 +61,15 @@ export default class Game extends cc.Component {
     @property(cc.Prefab)
     pfPause: cc.Prefab = null;
 
+    @property([cc.SpriteFrame])
+    bgFrames: cc.SpriteFrame[] = [];
+
     public goldNum = 0;
     public time = 0;
     private combo = 0;                                  //连击数
     public maxCombo = 0;                               //最大连击数
+
+    private stopCountDown = false;
 
     onLoad() {
         this.alignSceen();
@@ -93,7 +100,9 @@ export default class Game extends cc.Component {
         this.registerTouch();
         GameCtr.isGameOver = false;
         GameCtr.isPause = false;
+        GameCtr.isInfinite = false;
         GameCtr.ins.mPirate.setType(GameData.currentRole);
+        this.setBg();
         this.initProp();
         this.initIslands();
 
@@ -114,7 +123,11 @@ export default class Game extends cc.Component {
             case 2:
                 this.time = 120;
                 break;
+            case 3:
+                this.time = 30;
+                GameCtr.isInfinite = true;
         }
+        if (GameData.currentRole == 3) this.time += 10;
         this.lbTime.string = this.time + "s";
         if (GameData.prop_time > 0) {
             this.time += 10;
@@ -124,6 +137,15 @@ export default class Game extends cc.Component {
         if (GameData.prop_speedUp && GameData.currentRole != 1) {
             GameCtr.speedUp = true;
             GameData.prop_speedUp--;
+        }
+    }
+
+    setBg() {
+        let idx = Math.floor(Math.random()*3);
+        idx = GameData.currentMap > 2 ? idx : GameData.currentMap;
+        for(let i = 0; i<this.ndBg.childrenCount; i++) {
+            let spr = this.ndBg.children[i].getComponent(cc.Sprite);
+            spr.spriteFrame = this.bgFrames[idx];
         }
     }
 
@@ -159,9 +181,12 @@ export default class Game extends cc.Component {
     }
 
     addTime(num) {
-        if (this.time <= 0) return;
         this.time += num;
+        if (this.time < 0) return;
         this.lbTime.string = this.time + "s";
+        if(this.time > 0 && this.stopCountDown) {
+            this.countdown();
+        }
     }
 
     addCombo(gold) {
@@ -243,20 +268,22 @@ export default class Game extends cc.Component {
     }
 
     countdown() {
-        if (GameCtr.isPause) return;
+        if (GameCtr.isPause || GameCtr.isInfinite) return;
         if (this.time > 0) {
+            this.stopCountDown = false;
             this.scheduleOnce(() => {
                 this.time--;
                 this.lbTime.string = this.time + "s";
                 this.countdown();
             }, 1.0);
         } else {
+            this.stopCountDown = true;
             if (GameCtr.ins.mPirate.isLanded) {
                 GameCtr.isGameOver = true;
                 this.timeUp();
             }
         }
-        if (this.time < 10) {
+        if (this.time < 10 && !GameCtr.isGameOver) {
             AudioManager.getInstance().playSound("audio/countdown", false);
             this.lbCountDown.string = this.time + "";
             this.lbCountDown.node.runAction(cc.sequence(

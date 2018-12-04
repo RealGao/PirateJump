@@ -30,9 +30,9 @@ export default class Pirate extends CollisionBase {
     });
 
     static Velocity = cc.Enum({
-        Normal: 400,
+        Normal: 420,
         Fast: 500,
-        Slow: 300,
+        Slow: 360,
     });
 
     @property({
@@ -125,6 +125,7 @@ export default class Pirate extends CollisionBase {
 
     jump() {
         if (this.beginShoot || this.landOnCannon) return;
+        this.magnetCollider.enabled = true;
         this.beginJump = true;
         this.isLanded = false;
         this.ndLine.active = false;
@@ -289,6 +290,7 @@ export default class Pirate extends CollisionBase {
     }
 
     shoot() {
+        this.magnetCollider.enabled = true;
         this.gravity = 0;
         this.moveDt = 0;
         let selfWPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
@@ -308,6 +310,7 @@ export default class Pirate extends CollisionBase {
         this.beginJump = false;
         this.beginShoot = false;
         this.isInitial = false;
+        this.magnetCollider.enabled = false;
 
         CollisionMgr.stopFit();
 
@@ -385,6 +388,11 @@ export default class Pirate extends CollisionBase {
 
         this.tmpGold = 0;
         CollisionMgr.removeIsland(comp.idx);
+
+        if (this.isLanded) {
+            let comp: Island = this.node.parent.getComponent(Island);
+            console.log("island.rotateSpeed == ", comp.rotateSpeed);
+        }
     }
 
     judgeCombo() {
@@ -393,7 +401,7 @@ export default class Pirate extends CollisionBase {
             if (lastComp.props.length == 0) {
                 GameCtr.ins.mGame.addCombo(this.tmpGold);
             } else {
-                if (GameData.prop_luckyGrass > 0) {
+                if (GameData.prop_luckyGrass > 0 && GameData.currentRole != 2) {
                     GameData.prop_luckyGrass--;
                     GameCtr.ins.mGame.showPropEffect(Game.GoodsType.LUCKY_GRASS);
                 } else {
