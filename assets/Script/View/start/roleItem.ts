@@ -165,6 +165,7 @@ export default class NewClass extends cc.Component {
         }
         let note=cc.instantiate(this.pfNote);
         note.parent=cc.find("Canvas");
+        note.setLocalZOrder(50);
         note.getComponent("note").showNote(this._roleInfo.des);
     }
 

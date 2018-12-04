@@ -141,6 +141,7 @@ export default class NewClass extends cc.Component {
         this._propsNode.active=false;
         this._charactersNode.active=false;
         this._mapsNode.getComponent("mapsNode").doAction();
+        GameCtr.getInstance().getPublic().setGoldNodeActive(true);
         WXCtr.showMapsRecorder();
         this.node.stopAllActions();
         this.node.runAction(cc.sequence(
@@ -155,6 +156,7 @@ export default class NewClass extends cc.Component {
         this._mapsNode.active=false;
         this._propsNode.active=true;
         this._charactersNode.active=false;
+        GameCtr.getInstance().getPublic().setGoldNodeActive(true);
         this._propsNode.getComponent("propsNode").doAction();
         WXCtr.hideMapsRecorder();
         this._mapsNode.getComponent("mapsNode").updateSubDomainCanvas();
@@ -171,6 +173,7 @@ export default class NewClass extends cc.Component {
         this._mapsNode.active=false;
         this._propsNode.active=false;
         this._charactersNode.active=true;
+        GameCtr.getInstance().getPublic().setGoldNodeActive(true);
         WXCtr.hideMapsRecorder();
         this._mapsNode.getComponent("mapsNode").updateSubDomainCanvas();
         this.node.stopAllActions();
