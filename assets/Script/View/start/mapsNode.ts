@@ -19,14 +19,7 @@ export default class NewClass extends cc.Component {
     onLoad(){
         WXCtr.initSharedCanvas();
         this.initNode();
-        //this.initPublicNode();
         this.initMapsListener();
-        this.doAction();
-        WXCtr.showMapsRecorder();
-        GameCtr.getInstance().getPublic().showCurrentShop();
-        this.scheduleOnce(()=>{
-            this._updateSubDomainCanvas();
-        },1.0)
     }
 
     initNode(){
@@ -53,11 +46,14 @@ export default class NewClass extends cc.Component {
                for(let i=0;i<this._maps.length;i++){
                     
                     if(e.target.getName()==this._maps[i].name){
-                        if(this._maps[i].getComponent("mapItem").getState()<0){
+                        if(this._maps[i].getComponent("mapItem").getScore()<0){
                             /* 未解锁 */
                             return;
                         }
-                        
+                        if(GameData.currentRole==4&&i==3){
+                            GameCtr.getInstance().getToast().toast("当前模式，禁用该角色");
+                            return;
+                        }
                         this.hideSeletedStates();
                         this._maps[i].getComponent("mapItem").setSeletedState(true);
                         GameData.currentMap=i;
@@ -92,7 +88,7 @@ export default class NewClass extends cc.Component {
 
 
     // 刷新子域的纹理
-    _updateSubDomainCanvas() {
+    updateSubDomainCanvas() {
         if (window.sharedCanvas != undefined && this._tex != null ) {
             //console.log("log---------刷新子域的纹理");
             this._tex.initWithElement(window.sharedCanvas);

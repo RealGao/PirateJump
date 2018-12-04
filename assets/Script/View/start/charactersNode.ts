@@ -17,9 +17,6 @@ export default class NewClass extends cc.Component {
 
     onLoad(){
         this.initNode();
-        //this.initPublicNode();
-        GameCtr.getInstance().getPublic().showCurrentShop();
-        this.doAction();
     }
     
     initNode(){
@@ -66,6 +63,11 @@ export default class NewClass extends cc.Component {
                             /* 未解锁 */
                             return;
                         }
+                        if(GameData.currentMap==3&&i==4){
+                            GameCtr.getInstance().getToast().toast("当前模式，禁用该角色");
+                            return;
+                        }
+
                         console.log("GameData.currentRole=:",GameData.currentRole);
                         if(GameData.currentRole!=i){
                             this.hideSeletedStates();

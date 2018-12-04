@@ -60,6 +60,8 @@ export default class NewClass extends cc.Component {
                 GameCtr.getInstance().getPublic().showGold();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
+                }else if(cc.director.getScene().name=="Game"){
+                    GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 this.showCount();
@@ -75,6 +77,8 @@ export default class NewClass extends cc.Component {
                 GameCtr.getInstance().getPublic().showDiamond();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
+                }else if(cc.director.getScene().name=="Game"){
+                    GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 GameCtr.getInstance().getPublic().upBtnsState();
                 this.showCount();
@@ -109,6 +113,7 @@ export default class NewClass extends cc.Component {
         }
         let des=cc.instantiate(this.pfNote);
         des.parent=cc.find("Canvas");
+        des.setLocalZOrder(50);
         des.getComponent("note").showNote(this._info);
     }
 }

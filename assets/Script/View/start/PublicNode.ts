@@ -146,6 +146,8 @@ export default class NewClass extends cc.Component {
         }else{
             let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
             let timeIterval1=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastPowerTime"))/1000);
+
+
             if(timeIterval1<timeIterval){
                 timeIterval=timeIterval1;
             }
@@ -153,7 +155,7 @@ export default class NewClass extends cc.Component {
             if(timeIterval-powerTimeCount>=0){
                 GameData.power+=1;
                 timeIterval-=powerTimeCount;
-                let cycle=Math.floor(timeIterval/5*60);
+                let cycle=Math.floor(timeIterval/(5*60));
                 GameData.power+=cycle;
                 GameData.power= GameData.power>99?99:GameData.power;
                 GameData.powerTime=timeIterval-cycle*5*60;

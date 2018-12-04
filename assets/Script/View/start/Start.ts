@@ -74,6 +74,7 @@ export default class Start extends cc.Component {
     startGame() {
         this.getBonusDiamonds();
         this.updateBtnShopState();
+        this.updateBtnAchieveState();
         GameData.achievementsLevelData=GameData.getAchievementsLevelData();
         GameCtr.getInstance().getPublic().showGold();
         GameCtr.getInstance().getPublic().showDiamond();
@@ -82,7 +83,6 @@ export default class Start extends cc.Component {
             WXCtr.isOnHide = false;
             this.initBgMusic();
         });
-        //GameData.getAchieveBounusData()
     }
 
     loadPackages() {
@@ -112,6 +112,7 @@ export default class Start extends cc.Component {
         let publicNode=cc.instantiate(this.pfPublicNode);
         publicNode.parent=this.node;
         publicNode.getComponent("PublicNode").hideBtnNode();
+        publicNode.getComponent("PublicNode").setGoldNodeActive(true);
         publicNode.setLocalZOrder(20);
     }
 
@@ -375,7 +376,15 @@ export default class Start extends cc.Component {
         }
     }
 
-
+    updateBtnAchieveState(){
+        let btn_achieve=this._btnsNode.getChildByName("btn_achievement");
+        let tipAchieve=btn_achieve.getChildByName("tipAchieve");
+        if(GameData.canGetAchieve()){
+            tipAchieve.active=true;
+        }else{
+            tipAchieve.active=false;
+        }
+    }
 
     getBonusDiamonds(){
         let bounusDiamonds=GameData.getBonusDiamonds();

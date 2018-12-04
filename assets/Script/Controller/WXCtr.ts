@@ -661,6 +661,15 @@ export default class WXCtr {
         } 
     }
 
+    static hideMapsRecorder(){
+        if (window.wx != undefined) {
+            console.log("主域发送消息____显示地图得分记录者");
+            window.wx.postMessage({
+                messageType: Message_Type.Close_recorder,
+            });
+        } 
+    }
+
     //提交分数到微信
     static submitScoreToWx(_score1,_score2,_score3,_score4) {
         console.log("log------------提交分数到微信 score1,score2,score3,score4",_score1,_score2,_score3,_score4);

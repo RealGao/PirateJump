@@ -49,7 +49,7 @@ export default class NewClass extends cc.Component {
     initAchievements(){
         for(let i=0;i<GameData.achievementsConf.length;i++){
             let achieveItem=this._contentNode.getChildByName("achieveItem"+i);
-            achieveItem.getComponent("achieveItem").init(GameData.achievementsConf[i]);
+            achieveItem.getComponent("achieveItem").init(GameData.achievementsConf[i],i);
             this._achieveArr.push(achieveItem);
         }
         
@@ -58,6 +58,7 @@ export default class NewClass extends cc.Component {
             icon.on(cc.Node.EventType.TOUCH_END,(e)=>{
                 for(let i=0;i<this._achieveArr.length;i++){
                     if(e.target.parent.name==this._achieveArr[i].name){
+                        this._achieveArr[i].getComponent("achieveItem").judgeUpLevel();
                         this.showAchieve(i);
                     }
                 }
@@ -70,6 +71,7 @@ export default class NewClass extends cc.Component {
         this.showAchieveDes(des);
         this._icon_seleted.x=this._achieveArr[index].x;
         this._icon_seleted.y=this._achieveArr[index].y;
+        this._achieveArr[index].getComponent("achieveItem").showProgress();
     }
 
     showAchieveDes(des){

@@ -95,17 +95,29 @@ export default class NewClass extends cc.Component {
             }else if(e.target.getName()=="btn_rankWorld"){
 
             }else if(e.target.getName()=="btn_pageDown"){
-                if(this._currentPage*6>this._currentRankList.length){
+                if((this._currentPage+1)*6>this._currentRankList.length){
                     return;
                 }
                 this._currentPage++;
-                this.showRank();
+                if(this._rankWorldNode.active){
+                    this.showRank();
+                }
+
+                if(this._rankFriendNode.active){
+                    WXCtr.showFriendRanking(this._currentModel,this._currentPage);
+                }
+                
             }else if(e.target.getName()=="btn_pageUp"){
                 if(this._currentPage<=0){
                     return;
                 }
                 this._currentPage--;
-                this.showRank();
+                if(this._rankWorldNode.active){
+                    this.showRank();
+                }
+                if(this._rankFriendNode.active){
+                    WXCtr.showFriendRanking(this._currentModel,this._currentPage);
+                }
             }else if(e.target.getName()=="btn_fight"){
                 this.node.destroy();
                 if(GameData.power>=5){
@@ -121,6 +133,7 @@ export default class NewClass extends cc.Component {
 
 
     showWorldRank(){
+        this._currentPage=0;
         this._btn_rankWorld.getComponent(cc.Button).interactable=true;
         this._btn_rankFriend.getComponent(cc.Button).interactable=false;
 
@@ -135,6 +148,7 @@ export default class NewClass extends cc.Component {
     }
 
     showFriendRank(){
+        this._currentPage=0;
         this._btn_rankWorld.getComponent(cc.Button).interactable=false;
         this._btn_rankFriend.getComponent(cc.Button).interactable=true;
 
@@ -149,6 +163,7 @@ export default class NewClass extends cc.Component {
     }
 
     switchRankModel(){
+        this._currentPage=0;
         this._currentModel++;
         this._currentModel=this._currentModel>3?0:this._currentModel;
         this._modelSprite.getComponent(cc.Sprite).spriteFrame=this.modelSpriteFrames[this._currentModel];
