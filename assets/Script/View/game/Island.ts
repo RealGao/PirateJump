@@ -47,6 +47,15 @@ export default class Island extends CollisionBase {
     }
 
     start() {
+        
+    }
+
+    setType(type) {
+        this.type = type;
+        if (type == Island.IslandType.Cannon) {
+            this.node.rotation = Math.random() * 40;
+            this.radius = 65;
+        }
         switch (GameData.currentRole) {
             case 0:
                 this.speed = Island.SpeedType.Fast;
@@ -63,14 +72,6 @@ export default class Island extends CollisionBase {
             case 4:
                 this.speed = Island.SpeedType.Fast;
                 break;
-        }
-    }
-
-    setType(type) {
-        this.type = type;
-        if (type == Island.IslandType.Cannon) {
-            this.node.rotation = Math.random() * 40;
-            this.radius = 65;
         }
     }
 

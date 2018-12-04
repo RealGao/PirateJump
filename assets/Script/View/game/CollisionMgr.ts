@@ -12,6 +12,8 @@ const { ccclass, property } = cc._decorator;
 
 const routeDistance = 30;
 const propDistance = 60;
+const bgWidth = 921;
+const winWidth = 540;
 
 enum LastPropType {
     CHEST,                                               //宝箱
@@ -110,12 +112,6 @@ export default class CollisionMgr extends cc.Component {
             CollisionMgr.mCollisionMgr.islandNum++;
             return;
         }
-        let randNum = Math.random() * 100;
-        if (randNum <= 5) {
-            comp.setRotateSpeed(-1);
-        }else {
-            comp.setRotateSpeed(1);
-        }
 
         let lastIsland = CollisionMgr.mCollisionMgr.islandArr[length - 1];
         let lastComp: Island = lastIsland.getComponent(Island);
@@ -148,14 +144,23 @@ export default class CollisionMgr extends cc.Component {
         comp.setWheel(idx);
         island.parent = GameCtr.ins.mGame.ndIslandLayer;
         CollisionMgr.mCollisionMgr.setIslandPostion(island);
+
+        let randNum = Math.random() * 100;
+        if (randNum <= 5) {
+            comp.setRotateSpeed(-1);
+        }else {
+            comp.setRotateSpeed(1);
+        }
     }
 
     // 获取生成小岛的随机参数
-    static getIslandRank(difficulty = null) {
-        let rotation = 0;
-        let time = 0;
-        let addNum = 0;
-        if (!difficulty) {
+    static getIslandRank(difficulty = -1) {
+        let data = {
+            rotation: 0,
+            time: 0,
+            addNum: 0
+        };
+        if (difficulty < 0) {
             difficulty = GameData.currentMap;
         }
         switch (difficulty) {
@@ -163,15 +168,15 @@ export default class CollisionMgr extends cc.Component {
                 {
                     let rNum = Math.random() * 10;
                     if (rNum < 2) {
-                        rotation = 35;
-                        time = Math.random() * 1 / 10 + 0.7;
-                        addNum = 60;
+                        data.rotation = 35;
+                        data.time = Math.random() * 1 / 10 + 0.7;
+                        data.addNum = 60;
                     } else if (rNum >= 2 && rNum < 8) {
-                        rotation = Math.random() * 30 + 50;
-                        time = Math.random() * 1 / 10 + 0.6;
+                        data.rotation = Math.random() * 30 + 50;
+                        data.time = Math.random() * 1 / 10 + 0.6;
                     } else {
-                        rotation = Math.random() * 40 + 90;
-                        time = Math.random() * 1 / 10 + 0.6;
+                        data.rotation = Math.random() * 40 + 90;
+                        data.time = Math.random() * 1 / 10 + 0.6;
                     }
                 }
                 break;
@@ -179,18 +184,18 @@ export default class CollisionMgr extends cc.Component {
                 {
                     let rNum = Math.random() * 10;
                     if (rNum < 2) {
-                        rotation = 35;
-                        time = Math.random() * 1 / 10 + 0.7;
-                        addNum = 60;
+                        data.rotation = 35;
+                        data.time = Math.random() * 1 / 10 + 0.7;
+                        data.addNum = 60;
                     } else if (rNum >= 2 && rNum < 7) {
-                        rotation = Math.random() * 30 + 60;
-                        time = Math.random() * 1 / 10 + 0.6;
+                        data.rotation = Math.random() * 30 + 60;
+                        data.time = Math.random() * 1 / 10 + 0.6;
                     } else if (rNum >= 7 && rNum < 8) {
-                        rotation = Math.random() * 5 + 25;
-                        time = Math.random() * 2 / 10 + 1.3;
+                        data.rotation = Math.random() * 5 + 25;
+                        data.time = Math.random() * 2 / 10 + 1.3;
                     } else {
-                        rotation = Math.random() * 40 + 90;
-                        time = Math.random() * 1 / 10 + 0.6;
+                        data.rotation = Math.random() * 40 + 90;
+                        data.time = Math.random() * 1 / 10 + 0.6;
                     }
                 }
                 break;
@@ -198,54 +203,49 @@ export default class CollisionMgr extends cc.Component {
                 {
                     let rNum = Math.random() * 10;
                     if (rNum < 2) {
-                        rotation = 35;
-                        time = Math.random() * 1 / 10 + 0.7;
-                        addNum = 60;
+                        data.rotation = 35;
+                        data.time = Math.random() * 1 / 10 + 0.7;
+                        data.addNum = 60;
                     } else if (rNum >= 2 && rNum < 6) {
-                        rotation = Math.random() * 30 + 60;
-                        time = Math.random() * 1 / 10 + 0.6;
+                        data.rotation = Math.random() * 30 + 60;
+                        data.time = Math.random() * 1 / 10 + 0.6;
                     } else if (rNum >= 6 && rNum < 8) {
-                        rotation = Math.random() * 5 + 25;
-                        time = Math.random() * 4 / 10 + 1.3;
+                        data.rotation = Math.random() * 5 + 25;
+                        data.time = Math.random() * 4 / 10 + 1.3;
                     } else {
-                        rotation = Math.random() * 40 + 90;
-                        time = Math.random() * 1 / 10 + 0.6;
+                        data.rotation = Math.random() * 40 + 90;
+                        data.time = Math.random() * 1 / 10 + 0.6;
                     }
                 }
                 break;
             case 3:
                 {
                     if (CollisionMgr.mCollisionMgr.islandNum <= 20) {
-                        CollisionMgr.getIslandRank(0);
+                        data = CollisionMgr.getIslandRank(0);
                     } else if (CollisionMgr.mCollisionMgr.islandNum > 20 && CollisionMgr.mCollisionMgr.islandNum <= 40) {
-                        CollisionMgr.getIslandRank(1);
+                        data = CollisionMgr.getIslandRank(1);
                     } else if (CollisionMgr.mCollisionMgr.islandNum > 40 && CollisionMgr.mCollisionMgr.islandNum <= 60) {
-                        CollisionMgr.getIslandRank(2);
+                        data = CollisionMgr.getIslandRank(2);
                     } else {
                         let rNum = Math.random() * 10;
                         if (rNum < 1) {
-                            rotation = 35;
-                            time = Math.random() * 1 / 10 + 0.7;
-                            addNum = 60;
+                            data.rotation = 35;
+                            data.time = Math.random() * 1 / 10 + 0.7;
+                            data.addNum = 60;
                         } else if (rNum >= 1 && rNum < 3) {
-                            rotation = Math.random() * 30 + 60;
-                            time = Math.random() * 1 / 10 + 0.6;
+                            data.rotation = Math.random() * 30 + 60;
+                            data.time = Math.random() * 1 / 10 + 0.6;
                         } else if (rNum >= 3 && rNum > 9) {
-                            rotation = Math.random() * 5 + 25;
-                            time = Math.random() * 4 / 10 + 1.3;
+                            data.rotation = Math.random() * 5 + 25;
+                            data.time = Math.random() * 4 / 10 + 1.3;
                         } else {
-                            rotation = Math.random() * 40 + 90;
-                            time = Math.random() * 1 / 10 + 0.6;
+                            data.rotation = Math.random() * 40 + 90;
+                            data.time = Math.random() * 1 / 10 + 0.6;
                         }
                     }
                 }
                 break;
         }
-        let data = {
-            rotation: rotation,
-            time: time,
-            addNum: addNum
-        };
         return data;
     }
 
@@ -407,7 +407,9 @@ export default class CollisionMgr extends cc.Component {
     static addBoom(origin, posArr, vec, gravity) {
         if (CollisionMgr.mCollisionMgr.islandNum <= 5) return;                       //前五关不出炸弹
         let tmpRand = Math.random() * 100;
-        if (tmpRand > 10) return;                                                    //炸弹概率10%
+        let boomRand = GameData.currentMap < 3 ? 10 : 20;
+
+        if (tmpRand > boomRand) return;                                                    //炸弹概率10%
         let rand = Math.random() * 10;
         let boomNum = 0;
         if (rand < 2) {
@@ -431,8 +433,8 @@ export default class CollisionMgr extends cc.Component {
     }
 
     // 获取道具位置概率
-    static getPropRank(difficulty = null) {
-        if (!difficulty) difficulty = GameData.currentMap;
+    static getPropRank(difficulty = -1) {
+        if (difficulty < 0) difficulty = GameData.currentMap;
         let data = { frontRand: 0, middleRand: 0, tailRand: 0 };
         switch (difficulty) {
             case 0:
@@ -451,11 +453,11 @@ export default class CollisionMgr extends cc.Component {
                 break;
             case 3:
                 if (CollisionMgr.mCollisionMgr.islandNum <= 20) {
-                    CollisionMgr.getPropRank(0);
+                    data = CollisionMgr.getPropRank(0);
                 } else if (CollisionMgr.mCollisionMgr.islandNum > 20 && CollisionMgr.mCollisionMgr.islandNum <= 40) {
-                    CollisionMgr.getPropRank(1);
+                    data = CollisionMgr.getPropRank(1);
                 } else if (CollisionMgr.mCollisionMgr.islandNum > 40 && CollisionMgr.mCollisionMgr.islandNum <= 60) {
-                    CollisionMgr.getPropRank(2);
+                    data = CollisionMgr.getPropRank(2);
                 } else {
                     data.frontRand = 5;
                     data.middleRand = 25;
@@ -542,6 +544,9 @@ export default class CollisionMgr extends cc.Component {
 
     // 增加金币
     static addGold(posArr, propNum, startIdx, lastIsland) {
+        if(posArr.length == 0) {
+            cc.log("!!!!!!!!!!")
+        }
         for (let i = startIdx; i < propNum + startIdx; i++) {
             let info = posArr[i];
             if (!info) {
@@ -722,8 +727,8 @@ export default class CollisionMgr extends cc.Component {
             for (let i = 0; i < CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
                 let nd = CollisionMgr.mCollisionMgr.ndBg.children[i];
                 nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt/3;
-                if (nd.x <= -1191) {
-                    nd.x += 1502;
+                if (nd.x <= -(bgWidth + winWidth)) {
+                    nd.x += bgWidth*2;
                 }
             }
         }
