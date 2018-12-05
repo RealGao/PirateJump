@@ -145,10 +145,8 @@ export default class CollisionMgr extends cc.Component {
         island.parent = GameCtr.ins.mGame.ndIslandLayer;
         CollisionMgr.mCollisionMgr.setIslandPostion(island);
 
-        if(GameData.currentMap == 3) {
-            let speed = CollisionMgr.getIslandRankSpeed();
-            comp.setSpeed(speed);
-        }
+        let speed = CollisionMgr.getIslandRankSpeed();
+        comp.setSpeed(speed);
 
         let randNum = Math.random() * 100;
         if (randNum <= 5) {
@@ -159,22 +157,35 @@ export default class CollisionMgr extends cc.Component {
     }
 
     static getIslandRankSpeed() {
-        let speed = 8;
-        let rand = Math.random() * 10;
-        if(rand < 1) {
-            speed = 6;
-        }else if(rand >=1 && rand <3){
-            speed = 7;
-        }else if(rand >=3 && rand <5){
-            speed = 8;
-        }else if(rand >=5 && rand <7){
-            speed = 9;
-        }else if(rand >=7 && rand <8){
-            speed = 11;
-        }else if(rand >=8 && rand <9){
-            speed = 15;
-        }else {
-            speed = 30;
+        let speed = 6;
+        switch (GameData.currentMap) {
+            case 0:
+                speed = 6;
+                break;
+            case 1:
+                speed = 7;
+                break;
+            case 2:
+                speed = 7;
+                break;
+            case 3:
+                let rand = Math.random() * 10;
+                if (rand < 1) {
+                    speed = 6;
+                } else if (rand >= 1 && rand < 3) {
+                    speed = 7;
+                } else if (rand >= 3 && rand < 5) {
+                    speed = 8;
+                } else if (rand >= 5 && rand < 7) {
+                    speed = 9;
+                } else if (rand >= 7 && rand < 8) {
+                    speed = 11;
+                } else if (rand >= 8 && rand < 9) {
+                    speed = 15;
+                } else {
+                    speed = 30;
+                }
+                break;
         }
         return speed;
     }
@@ -320,8 +331,8 @@ export default class CollisionMgr extends cc.Component {
             time = Math.random() * 2 / 10 + 0.8;
         }
         else {
-            rotation = 130//data.rotation;
-            time = 0.7//data.time;
+            rotation = data.rotation;
+            time = data.time;
             addNum = data.addNum > 0 ? comp.radius : 0;
             if (comp.type == Island.IslandType.Cannon) {
                 rotation = Math.random() * 40 + 90;
@@ -583,9 +594,9 @@ export default class CollisionMgr extends cc.Component {
         } else if (rand >= 24 && rand < 30) {
             comp.setType(Props.PropType.CHEST);
         } else if (rand >= 30 && rand < 30 + alarmRand) {
-            if(GameData.currentMap == 3) {
+            if (GameData.currentMap == 3) {
                 comp.setType(Props.PropType.GOLD);
-            }else{
+            } else {
                 comp.setType(Props.PropType.ALARM);
             }
         } else {

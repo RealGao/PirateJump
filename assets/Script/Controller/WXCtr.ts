@@ -525,7 +525,8 @@ export default class WXCtr {
         if (window.wx != undefined) {
             let value = wx.getStorageSync(key);
             console.log("log----------value=:",value);
-            if(value==undefined || value==null) value = defaultValue;
+            console.log("typeof(value) == ", typeof(value));
+            if((!value && typeof(value)!="undefined" && value!=0) || typeof(value) == "undefined" || value == "") value = defaultValue;
             return value;
         }
     }
