@@ -138,8 +138,8 @@ export default class CollisionMgr extends cc.Component {
         }
         comp.idx = CollisionMgr.mCollisionMgr.islandNum;
         CollisionMgr.mCollisionMgr.islandNum++;
-        let idx = Math.floor(Math.random() * CollisionMgr.mCollisionMgr.islandFrames.length);
-        if(idx == 3 && GameData.currentMap == 0) idx = 4;
+        let idx = this.getIslandWheelRank();
+        if (idx == 3 && GameData.currentMap == 0) idx = 4;
 
         comp.setWheel(idx);
         island.parent = GameCtr.ins.mGame.ndIslandLayer;
@@ -148,9 +148,31 @@ export default class CollisionMgr extends cc.Component {
         let randNum = Math.random() * 100;
         if (randNum <= 5) {
             comp.setRotateSpeed(-1);
-        }else {
+        } else {
             comp.setRotateSpeed(1);
         }
+    }
+
+    // 获取小岛大小随机参数
+    static getIslandWheelRank() {
+        let wheelIdxs;
+        switch (GameData.currentMap) {
+            case 0:
+                wheelIdxs = [0, 1, 2];
+                break;
+            case 1:
+                wheelIdxs = [4, 5, 8, 9];
+                break;
+            case 2:
+                wheelIdxs = [0, 1, 2, 3, 6];
+                break;
+            case 3:
+                wheelIdxs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                break;
+        }
+        let rank = Math.floor(Math.random() * wheelIdxs.length);
+        let idx = wheelIdxs[rank];
+        return idx;
     }
 
     // 获取生成小岛的随机参数
@@ -167,14 +189,14 @@ export default class CollisionMgr extends cc.Component {
             case 0:
                 {
                     let rNum = Math.random() * 10;
-                    if (rNum < 2) {
+                    if (rNum < 2) {                                                         //向上
                         data.rotation = 35;
                         data.time = Math.random() * 1 / 10 + 0.7;
                         data.addNum = 60;
-                    } else if (rNum >= 2 && rNum < 8) {
+                    } else if (rNum >= 2 && rNum < 8) {                                     //平稳
                         data.rotation = Math.random() * 30 + 50;
                         data.time = Math.random() * 1 / 10 + 0.6;
-                    } else {
+                    } else {                                                                //斜下
                         data.rotation = Math.random() * 40 + 90;
                         data.time = Math.random() * 1 / 10 + 0.6;
                     }
@@ -183,17 +205,17 @@ export default class CollisionMgr extends cc.Component {
             case 1:
                 {
                     let rNum = Math.random() * 10;
-                    if (rNum < 2) {
+                    if (rNum < 2) {                                                         //向上
                         data.rotation = 35;
                         data.time = Math.random() * 1 / 10 + 0.7;
                         data.addNum = 60;
-                    } else if (rNum >= 2 && rNum < 7) {
+                    } else if (rNum >= 2 && rNum < 7) {                                     //平稳
                         data.rotation = Math.random() * 30 + 60;
                         data.time = Math.random() * 1 / 10 + 0.6;
-                    } else if (rNum >= 7 && rNum < 8) {
+                    } else if (rNum >= 7 && rNum < 8) {                                     //诡异
                         data.rotation = Math.random() * 5 + 25;
                         data.time = Math.random() * 2 / 10 + 1.3;
-                    } else {
+                    } else {                                                                //斜下
                         data.rotation = Math.random() * 40 + 90;
                         data.time = Math.random() * 1 / 10 + 0.6;
                     }
@@ -202,17 +224,17 @@ export default class CollisionMgr extends cc.Component {
             case 2:
                 {
                     let rNum = Math.random() * 10;
-                    if (rNum < 2) {
+                    if (rNum < 2) {                                                         //向上
                         data.rotation = 35;
                         data.time = Math.random() * 1 / 10 + 0.7;
                         data.addNum = 60;
-                    } else if (rNum >= 2 && rNum < 6) {
+                    } else if (rNum >= 2 && rNum < 6) {                                     //平稳
                         data.rotation = Math.random() * 30 + 60;
                         data.time = Math.random() * 1 / 10 + 0.6;
-                    } else if (rNum >= 6 && rNum < 8) {
+                    } else if (rNum >= 6 && rNum < 8) {                                     //诡异
                         data.rotation = Math.random() * 5 + 25;
                         data.time = Math.random() * 4 / 10 + 1.3;
-                    } else {
+                    } else {                                                                //斜下
                         data.rotation = Math.random() * 40 + 90;
                         data.time = Math.random() * 1 / 10 + 0.6;
                     }
@@ -228,17 +250,17 @@ export default class CollisionMgr extends cc.Component {
                         data = CollisionMgr.getIslandRank(2);
                     } else {
                         let rNum = Math.random() * 10;
-                        if (rNum < 1) {
+                        if (rNum < 1) {                                                     //向上
                             data.rotation = 35;
                             data.time = Math.random() * 1 / 10 + 0.7;
                             data.addNum = 60;
-                        } else if (rNum >= 1 && rNum < 3) {
+                        } else if (rNum >= 1 && rNum < 3) {                                 //平稳
                             data.rotation = Math.random() * 30 + 60;
                             data.time = Math.random() * 1 / 10 + 0.6;
-                        } else if (rNum >= 3 && rNum > 9) {
+                        } else if (rNum >= 3 && rNum < 9) {                                 //诡异
                             data.rotation = Math.random() * 5 + 25;
                             data.time = Math.random() * 4 / 10 + 1.3;
-                        } else {
+                        } else {                                                            //斜下
                             data.rotation = Math.random() * 40 + 90;
                             data.time = Math.random() * 1 / 10 + 0.6;
                         }
@@ -409,7 +431,7 @@ export default class CollisionMgr extends cc.Component {
         let tmpRand = Math.random() * 100;
         let boomRand = GameData.currentMap < 3 ? 10 : 20;
 
-        if (tmpRand > boomRand) return;                                                    //炸弹概率10%
+        // if (tmpRand > boomRand) return;                                                    //炸弹概率10%
         let rand = Math.random() * 10;
         let boomNum = 0;
         if (rand < 2) {
@@ -544,7 +566,7 @@ export default class CollisionMgr extends cc.Component {
 
     // 增加金币
     static addGold(posArr, propNum, startIdx, lastIsland) {
-        if(posArr.length == 0) {
+        if (posArr.length == 0) {
             cc.log("!!!!!!!!!!")
         }
         for (let i = startIdx; i < propNum + startIdx; i++) {
@@ -577,7 +599,7 @@ export default class CollisionMgr extends cc.Component {
                 break;
             case CollisionBase.CollisionType.BOOM:
                 propEffect.showBombEffect();
-                if(isShowTime) propEffect.showTimeEffect();
+                if (isShowTime) propEffect.showTimeEffect();
                 CollisionMgr.mCollisionMgr.islandLayer.runAction(cc.sequence(
                     cc.moveBy(0.06, cc.v2(0, 3)),
                     cc.moveBy(0.12, cc.v2(0, -6)),
@@ -614,11 +636,11 @@ export default class CollisionMgr extends cc.Component {
     static removeIsland(idx) {
         let tmpArr = [];
 
-        for(let i = 0; i<CollisionMgr.mCollisionMgr.islandArr.length; i++) {
+        for (let i = 0; i < CollisionMgr.mCollisionMgr.islandArr.length; i++) {
             let nd = CollisionMgr.mCollisionMgr.islandArr[i];
             let comp: Island = nd.getComponent(Island);
             cc.log("comp.idx == ", comp.idx);
-            if(comp.idx < idx-1) {
+            if (comp.idx < idx - 1) {
                 if (comp.type == Island.IslandType.Cannon) {
                     CollisionMgr.mCollisionMgr.cannonIslandPool.put(nd);
                 } else {
@@ -726,9 +748,9 @@ export default class CollisionMgr extends cc.Component {
             CollisionMgr.mCollisionMgr.islandLayer.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 2;
             for (let i = 0; i < CollisionMgr.mCollisionMgr.ndBg.childrenCount; i++) {
                 let nd = CollisionMgr.mCollisionMgr.ndBg.children[i];
-                nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt/3;
+                nd.x -= CollisionMgr.mCollisionMgr.fitVx * dt / 3;
                 if (nd.x <= -(bgWidth + winWidth)) {
-                    nd.x += bgWidth*2;
+                    nd.x += bgWidth * 2;
                 }
             }
         }
