@@ -99,6 +99,10 @@ export default class NewClass extends cc.Component {
     doBuy(){
         if(this._info.gold_price>0){
             if(GameData.gold>=this._info.gold_price){
+                if(GameData.currentRole==4 &&this._index==3){
+                    GameCtr.getInstance().getToast().toast("当前角色下，无法购买该地图");
+                    return;
+                }
                 AudioManager.getInstance().playSound("audio/buy");
                 GameData.gold-=this._info.gold_price;
                 GameCtr.getInstance().getPublic().showGold();
@@ -119,6 +123,10 @@ export default class NewClass extends cc.Component {
         if(this._info.diamond_price>0){
             AudioManager.getInstance().playSound("audio/buy");
             if(GameData.diamond>=this._info.diamond_price){
+                if(GameData.currentRole==4 &&this._index==3){
+                    GameCtr.getInstance().getToast().toast("当前角色下，无法购买该地图");
+                    return;
+                }
                 GameData.diamond-=this._info.diamond_price;
                 GameCtr.getInstance().getPublic().showDiamond();
                 if(cc.director.getScene().name=="Start"){
