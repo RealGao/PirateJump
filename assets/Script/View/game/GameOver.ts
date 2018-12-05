@@ -105,8 +105,8 @@ export default class GameOver extends cc.Component {
 
     showResult() {
         this.ndOver.active = true;
-        this.showRoleInfo();
         this.showScore();
+        this.showRoleInfo();
         this.showBagInfo();
         this.showPublicNode();
         this.updateBtnShopState();
@@ -114,6 +114,7 @@ export default class GameOver extends cc.Component {
     }
 
     showScore() {
+        this.roleData = GameData.getCurrentRoleLevel();
         this.combo = GameCtr.ins.mGame.maxCombo;
         GameData.combo += this.combo;
         this.gold = GameCtr.ins.mGame.goldNum;
@@ -170,7 +171,6 @@ export default class GameOver extends cc.Component {
     }
 
     showRoleInfo() {
-        this.roleData = GameData.getCurrentRoleLevel();
         this.lbRoleLevel.string = this.roleData._level+"";
         this.sprRole.spriteFrame = this.roleFrames[GameData.currentRole];
         this.sprLevelProgress.fillRange = this.roleData._currentGold / this.roleData._targetGold;
