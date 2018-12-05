@@ -1084,7 +1084,7 @@ export default class GameData {
     static getAllLocalGameData() {
         console.log("获取本地数据！！！！！！！！！！！！");
         GameData.gold = WXCtr.getStorageData("gold", 0);
-        GameData.diamond = WXCtr.getStorageData("diamonds", 0);
+        GameData.diamond = WXCtr.getStorageData("money", 0);
         GameData.power = WXCtr.getStorageData("power",99);
         GameData.combo = WXCtr.getStorageData("combo");
         GameData.doubleJump = WXCtr.getStorageData("doubleJump");
@@ -1223,8 +1223,6 @@ export default class GameData {
         HttpCtr.submitUserData({});
         GameCtr.getInstance().getStart().startGame()
     }
-
-
 
     //保存个人信息
     static setUserData(data) {
@@ -1478,10 +1476,11 @@ export default class GameData {
         for(let i=0;i<this.achievementsConf.length;i++){
             let key="achieveLevel"+i;
             if(GameData[key]>4)continue
+            console.log(" GameData.achievementsConf[i].confName GameData[key]",GameData.achievementsConf[i].confName,GameData[key]);
             console.log("log--------canGetAchieve value target=:",GameData[this.achievementsConf[i].valueName],GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
-            if(GameData[this.achievementsConf[i].valueName]>=GameData[GameData.achievementsConf[i].confName][GameData[key]].target){
-                return true;
-            }
+            // if(GameData[this.achievementsConf[i].valueName]>=GameData[GameData.achievementsConf[i].confName][GameData[key]].target){
+            //     return true;
+            // }
         }
         return false;
     }

@@ -524,8 +524,8 @@ export default class WXCtr {
     static getStorageData(key, defaultValue = 0) {
         if (window.wx != undefined) {
             let value = wx.getStorageSync(key);
-            if(!value) value = defaultValue;
-            console.log("log getStorage key value=:",key,value);
+            console.log("log----------value=:",value);
+            if(value==undefined || value==null) value = defaultValue;
             return value;
         }
     }
@@ -536,7 +536,7 @@ export default class WXCtr {
                 key: key,
                 data: data,
                 success: (resp) => {
-                    console.log("log-------------setStorageData=:resp  key data",resp,key,data);
+                    //console.log("log-------------setStorageData=:resp  key data",resp,key,data);
                 }
             });
         }

@@ -88,6 +88,7 @@ export default class GameOver extends cc.Component {
         publicNode.parent=cc.find("Canvas");
         publicNode.getComponent("PublicNode").hideBtnNode();
         publicNode.getComponent("PublicNode").setGoldNodeActive(false);
+        GameCtr.getInstance().getPublic().initPowerTime();
         publicNode.setLocalZOrder(20);
         publicNode.active=false;
     }
@@ -171,6 +172,7 @@ export default class GameOver extends cc.Component {
 
     showRoleInfo() {
         this.roleData = GameData.getCurrentRoleLevel();
+        console.log("log--------this.roleData=:",this.roleData);
         this.lbRoleLevel.string = this.roleData._level+"";
         this.sprRole.spriteFrame = this.roleFrames[GameData.currentRole];
         this.sprLevelProgress.fillRange = this.roleData._currentGold / this.roleData._targetGold;
@@ -178,7 +180,7 @@ export default class GameOver extends cc.Component {
 
     showBagInfo() {
         this.lbLuckyGlass.string = GameData.prop_luckyGrass + "/10";
-        this.lbTurn.string = GameData.prop_revive + "/10";
+        this.lbTurn.string = GameData.prop_speedUp + "/10";
         this.lbRevive.string = GameData.prop_revive + "/10";
         this.lbTime.string = GameData.prop_time + "/10";
     }

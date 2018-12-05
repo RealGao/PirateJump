@@ -87,7 +87,7 @@ export default class NewClass extends cc.Component {
                 }else if(cc.director.getScene().name=="Game"){
                     GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getPublic().upBtnsState();
+                GameCtr.getInstance().getShop().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();
@@ -110,7 +110,7 @@ export default class NewClass extends cc.Component {
                 }else if(cc.director.getScene().name=="Game"){
                     GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getPublic().upBtnsState();
+                GameCtr.getInstance().getShop().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();

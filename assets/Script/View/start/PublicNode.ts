@@ -47,7 +47,6 @@ export default class NewClass extends cc.Component {
 
     onLoad(){
         this.initNode();
-        this.initPowerTime();
         GameCtr.getInstance().setPublic(this);
     }
 
@@ -109,6 +108,7 @@ export default class NewClass extends cc.Component {
     }
 
     showDiamond(){
+        console.log("log---------showDimond=:",GameData.diamond);
         this._lb_diamond.getComponent(cc.Label).string=GameData.diamond+"";
     }
 
@@ -153,6 +153,7 @@ export default class NewClass extends cc.Component {
             }
            
             if(timeIterval-powerTimeCount>=0){
+                console.log("log-----------GameData.power=:",GameData.power);
                 GameData.power+=1;
                 timeIterval-=powerTimeCount;
                 let cycle=Math.floor(timeIterval/(5*60));
@@ -290,6 +291,7 @@ export default class NewClass extends cc.Component {
     showPowerNotEnough(){
         let powerNotEnough=cc.instantiate(this.pfPowerNotEnough);
         powerNotEnough.parent=cc.find("Canvas");
+        powerNotEnough.setLocalZOrder(50);
     }
 
     destroyMapsNode(){
