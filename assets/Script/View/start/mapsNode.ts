@@ -27,7 +27,7 @@ export default class NewClass extends cc.Component {
         this._icon=this.node.getChildByName('icon');
         for(let i=0;i<4;i++){
             let map= this.node.getChildByName("mapContent").getChildByName("map"+i);
-            map.getComponent("mapItem").init(GameData.mapsInfo[i]);
+            map.getComponent("mapItem").init(GameData.mapsInfo[i],i);
             this._maps.push(map);
             if(GameData.currentMap==i){
                 map.getComponent("mapItem").setSeletedState(true);
@@ -46,7 +46,7 @@ export default class NewClass extends cc.Component {
                for(let i=0;i<this._maps.length;i++){
                     
                     if(e.target.getName()==this._maps[i].name){
-                        if(this._maps[i].getComponent("mapItem").getScore()<0){
+                        if(this._maps[i].getComponent("mapItem").getState()<0){
                             /* 未解锁 */
                             return;
                         }

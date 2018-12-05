@@ -1555,10 +1555,5 @@ export default class GameData {
                 WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
             }
         }
-
-        let key1 = "map" + GameData.currentMap;
-        if (score > GameData[key1]) {
-            GameData[key1] = score;
-        }
     }
 }

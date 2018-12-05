@@ -15,16 +15,16 @@ export default class NewClass extends cc.Component {
     _iconGold=null;
     _iconDiamond=null;
     _mask=null;
-    // _price={gold_price:null,diamond_price:null};
-    // _name=null;
+    _index=null;
 
     _info=null;
 
     @property(cc.Prefab)
     pfNote:cc.Prefab=null;
 
-    init(info){
+    init(info,index){
         this._info=info;
+        this._index=index;
         // this._price.gold_price=info.gold_price;
         // this._price.diamond_price=info.diamond_price;
         // this._name=info.name;
@@ -175,13 +175,18 @@ export default class NewClass extends cc.Component {
     }
 
     showStars(){
-        for(let i=0;i<this._info.rate.length;i++){
-            console.log("log-----score rate[i]=:",this.getScore(),this._info.rate[i]);
-            if(this.getScore()>=this._info.rate[i] && this._info.rate[i]>=0){
-                let star=this._starsNode.getChildByName("star"+i);
-                star.ative=true;
+        let key="level"+(this._index+1);
+        let Score=GameData[key];
+        console.log('log-------------mapScore=:',Score);
+        if(Score){
+            for(let i=0;i<this._info.rate.length;i++){
+                if(Score>=this._info.rate[i] && this._info.rate[i]>=0){
+                    let star=this._starsNode.getChildByName("star"+i);
+                    star.active=true;
+                }
             }
         }
+        
     }
 
     showDes(){
@@ -194,7 +199,7 @@ export default class NewClass extends cc.Component {
         note.getComponent("note").showNote(this._info)
     }
 
-    getScore(){
+    getState(){
         return GameData.getMap(this._info.name);
     }
 }
