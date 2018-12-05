@@ -623,7 +623,7 @@
     },
     "_children": [],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 15
@@ -8626,38 +8626,7 @@
         "__uuid__": "e0db35cb-017d-4f80-b46b-0ae6c1b76859"
       }
     ],
-    "islandFrames": [
-      {
-        "__uuid__": "6e27b188-9fdf-4a55-a31c-392928462351"
-      },
-      {
-        "__uuid__": "0eaa8b3d-4b2f-4c4d-aafa-ba0df7dc58d2"
-      },
-      {
-        "__uuid__": "7ba4043a-f6f3-466b-af1d-ab71ee11e300"
-      },
-      {
-        "__uuid__": "dacb0f3d-5da7-4e15-ac59-b59271fae6a5"
-      },
-      {
-        "__uuid__": "aead0c73-d512-4d7b-93e4-ff72a1db3a8f"
-      },
-      {
-        "__uuid__": "704f63ec-314d-4bc8-88d2-6ee42cd88bda"
-      },
-      {
-        "__uuid__": "710b5c7c-f3ad-46ce-a51a-b18e8f7c0d8f"
-      },
-      {
-        "__uuid__": "568749c2-55c5-4944-8fe3-8979c74ef4b1"
-      },
-      {
-        "__uuid__": "0cf94934-5433-4ce5-91d5-28e0d264c6b8"
-      },
-      {
-        "__uuid__": "e6d76319-58e7-45e1-b436-967bc3abad02"
-      }
-    ],
+    "islandFrames": [],
     "shadowFrames": [
       {
         "__uuid__": "38655423-6cb5-4187-bfaa-2c6cd8b59388"

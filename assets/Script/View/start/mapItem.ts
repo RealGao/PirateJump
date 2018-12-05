@@ -16,6 +16,7 @@ export default class NewClass extends cc.Component {
     _iconDiamond=null;
     _mask=null;
     _index=null;
+    _title=null;
 
     _info=null;
 
@@ -38,6 +39,7 @@ export default class NewClass extends cc.Component {
 
     initNode(){
         this._mask=this.node.getChildByName("mask");
+        this._title=this.node.getChildByName("title");
         this._btn_buy=this.node.getChildByName("btn_buy");
         this._btn_help=this.node.getChildByName("btn_help");
         this._lb_price=this._btn_buy.getChildByName("lb_price");
@@ -137,6 +139,7 @@ export default class NewClass extends cc.Component {
 
     setLockState(lock){
         this.node.getComponent(cc.Button).interactable=lock;
+        this._title.getComponent(cc.Button).interactable=lock;
     }
 
     setSeletedState(bool){
