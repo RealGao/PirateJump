@@ -105,9 +105,10 @@ export default class Game extends cc.Component {
         this.setBg();
         this.initProp();
         this.initIslands();
-
         this.countdown();
-
+        if(GameCtr.musicState>0){
+            AudioManager.getInstance().musicOn = true;
+        }
         AudioManager.getInstance().playSound("audio/gameStart", false);
         this.scheduleOnce(() => { GameCtr.playBgm(); }, 1.5);
     }
