@@ -75,6 +75,10 @@ export default class Island extends CollisionBase {
         }
     }
 
+    setSpeed(speed) {
+        this.speed = speed;
+    }
+
     set idx(idx) {
         this._idx = idx;
     }
