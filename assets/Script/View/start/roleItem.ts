@@ -19,6 +19,7 @@ export default class NewClass extends cc.Component {
     _roleInfo=null;
     _roleLevelInfo=null;
     _roleSeletedAniTag=500;
+    _index=null;
 
     @property(cc.Prefab)
     pfRoleSeletedAni:cc.Prefab=null;
@@ -26,7 +27,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     pfNote:cc.Prefab=null;
 
-    init(info){
+    init(info,index){
+        this._index=index;
         this.initInfo(info);
         this.initNode();
     }
@@ -78,6 +80,10 @@ export default class NewClass extends cc.Component {
     doBuy(){
         if(this._roleInfo.price_gold>0){
             if(GameData.gold>=this._roleInfo.price_gold){
+                if(GameData.currentMap==3 &&this._index==4){
+                    GameCtr.getInstance().getToast().toast("当前地图下，无法购买该角色");
+                    return;
+                }
                 AudioManager.getInstance().playSound("audio/buy");
                 GameData.currentRole=this._roleInfo.id;
                 GameData.gold-=this._roleInfo.price_gold;
@@ -102,6 +108,10 @@ export default class NewClass extends cc.Component {
         
         if(this._roleInfo.price_diamond>0){
             if(GameData.diamond>=this._roleInfo.price_diamond){
+                if(GameData.currentMap==3 &&this._index==4){
+                    GameCtr.getInstance().getToast().toast("当前地图下，无法购买该角色");
+                    return;
+                }
                 GameData.currentRole=this._roleInfo.id;
                 GameData.diamond-=this._roleInfo.price_diamond;
                 GameCtr.getInstance().getPublic().showDiamond();

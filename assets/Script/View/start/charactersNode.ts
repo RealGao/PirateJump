@@ -28,7 +28,7 @@ export default class NewClass extends cc.Component {
 
         for(let i=0;i<5;i++){
             let role=this._rolesContent.getChildByName("role"+i);
-            role.getComponent("roleItem").init(GameData.rolesInfo[i]);//ps ：临时显示  注意有显示钻石的
+            role.getComponent("roleItem").init(GameData.rolesInfo[i],i);
             this._roles.push(role);
 
             if(GameData.currentRole==i){
