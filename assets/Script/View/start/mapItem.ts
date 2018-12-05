@@ -107,10 +107,10 @@ export default class NewClass extends cc.Component {
                 }else if(cc.director.getScene().name=="Game"){
                     GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getShop().upBtnsState();
                 this._btn_buy.active=false;
                 this.setLockState(true);
-                GameData.setMap(this._info.name,0)
+                GameData.setMap(this._info.name,0);
+                GameCtr.getInstance().getShop().upBtnsState();
             }else{
                 GameCtr.getInstance().getToast().toast("金币不足");
             }

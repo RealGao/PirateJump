@@ -87,7 +87,6 @@ export default class NewClass extends cc.Component {
                 }else if(cc.director.getScene().name=="Game"){
                     GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getShop().upBtnsState();
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();
@@ -95,6 +94,7 @@ export default class NewClass extends cc.Component {
                 this.setSeletedState(true);
                 this._btn_buy.active=false;
                 this.node.getComponent(cc.Button).interactable=true;
+                GameCtr.getInstance().getShop().upBtnsState();
             }else{
                 GameCtr.getInstance().getToast().toast("金币不足")
             }
@@ -110,7 +110,7 @@ export default class NewClass extends cc.Component {
                 }else if(cc.director.getScene().name=="Game"){
                     GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getShop().upBtnsState();
+                
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
                 this.node.parent.parent.getComponent("charactersNode").updateRoleBtnState();
@@ -118,6 +118,7 @@ export default class NewClass extends cc.Component {
                 this.setSeletedState(true);
                 this._btn_buy.active=false;
                 this.node.getComponent(cc.Button).interactable=true;
+                GameCtr.getInstance().getShop().upBtnsState();
             }else{
                 GameCtr.getInstance().getToast().toast("钻石不足")
             }
