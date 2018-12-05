@@ -62,6 +62,7 @@ export default class Start extends cc.Component {
         WXCtr.getFriendRankingData();
         this.initPublicNode();
         if(GameCtr.HadEnterdGame){
+            GameCtr.getInstance().getPublic().initPowerTime();
             GameCtr.getInstance().getPublic().showGold();
             GameCtr.getInstance().getPublic().showDiamond();
             GameCtr.getInstance().getPublic().showPower();
@@ -76,6 +77,7 @@ export default class Start extends cc.Component {
         this.updateBtnShopState();
         this.updateBtnAchieveState();
         GameData.achievementsLevelData=GameData.getAchievementsLevelData();
+        GameCtr.getInstance().getPublic().initPowerTime();
         GameCtr.getInstance().getPublic().showGold();
         GameCtr.getInstance().getPublic().showDiamond();
         GameCtr.getInstance().getPublic().showPower();

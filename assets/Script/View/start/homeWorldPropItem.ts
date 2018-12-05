@@ -116,7 +116,7 @@ export default class NewClass extends cc.Component {
             }else if(cc.director.getScene().name=="Game"){
                 GameCtr.ins.mGameOver.updateBtnShopState();
             }
-            GameCtr.getInstance().getPublic().upBtnsState();
+            GameCtr.getInstance().getShop().upBtnsState();
             this.setLevel();
             this.updateHomeWorldProps();
             this._btn_buy.active=false;
@@ -141,7 +141,7 @@ export default class NewClass extends cc.Component {
             }else if(cc.director.getScene().name=="Game"){
                 GameCtr.ins.mGameOver.updateBtnShopState();
             }
-            GameCtr.getInstance().getPublic().upBtnsState();
+            GameCtr.getInstance().getShop().upBtnsState();
             this.setLevel();
             this.updateHomeWorldProps();
             this._btn_buy.active=false;

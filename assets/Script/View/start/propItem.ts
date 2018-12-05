@@ -63,7 +63,7 @@ export default class NewClass extends cc.Component {
                 }else if(cc.director.getScene().name=="Game"){
                     GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getPublic().upBtnsState();
+                GameCtr.getInstance().getShop().upBtnsState();
                 this.showCount();
             }else{
                 GameCtr.getInstance().getToast().toast("金币不足");
@@ -80,7 +80,7 @@ export default class NewClass extends cc.Component {
                 }else if(cc.director.getScene().name=="Game"){
                     GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getPublic().upBtnsState();
+                GameCtr.getInstance().getShop().upBtnsState();
                 this.showCount();
             }else{
                 GameCtr.getInstance().getToast().toast("钻石不足");
