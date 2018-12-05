@@ -523,7 +523,7 @@ export default class Pirate extends CollisionBase {
         if (this.sightTime > 0) {
             this.sightTime -= dt;
         } else {
-            // CollisionMgr.mCollisionMgr.ndGraphic.active = false;
+            CollisionMgr.mCollisionMgr.ndGraphic.active = false;
         }
     }
 }

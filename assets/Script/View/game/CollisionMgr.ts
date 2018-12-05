@@ -431,7 +431,7 @@ export default class CollisionMgr extends cc.Component {
         let tmpRand = Math.random() * 100;
         let boomRand = GameData.currentMap < 3 ? 10 : 20;
 
-        // if (tmpRand > boomRand) return;                                                    //炸弹概率10%
+        if (tmpRand > boomRand) return;                                                    //炸弹概率10%
         let rand = Math.random() * 10;
         let boomNum = 0;
         if (rand < 2) {
