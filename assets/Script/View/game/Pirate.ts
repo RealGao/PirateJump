@@ -465,7 +465,9 @@ export default class Pirate extends CollisionBase {
             this.isPirateAlive = true;
         }, 0.5);
         AudioManager.getInstance().playSound("audio/revive", false);
-        GameCtr.ins.mGame.showPropEffect(Game.GoodsType.REVIVE);
+        if (GameData.currentRole != 4) {
+            GameCtr.ins.mGame.showPropEffect(Game.GoodsType.REVIVE);
+        }
     }
 
     // 显示瞄准线

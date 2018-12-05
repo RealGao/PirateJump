@@ -145,12 +145,38 @@ export default class CollisionMgr extends cc.Component {
         island.parent = GameCtr.ins.mGame.ndIslandLayer;
         CollisionMgr.mCollisionMgr.setIslandPostion(island);
 
+        if(GameData.currentMap == 3) {
+            let speed = CollisionMgr.getIslandRankSpeed();
+            comp.setSpeed(speed);
+        }
+
         let randNum = Math.random() * 100;
         if (randNum <= 5) {
             comp.setRotateSpeed(-1);
         } else {
             comp.setRotateSpeed(1);
         }
+    }
+
+    static getIslandRankSpeed() {
+        let speed = 8;
+        let rand = Math.random() * 10;
+        if(rand < 1) {
+            speed = 6;
+        }else if(rand >=1 && rand <3){
+            speed = 7;
+        }else if(rand >=3 && rand <5){
+            speed = 8;
+        }else if(rand >=5 && rand <7){
+            speed = 9;
+        }else if(rand >=7 && rand <8){
+            speed = 11;
+        }else if(rand >=8 && rand <9){
+            speed = 15;
+        }else {
+            speed = 30;
+        }
+        return speed;
     }
 
     // 获取小岛大小随机参数
@@ -193,7 +219,7 @@ export default class CollisionMgr extends cc.Component {
                         data.rotation = 35;
                         data.time = Math.random() * 1 / 10 + 0.7;
                         data.addNum = 60;
-                    } else if (rNum >= 2 && rNum < 8) {                                     //平稳
+                    } else if (rNum >= 2 && rNum < 7) {                                     //平稳
                         data.rotation = Math.random() * 30 + 50;
                         data.time = Math.random() * 1 / 10 + 0.6;
                     } else {                                                                //斜下
@@ -209,10 +235,10 @@ export default class CollisionMgr extends cc.Component {
                         data.rotation = 35;
                         data.time = Math.random() * 1 / 10 + 0.7;
                         data.addNum = 60;
-                    } else if (rNum >= 2 && rNum < 7) {                                     //平稳
+                    } else if (rNum >= 2 && rNum < 5) {                                     //平稳
                         data.rotation = Math.random() * 30 + 60;
                         data.time = Math.random() * 1 / 10 + 0.6;
-                    } else if (rNum >= 7 && rNum < 8) {                                     //诡异
+                    } else if (rNum >= 5 && rNum < 7) {                                     //诡异
                         data.rotation = Math.random() * 5 + 25;
                         data.time = Math.random() * 2 / 10 + 1.3;
                     } else {                                                                //斜下
@@ -228,10 +254,10 @@ export default class CollisionMgr extends cc.Component {
                         data.rotation = 35;
                         data.time = Math.random() * 1 / 10 + 0.7;
                         data.addNum = 60;
-                    } else if (rNum >= 2 && rNum < 6) {                                     //平稳
+                    } else if (rNum >= 2 && rNum < 4) {                                     //平稳
                         data.rotation = Math.random() * 30 + 60;
                         data.time = Math.random() * 1 / 10 + 0.6;
-                    } else if (rNum >= 6 && rNum < 8) {                                     //诡异
+                    } else if (rNum >= 4 && rNum < 7) {                                     //诡异
                         data.rotation = Math.random() * 5 + 25;
                         data.time = Math.random() * 4 / 10 + 1.3;
                     } else {                                                                //斜下
@@ -254,10 +280,10 @@ export default class CollisionMgr extends cc.Component {
                             data.rotation = 35;
                             data.time = Math.random() * 1 / 10 + 0.7;
                             data.addNum = 60;
-                        } else if (rNum >= 1 && rNum < 3) {                                 //平稳
+                        } else if (rNum >= 1 && rNum < 2) {                                 //平稳
                             data.rotation = Math.random() * 30 + 60;
                             data.time = Math.random() * 1 / 10 + 0.6;
-                        } else if (rNum >= 3 && rNum < 9) {                                 //诡异
+                        } else if (rNum >= 2 && rNum < 7) {                                 //诡异
                             data.rotation = Math.random() * 5 + 25;
                             data.time = Math.random() * 4 / 10 + 1.3;
                         } else {                                                            //斜下
