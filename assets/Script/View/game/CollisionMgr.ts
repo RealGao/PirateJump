@@ -294,8 +294,8 @@ export default class CollisionMgr extends cc.Component {
             time = Math.random() * 2 / 10 + 0.8;
         }
         else {
-            rotation = data.rotation;
-            time = data.time;
+            rotation = 130//data.rotation;
+            time = 0.7//data.time;
             addNum = data.addNum > 0 ? comp.radius : 0;
             if (comp.type == Island.IslandType.Cannon) {
                 rotation = Math.random() * 40 + 90;
@@ -557,7 +557,11 @@ export default class CollisionMgr extends cc.Component {
         } else if (rand >= 24 && rand < 30) {
             comp.setType(Props.PropType.CHEST);
         } else if (rand >= 30 && rand < 30 + alarmRand) {
-            comp.setType(Props.PropType.ALARM);
+            if(GameData.currentMap == 3) {
+                comp.setType(Props.PropType.GOLD);
+            }else{
+                comp.setType(Props.PropType.ALARM);
+            }
         } else {
             comp.setType(Props.PropType.GOLD);
         }

@@ -124,11 +124,13 @@ export default class GameOver extends cc.Component {
         this.lbTotalScore.string = score + "";
         this.lbLevelScore.string = "" + this.roleData._level * 10;
 
-        GameData.maxScore = score > GameData.maxScore ? score : GameData.maxScore;
-        this.lbBest.string = GameData.maxScore + "";
-
         this.addGold(this.roleData._level * 10+ score);
         GameData.submitScore(score);
+
+        GameData.maxScore = score > GameData.maxScore ? score : GameData.maxScore;
+        let maxScore = GameData.getMaxScore();
+        maxScore = score > maxScore ? score : maxScore;
+        this.lbBest.string = maxScore + "";
         
         GameData.addGoldOfRole(score);
     }

@@ -55,18 +55,18 @@ const dataKeyConfig = {
     homeWorld_prop3: "data2_8",                                                  //家园道具4
     maxScore: "data2_9",                                                         //最高分纪录
 
-    achieveLevel0:"data2_10",                                                    //成就0等级
-    achieveLevel1:"data2_11",                                                    //成就1等级
-    achieveLevel2:"data2_12",                                                    //成就2等级
-    achieveLevel3:"data2_13",                                                    //成就3等级
-    achieveLevel4:"data2_14",                                                    //成就4等级
-    achieveLevel5:"data2_15",                                                    //成就5等级
-    achieveLevel6:"data2_16",                                                    //成就6等级
-    achieveLevel7:"data2_17",                                                    //成就7等级
-    achieveLevel8:"data2_18",                                                    //成就8等级
-    achieveLevel9:"data2_19",                                                    //成就9等级
-    achieveLevel10:"data2_20",                                                   //成就10等级
-    achieveLevel11:"data2_21",                                                   //成就11等级
+    achieveLevel0: "data2_10",                                                    //成就0等级
+    achieveLevel1: "data2_11",                                                    //成就1等级
+    achieveLevel2: "data2_12",                                                    //成就2等级
+    achieveLevel3: "data2_13",                                                    //成就3等级
+    achieveLevel4: "data2_14",                                                    //成就4等级
+    achieveLevel5: "data2_15",                                                    //成就5等级
+    achieveLevel6: "data2_16",                                                    //成就6等级
+    achieveLevel7: "data2_17",                                                    //成就7等级
+    achieveLevel8: "data2_18",                                                    //成就8等级
+    achieveLevel9: "data2_19",                                                    //成就9等级
+    achieveLevel10: "data2_20",                                                   //成就10等级
+    achieveLevel11: "data2_21",                                                   //成就11等级
 };
 
 
@@ -120,71 +120,71 @@ export default class GameData {
     private static _homeWorld_prop3: number = 0;                            //家园道具4
     private static _maxScore: number = 0;                                   //最高分纪录
 
-    private static _level1=null;                                            //地图1最大得分
-    private static _level2=null;                                            //地图2最大得分
-    private static _level3=null;                                            //地图3最大得分
-    private static _level4=null;                                            //地图4最大得分
+    private static _level1 = null;                                            //地图1最大得分
+    private static _level2 = null;                                            //地图2最大得分
+    private static _level3 = null;                                            //地图3最大得分
+    private static _level4 = null;                                            //地图4最大得分
 
-    private static _achieveLevel0=0;                                        //成就0等级
-    private static _achieveLevel1=0;                                        //成就1等级
-    private static _achieveLevel2=0;                                        //成就2等级
-    private static _achieveLevel3=0;                                        //成就3等级
-    private static _achieveLevel4=0;                                        //成就4等级
-    private static _achieveLevel5=0;                                        //成就5等级
-    private static _achieveLevel6=0;                                        //成就6等级
-    private static _achieveLevel7=0;                                        //成就7等级
-    private static _achieveLevel8=0;                                        //成就8等级
-    private static _achieveLevel9=0;                                        //成就9等级
-    private static _achieveLevel10=0;                                       //成就10等级
-    private static _achieveLevel11=0;                                       //成就11等级
+    private static _achieveLevel0 = 0;                                        //成就0等级
+    private static _achieveLevel1 = 0;                                        //成就1等级
+    private static _achieveLevel2 = 0;                                        //成就2等级
+    private static _achieveLevel3 = 0;                                        //成就3等级
+    private static _achieveLevel4 = 0;                                        //成就4等级
+    private static _achieveLevel5 = 0;                                        //成就5等级
+    private static _achieveLevel6 = 0;                                        //成就6等级
+    private static _achieveLevel7 = 0;                                        //成就7等级
+    private static _achieveLevel8 = 0;                                        //成就8等级
+    private static _achieveLevel9 = 0;                                        //成就9等级
+    private static _achieveLevel10 = 0;                                       //成就10等级
+    private static _achieveLevel11 = 0;                                       //成就11等级
 
-    private static _lotteryTimes=0;                                         //宝箱开箱次数
+    private static _lotteryTimes = 0;                                         //宝箱开箱次数
 
     public static jewelTimeCount = 0;                                      //宝石收集倒计时
     public static powerTime = 0;                                           //体力收集时间
-    public static achievementsLevelData=[];                                //成就等级数据
-    public static maxScoreData=[];                                         //各个地图的最大得分数据
-    public static userInfo=null;
+    public static achievementsLevelData = [];                                //成就等级数据
+    public static maxScoreData = [];                                         //各个地图的最大得分数据
+    public static userInfo = null;
 
-    public static mapNodeTag=10001;
-    public static propsNodeTag=10002;
-    public static homeWorldNodeTag=10003;
-    public static charactersNodeTag=10004;
+    public static mapNodeTag = 10001;
+    public static propsNodeTag = 10002;
+    public static homeWorldNodeTag = 10003;
+    public static charactersNodeTag = 10004;
 
-   
 
-    static rolesDes=[
-        { title:"路飞船长", des:"传说是海盗王和海之女神的孩子，\n天生的海盗\n\n未知原因，无法觉醒天赋"},
-        { title:"女帝船长", des:"太平洋东岸的盲女海盗王，出身卑微\n\n偶然吃下神奇的食物，恢复了视力，\n觉醒\n\n[加速]（小岛速度增加1级）"},
-        { title:"白胡子",   des:"表面是来至偏远海域的老年海盗王,\n实则因妻子意外死亡，隐藏身份的\n传奇海盗王\n\n[幸运]（无限幸运草）"},
-        { title:"香克斯",   des:"太平洋南岸海盗王，世界实力最强，\n势力最大的海盗王\n\n座右铭：时间就是生命\n\n[加时]（进入游戏增加10秒时间）"},
-        { title:"小髅髅",   des:"溺死在海中的强大海盗，被海之女神赐\n予不死之身\n\n[不死]（死亡后无限复活）"},
+
+    static rolesDes = [
+        { title: "路飞船长", des: "传说是海盗王和海之女神的孩子，\n天生的海盗\n\n未知原因，无法觉醒天赋" },
+        { title: "女帝船长", des: "太平洋东岸的盲女海盗王，出身卑微\n\n偶然吃下神奇的食物，恢复了视力，\n觉醒\n\n[加速]（小岛速度增加1级）" },
+        { title: "白胡子", des: "表面是来至偏远海域的老年海盗王,\n实则因妻子意外死亡，隐藏身份的\n传奇海盗王\n\n[幸运]（无限幸运草）" },
+        { title: "香克斯", des: "太平洋南岸海盗王，世界实力最强，\n势力最大的海盗王\n\n座右铭：时间就是生命\n\n[加时]（进入游戏增加10秒时间）" },
+        { title: "小髅髅", des: "溺死在海中的强大海盗，被海之女神赐\n予不死之身\n\n[不死]（死亡后无限复活）" },
     ]
 
     static rolesInfo = [
-        { id: 0, name: "captain",  price_gold: 0,      price_diamond: 0,    des:GameData.rolesDes[0]},
-        { id: 1, name: "sparklet", price_gold: 2000,   price_diamond: 0,    des:GameData.rolesDes[1]},
-        { id: 2, name: "hook",     price_gold: 5000,   price_diamond: 0,    des:GameData.rolesDes[2]},
-        { id: 3, name: "leavened", price_gold: 10000,  price_diamond: 0,    des:GameData.rolesDes[3]},
-        { id: 4, name: "crutch",   price_gold: 0,      price_diamond: 2000, des:GameData.rolesDes[4]}
+        { id: 0, name: "captain", price_gold: 0, price_diamond: 0, des: GameData.rolesDes[0] },
+        { id: 1, name: "sparklet", price_gold: 2000, price_diamond: 0, des: GameData.rolesDes[1] },
+        { id: 2, name: "hook", price_gold: 5000, price_diamond: 0, des: GameData.rolesDes[2] },
+        { id: 3, name: "leavened", price_gold: 10000, price_diamond: 0, des: GameData.rolesDes[3] },
+        { id: 4, name: "crutch", price_gold: 0, price_diamond: 2000, des: GameData.rolesDes[4] }
     ]
 
-   
+
     static mapsInfo = [
-        { name: "map0", title:"新手图",  gold_price: 0,      diamond_price: 0,    rate: [200, 600, 900],   des:"比较安全的小岛，刚刚开发出来\n\n比较简单，道具较少"},
-        { name: "map1", title:"进阶图",  gold_price: 2000,   diamond_price: 0,    rate: [800, 1100, 1350], des:"有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容"},
-        { name: "map2", title:"挑战图",  gold_price: 0,      diamond_price: 1000, rate: [700, 1100, 1200], des:"危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多"},
-        { name: "map3", title:"无限模式", gold_price: 20000, diamond_price: 0,    rate: [-1, -1, -1],      des:"知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好"}
+        { name: "map0", title: "新手图", gold_price: 0, diamond_price: 0, rate: [200, 600, 900], des: "比较安全的小岛，刚刚开发出来\n\n比较简单，道具较少" },
+        { name: "map1", title: "进阶图", gold_price: 2000, diamond_price: 0, rate: [800, 1100, 1350], des: "有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容" },
+        { name: "map2", title: "挑战图", gold_price: 0, diamond_price: 1000, rate: [700, 1100, 1200], des: "危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多" },
+        { name: "map3", title: "无限模式", gold_price: 20000, diamond_price: 0, rate: [-1, -1, -1], des: "知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好" }
     ]
 
     static propsInfo = [
-        { name: "luckyGrass", priceGold: 100, priceDiamond: 0,  title:"幸运草",  des:"让你变得幸运起来，值得拥有\n\n抵消COMBO断掉的惩罚"},
-        { name: "speedUp",    priceGold: 100, priceDiamond: 0,  title:"加速",    des:"召唤强风，让小岛快速转起来\n\n加快小岛旋转速度"},
-        { name: "revive",     priceGold: 0,   priceDiamond: 20, title:"复活",    des:"装有蓝色液体的神奇瓶子\n\n死亡后，复活到小岛上\n\n无限模式不生效"},
-        { name: "time",       priceGold: 100, priceDiamond: 0,  title:"加时器",  des:"让你向天再借10秒的神器\n\n入场时，增加10秒跳跃时间"},
+        { name: "luckyGrass", priceGold: 100, priceDiamond: 0, title: "幸运草", des: "让你变得幸运起来，值得拥有\n\n抵消COMBO断掉的惩罚" },
+        { name: "speedUp", priceGold: 100, priceDiamond: 0, title: "加速", des: "召唤强风，让小岛快速转起来\n\n加快小岛旋转速度" },
+        { name: "revive", priceGold: 0, priceDiamond: 20, title: "复活", des: "装有蓝色液体的神奇瓶子\n\n死亡后，复活到小岛上\n\n无限模式不生效" },
+        { name: "time", priceGold: 100, priceDiamond: 0, title: "加时器", des: "让你向天再借10秒的神器\n\n入场时，增加10秒跳跃时间" },
     ]
 
-    
+
 
     static homeWorldPropsInfo = [
         { name: "homeWorld_prop0", priceGet: 1000, priceUpLevel: 1000, initialDamage: 1 },
@@ -199,126 +199,126 @@ export default class GameData {
 
     /*收集金币*/
     static collectGoldCof = [
-        {title:"收集金币Ⅰ", des:"收集10000枚金币",  target: 10000, bonus: 500 },
-        {title:"收集金币Ⅱ", des:"收集20000枚金币",  target: 20000, bonus: 1000 },
-        {title:"收集金币Ⅲ", des:"收集40000枚金币",  target: 40000, bonus: 2000 },
-        {title:"收集金币Ⅳ", des:"收集80000枚金币",  target: 80000, bonus: 3000 },
-        {title:"收集金币Ⅴ", des:"收集200000枚金币", target: 200000, bonus: 5000 }
+        { title: "收集金币Ⅰ", des: "收集10000枚金币", target: 10000, bonus: 500 },
+        { title: "收集金币Ⅱ", des: "收集20000枚金币", target: 20000, bonus: 1000 },
+        { title: "收集金币Ⅲ", des: "收集40000枚金币", target: 40000, bonus: 2000 },
+        { title: "收集金币Ⅳ", des: "收集80000枚金币", target: 80000, bonus: 3000 },
+        { title: "收集金币Ⅴ", des: "收集200000枚金币", target: 200000, bonus: 5000 }
     ]
 
     /*连击*/
     static ComboCof = [
-        {title:"连击Ⅰ", des:"连击1000次",  target: 1000, bonus: 500 },
-        {title:"连击Ⅱ", des:"连击3000次",  target: 3000, bonus: 1000 },
-        {title:"连击Ⅲ", des:"连击5000次",  target: 5000, bonus: 2000 },
-        {title:"连击Ⅳ", des:"连击10000次", target: 10000, bonus: 3000 },
-        {title:"连击Ⅴ", des:"连击20000次", target: 20000, bonus: 5000 },
+        { title: "连击Ⅰ", des: "连击1000次", target: 1000, bonus: 500 },
+        { title: "连击Ⅱ", des: "连击3000次", target: 3000, bonus: 1000 },
+        { title: "连击Ⅲ", des: "连击5000次", target: 5000, bonus: 2000 },
+        { title: "连击Ⅳ", des: "连击10000次", target: 10000, bonus: 3000 },
+        { title: "连击Ⅴ", des: "连击20000次", target: 20000, bonus: 5000 },
     ]
 
     /*连跳*/
     static doubleJumpCof = [
-        {title:"连跳Ⅰ", des:"连跳100次",   target: 100, bonus: 500 },
-        {title:"连跳Ⅱ", des:"连跳300次",   target: 300, bonus: 1000 },
-        {title:"连跳Ⅲ", des:"连跳1000次",  target: 1000, bonus: 2000 },
-        {title:"连跳Ⅳ", des:"连跳5000次",  target: 5000, bonus: 3000 },
-        {title:"连跳Ⅴ", des:"连跳10000次", target: 10000, bonus: 5000 },
+        { title: "连跳Ⅰ", des: "连跳100次", target: 100, bonus: 500 },
+        { title: "连跳Ⅱ", des: "连跳300次", target: 300, bonus: 1000 },
+        { title: "连跳Ⅲ", des: "连跳1000次", target: 1000, bonus: 2000 },
+        { title: "连跳Ⅳ", des: "连跳5000次", target: 5000, bonus: 3000 },
+        { title: "连跳Ⅴ", des: "连跳10000次", target: 10000, bonus: 5000 },
     ]
 
     /*飞行的金币*/
     static flyingGoldCof = [
-        {title:"飞行的金币Ⅰ", des:"用磁铁吸收40枚金币", target: 40, bonus: 500 },
-        {title:"飞行的金币Ⅱ", des:"用磁铁吸收200枚金币", target: 200, bonus: 1000 },
-        {title:"飞行的金币Ⅲ", des:"用磁铁吸收500枚金币", target: 500, bonus: 2000 },
-        {title:"飞行的金币Ⅳ", des:"用磁铁吸收2000枚金币", target: 2000, bonus: 3000 },
-        {title:"飞行的金币Ⅴ", des:"用磁铁吸收50000枚金币", target: 50000, bonus: 5000 },
+        { title: "飞行的金币Ⅰ", des: "用磁铁吸收40枚金币", target: 40, bonus: 500 },
+        { title: "飞行的金币Ⅱ", des: "用磁铁吸收200枚金币", target: 200, bonus: 1000 },
+        { title: "飞行的金币Ⅲ", des: "用磁铁吸收500枚金币", target: 500, bonus: 2000 },
+        { title: "飞行的金币Ⅳ", des: "用磁铁吸收2000枚金币", target: 2000, bonus: 3000 },
+        { title: "飞行的金币Ⅴ", des: "用磁铁吸收50000枚金币", target: 50000, bonus: 5000 },
     ]
 
     /*穿过金币*/
     static omitGoldCof = [
-        { title:"穿过金币Ⅰ", des:"漏了500枚金币",  target: 500, bonus: 500 },
-        { title:"穿过金币Ⅱ", des:"漏了2000枚金币", target: 2000, bonus: 1000 },
-        { title:"穿过金币Ⅲ", des:"漏了5000枚金币", target: 5000, bonus: 2000 },
-        { title:"穿过金币Ⅳ", des:"漏了10000枚金币",target: 10000, bonus: 3000 },
-        { title:"穿过金币Ⅴ", des:"漏了20000枚金币",target: 20000, bonus: 5000 },
+        { title: "穿过金币Ⅰ", des: "漏了500枚金币", target: 500, bonus: 500 },
+        { title: "穿过金币Ⅱ", des: "漏了2000枚金币", target: 2000, bonus: 1000 },
+        { title: "穿过金币Ⅲ", des: "漏了5000枚金币", target: 5000, bonus: 2000 },
+        { title: "穿过金币Ⅳ", des: "漏了10000枚金币", target: 10000, bonus: 3000 },
+        { title: "穿过金币Ⅴ", des: "漏了20000枚金币", target: 20000, bonus: 5000 },
     ]
 
     /*头铁*/
     static hitBoxCof = [
-        { title:"头铁Ⅰ", des:"用女帝船长撞100个箱子",  target: 100, bonus: 500 },
-        { title:"头铁Ⅱ", des:"用女帝船长撞300个箱子",  target: 300, bonus: 1000 },
-        { title:"头铁Ⅲ", des:"用女帝船长撞1000个箱子", target: 1000, bonus: 2000 },
-        { title:"头铁Ⅳ", des:"用女帝船长撞5000个箱子", target: 5000, bonus: 3000 },
-        { title:"头铁Ⅴ", des:"用女帝船长撞10000个箱子",target: 10000, bonus: 5000 },
+        { title: "头铁Ⅰ", des: "用女帝船长撞100个箱子", target: 100, bonus: 500 },
+        { title: "头铁Ⅱ", des: "用女帝船长撞300个箱子", target: 300, bonus: 1000 },
+        { title: "头铁Ⅲ", des: "用女帝船长撞1000个箱子", target: 1000, bonus: 2000 },
+        { title: "头铁Ⅳ", des: "用女帝船长撞5000个箱子", target: 5000, bonus: 3000 },
+        { title: "头铁Ⅴ", des: "用女帝船长撞10000个箱子", target: 10000, bonus: 5000 },
     ]
 
     /*时间之子*/
     static gatherTimerCof = [
-        { title:"时间之子Ⅰ", des:"用香克斯收集50个时间", target: 50, bonus: 500 },
-        { title:"时间之子Ⅱ", des:"用香克斯收集200个时间", target: 200, bonus: 1000 },
-        { title:"时间之子Ⅲ", des:"用香克斯收集500个时间", target: 500, bonus: 2000 },
-        { title:"时间之子Ⅳ", des:"用香克斯收集2000个时间", target: 2000, bonus: 3000 },
-        { title:"时间之子Ⅴ", des:"用香克斯收集5000个时间", target: 5000, bonus: 5000 },
+        { title: "时间之子Ⅰ", des: "用香克斯收集50个时间", target: 50, bonus: 500 },
+        { title: "时间之子Ⅱ", des: "用香克斯收集200个时间", target: 200, bonus: 1000 },
+        { title: "时间之子Ⅲ", des: "用香克斯收集500个时间", target: 500, bonus: 2000 },
+        { title: "时间之子Ⅳ", des: "用香克斯收集2000个时间", target: 2000, bonus: 3000 },
+        { title: "时间之子Ⅴ", des: "用香克斯收集5000个时间", target: 5000, bonus: 5000 },
     ]
 
     /*不死亡灵*/
     static reviveTimesCof = [
-        { title:"时间之子Ⅰ", des:"用小骷髅复活10次",target: 10, bonus: 500 },
-        { title:"时间之子Ⅱ", des:"用小骷髅复活50次",target: 50, bonus: 1000 },
-        { title:"时间之子Ⅲ", des:"用小骷髅复活200次",target: 200, bonus: 2000 },
-        { title:"时间之子Ⅳ", des:"用小骷髅复活1000次",target: 1000, bonus: 3000 },
-        { title:"时间之子Ⅴ", des:"用小骷髅复活10000次",target: 10000, bonus: 5000 },
+        { title: "时间之子Ⅰ", des: "用小骷髅复活10次", target: 10, bonus: 500 },
+        { title: "时间之子Ⅱ", des: "用小骷髅复活50次", target: 50, bonus: 1000 },
+        { title: "时间之子Ⅲ", des: "用小骷髅复活200次", target: 200, bonus: 2000 },
+        { title: "时间之子Ⅳ", des: "用小骷髅复活1000次", target: 1000, bonus: 3000 },
+        { title: "时间之子Ⅴ", des: "用小骷髅复活10000次", target: 10000, bonus: 5000 },
     ]
 
     /*拆弹专家*/
     static dismantleBombCof = [
-        { title:"拆弹专家Ⅰ", des:"用盾牌拆除1000个炸弹",target: 1000, bonus: 500 },
-        { title:"拆弹专家Ⅱ", des:"用盾牌拆除2000个炸弹",target: 2000, bonus: 1000 },
-        { title:"拆弹专家Ⅲ", des:"用盾牌拆除5000个炸弹",target: 5000, bonus: 2000 },
-        { title:"拆弹专家Ⅳ", des:"用盾牌拆除10000个炸弹",target: 10000, bonus: 3000 },
-        { title:"拆弹专家Ⅴ", des:"用盾牌拆除20000个炸弹",target: 20000, bonus: 5000 },
+        { title: "拆弹专家Ⅰ", des: "用盾牌拆除1000个炸弹", target: 1000, bonus: 500 },
+        { title: "拆弹专家Ⅱ", des: "用盾牌拆除2000个炸弹", target: 2000, bonus: 1000 },
+        { title: "拆弹专家Ⅲ", des: "用盾牌拆除5000个炸弹", target: 5000, bonus: 2000 },
+        { title: "拆弹专家Ⅳ", des: "用盾牌拆除10000个炸弹", target: 10000, bonus: 3000 },
+        { title: "拆弹专家Ⅴ", des: "用盾牌拆除20000个炸弹", target: 20000, bonus: 5000 },
     ]
 
     /*大团圆*/
     static lockRolesCof = [
-        { title:"大团圆Ⅰ", des:"解锁2个角色", target: 2, bonus: 500 },
-        { title:"大团圆Ⅱ", des:"解锁3个角色",target: 3, bonus: 1000 },
-        { title:"大团圆Ⅲ", des:"解锁4个角色",target: 4, bonus: 2000 },
-        { title:"大团圆Ⅳ", des:"解锁5个角色",target: 5, bonus: 3000 },
-        { title:"大团圆Ⅴ", des:"解锁6个角色",target: 6, bonus: 5000 },
+        { title: "大团圆Ⅰ", des: "解锁2个角色", target: 2, bonus: 500 },
+        { title: "大团圆Ⅱ", des: "解锁3个角色", target: 3, bonus: 1000 },
+        { title: "大团圆Ⅲ", des: "解锁4个角色", target: 4, bonus: 2000 },
+        { title: "大团圆Ⅳ", des: "解锁5个角色", target: 5, bonus: 3000 },
+        { title: "大团圆Ⅴ", des: "解锁6个角色", target: 6, bonus: 5000 },
     ]
 
     /*升级*/
     static levelUpCof = [
-        { title:"升级Ⅰ", des:"所有角色5级",target: 5, bonus: 500 },
-        { title:"升级Ⅱ", des:"所有角色10级",target: 10, bonus: 1000 },
-        { title:"升级Ⅲ", des:"所有角色15级",target: 15, bonus: 2000 },
-        { title:"升级Ⅳ", des:"所有角色20级",target: 20, bonus: 3000 },
-        { title:"升级Ⅴ", des:"所有角色25级",target: 25, bonus: 5000 },
+        { title: "升级Ⅰ", des: "所有角色5级", target: 5, bonus: 500 },
+        { title: "升级Ⅱ", des: "所有角色10级", target: 10, bonus: 1000 },
+        { title: "升级Ⅲ", des: "所有角色15级", target: 15, bonus: 2000 },
+        { title: "升级Ⅳ", des: "所有角色20级", target: 20, bonus: 3000 },
+        { title: "升级Ⅴ", des: "所有角色25级", target: 25, bonus: 5000 },
     ]
 
     /*钩宝箱*/
     static captainHitBoxCof = [
-        { title:"钩宝箱Ⅰ", des:"白胡子撞破200箱子",target: 200, bonus: 500 },
-        { title:"钩宝箱Ⅱ", des:"白胡子撞破500箱子",target: 500, bonus: 1000 },
-        { title:"钩宝箱Ⅲ", des:"白胡子撞破2000箱子",target: 2000, bonus: 2000 },
-        { title:"钩宝箱Ⅳ", des:"白胡子撞破10000箱子",target: 10000, bonus: 3000 },
-        { title:"钩宝箱Ⅴ", des:"白胡子撞破20000箱子",target: 20000, bonus: 5000 },
+        { title: "钩宝箱Ⅰ", des: "白胡子撞破200箱子", target: 200, bonus: 500 },
+        { title: "钩宝箱Ⅱ", des: "白胡子撞破500箱子", target: 500, bonus: 1000 },
+        { title: "钩宝箱Ⅲ", des: "白胡子撞破2000箱子", target: 2000, bonus: 2000 },
+        { title: "钩宝箱Ⅳ", des: "白胡子撞破10000箱子", target: 10000, bonus: 3000 },
+        { title: "钩宝箱Ⅴ", des: "白胡子撞破20000箱子", target: 20000, bonus: 5000 },
     ]
 
     /*成就表*/
-    static achievementsConf=[
-        {id:0,   confName:"collectGoldCof",   valueName:"collectGolds"},
-        {id:1,   confName:"ComboCof",         valueName:"combo"},
-        {id:2,   confName:"doubleJumpCof",    valueName:"doubleJump"},
-        {id:3,   confName:"flyingGoldCof",    valueName:"flyingGold"},
-        {id:4,   confName:"omitGoldCof" ,     valueName:"omitGold"},
-        {id:5,   confName:"hitBoxCof"   ,     valueName:"hitBox"},
-        {id:6,   confName:"gatherTimerCof",   valueName:"gatherTimer"},
-        {id:7,   confName:"reviveTimesCof",   valueName:"reviveTimes"},
-        {id:8,   confName:"dismantleBombCof", valueName:"dismantleBomb"},
-        {id:9,   confName:"lockRolesCof",     valueName:"lockedRoles"},
-        {id:10,  confName:"levelUpCof",       valueName:"minRoleLevel"},
-        {id:11,  confName:"captainHitBoxCof", valueName:"captainHitBox"},
+    static achievementsConf = [
+        { id: 0, confName: "collectGoldCof", valueName: "collectGolds" },
+        { id: 1, confName: "ComboCof", valueName: "combo" },
+        { id: 2, confName: "doubleJumpCof", valueName: "doubleJump" },
+        { id: 3, confName: "flyingGoldCof", valueName: "flyingGold" },
+        { id: 4, confName: "omitGoldCof", valueName: "omitGold" },
+        { id: 5, confName: "hitBoxCof", valueName: "hitBox" },
+        { id: 6, confName: "gatherTimerCof", valueName: "gatherTimer" },
+        { id: 7, confName: "reviveTimesCof", valueName: "reviveTimes" },
+        { id: 8, confName: "dismantleBombCof", valueName: "dismantleBomb" },
+        { id: 9, confName: "lockRolesCof", valueName: "lockedRoles" },
+        { id: 10, confName: "levelUpCof", valueName: "minRoleLevel" },
+        { id: 11, confName: "captainHitBoxCof", valueName: "captainHitBox" },
     ]
 
     //设置玩家金币
@@ -821,254 +821,254 @@ export default class GameData {
     }
 
     //设置地图1最高得分
-    static set level1(score){
-        if(!score){return }
+    static set level1(score) {
+        if (!score) { return }
 
-        if(score<0){
-            score=0;
+        if (score < 0) {
+            score = 0;
         }
-        GameData._level1=score;
+        GameData._level1 = score;
         GameData.setUserData({ level1: GameData._level1 });
     }
 
     //获取地图1最高得分
-    static get level1(){
+    static get level1() {
         return GameData._level1;
     }
 
     //设置地图2排行数据
-    static set level2(score){
-        if(!score){return }
-        if(score<0){
-            score=0;
+    static set level2(score) {
+        if (!score) { return }
+        if (score < 0) {
+            score = 0;
         }
-        GameData._level2=score;
+        GameData._level2 = score;
         GameData.setUserData({ level2: GameData._level2 });
     }
 
     //获取地图2最高得分
-    static get level2(){
+    static get level2() {
         return GameData._level2;
     }
 
     //设置地图3排行数据
-    static set level3(score){
-        if(!score){return }
-        if(score<0){
-            score=0;
+    static set level3(score) {
+        if (!score) { return }
+        if (score < 0) {
+            score = 0;
         }
-        GameData._level3=score;
+        GameData._level3 = score;
         GameData.setUserData({ level3: GameData._level3 });
     }
 
     //获取地图3最高得分
-    static get level3(){
+    static get level3() {
         return GameData._level3;
     }
 
     //设置地图4最高得分
-    static set level4(score){
-        if(!score){return }
-        if(score<0){
-            score=0;
+    static set level4(score) {
+        if (!score) { return }
+        if (score < 0) {
+            score = 0;
         }
-        GameData._level4=score;
+        GameData._level4 = score;
         GameData.setUserData({ level4: GameData._level4 });
     }
     //获取地图4最高得分
-    static get level4(){
+    static get level4() {
         return GameData._level4;
     }
 
     //设置成就0等级
-    static set achieveLevel0(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel0(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel0=level;
+        GameData._achieveLevel0 = level;
         GameData.setUserData({ achieveLevel0: GameData._achieveLevel0 });
     }
     //获取成就0等级
-    static get achieveLevel0(){
+    static get achieveLevel0() {
         return GameData._achieveLevel0;
     }
 
     //设置成就1等级
-    static set achieveLevel1(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel1(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel1=level;
+        GameData._achieveLevel1 = level;
         GameData.setUserData({ achieveLevel1: GameData._achieveLevel1 });
     }
     //获取成就1等级
-    static get achieveLevel1(){
+    static get achieveLevel1() {
         return GameData._achieveLevel1;
     }
 
     //设置成就2等级
-    static set achieveLevel2(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel2(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel2=level;
+        GameData._achieveLevel2 = level;
         GameData.setUserData({ achieveLevel2: GameData._achieveLevel2 });
     }
     //获取成就2等级
-    static get achieveLevel2(){
+    static get achieveLevel2() {
         return GameData._achieveLevel2;
     }
 
     //设置成就3等级
-    static set achieveLevel3(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel3(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel3=level;
+        GameData._achieveLevel3 = level;
         GameData.setUserData({ achieveLevel3: GameData._achieveLevel3 });
     }
     //获取成就3等级
-    static get achieveLevel3(){
+    static get achieveLevel3() {
         return GameData._achieveLevel3;
     }
 
 
     //设置成就4等级
-    static set achieveLevel4(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel4(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel4=level;
+        GameData._achieveLevel4 = level;
         GameData.setUserData({ achieveLevel4: GameData._achieveLevel4 });
     }
     //获取成就4等级
-    static get achieveLevel4(){
+    static get achieveLevel4() {
         return GameData._achieveLevel4;
     }
 
     //设置成就5等级
-    static set achieveLevel5(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel5(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel5=level;
+        GameData._achieveLevel5 = level;
         GameData.setUserData({ achieveLevel5: GameData._achieveLevel5 });
     }
     //获取成就5等级
-    static get achieveLevel5(){
+    static get achieveLevel5() {
         return GameData._achieveLevel5;
     }
 
     //设置成就6等级
-    static set achieveLevel6(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel6(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel6=level;
+        GameData._achieveLevel6 = level;
         GameData.setUserData({ achieveLevel6: GameData._achieveLevel6 });
     }
     //获取成就6等级
-    static get achieveLevel6(){
+    static get achieveLevel6() {
         return GameData._achieveLevel6;
     }
 
     //设置成就7等级
-    static set achieveLevel7(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel7(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel7=level;
+        GameData._achieveLevel7 = level;
         GameData.setUserData({ achieveLevel7: GameData._achieveLevel7 });
     }
     //获取成就7等级
-    static get achieveLevel7(){
+    static get achieveLevel7() {
         return GameData._achieveLevel7;
     }
 
     //设置成就8等级
-    static set achieveLevel8(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel8(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel8=level;
+        GameData._achieveLevel8 = level;
         GameData.setUserData({ achieveLevel8: GameData._achieveLevel8 });
     }
     //获取成就8等级
-    static get achieveLevel8(){
+    static get achieveLevel8() {
         return GameData._achieveLevel8;
     }
 
     //设置成就9等级
-    static set achieveLevel9(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel9(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel9=level;
+        GameData._achieveLevel9 = level;
         GameData.setUserData({ achieveLevel9: GameData._achieveLevel9 });
     }
     //获取成就9等级
-    static get achieveLevel9(){
+    static get achieveLevel9() {
         return GameData._achieveLevel9;
     }
 
     //设置成就10等级
-    static set achieveLevel10(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel10(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel10=level;
+        GameData._achieveLevel10 = level;
         GameData.setUserData({ achieveLevel10: GameData._achieveLevel10 });
     }
     //获取成就10等级
-    static get achieveLevel10(){
+    static get achieveLevel10() {
         return GameData._achieveLevel10;
     }
 
     //设置成就11等级
-    static set achieveLevel11(level){
-        if(level<0){
-            level=0;
+    static set achieveLevel11(level) {
+        if (level < 0) {
+            level = 0;
         }
-        GameData._achieveLevel11=level;
+        GameData._achieveLevel11 = level;
         GameData.setUserData({ achieveLevel11: GameData._achieveLevel11 });
     }
     //获取成就10等级
-    static get achieveLevel11(){
+    static get achieveLevel11() {
         return GameData._achieveLevel11;
     }
 
     //获取收集到的金币
-    static get collectGolds(){
-        let collectGolds=0;
-        collectGolds=GameData.gold_captain>=0?collectGolds+GameData.gold_captain:collectGolds;
-        collectGolds=GameData.gold_sparklet>=0?collectGolds+GameData.gold_sparklet:collectGolds;
-        collectGolds=GameData.gold_hook>=0?collectGolds+GameData.gold_hook:collectGolds;
-        collectGolds=GameData.gold_leavened>=0?collectGolds+GameData.gold_leavened:collectGolds;
-        collectGolds=GameData.gold_crutch>=0?collectGolds+GameData.gold_crutch:collectGolds;
+    static get collectGolds() {
+        let collectGolds = 0;
+        collectGolds = GameData.gold_captain >= 0 ? collectGolds + GameData.gold_captain : collectGolds;
+        collectGolds = GameData.gold_sparklet >= 0 ? collectGolds + GameData.gold_sparklet : collectGolds;
+        collectGolds = GameData.gold_hook >= 0 ? collectGolds + GameData.gold_hook : collectGolds;
+        collectGolds = GameData.gold_leavened >= 0 ? collectGolds + GameData.gold_leavened : collectGolds;
+        collectGolds = GameData.gold_crutch >= 0 ? collectGolds + GameData.gold_crutch : collectGolds;
 
         return collectGolds;
     }
 
     //获取解锁角色数量
-    static get lockedRoles(){
-        let lockedRolesCount=0;
-        lockedRolesCount=GameData.gold_captain>=0?lockedRolesCount+1:lockedRolesCount;
-        lockedRolesCount=GameData.gold_sparklet>=0?lockedRolesCount+1:lockedRolesCount;
-        lockedRolesCount=GameData.gold_hook>=0?lockedRolesCount+1:lockedRolesCount;
-        lockedRolesCount=GameData.gold_leavened>=0?lockedRolesCount+1:lockedRolesCount;
-        lockedRolesCount=GameData.gold_crutch>=0?lockedRolesCount+1:lockedRolesCount;
-        console.log("log-------------lockedRolesCount=:",lockedRolesCount);
+    static get lockedRoles() {
+        let lockedRolesCount = 0;
+        lockedRolesCount = GameData.gold_captain >= 0 ? lockedRolesCount + 1 : lockedRolesCount;
+        lockedRolesCount = GameData.gold_sparklet >= 0 ? lockedRolesCount + 1 : lockedRolesCount;
+        lockedRolesCount = GameData.gold_hook >= 0 ? lockedRolesCount + 1 : lockedRolesCount;
+        lockedRolesCount = GameData.gold_leavened >= 0 ? lockedRolesCount + 1 : lockedRolesCount;
+        lockedRolesCount = GameData.gold_crutch >= 0 ? lockedRolesCount + 1 : lockedRolesCount;
+        console.log("log-------------lockedRolesCount=:", lockedRolesCount);
         return lockedRolesCount;
     }
 
     //获取解锁角色最小等级
-    static get minRoleLevel(){
-        let levelArr=[];
-        let level_captain= GameData.getLevelInfo(GameData.gold_captain);
-        let level_sparklet= GameData.getLevelInfo(GameData.gold_sparklet);
-        let level_hook= GameData.getLevelInfo(GameData.gold_hook);
-        let level_leavened= GameData.getLevelInfo(GameData.gold_leavened);
-        let level_crutch= GameData.getLevelInfo(GameData.gold_crutch);
+    static get minRoleLevel() {
+        let levelArr = [];
+        let level_captain = GameData.getLevelInfo(GameData.gold_captain);
+        let level_sparklet = GameData.getLevelInfo(GameData.gold_sparklet);
+        let level_hook = GameData.getLevelInfo(GameData.gold_hook);
+        let level_leavened = GameData.getLevelInfo(GameData.gold_leavened);
+        let level_crutch = GameData.getLevelInfo(GameData.gold_crutch);
 
         levelArr.push(level_captain._level);
         levelArr.push(level_sparklet._level);
@@ -1085,7 +1085,7 @@ export default class GameData {
         console.log("获取本地数据！！！！！！！！！！！！");
         GameData.gold = WXCtr.getStorageData("gold", 0);
         GameData.diamond = WXCtr.getStorageData("money", 0);
-        GameData.power = WXCtr.getStorageData("power",99);
+        GameData.power = WXCtr.getStorageData("power", 99);
         GameData.combo = WXCtr.getStorageData("combo");
         GameData.doubleJump = WXCtr.getStorageData("doubleJump");
         GameData.flyingGold = WXCtr.getStorageData("flyingGold");
@@ -1129,25 +1129,25 @@ export default class GameData {
         GameData.homeWorld_prop2 = WXCtr.getStorageData("homeWorld_prop2", 0);
         GameData.homeWorld_prop3 = WXCtr.getStorageData("homeWorld_prop3", 0);
 
-        GameData.maxScore= WXCtr.getStorageData("maxScore", 0);
+        GameData.maxScore = WXCtr.getStorageData("maxScore", 0);
 
-        GameData.level1=WXCtr.getStorageData("level1", null);
-        GameData.level2=WXCtr.getStorageData("level2", null);
-        GameData.level3=WXCtr.getStorageData("level3", null);
-        GameData.level4=WXCtr.getStorageData("level4", null);
+        GameData.level1 = WXCtr.getStorageData("level1", null);
+        GameData.level2 = WXCtr.getStorageData("level2", null);
+        GameData.level3 = WXCtr.getStorageData("level3", null);
+        GameData.level4 = WXCtr.getStorageData("level4", null);
 
-        GameData.achieveLevel0=WXCtr.getStorageData("achieveLevel0",0);
-        GameData.achieveLevel1=WXCtr.getStorageData("achieveLevel1",0);
-        GameData.achieveLevel2=WXCtr.getStorageData("achieveLevel2",0);
-        GameData.achieveLevel3=WXCtr.getStorageData("achieveLevel3",0);
-        GameData.achieveLevel4=WXCtr.getStorageData("achieveLevel4",0);
-        GameData.achieveLevel5=WXCtr.getStorageData("achieveLevel5",0);
-        GameData.achieveLevel6=WXCtr.getStorageData("achieveLevel6",0);
-        GameData.achieveLevel7=WXCtr.getStorageData("achieveLevel7",0);
-        GameData.achieveLevel8=WXCtr.getStorageData("achieveLevel8",0);
-        GameData.achieveLevel9=WXCtr.getStorageData("achieveLevel9",0);
-        GameData.achieveLevel10=WXCtr.getStorageData("achieveLevel10",0);
-        GameData.achieveLevel11=WXCtr.getStorageData("achieveLevel11",0);
+        GameData.achieveLevel0 = WXCtr.getStorageData("achieveLevel0", 0);
+        GameData.achieveLevel1 = WXCtr.getStorageData("achieveLevel1", 0);
+        GameData.achieveLevel2 = WXCtr.getStorageData("achieveLevel2", 0);
+        GameData.achieveLevel3 = WXCtr.getStorageData("achieveLevel3", 0);
+        GameData.achieveLevel4 = WXCtr.getStorageData("achieveLevel4", 0);
+        GameData.achieveLevel5 = WXCtr.getStorageData("achieveLevel5", 0);
+        GameData.achieveLevel6 = WXCtr.getStorageData("achieveLevel6", 0);
+        GameData.achieveLevel7 = WXCtr.getStorageData("achieveLevel7", 0);
+        GameData.achieveLevel8 = WXCtr.getStorageData("achieveLevel8", 0);
+        GameData.achieveLevel9 = WXCtr.getStorageData("achieveLevel9", 0);
+        GameData.achieveLevel10 = WXCtr.getStorageData("achieveLevel10", 0);
+        GameData.achieveLevel11 = WXCtr.getStorageData("achieveLevel11", 0);
 
         GameCtr.getInstance().getStart().startGame();
     }
@@ -1198,26 +1198,26 @@ export default class GameData {
         GameData.homeWorld_prop2 = data.data2_7;
         GameData.homeWorld_prop3 = data.data2_8;
 
-        GameData.maxScore=data.data2_9;
+        GameData.maxScore = data.data2_9;
 
-        GameData.level1=data.level1;
-        GameData.level2=data.level2;
-        GameData.level3=data.level3;
-        GameData.level4=data.level4;
-        
+        GameData.level1 = data.level1;
+        GameData.level2 = data.level2;
+        GameData.level3 = data.level3;
+        GameData.level4 = data.level4;
 
-        GameData.achieveLevel0=data.data2_10;
-        GameData.achieveLevel1=data.data2_11;
-        GameData.achieveLevel2=data.data2_12;
-        GameData.achieveLevel3=data.data2_13;
-        GameData.achieveLevel4=data.data2_14;
-        GameData.achieveLevel5=data.data2_15;
-        GameData.achieveLevel6=data.data2_16;
-        GameData.achieveLevel7=data.data2_17;
-        GameData.achieveLevel8=data.data2_18;
-        GameData.achieveLevel9=data.data2_19;
-        GameData.achieveLevel10=data.data2_20;
-        GameData.achieveLevel11=data.data2_21;
+
+        GameData.achieveLevel0 = data.data2_10;
+        GameData.achieveLevel1 = data.data2_11;
+        GameData.achieveLevel2 = data.data2_12;
+        GameData.achieveLevel3 = data.data2_13;
+        GameData.achieveLevel4 = data.data2_14;
+        GameData.achieveLevel5 = data.data2_15;
+        GameData.achieveLevel6 = data.data2_16;
+        GameData.achieveLevel7 = data.data2_17;
+        GameData.achieveLevel8 = data.data2_18;
+        GameData.achieveLevel9 = data.data2_19;
+        GameData.achieveLevel10 = data.data2_20;
+        GameData.achieveLevel11 = data.data2_21;
 
         GameData.setUserData({ lastTime: data.data2_2 });
         HttpCtr.submitUserData({});
@@ -1250,7 +1250,7 @@ export default class GameData {
     static get lotteryTimes() {
         return GameData._lotteryTimes;
     }
-    
+
 
     static getRoleLevelInfoByName(roleName) {
         let key = "gold_" + roleName;
@@ -1321,23 +1321,42 @@ export default class GameData {
     static addGoldOfRole(num) {
         switch (GameData.currentRole) {
             case 0:
-                GameData.gold_captain+=num;;
+                GameData.gold_captain += num;;
                 break;
             case 1:
-                GameData.gold_sparklet+=num;;
+                GameData.gold_sparklet += num;;
                 break;
             case 2:
-                GameData.gold_hook+=num;;
+                GameData.gold_hook += num;;
                 break;
             case 3:
-                GameData.gold_leavened+=num;;
+                GameData.gold_leavened += num;;
                 break;
             case 4:
-                GameData.gold_crutch+=num;;
+                GameData.gold_crutch += num;;
                 break;
             case 5:
                 break;
         }
+    }
+
+    static getMaxScore() {
+        let score = 0;
+        switch (GameData.currentMap) {
+            case 0:
+                score = GameData.level1();
+                break;
+            case 1:
+                score = GameData.level2();
+                break;
+            case 2:
+                score = GameData.level3();
+                break;
+            case 3:
+                score = GameData.level4();
+                break;
+        }
+        return score;
     }
 
     static getMap(mapName) {
@@ -1429,7 +1448,7 @@ export default class GameData {
         }
 
         for (let i = 0; i < GameData.propsInfo.length; i++) {
-            if (GameData.diamond >= GameData.propsInfo[i].priceDiamond &&  GameData.gold >= GameData.propsInfo[i].priceGold) {
+            if (GameData.diamond >= GameData.propsInfo[i].priceDiamond && GameData.gold >= GameData.propsInfo[i].priceGold) {
                 return true;
             }
         }
@@ -1472,12 +1491,12 @@ export default class GameData {
         return true;
     }
 
-    static canGetAchieve(){
-        for(let i=0;i<this.achievementsConf.length;i++){
-            let key="achieveLevel"+i;
-            if(GameData[key]>4)continue
-            console.log(" GameData.achievementsConf[i].confName GameData[key]",GameData.achievementsConf[i].confName,GameData[key]);
-            console.log("log--------canGetAchieve value target=:",GameData[this.achievementsConf[i].valueName],GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
+    static canGetAchieve() {
+        for (let i = 0; i < this.achievementsConf.length; i++) {
+            let key = "achieveLevel" + i;
+            if (GameData[key] > 4) continue
+            console.log(" GameData.achievementsConf[i].confName GameData[key]", GameData.achievementsConf[i].confName, GameData[key]);
+            console.log("log--------canGetAchieve value target=:", GameData[this.achievementsConf[i].valueName], GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
             // if(GameData[this.achievementsConf[i].valueName]>=GameData[GameData.achievementsConf[i].confName][GameData[key]].target){
             //     return true;
             // }
@@ -1487,14 +1506,14 @@ export default class GameData {
 
     static getBonusDiamonds() {
         let timeInterval = Math.floor((new Date().getTime() - WXCtr.getStorageData("lastTime")) / 1000);
-        console.log("log--------离线时间=",timeInterval/3600+"小时");
+        console.log("log--------离线时间=", timeInterval / 3600 + "小时");
         let date = new Date();
         let hour = date.getHours();
         let min = date.getMinutes();
         let sec = date.getSeconds();
         let totalSeconds = hour * 3600 + min * 60 + sec;
         let bonusDiamond = 0;
-        if (timeInterval >=totalSeconds ) {
+        if (timeInterval >= totalSeconds) {
             timeInterval -= totalSeconds;
             bonusDiamond += GameData.getDayJewelOutPut();
             let dayCount = Math.floor(timeInterval / (24 * 3600));
@@ -1504,42 +1523,42 @@ export default class GameData {
     }
 
 
-    static getAchievementsLevelData(){
-        let achieveLevelArr=[];
-        for(let i =0;i<GameData.achievementsConf.length;i++){
-            let achieveLevel=GameData.getAchieveLevel(GameData.achievementsConf[i].valueName,GameData.achievementsConf[i].confName);
+    static getAchievementsLevelData() {
+        let achieveLevelArr = [];
+        for (let i = 0; i < GameData.achievementsConf.length; i++) {
+            let achieveLevel = GameData.getAchieveLevel(GameData.achievementsConf[i].valueName, GameData.achievementsConf[i].confName);
             achieveLevelArr.push(achieveLevel);
         }
         return achieveLevelArr;
     }
 
-    static getAchieveLevel(valueName,confName){
-        for(let i=0;i<GameData[confName].length;i++){
-            if(GameData[valueName]<GameData[confName][i].target){
+    static getAchieveLevel(valueName, confName) {
+        for (let i = 0; i < GameData[confName].length; i++) {
+            if (GameData[valueName] < GameData[confName][i].target) {
                 return i;
             }
         }
 
-        return GameData[confName].length-1
+        return GameData[confName].length - 1
     }
 
 
-    static submitScore(score){
-        console.log("log--------currentMap=",GameData.currentMap);
-        let key="level"+(GameData.currentMap+1);
-        if(!GameData[key]){
-            GameData[key]=score;
-            WXCtr.submitScoreToWx(GameData.level1,GameData.level2,GameData.level3,GameData.level4);
-        }else{
-            if(score>GameData[key]){
-                GameData[key]=score;
-                WXCtr.submitScoreToWx(GameData.level1,GameData.level2,GameData.level3,GameData.level4);
+    static submitScore(score) {
+        console.log("log--------currentMap=", GameData.currentMap);
+        let key = "level" + (GameData.currentMap + 1);
+        if (!GameData[key]) {
+            GameData[key] = score;
+            WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
+        } else {
+            if (score > GameData[key]) {
+                GameData[key] = score;
+                WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
             }
         }
 
-        let key1="map"+GameData.currentMap;
-        if(score> GameData[key1]){
-            GameData[key1]=score;
+        let key1 = "map" + GameData.currentMap;
+        if (score > GameData[key1]) {
+            GameData[key1] = score;
         }
     }
 }
