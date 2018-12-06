@@ -144,7 +144,7 @@ export default class NewClass extends cc.Component {
             GameData.powerTime=5*60;
             this.doPowerTimeCount();
         }else{
-            let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
+            let timeIterval=Math.floor((new Date().getTime()-GameData.lastTime)/1000);
             let timeIterval1=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastPowerTime"))/1000);
 
 
