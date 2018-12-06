@@ -125,7 +125,7 @@ export default class NewClass extends cc.Component {
     }
 
     showPowerTime(){
-        console.log("log----------showPowerTime");
+        // console.log("log----------showPowerTime");
         if(GameData.power>=99){
             this._lb_powerTime.getComponent(cc.Label).string="体力值已满";
             this._lb_powerTime.scale=0.7;

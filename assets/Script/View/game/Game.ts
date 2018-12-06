@@ -211,6 +211,7 @@ export default class Game extends cc.Component {
         ndPause.setLocalZOrder(10);
         GameCtr.isPause = true;
         AudioManager.getInstance().musicOn = false;
+        GameData.submitGameData();
     }
 
     resume() {

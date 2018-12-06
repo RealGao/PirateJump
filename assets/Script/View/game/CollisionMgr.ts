@@ -166,7 +166,7 @@ export default class CollisionMgr extends cc.Component {
                 speed = 7;
                 break;
             case 2:
-                speed = 7;
+                speed = 8;
                 break;
             case 3:
                 let rand = Math.random() * 10;

@@ -67,7 +67,7 @@ const dataKeyConfig = {
     achieveLevel9: "data2_19",                                                    //成就9等级
     achieveLevel10: "data2_20",                                                   //成就10等级
     achieveLevel11: "data2_21",                                                   //成就11等级
-    lotteryTimes:"data2_22",                                                      //开宝箱次数
+    lotteryTimes: "data2_22",                                                      //开宝箱次数
 };
 
 
@@ -140,6 +140,8 @@ export default class GameData {
     private static _achieveLevel11 = 0;                                       //成就11等级
 
     private static _lotteryTimes = 0;                                         //宝箱开箱次数
+
+    private static _gameData = {};
 
     public static jewelTimeCount = 0;                                      //宝石收集倒计时
     public static powerTime = 0;                                           //体力收集时间
@@ -328,7 +330,8 @@ export default class GameData {
             gold = 0;
         }
         GameData._gold = gold;
-        GameData.setUserData({ gold: GameData._gold })
+        GameData._gameData["gold"] = GameData._gold;
+        // GameData.setUserData({ gold: GameData._gold })
     }
     //获取玩家金币
     static get gold() {
@@ -369,7 +372,8 @@ export default class GameData {
             combo = 0;
         }
         GameData._combo = combo;
-        GameData.setUserData({ combo: GameData._combo })
+        GameData._gameData["combo"] = GameData._combo;
+        // GameData.setUserData({ combo: GameData._combo })
     }
     //获取连击数量
     static get combo() {
@@ -382,7 +386,8 @@ export default class GameData {
             doubleJump = 0
         }
         GameData._doubleJump = doubleJump;
-        GameData.setUserData({ doubleJump: GameData._doubleJump })
+        GameData._gameData["doubleJump"] = GameData._doubleJump;
+        // GameData.setUserData({ doubleJump: GameData._doubleJump })
     }
 
     //获取连跳数量
@@ -396,7 +401,8 @@ export default class GameData {
             flyingGold = 0;
         }
         GameData._flyingGold = flyingGold;
-        GameData.setUserData({ flyingGold: GameData._flyingGold })
+        GameData._gameData["flyingGold"] = GameData._flyingGold;
+        // GameData.setUserData({ flyingGold: GameData._flyingGold })
     }
     //获取飞行的金币（用磁铁吸收的金币）
     static get flyingGold() {
@@ -409,7 +415,8 @@ export default class GameData {
             omitGold = 0;
         }
         GameData._omitGold = omitGold;
-        GameData.setUserData({ omitGold: GameData._omitGold })
+        GameData._gameData["omitGold"] = GameData._omitGold;
+        // GameData.setUserData({ omitGold: GameData._omitGold })
     }
     //获取遗漏的金币
     static get omitGold() {
@@ -422,7 +429,8 @@ export default class GameData {
             hitBox = 0;
         }
         GameData._hitBox = hitBox;
-        GameData.setUserData({ hitBox: GameData._hitBox })
+        GameData._gameData["hitBox"] = GameData._hitBox;
+        // GameData.setUserData({ hitBox: GameData._hitBox })
     }
     //获取头铁（刀妹撞箱子数量）
     static get hitBox() {
@@ -435,7 +443,8 @@ export default class GameData {
             gatherTimer = 0;
         }
         GameData._gatherTimer = gatherTimer;
-        GameData.setUserData({ gatherTimer: GameData._gatherTimer })
+        GameData._gameData["gatherTimer"] = GameData._gatherTimer;
+        // GameData.setUserData({ gatherTimer: GameData._gatherTimer })
     }
 
     //获取时间之子（厨子收集时间）
@@ -449,7 +458,8 @@ export default class GameData {
             reviveTimes = 0;
         }
         GameData._reviveTimes = reviveTimes;
-        GameData.setUserData({ reviveTimes: GameData._reviveTimes })
+        GameData._gameData["reviveTimes"] = GameData._reviveTimes;
+        // GameData.setUserData({ reviveTimes: GameData._reviveTimes })
     }
 
     //获取不死亡灵（不死骷髅复活次数）
@@ -463,7 +473,8 @@ export default class GameData {
             dismantleBomb = 0;
         }
         GameData._dismantleBomb = dismantleBomb;
-        GameData.setUserData({ dismantleBomb: GameData._dismantleBomb })
+        GameData._gameData["dismantleBomb"] = GameData._dismantleBomb;
+        // GameData.setUserData({ dismantleBomb: GameData._dismantleBomb })
     }
 
     //获取拆弹专家（用盾牌拆除炸弹数量）
@@ -505,7 +516,8 @@ export default class GameData {
             captainHitBox = 0;
         }
         GameData._captainHitBox = captainHitBox;
-        GameData.setUserData({ captainHitBox: GameData._captainHitBox })
+        GameData._gameData["captainHitBox"] = GameData._captainHitBox;
+        // GameData.setUserData({ captainHitBox: GameData._captainHitBox })
     }
     //获取钩宝箱（船长撞破箱子数量）
     static get captainHitBox() {
@@ -571,7 +583,8 @@ export default class GameData {
     //设置船长赚取金币
     static set gold_captain(gold_captain) {
         GameData._gold_captain = gold_captain;
-        GameData.setUserData({ gold_captain: GameData._gold_captain })
+        GameData._gameData["gold_captain"] = GameData._gold_captain;
+        // GameData.setUserData({ gold_captain: GameData._gold_captain })
     }
     //获取船长赚取金币
     static get gold_captain() {
@@ -582,7 +595,8 @@ export default class GameData {
     static set gold_sparklet(gold_sparklet) {
 
         GameData._gold_sparklet = gold_sparklet;
-        GameData.setUserData({ gold_sparklet: GameData._gold_sparklet })
+        GameData._gameData["gold_sparklet"] = GameData._gold_sparklet;
+        // GameData.setUserData({ gold_sparklet: GameData._gold_sparklet })
     }
     //获取刀妹赚取金币
     static get gold_sparklet() {
@@ -593,7 +607,8 @@ export default class GameData {
     static set gold_hook(gold_hook) {
 
         GameData._gold_hook = gold_hook;
-        GameData.setUserData({ gold_hook: GameData._gold_hook })
+        GameData._gameData["gold_hook"] = GameData._gold_hook;
+        // GameData.setUserData({ gold_hook: GameData._gold_hook })
     }
     //获取白胡子赚取金币
     static get gold_hook() {
@@ -603,7 +618,8 @@ export default class GameData {
     //设置厨子赚取金币
     static set gold_leavened(gold_leavened) {
         GameData._gold_leavened = gold_leavened;
-        GameData.setUserData({ gold_leavened: GameData._gold_leavened })
+        GameData._gameData["gold_leavened"] = GameData._gold_leavened;
+        // GameData.setUserData({ gold_leavened: GameData._gold_leavened })
     }
     //获取厨子赚取金币
     static get gold_leavened() {
@@ -614,7 +630,8 @@ export default class GameData {
     static set gold_crutch(gold_crutch) {
 
         GameData._gold_crutch = gold_crutch;
-        GameData.setUserData({ gold_crutch: GameData._gold_crutch })
+        GameData._gameData["gold_crutch"] = GameData._gold_crutch;
+        // GameData.setUserData({ gold_crutch: GameData._gold_crutch })
     }
     //获取骷髅赚取金币
     static get gold_crutch() {
@@ -1164,7 +1181,7 @@ export default class GameData {
         GameData.achieveLevel9 = WXCtr.getStorageData("achieveLevel9", 0);
         GameData.achieveLevel10 = WXCtr.getStorageData("achieveLevel10", 0);
         GameData.achieveLevel11 = WXCtr.getStorageData("achieveLevel11", 0);
-        GameData.lotteryTimes= WXCtr.getStorageData("lotteryTimes", -1);
+        GameData.lotteryTimes = WXCtr.getStorageData("lotteryTimes", -1);
         GameData.caculateLotteryTimes()
 
         GameCtr.getInstance().getStart().startGame();
@@ -1172,72 +1189,72 @@ export default class GameData {
 
     static getOnlineGameData(data) {
         console.log("log-------getOnlineGameData=:", data);
-        GameData.gold = data.gold;
+        GameData.gold = data.gold == "" ? 0 : data.gold;
         GameData.diamond = data.money == "NaN" ? 0 : data.money;
-        GameData.power = data.data_1;
-        GameData.combo = data.data_2;
-        GameData.doubleJump = data.data_3;
-        GameData.flyingGold = data.data_4;
-        GameData.omitGold = data.data_5;
-        GameData.hitBox = data.data_6
-        GameData.gatherTimer = data.data_7;
-        GameData.reviveTimes = data.data_8;
-        GameData.dismantleBomb = data.data_9;
-        GameData.unlockRoles = data.data_10;
-        GameData.levelUp = data.data_11;
-        GameData.captainHitBox = data.data_12;
+        GameData.power = data.data_1 == "" ? 99 : data.data_1;
+        GameData.combo = data.data_2 == "" ? 0 : data.data_2;
+        GameData.doubleJump = data.data_3 == "" ? 0 : data.data_3;
+        GameData.flyingGold = data.data_4 == "" ? 0 : data.data_4;
+        GameData.omitGold = data.data_5 == "" ? 0 : data.data_5;
+        GameData.hitBox = data.data_6 == "" ? 0 : data.data_6;
+        GameData.gatherTimer = data.data_7 == "" ? 0 : data.data_7;
+        GameData.reviveTimes = data.data_8 == "" ? 0 : data.data_8;
+        GameData.dismantleBomb = data.data_9 == "" ? 0 : data.data_9;
+        GameData.unlockRoles = data.data_10 == "" ? 0 : data.data_10;
+        GameData.levelUp = data.data_11 == "" ? 0 : data.data_11;
+        GameData.captainHitBox = data.data_12 == "" ? 0 : data.data_12;
 
-        GameData.prop_speedUp = data.data_13;
-        GameData.prop_revive = data.data_14;
-        GameData.prop_luckyGrass = data.data_15;
-        GameData.prop_time = data.data_16;
+        GameData.prop_speedUp = data.data_13 == "" ? 0 : data.data_13;
+        GameData.prop_revive = data.data_14 == "" ? 0 : data.data_14;
+        GameData.prop_luckyGrass = data.data_15 == "" ? 0 : data.data_15;
+        GameData.prop_time = data.data_16 == "" ? 0 : data.data_16;
 
-        GameData.gold_captain = data.data_17;
-        GameData.gold_sparklet = data.data_18;
-        GameData.gold_hook = data.data_19;
-        GameData.gold_leavened = data.data_20;
-        GameData.gold_crutch = data.data_21;
-        GameData.maxFightGold = data.data_22;
-        GameData.currentShopIndex = data.data_23;
-        GameData.currentMap = data.data_24;
-        GameData.currentRole = data.data_25;
-        GameData.currentHome = data.data_26;
+        GameData.gold_captain = data.data_17 == "" ? 0 : data.data_17;
+        GameData.gold_sparklet = data.data_18 == "" ? -1 : data.data_18;
+        GameData.gold_hook = data.data_19 == "" ? -1 : data.data_19;
+        GameData.gold_leavened = data.data_20 == "" ? -1 : data.data_20;
+        GameData.gold_crutch = data.data_21 == "" ? -1 : data.data_21;
+        GameData.maxFightGold = data.data_22 == "" ? 0 : data.data_22;
+        GameData.currentShopIndex = data.data_23 == "" ? 0 : data.data_23;
+        GameData.currentMap = data.data_24 == "" ? 0 : data.data_24;
+        GameData.currentRole = data.data_25 == "" ? 0 : data.data_25;
+        GameData.currentHome = data.data_26 == "" ? 0 : data.data_26;
 
-        GameData.map0 = data.data_27;
-        GameData.map1 = data.data_28;
-        GameData.map2 = data.data_29;
-        GameData.map3 = data.data_30;
+        GameData.map0 = data.data_27 == "" ? 0 : data.data_27;
+        GameData.map1 = data.data_28 == "" ? -1 : data.data_28;
+        GameData.map2 = data.data_29 == "" ? -1 : data.data_29;
+        GameData.map3 = data.data_30 == "" ? -1 : data.data_30;
 
-        GameData.jewelLevel = data.data2_3;
-        GameData.jewelCount = data.data2_4;
+        GameData.jewelLevel = data.data2_3 == "" ? 1 : data.data2_3;
+        GameData.jewelCount = data.data2_4 == "" ? 0 : data.data2_4;
 
-        GameData.homeWorld_prop0 = data.data2_5;
-        GameData.homeWorld_prop1 = data.data2_6;
-        GameData.homeWorld_prop2 = data.data2_7;
-        GameData.homeWorld_prop3 = data.data2_8;
+        GameData.homeWorld_prop0 = data.data2_5 == "" ? 0 : data.data2_5;
+        GameData.homeWorld_prop1 = data.data2_6 == "" ? 0 : data.data2_6;
+        GameData.homeWorld_prop2 = data.data2_7 == "" ? 0 : data.data2_7;
+        GameData.homeWorld_prop3 = data.data2_8 == "" ? 0 : data.data2_8;
 
-        GameData.maxScore = data.data2_9;
+        GameData.maxScore = data.data2_9 == "" ? 0 : data.data2_9;
 
-        GameData.level1 = data.level1;
-        GameData.level2 = data.level2;
-        GameData.level3 = data.level3;
-        GameData.level4 = data.level4;
+        GameData.level1 = data.level1 == "" ? 0 : data.level1;
+        GameData.level2 = data.level2 == "" ? 0 : data.level2;
+        GameData.level3 = data.level3 == "" ? 0 : data.level3;
+        GameData.level4 = data.level4 == "" ? 0 : data.level4;
 
 
-        GameData.achieveLevel0 = data.data2_10;
-        GameData.achieveLevel1 = data.data2_11;
-        GameData.achieveLevel2 = data.data2_12;
-        GameData.achieveLevel3 = data.data2_13;
-        GameData.achieveLevel4 = data.data2_14;
-        GameData.achieveLevel5 = data.data2_15;
-        GameData.achieveLevel6 = data.data2_16;
-        GameData.achieveLevel7 = data.data2_17;
-        GameData.achieveLevel8 = data.data2_18;
-        GameData.achieveLevel9 = data.data2_19;
-        GameData.achieveLevel10 = data.data2_20;
-        GameData.achieveLevel11 = data.data2_21;
+        GameData.achieveLevel0 = data.data2_10 == "" ? 0 : data.data2_10;
+        GameData.achieveLevel1 = data.data2_11 == "" ? 0 : data.data2_11;
+        GameData.achieveLevel2 = data.data2_12 == "" ? 0 : data.data2_12;
+        GameData.achieveLevel3 = data.data2_13 == "" ? 0 : data.data2_13;
+        GameData.achieveLevel4 = data.data2_14 == "" ? 0 : data.data2_14;
+        GameData.achieveLevel5 = data.data2_15 == "" ? 0 : data.data2_15;
+        GameData.achieveLevel6 = data.data2_16 == "" ? 0 : data.data2_16;
+        GameData.achieveLevel7 = data.data2_17 == "" ? 0 : data.data2_17;
+        GameData.achieveLevel8 = data.data2_18 == "" ? 0 : data.data2_18;
+        GameData.achieveLevel9 = data.data2_19 == "" ? 0 : data.data2_19;
+        GameData.achieveLevel10 = data.data2_20 == "" ? 0 : data.data2_20;
+        GameData.achieveLevel11 = data.data2_21 == "" ? 0 : data.data2_21;
 
-        GameData.lotteryTimes = data.data2_22;
+        GameData.lotteryTimes = data.data2_22 == "" ? -1 : data.data2_22;
 
         GameData.caculateLotteryTimes()
 
@@ -1259,7 +1276,9 @@ export default class GameData {
         HttpCtr.submitUserData(data);
     }
 
-
+    static submitGameData() {
+        GameData.setUserData(GameData._gameData);
+    }
 
 
     static getRoleLevelInfoByName(roleName) {
@@ -1567,24 +1586,24 @@ export default class GameData {
         }
     }
 
-    static caculateLotteryTimes(){
-        if(!GameData.lotteryTimes||GameData.lotteryTimes<0){
-            GameData.lotteryTimes=10;
+    static caculateLotteryTimes() {
+        if (!GameData.lotteryTimes || GameData.lotteryTimes < 0) {
+            GameData.lotteryTimes = 10;
             return;
         }
-        let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
-        let date=new Date();
+        let timeIterval = Math.floor((new Date().getTime() - WXCtr.getStorageData("lastTime")) / 1000);
+        let date = new Date();
 
-        let hour=date.getHours();
-        let min=date.getMinutes();
-        let sec=date.getSeconds();
-        if(timeIterval>hour*3600+min*60+sec){
-            timeIterval-=hour*3600+min*60+sec;
-            GameData.lotteryTimes+=3;
-            
-            let cycle=Math.floor(timeIterval/(3600*24));
-            GameData.lotteryTimes+=3*cycle
-            GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
+        let hour = date.getHours();
+        let min = date.getMinutes();
+        let sec = date.getSeconds();
+        if (timeIterval > hour * 3600 + min * 60 + sec) {
+            timeIterval -= hour * 3600 + min * 60 + sec;
+            GameData.lotteryTimes += 3;
+
+            let cycle = Math.floor(timeIterval / (3600 * 24));
+            GameData.lotteryTimes += 3 * cycle
+            GameData.lotteryTimes = GameData.lotteryTimes > 10 ? 10 : GameData.lotteryTimes;
         }
     }
 }

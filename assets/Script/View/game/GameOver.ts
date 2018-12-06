@@ -111,6 +111,7 @@ export default class GameOver extends cc.Component {
         this.showPublicNode();
         this.updateBtnShopState();
         this.updateBtnAchieveState();
+        GameData.submitGameData();
     }
 
     showScore() {

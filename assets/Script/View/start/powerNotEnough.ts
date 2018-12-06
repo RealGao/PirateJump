@@ -119,7 +119,7 @@ export default class NewClass extends cc.Component {
     }
 
     showPowerTime(){
-        console.log("log----------showPowerTime");
+        // console.log("log----------showPowerTime");
         this._powerTime_min =Math.floor(GameData.powerTime/60);
         this._powerTime_sec =GameData.powerTime%60;
         this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
