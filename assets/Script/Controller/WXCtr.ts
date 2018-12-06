@@ -77,7 +77,7 @@ export default class WXCtr {
             wx.onHide(() => {
                 console.log("退到后台！！！！！");
                 let time = new Date().getTime();
-                HttpCtr.submitUserData({ data2_2: time});
+                GameData.setUserData({ lastTime: time});
                 WXCtr.setStorageData("lastTime", time);
                 WXCtr.setStorageData("powerTime", GameData.powerTime);
                 WXCtr.setStorageData("jewelTimeCount", GameData.jewelTimeCount);

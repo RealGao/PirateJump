@@ -66,8 +66,10 @@ const dataKeyConfig = {
     achieveLevel8: "data2_18",                                                    //成就8等级
     achieveLevel9: "data2_19",                                                    //成就9等级
     achieveLevel10: "data2_20",                                                   //成就10等级
-    achieveLevel11: "data2_21",                                                   //成就11等级
-    lotteryTimes: "data2_22",                                                      //开宝箱次数
+    achieveLevel11: "data2_21",   
+    lotteryTimes:"data2_22",                                                      //开宝箱次数
+
+    lastTime:"data2_2",                                                           //上次退出游戏时间
 };
 
 
@@ -140,6 +142,7 @@ export default class GameData {
     private static _achieveLevel11 = 0;                                       //成就11等级
 
     private static _lotteryTimes = 0;                                         //宝箱开箱次数
+    private static _lastTime=0;                                               //上次退出游戏时间
 
     private static _gameData = {};
 
@@ -1070,6 +1073,20 @@ export default class GameData {
         return GameData._lotteryTimes;
     }
 
+    // 设置上次游戏退出时间
+    static set lastTime(lastTime) {
+        if (lastTime < 0) {
+            lastTime = 0;
+        }
+        GameData._lastTime = lastTime;
+        GameData.setUserData({ lastTime: GameData._lastTime });
+    }
+
+    // 获取上次游戏退出时间
+    static get lastTime() {
+        return GameData._lastTime;
+    }
+
     //获取收集到的金币
     static get collectGolds() {
         let collectGolds = 0;
@@ -1181,7 +1198,7 @@ export default class GameData {
         GameData.achieveLevel9 = WXCtr.getStorageData("achieveLevel9", 0);
         GameData.achieveLevel10 = WXCtr.getStorageData("achieveLevel10", 0);
         GameData.achieveLevel11 = WXCtr.getStorageData("achieveLevel11", 0);
-        GameData.lotteryTimes = WXCtr.getStorageData("lotteryTimes", -1);
+        GameData.lastTime=WXCtr.getStorageData("lastTime", 0);
         GameData.caculateLotteryTimes()
 
         GameCtr.getInstance().getStart().startGame();
@@ -1191,6 +1208,7 @@ export default class GameData {
         console.log("log-------getOnlineGameData=:", data);
         GameData.gold = data.gold == "" ? 0 : data.gold;
         GameData.diamond = data.money == "NaN" ? 0 : data.money;
+
         GameData.power = data.data_1 == "" ? 99 : data.data_1;
         GameData.combo = data.data_2 == "" ? 0 : data.data_2;
         GameData.doubleJump = data.data_3 == "" ? 0 : data.data_3;
@@ -1256,9 +1274,10 @@ export default class GameData {
 
         GameData.lotteryTimes = data.data2_22 == "" ? -1 : data.data2_22;
 
+        GameData.lastTime=data.data2_2;
         GameData.caculateLotteryTimes()
 
-        GameData.setUserData({ lastTime: data.data2_2 });
+        //GameData.setUserData({ lastTime: data.data2_2 });
         HttpCtr.submitUserData({});
         GameCtr.getInstance().getStart().startGame()
     }
@@ -1579,31 +1598,32 @@ export default class GameData {
             GameData[key] = score;
             WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
         } else {
-            if (score > GameData[key]) {
-                GameData[key] = score;
-                WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
-            }
+            GameData[key]= GameData[key]>=score?GameData[key]:score;
+            WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
         }
     }
 
-    static caculateLotteryTimes() {
-        if (!GameData.lotteryTimes || GameData.lotteryTimes < 0) {
-            GameData.lotteryTimes = 10;
+    static caculateLotteryTimes(){
+        console.log("log-------------GameData.lotteryTimes=",GameData.lotteryTimes);
+        if(!GameData.lotteryTimes||GameData.lotteryTimes<0){
+            GameData.lotteryTimes=10;
             return;
         }
-        let timeIterval = Math.floor((new Date().getTime() - WXCtr.getStorageData("lastTime")) / 1000);
-        let date = new Date();
+        let timeIterval=Math.floor((new Date().getTime()-GameData.lastTime)/1000);
+        let date=new Date();
 
-        let hour = date.getHours();
-        let min = date.getMinutes();
-        let sec = date.getSeconds();
-        if (timeIterval > hour * 3600 + min * 60 + sec) {
-            timeIterval -= hour * 3600 + min * 60 + sec;
-            GameData.lotteryTimes += 3;
-
-            let cycle = Math.floor(timeIterval / (3600 * 24));
-            GameData.lotteryTimes += 3 * cycle
-            GameData.lotteryTimes = GameData.lotteryTimes > 10 ? 10 : GameData.lotteryTimes;
+        let hour=date.getHours();
+        let min=date.getMinutes();
+        let sec=date.getSeconds();
+        
+        console.log("log-------------timeIterval  currentTime=:",timeIterval,hour*3600+min*60+sec)
+        if(timeIterval>hour*3600+min*60+sec){
+            timeIterval-=hour*3600+min*60+sec;
+            GameData.lotteryTimes+=3;
+            
+            let cycle=Math.floor(timeIterval/(3600*24));
+            GameData.lotteryTimes+=3*cycle
+            GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
         }
     }
 }
