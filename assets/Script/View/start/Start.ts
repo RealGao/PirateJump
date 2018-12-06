@@ -97,7 +97,7 @@ export default class Start extends cc.Component {
         
         this._btnsNode=this.node.getChildByName("btnsNode");
         this._adsNode=this.node.getChildByName("adNode");
-
+        this._adsNode.active = false;
         
         this._gameLogo=this.node.getChildByName("gameLogo");
         this._bg=this.node.getChildByName("bg");
@@ -149,12 +149,12 @@ export default class Start extends cc.Component {
                 this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
                 this.showHelp();
-                GameData.gold=100000;
-                GameData.diamond=50000;
-                GameData.power=99;
-                GameCtr.getInstance().getPublic().showGold();
-                GameCtr.getInstance().getPublic().showDiamond();
-                GameCtr.getInstance().getPublic().showPower();
+                // GameData.gold=100000;
+                // GameData.diamond=50000;
+                // GameData.power=99;
+                // GameCtr.getInstance().getPublic().showGold();
+                // GameCtr.getInstance().getPublic().showDiamond();
+                // GameCtr.getInstance().getPublic().showPower();
                 // GameData.map1=-1;
                 // GameData.map2=-1;
                 // GameData.map3=-1;
@@ -287,7 +287,7 @@ export default class Start extends cc.Component {
     showStartBtns(bool){
         this._btnsNode.active=bool;
         this._gameLogo.active=bool;
-        this._adsNode.active=bool;
+        // this._adsNode.active=bool;
     }
 
     

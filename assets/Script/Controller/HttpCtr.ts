@@ -176,7 +176,7 @@ export default class HttpCtr {
     }
 
     static compareData(data) {
-        if (1) {
+        if (!data.data2_1) {
             GameData.getAllLocalGameData();
             console.log("1111111111111111")
         } else {

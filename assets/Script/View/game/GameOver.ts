@@ -181,7 +181,7 @@ export default class GameOver extends cc.Component {
     showBagInfo() {
         console.log("GameData.prop_luckyGrass == ",GameData.prop_luckyGrass);
         this.lbLuckyGlass.string = GameData.prop_luckyGrass + "/10";
-        this.lbTurn.string = GameData.prop_revive + "/10";
+        this.lbTurn.string = GameData.prop_speedUp + "/10";
         this.lbRevive.string = GameData.prop_revive + "/10";
         this.lbTime.string = GameData.prop_time + "/10";
     }

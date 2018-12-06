@@ -1344,16 +1344,16 @@ export default class GameData {
         let score = 0;
         switch (GameData.currentMap) {
             case 0:
-                score = GameData.level1();
+                score = GameData.level1;
                 break;
             case 1:
-                score = GameData.level2();
+                score = GameData.level2;
                 break;
             case 2:
-                score = GameData.level3();
+                score = GameData.level3;
                 break;
             case 3:
-                score = GameData.level4();
+                score = GameData.level4;
                 break;
         }
         return score;
