@@ -33,28 +33,11 @@ export default class NewClass extends cc.Component {
     _sec=-1;
 
     onLoad(){
-        this.initLotteryTimes();
         this.initData();
         this.initNode();
         this.caculateTimeCount();
         this.opAction();
     }
-
-    initLotteryTimes(){
-        let lottery=localStorage.getItem("lottery")
-        if(!lottery){
-            GameData.lotteryTimes=10;
-        }else{
-            let lotteryObj=JSON.parse(lottery);
-            if(lotteryObj.day==Util.getCurrTimeYYMMDD()){
-                GameData.lotteryTimes=lotteryObj.times;
-            }else{
-                GameData.lotteryTimes=lotteryObj.times+3;
-                GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
-            }
-        }
-    }
-
 
     initData(){
         this._bonusData=[

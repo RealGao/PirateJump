@@ -67,6 +67,7 @@ const dataKeyConfig = {
     achieveLevel9: "data2_19",                                                    //成就9等级
     achieveLevel10: "data2_20",                                                   //成就10等级
     achieveLevel11: "data2_21",                                                   //成就11等级
+    lotteryTimes:"data2_22",                                                      //开宝箱次数
 };
 
 
@@ -1037,6 +1038,21 @@ export default class GameData {
         return GameData._achieveLevel11;
     }
 
+    // 设置宝箱抽奖次数
+    static set lotteryTimes(lotteryTimes) {
+        if (lotteryTimes < 0) {
+            GameData._lotteryTimes = 0;
+        }
+        GameData._lotteryTimes = lotteryTimes;
+        GameData.setUserData({ lotteryTimes: GameData._lotteryTimes });
+        //localStorage.setItem("lottery", JSON.stringify({ day: Util.getCurrTimeYYMMDD(), times: GameData._lotteryTimes }))
+    }
+
+    // 获取宝箱抽奖次数
+    static get lotteryTimes() {
+        return GameData._lotteryTimes;
+    }
+
     //获取收集到的金币
     static get collectGolds() {
         let collectGolds = 0;
@@ -1148,6 +1164,8 @@ export default class GameData {
         GameData.achieveLevel9 = WXCtr.getStorageData("achieveLevel9", 0);
         GameData.achieveLevel10 = WXCtr.getStorageData("achieveLevel10", 0);
         GameData.achieveLevel11 = WXCtr.getStorageData("achieveLevel11", 0);
+        GameData.lotteryTimes= WXCtr.getStorageData("lotteryTimes", -1);
+        GameData.caculateLotteryTimes()
 
         GameCtr.getInstance().getStart().startGame();
     }
@@ -1219,6 +1237,10 @@ export default class GameData {
         GameData.achieveLevel10 = data.data2_20;
         GameData.achieveLevel11 = data.data2_21;
 
+        GameData.lotteryTimes = data.data2_22;
+
+        GameData.caculateLotteryTimes()
+
         GameData.setUserData({ lastTime: data.data2_2 });
         HttpCtr.submitUserData({});
         GameCtr.getInstance().getStart().startGame()
@@ -1237,19 +1259,7 @@ export default class GameData {
         HttpCtr.submitUserData(data);
     }
 
-    // 设置宝箱抽奖次数
-    static set lotteryTimes(lotteryTimes) {
-        if (lotteryTimes < 0) {
-            GameData._lotteryTimes = 0;
-        }
-        GameData._lotteryTimes = lotteryTimes;
-        localStorage.setItem("lottery", JSON.stringify({ day: Util.getCurrTimeYYMMDD(), times: GameData._lotteryTimes }))
-    }
 
-    // 获取宝箱抽奖次数
-    static get lotteryTimes() {
-        return GameData._lotteryTimes;
-    }
 
 
     static getRoleLevelInfoByName(roleName) {
@@ -1554,6 +1564,27 @@ export default class GameData {
                 GameData[key] = score;
                 WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
             }
+        }
+    }
+
+    static caculateLotteryTimes(){
+        if(!GameData.lotteryTimes||GameData.lotteryTimes<0){
+            GameData.lotteryTimes=10;
+            return;
+        }
+        let timeIterval=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastTime"))/1000);
+        let date=new Date();
+
+        let hour=date.getHours();
+        let min=date.getMinutes();
+        let sec=date.getSeconds();
+        if(timeIterval>hour*3600+min*60+sec){
+            timeIterval-=hour*3600+min*60+sec;
+            GameData.lotteryTimes+=3;
+            
+            let cycle=Math.floor(timeIterval/(3600*24));
+            GameData.lotteryTimes+=3*cycle
+            GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
         }
     }
 }
