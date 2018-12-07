@@ -1346,6 +1346,23 @@ export default class GameData {
         return data;
     }
 
+    static getRoleGoldByIndex(index){
+        switch (index) {
+            case 0:
+                return GameData.gold_captain;
+            case 1:
+                return GameData.gold_sparklet;
+            case 2:
+                return GameData.gold_hook;
+            case 3:
+                return GameData.gold_leavened;
+            case 4:
+                return GameData.gold_crutch;
+            case 5:
+                break;
+        }
+    }
+
     static addGoldOfRole(num) {
         switch (GameData.currentRole) {
             case 0:
@@ -1488,9 +1505,15 @@ export default class GameData {
             /*所有地图已解锁*/
             return false;
         }
-
-        for (let i = 1; i < GameData.mapsInfo.length; i++) {
+        for (let i =1 ; i < GameData.mapsInfo.length; i++) {
+            let key="map"+i;
+            console.log("log------GameData[key]=:",GameData[key])
+            if(GameData[key]>=0){
+                continue;
+            }
+            
             if (GameData.gold >= GameData.mapsInfo[i].gold_price && GameData.diamond >= GameData.mapsInfo[i].diamond_price) {
+                console.log("log------i=:",i);
                 return true
             }
         }
@@ -1504,6 +1527,10 @@ export default class GameData {
         }
 
         for (let i = 1; i < GameData.rolesInfo.length; i++) {
+            if(GameData.getRoleGoldByIndex(i)>=0){
+                continue;
+            }
+
             if (GameData.gold >= GameData.rolesInfo[i].price_gold && GameData.diamond >= GameData.rolesInfo[i].price_diamond) {
                 return true;
             }
