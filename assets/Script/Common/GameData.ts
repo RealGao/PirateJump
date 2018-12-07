@@ -1206,73 +1206,74 @@ export default class GameData {
 
     static getOnlineGameData(data) {
         console.log("log-------getOnlineGameData=:", data);
-        GameData.gold = data.gold == "" ? 0 : data.gold;
-        GameData.diamond = data.money == "NaN" ? 0 : data.money;
+        GameData.gold = data.gold === "" ? 0 : data.gold;
+        GameData.diamond = data.money === "NaN" ? 0 : data.money;
 
-        GameData.power = data.data_1 == "" ? 99 : data.data_1;
-        GameData.combo = data.data_2 == "" ? 0 : data.data_2;
-        GameData.doubleJump = data.data_3 == "" ? 0 : data.data_3;
-        GameData.flyingGold = data.data_4 == "" ? 0 : data.data_4;
-        GameData.omitGold = data.data_5 == "" ? 0 : data.data_5;
-        GameData.hitBox = data.data_6 == "" ? 0 : data.data_6;
-        GameData.gatherTimer = data.data_7 == "" ? 0 : data.data_7;
-        GameData.reviveTimes = data.data_8 == "" ? 0 : data.data_8;
-        GameData.dismantleBomb = data.data_9 == "" ? 0 : data.data_9;
-        GameData.unlockRoles = data.data_10 == "" ? 0 : data.data_10;
-        GameData.levelUp = data.data_11 == "" ? 0 : data.data_11;
-        GameData.captainHitBox = data.data_12 == "" ? 0 : data.data_12;
+        GameData.power = data.data_1 === "" ? 99 : data.data_1;
+        GameData.combo = data.data_2 === "" ? 0 : data.data_2;
+        GameData.doubleJump = data.data_3 === "" ? 0 : data.data_3;
+        GameData.flyingGold = data.data_4 === "" ? 0 : data.data_4;
+        GameData.omitGold = data.data_5 === "" ? 0 : data.data_5;
+        GameData.hitBox = data.data_6 === "" ? 0 : data.data_6;
+        GameData.gatherTimer = data.data_7 === "" ? 0 : data.data_7;
+        GameData.reviveTimes = data.data_8 === "" ? 0 : data.data_8;
+        GameData.dismantleBomb = data.data_9 === "" ? 0 : data.data_9;
+        GameData.unlockRoles = data.data_10 === "" ? 0 : data.data_10;
+        GameData.levelUp = data.data_11 === "" ? 0 : data.data_11;
+        GameData.captainHitBox = data.data_12 === "" ? 0 : data.data_12;
 
-        GameData.prop_speedUp = data.data_13 == "" ? 0 : data.data_13;
-        GameData.prop_revive = data.data_14 == "" ? 0 : data.data_14;
-        GameData.prop_luckyGrass = data.data_15 == "" ? 0 : data.data_15;
-        GameData.prop_time = data.data_16 == "" ? 0 : data.data_16;
+        GameData.prop_speedUp = data.data_13 === "" ? 0 : data.data_13;
+        GameData.prop_revive = data.data_14 === "" ? 0 : data.data_14;
+        GameData.prop_luckyGrass = data.data_15 === "" ? 0 : data.data_15;
+        GameData.prop_time = data.data_16 === "" ? 0 : data.data_16;
 
-        GameData.gold_captain = data.data_17 == "" ? 0 : data.data_17;
-        GameData.gold_sparklet = data.data_18 == "" ? -1 : data.data_18;
-        GameData.gold_hook = data.data_19 == "" ? -1 : data.data_19;
-        GameData.gold_leavened = data.data_20 == "" ? -1 : data.data_20;
-        GameData.gold_crutch = data.data_21 == "" ? -1 : data.data_21;
-        GameData.maxFightGold = data.data_22 == "" ? 0 : data.data_22;
-        GameData.currentShopIndex = data.data_23 == "" ? 0 : data.data_23;
-        GameData.currentMap = data.data_24 == "" ? 0 : data.data_24;
-        GameData.currentRole = data.data_25 == "" ? 0 : data.data_25;
-        GameData.currentHome = data.data_26 == "" ? 0 : data.data_26;
+        GameData.gold_captain = data.data_17 === "" ? 0 : data.data_17;
+        GameData.gold_sparklet = data.data_18 === "" ? -1 : data.data_18;
+        GameData.gold_hook = data.data_19 === "" ? -1 : data.data_19;
+        GameData.gold_leavened = data.data_20 === "" ? -1 : data.data_20;
+        GameData.gold_crutch = data.data_21 === "" ? -1 : data.data_21;
+        GameData.maxFightGold = data.data_22 === "" ? 0 : data.data_22;
+        GameData.currentShopIndex = data.data_23 === "" ? 0 : data.data_23;
+        GameData.currentMap = data.data_24 === "" ? 0 : data.data_24;
+        GameData.currentRole = data.data_25 === "" ? 0 : data.data_25;
+        GameData.currentHome = data.data_26 === "" ? 0 : data.data_26;
 
-        GameData.map0 = data.data_27 == "" ? 0 : data.data_27;
-        GameData.map1 = data.data_28 == "" ? -1 : data.data_28;
-        GameData.map2 = data.data_29 == "" ? -1 : data.data_29;
-        GameData.map3 = data.data_30 == "" ? -1 : data.data_30;
+        GameData.map0 = data.data_27 === "" ? 0 : data.data_27;
+        GameData.map1 = data.data_28 === "" ? -1 : data.data_28;
 
-        GameData.jewelLevel = data.data2_3 == "" ? 1 : data.data2_3;
-        GameData.jewelCount = data.data2_4 == "" ? 0 : data.data2_4;
+        GameData.map2 = data.data_29 === "" ? -1 : data.data_29;
+        GameData.map3 = data.data_30 === "" ? -1 : data.data_30;
 
-        GameData.homeWorld_prop0 = data.data2_5 == "" ? 0 : data.data2_5;
-        GameData.homeWorld_prop1 = data.data2_6 == "" ? 0 : data.data2_6;
-        GameData.homeWorld_prop2 = data.data2_7 == "" ? 0 : data.data2_7;
-        GameData.homeWorld_prop3 = data.data2_8 == "" ? 0 : data.data2_8;
+        GameData.jewelLevel = data.data2_3 === "" ? 1 : data.data2_3;
+        GameData.jewelCount = data.data2_4 === "" ? 0 : data.data2_4;
 
-        GameData.maxScore = data.data2_9 == "" ? 0 : data.data2_9;
+        GameData.homeWorld_prop0 = data.data2_5 === "" ? 0 : data.data2_5;
+        GameData.homeWorld_prop1 = data.data2_6 === "" ? 0 : data.data2_6;
+        GameData.homeWorld_prop2 = data.data2_7 === "" ? 0 : data.data2_7;
+        GameData.homeWorld_prop3 = data.data2_8 === "" ? 0 : data.data2_8;
 
-        GameData.level1 = data.level1 == "" ? 0 : data.level1;
-        GameData.level2 = data.level2 == "" ? 0 : data.level2;
-        GameData.level3 = data.level3 == "" ? 0 : data.level3;
-        GameData.level4 = data.level4 == "" ? 0 : data.level4;
+        GameData.maxScore = data.data2_9 === "" ? 0 : data.data2_9;
+
+        GameData.level1 = data.level1 === "" ? 0 : data.level1;
+        GameData.level2 = data.level2 === "" ? 0 : data.level2;
+        GameData.level3 = data.level3 === "" ? 0 : data.level3;
+        GameData.level4 = data.level4 === "" ? 0 : data.level4;
 
 
-        GameData.achieveLevel0 = data.data2_10 == "" ? 0 : data.data2_10;
-        GameData.achieveLevel1 = data.data2_11 == "" ? 0 : data.data2_11;
-        GameData.achieveLevel2 = data.data2_12 == "" ? 0 : data.data2_12;
-        GameData.achieveLevel3 = data.data2_13 == "" ? 0 : data.data2_13;
-        GameData.achieveLevel4 = data.data2_14 == "" ? 0 : data.data2_14;
-        GameData.achieveLevel5 = data.data2_15 == "" ? 0 : data.data2_15;
-        GameData.achieveLevel6 = data.data2_16 == "" ? 0 : data.data2_16;
-        GameData.achieveLevel7 = data.data2_17 == "" ? 0 : data.data2_17;
-        GameData.achieveLevel8 = data.data2_18 == "" ? 0 : data.data2_18;
-        GameData.achieveLevel9 = data.data2_19 == "" ? 0 : data.data2_19;
-        GameData.achieveLevel10 = data.data2_20 == "" ? 0 : data.data2_20;
-        GameData.achieveLevel11 = data.data2_21 == "" ? 0 : data.data2_21;
+        GameData.achieveLevel0 = data.data2_10 === "" ? 0 : data.data2_10;
+        GameData.achieveLevel1 = data.data2_11 === "" ? 0 : data.data2_11;
+        GameData.achieveLevel2 = data.data2_12 === "" ? 0 : data.data2_12;
+        GameData.achieveLevel3 = data.data2_13 === "" ? 0 : data.data2_13;
+        GameData.achieveLevel4 = data.data2_14 === "" ? 0 : data.data2_14;
+        GameData.achieveLevel5 = data.data2_15 === "" ? 0 : data.data2_15;
+        GameData.achieveLevel6 = data.data2_16 === "" ? 0 : data.data2_16;
+        GameData.achieveLevel7 = data.data2_17 === "" ? 0 : data.data2_17;
+        GameData.achieveLevel8 = data.data2_18 === "" ? 0 : data.data2_18;
+        GameData.achieveLevel9 = data.data2_19 === "" ? 0 : data.data2_19;
+        GameData.achieveLevel10 = data.data2_20 === "" ? 0 : data.data2_20;
+        GameData.achieveLevel11 = data.data2_21 === "" ? 0 : data.data2_21;
 
-        GameData.lotteryTimes = data.data2_22 == "" ? -1 : data.data2_22;
+        GameData.lotteryTimes = data.data2_22 === "" ? -1 : data.data2_22;
 
         GameData.lastTime=data.data2_2;
         GameData.caculateLotteryTimes()
