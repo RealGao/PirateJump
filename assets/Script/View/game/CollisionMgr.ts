@@ -172,18 +172,18 @@ export default class CollisionMgr extends cc.Component {
                 let rand = Math.random() * 10;
                 if (rand < 1) {
                     speed = 6;
-                } else if (rand >= 1 && rand < 3) {
+                } else if (rand >= 1 && rand < 2) {
                     speed = 7;
-                } else if (rand >= 3 && rand < 5) {
+                } else if (rand >= 2 && rand < 4) {
                     speed = 8;
-                } else if (rand >= 5 && rand < 7) {
+                } else if (rand >= 4 && rand < 5.5) {
                     speed = 9;
-                } else if (rand >= 7 && rand < 8) {
+                } else if (rand >= 5.5 && rand < 7) {
                     speed = 11;
-                } else if (rand >= 8 && rand < 9) {
+                } else if (rand >= 7 && rand < 9) {
                     speed = 15;
                 } else {
-                    speed = 30;
+                    speed = 20;
                 }
                 break;
         }

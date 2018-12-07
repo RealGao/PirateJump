@@ -121,7 +121,7 @@ export default class GameOver extends cc.Component {
         this.gold = GameCtr.ins.mGame.goldNum;
         this.lbCombo.string = this.combo+"";
         this.lbComboScore.string =  "" + this.combo * 10;
-        let score = this.gold + this.combo * 10;
+        let score = this.gold + this.combo * 10 + this.roleData._level * 10;
         this.lbTotalScore.string = score + "";
         this.lbLevelScore.string = "" + this.roleData._level * 10;
 

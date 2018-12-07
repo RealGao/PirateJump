@@ -34,6 +34,9 @@ export default class CanvasCtr extends cc.Component {
     @property(cc.Prefab)
     pfRecorder:cc.Prefab=null;
 
+    @property(cc.Node)
+    ndBeyond: cc.Node = null;
+
     private mCanvas: cc.Canvas;
     private mFriendRankData;
     private mGroupData;
@@ -224,13 +227,24 @@ export default class CanvasCtr extends cc.Component {
     }
 
     compareWithScore(selfScore) {
-       
+        for(let i=this.mFriendRankData.length-1; i>=0; i--){
+            let data = this.mFriendRankData[i];
+            if(data.score > selfScore) {
+                let spr = this.ndBeyond.getChildByName("sprFriend").getComponent(cc.Sprite);
+                this.createImage(data.avatarUrl, spr, spr.node);
+                this.ndRank.active = false;
+                this.ndRecorder.active = false;
+                this.ndBeyond.active = true;
+                return;
+            }
+        }
     }
 
     showFriendRanking(mapIndex,page=0) {
         console.log("log-----showFriendRanking mapindex page=:",mapIndex,page);
         this.ndRank.active=true;
         this.ndRecorder.active=false;
+        this.ndBeyond.active = false;
 
         this.ndRank.removeAllChildren();
         let startIndex=page*6;
@@ -337,6 +351,7 @@ export default class CanvasCtr extends cc.Component {
         console.log("log--------------子域 显示地图最高得分记录-------");
         this.ndRecorder.active=true;
         this.ndRank.active=false;
+        this.ndBeyond.active = false;
         this.ndRecorder.removeAllChildren();
         let recoreder=cc.instantiate(this.pfRecorder);
         recoreder.parent=this.ndRecorder;
