@@ -1063,6 +1063,9 @@ export default class GameData {
         if (lotteryTimes < 0) {
             GameData._lotteryTimes = 0;
         }
+        if(!lotteryTimes){
+            GameData._lotteryTimes=10;
+        }
         GameData._lotteryTimes = lotteryTimes;
         GameData.setUserData({ lotteryTimes: GameData._lotteryTimes });
         //localStorage.setItem("lottery", JSON.stringify({ day: Util.getCurrTimeYYMMDD(), times: GameData._lotteryTimes }))
@@ -1198,6 +1201,8 @@ export default class GameData {
         GameData.achieveLevel9 = WXCtr.getStorageData("achieveLevel9", 0);
         GameData.achieveLevel10 = WXCtr.getStorageData("achieveLevel10", 0);
         GameData.achieveLevel11 = WXCtr.getStorageData("achieveLevel11", 0);
+
+        GameData.lotteryTimes = WXCtr.getStorageData("lotteryTimes", 10);
         GameData.lastTime=WXCtr.getStorageData("lastTime", 0);
         GameData.caculateLotteryTimes()
 
@@ -1273,7 +1278,8 @@ export default class GameData {
         GameData.achieveLevel10 = data.data2_20 === "" ? 0 : data.data2_20;
         GameData.achieveLevel11 = data.data2_21 === "" ? 0 : data.data2_21;
 
-        GameData.lotteryTimes = data.data2_22 === "" ? -1 : data.data2_22;
+        GameData.lotteryTimes = data.data2_22 === "" ? 10 : data.data2_22;
+        GameData.lotteryTimes = data.data2_22 === "NaN" ? 10 : data.data2_22;
 
         GameData.lastTime=data.data2_2;
         GameData.caculateLotteryTimes()
