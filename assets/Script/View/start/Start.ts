@@ -76,10 +76,12 @@ export default class Start extends cc.Component {
         }
         GameData.getAllLocalGameData();
         EventManager.on("REFRESH_BTN", this.refreshBtns, this);
+        EventManager.on("HIDE_BTN_TIP", this.hideBtnTip, this);
     }
 
     onDestroy() {
         EventManager.off("REFRESH_BTN", this.refreshBtns, this);
+        EventManager.off("HIDE_BTN_TIP", this.hideBtnTip, this);
     }
 
     start() {
@@ -173,6 +175,19 @@ export default class Start extends cc.Component {
         }
         let tip = nd.getChildByName("btn_exclaim");
         tip.active = true;
+    }
+
+    hideBtnTip(event) {
+        let nd;
+        if(event.detail == "prop"){
+            nd = this._btnsNode.getChildByName("btn_prop");
+        }else if(event.detail == "map") {
+            nd = this._btnsNode.getChildByName("btn_map");
+        }else if(event.detail == "role") {
+            nd = this._btnsNode.getChildByName("btn_role");
+        }
+        let tip = nd.getChildByName("btn_exclaim");
+        tip.active = false;
     }
 
     initBtnEvent(btn){

@@ -619,7 +619,7 @@ export default class GameData {
     static set gold_captain(gold_captain) {
         GameData._gold_captain = gold_captain;
         GameData._gameData["gold_captain"] = GameData._gold_captain;
-        // GameData.setUserData({ gold_captain: GameData._gold_captain })
+        GameData.setUserData({ gold_captain: GameData._gold_captain })
     }
     //获取船长赚取金币
     static get gold_captain() {
@@ -631,7 +631,7 @@ export default class GameData {
 
         GameData._gold_sparklet = gold_sparklet;
         GameData._gameData["gold_sparklet"] = GameData._gold_sparklet;
-        // GameData.setUserData({ gold_sparklet: GameData._gold_sparklet })
+        GameData.setUserData({ gold_sparklet: GameData._gold_sparklet })
     }
     //获取刀妹赚取金币
     static get gold_sparklet() {
@@ -643,7 +643,7 @@ export default class GameData {
 
         GameData._gold_hook = gold_hook;
         GameData._gameData["gold_hook"] = GameData._gold_hook;
-        // GameData.setUserData({ gold_hook: GameData._gold_hook })
+        GameData.setUserData({ gold_hook: GameData._gold_hook })
     }
     //获取白胡子赚取金币
     static get gold_hook() {
@@ -654,7 +654,7 @@ export default class GameData {
     static set gold_leavened(gold_leavened) {
         GameData._gold_leavened = gold_leavened;
         GameData._gameData["gold_leavened"] = GameData._gold_leavened;
-        // GameData.setUserData({ gold_leavened: GameData._gold_leavened })
+        GameData.setUserData({ gold_leavened: GameData._gold_leavened })
     }
     //获取厨子赚取金币
     static get gold_leavened() {
@@ -666,7 +666,7 @@ export default class GameData {
 
         GameData._gold_crutch = gold_crutch;
         GameData._gameData["gold_crutch"] = GameData._gold_crutch;
-        // GameData.setUserData({ gold_crutch: GameData._gold_crutch })
+        GameData.setUserData({ gold_crutch: GameData._gold_crutch })
     }
     //获取骷髅赚取金币
     static get gold_crutch() {
@@ -1390,7 +1390,7 @@ export default class GameData {
 
     static addGoldByName(roleName) {
         let key = "gold_" + roleName;
-        GameData[key] += 1;
+        GameData[key] = 0;
     }
 
     static getGoldByName(roleName) {
@@ -1598,6 +1598,7 @@ export default class GameData {
     static canBuyProps() {
         if (GameData.prop_luckyGrass == 10 && GameData.prop_revive == 10 && GameData.prop_speedUp == 10 && GameData.prop_time == 10) {
             /*所有道具都已买满 */
+            EventManager.emit("HIDE_BTN_TIP", "prop");
             return false;
         }
         for (let i = 0; i < GameData.propsInfo.length; i++) {
@@ -1606,6 +1607,7 @@ export default class GameData {
                 return true;
             }
         }
+        EventManager.emit("HIDE_BTN_TIP", "prop");
         return false;
     }
 
@@ -1625,6 +1627,7 @@ export default class GameData {
     static canBuyMaps() {
         if (GameData.map0 >= 0 && GameData.map1 >= 0 && GameData.map2 >= 0 && GameData.map3 >= 0) {
             /*所有地图已解锁*/
+            EventManager.emit("HIDE_BTN_TIP", "map");
             return false;
         }
         for (let i =1 ; i < GameData.mapsInfo.length; i++) {
@@ -1640,12 +1643,14 @@ export default class GameData {
                 return true
             }
         }
+        EventManager.emit("HIDE_BTN_TIP", "map");
         return false;
     }
 
     static canBuyCharactors() {
         if (GameData.gold_captain >= 0 && GameData.gold_crutch >= 0 && GameData.gold_hook >= 0 && GameData.gold_leavened >= 0 && GameData.gold_sparklet >= 0) {
             /* 所有玩家已解锁 */
+            EventManager.emit("HIDE_BTN_TIP", "role");
             return false;
         }
 
@@ -1659,6 +1664,7 @@ export default class GameData {
                 return true;
             }
         }
+        EventManager.emit("HIDE_BTN_TIP", "role");
         return false;
     }
 

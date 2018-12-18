@@ -2,6 +2,7 @@ import GameData from "../../Common/GameData";
 import ViewManager from "../../Common/ViewManager";
 import GameCtr from "../../Controller/GameCtr";
 import AudioManager from "../../Common/AudioManager";
+import GrayEffect from "../../Common/GrayEffect";
 
 const {ccclass, property} = cc._decorator;
 @ccclass
@@ -195,13 +196,16 @@ export default class NewClass extends cc.Component {
             /* 未解锁 */
             this.setLockState(false);
             this._btn_buy.active=true;
-            this._mask.active=true;
+            // this._mask.active=true;
+            let grayEffect: GrayEffect = this._btn_buy.getComponent(GrayEffect);
             if(GameData.gold>=this._roleInfo.price_gold && GameData.diamond>=this._roleInfo.price_diamond){
-                this._btn_buy.opacity=255;
-                this._btn_buy.getComponent(cc.Button).interactable=true;
+                // this._btn_buy.opacity=255;
+                // grayEffect.resetShader();
+                // this._btn_buy.getComponent(cc.Button).interactable=true;
             }else{
-                this._btn_buy.opacity=150;
-                this._btn_buy.getComponent(cc.Button).interactable=false;
+                // this._btn_buy.opacity=150;
+                // grayEffect.grayShader();
+                // this._btn_buy.getComponent(cc.Button).interactable=false;
             }
         }
     }

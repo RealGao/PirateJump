@@ -2,6 +2,7 @@ import GameData from "../../Common/GameData";
 import ViewManager from "../../Common/ViewManager";
 import GameCtr from "../../Controller/GameCtr";
 import AudioManager from "../../Common/AudioManager";
+import GrayEffect from "../../Common/GrayEffect";
 
 const {ccclass, property} = cc._decorator;
 @ccclass
@@ -173,15 +174,18 @@ export default class NewClass extends cc.Component {
         }else {
             /* 未解锁 */
             this._btn_buy.active=true;
-            if(GameData.gold>this._info.gold_price && GameData.diamond>=this._info.diamond_price){
-                /* 满足解锁条件 */
-                this._btn_buy.opacity=255;
-                this._mask.active=false;
-            }else{
-                /* 不满足解锁条件 */
-                this._btn_buy.opacity=150;
-                this._mask.active=true;
-            }
+            let grayEffect: GrayEffect = this._btn_buy.getComponent(GrayEffect);
+            // if(GameData.gold>this._info.gold_price && GameData.diamond>=this._info.diamond_price){
+            //     /* 满足解锁条件 */
+            //     // this._btn_buy.opacity=255;
+            //     // grayEffect.resetShader();
+            //     this._mask.active=false;
+            // }else{
+            //     /* 不满足解锁条件 */
+            //     // this._btn_buy.opacity=150;
+            //     // grayEffect.grayShader();
+            //     this._mask.active=true;
+            // }
         }
     }
 

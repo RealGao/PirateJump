@@ -2,6 +2,7 @@ import GameData from "../../Common/GameData";
 import ViewManager from "../../Common/ViewManager";
 import GameCtr from "../../Controller/GameCtr";
 import AudioManager from "../../Common/AudioManager";
+import GrayEffect from "../../Common/GrayEffect";
 
 const {ccclass, property} = cc._decorator;
 @ccclass
@@ -103,12 +104,15 @@ export default class NewClass extends cc.Component {
 
     showCount(){
         this._lb_count.getComponent(cc.Label).string=GameData.getProp(this._info.name)+"/10";
-        if(GameData.getProp(this._info.name)>=10){
-            this._btn_buy.opacity=150;
-            this._mask.active=true;
-        }else{
-            this._mask.active=false;
-        }
+        let grayEffect: GrayEffect = this._btn_buy.getComponent(GrayEffect);
+        // if(GameData.getProp(this._info.name)>=10){
+        //     // this._btn_buy.opacity=150;
+        //     // grayEffect.grayShader();
+        //     this._mask.active=true;
+        // }else{
+        //     // grayEffect.resetShader();
+        //     this._mask.active=false;
+        // }
     }
 
     showDes(){
