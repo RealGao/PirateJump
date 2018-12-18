@@ -1279,7 +1279,7 @@ export default class GameData {
 
         GameData.guideStep = WXCtr.getStorageData("guideStep", 0)
         GameData.lastTime = WXCtr.getStorageData("lastTime", 0);
-        GameData.lotteryTimes = WXCtr.getStorageData("lotteryTimes", 0);
+        GameData.lotteryTimes = WXCtr.getStorageData("lotteryTimes", 10);
         GameData.caculateLotteryTimes()
 
         GameCtr.getInstance().getStart().startGame();
@@ -1743,10 +1743,11 @@ export default class GameData {
 
     static caculateLotteryTimes(){
         console.log("log-------------GameData.lotteryTimes=",GameData.lotteryTimes);
-        if(!GameData.lotteryTimes||GameData.lotteryTimes<0){
-            GameData.lotteryTimes=10;
+        if(GameData.lotteryTimes<0){
+            GameData.lotteryTimes=0;
             return;
         }
+        
         let timeIterval=Math.floor((new Date().getTime()-GameData.saveTime)/1000);
         let date=new Date();
 
