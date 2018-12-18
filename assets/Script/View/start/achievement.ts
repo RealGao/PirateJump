@@ -59,7 +59,7 @@ export default class NewClass extends PromptDialog {
             let icon=this._achieveArr[i].getChildByName("bg");
             icon.on(cc.Node.EventType.TOUCH_END,(e)=>{
                 for(let i=0;i<this._achieveArr.length;i++){
-                    if(e.target.parent.name==this._achieveArr[i].name){
+                    if(e.target.parent.name==this._achieveArr[i].name ){
                         this._achieveArr[i].getComponent("achieveItem").judgeUpLevel();
                         this.showAchieve(i);
                     }
