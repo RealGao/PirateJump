@@ -95,6 +95,7 @@ export default class NewClass extends cc.Component {
                     GameCtr.getInstance().getToast().toast("宝箱开启中.....");
                     return;
                 }
+                WXCtr.setStorageData("lastLotteryTime",new Date().getTime());
                 this.node.destroy();
             }else if(e.target.getName()=="btn_open"){
                 if(!this._isLotterying){
@@ -209,19 +210,47 @@ export default class NewClass extends cc.Component {
     }
 
     caculateTimeCount(){
+        let timeIterval=Math.floor((new Date().getTime()-GameData.lastTime)/1000);
+        let timeIterval1=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastLotteryTime",0))/1000);
+        if(timeIterval1<timeIterval){
+            timeIterval=timeIterval1;
+        }
+
+        let interval_hour=Math.floor(timeIterval/3600);
+
+        
         this._bonusTimesArr=[4,8,12,16,20,24];
         let date=new Date();
         let hour=date.getHours();
         let min=date.getMinutes();
         let sec=date.getSeconds();
-       
+        if(min*60+sec<timeIterval%3600){
+            interval_hour+=1;
+        }
+        let pre_hour= hour-interval_hour;
+        console.log("log---------timeIterval pre_hour currentSec  lastSec  =:",timeIterval,pre_hour,min*60+sec, timeIterval%3600);
+        for(let i=pre_hour+1;i<hour;i++ ){
+            for(let j=0; j<this._bonusTimesArr.length;j++){
+                if(i==this._bonusTimesArr[j]){
+                    GameData.lotteryTimes++;
+                    GameData.lotteryTimes=GameData.lotteryTimes>=10?10:GameData.lotteryTimes;
+                }
+            }
+        }
+
+    
+
+
         for(let i=0;i<this._bonusTimesArr.length;i++){
+
             if(this._bonusTimesArr[i]-hour>0){
                 this._timeCount= (this._bonusTimesArr[i]-1-hour)*3600+ (59-min)*60 +(60-sec);
                 this.timeCount()
                 return;
             }
         }
+
+        this.setLotteryTimes();
     }
 
     timeCount(){

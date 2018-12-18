@@ -1,5 +1,6 @@
 import GameData from "../../Common/GameData";
 import ViewManager from "../../Common/ViewManager";
+import EventManager from "../../Common/EventManager";
 
 const {ccclass, property} = cc._decorator;
 
@@ -11,7 +12,11 @@ export default class powerNode extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {
+        EventManager.on("POWER",()=>{
+            this.lbPower.string = GameData.power+"/99";
+        },this);
+    }
 
     start () {
         this.lbPower.string = GameData.power+"/99";

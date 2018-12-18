@@ -3,6 +3,7 @@ import WXCtr from "../../Controller/WXCtr";
 import HttpCtr from "../../Controller/HttpCtr";
 import GameCtr from "../../Controller/GameCtr";
 import PromptDialog from "../view/PromptDialog";
+import EventManager from "../../Common/EventManager";
 
 const {ccclass, property} = cc._decorator;
 
@@ -62,7 +63,8 @@ export default class powerNotEnough extends PromptDialog {
                             GameCtr.getInstance().getToast().toast(str_tip);
                             GameData.power+=20;
                             GameData.power=GameData.power>99?99:GameData.power;
-                            GameCtr.getInstance().getPublic().showPower();
+                            //GameCtr.getInstance().getPublic().showPower();
+                            EventManager.emit("POWER",null);
                             this.showPower();
                         }else{
                             GameCtr.getInstance().getToast().toast("视频未看完");
@@ -75,13 +77,14 @@ export default class powerNotEnough extends PromptDialog {
                     if(GameData.power<=89){
                         str_tip="获得10点体力";
                     }else if(GameData.power>89){
-                        str_tip="获得"+(GameData.power-89)+"点体力";
+                        str_tip="获得"+(99-GameData.power)+"点体力";
                     }
                     GameCtr.getInstance().getToast().toast(str_tip);
                     GameData.power+=10;
                     GameData.power=GameData.power>99?99:GameData.power;
-                    GameCtr.getInstance().getPublic().showPower();
+                    //GameCtr.getInstance().getPublic().showPower();
                     this.showPower();
+                    EventManager.emit("POWER",null);
                }
                 WXCtr.share({callback:callFunc});  
             }else if(e.target.getName()=="btn_close"){
