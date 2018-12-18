@@ -3,6 +3,7 @@ import WXCtr from "../Controller/WXCtr";
 import UserManager from "./UserManager";
 import HttpCtr from "../Controller/HttpCtr";
 import Util from "./Util";
+import EventManager from "./EventManager";
 
 
 const { ccclass, property } = cc._decorator;
@@ -70,7 +71,10 @@ const dataKeyConfig = {
     lotteryTimes:"data2_22",                                                      //开宝箱次数
 
     lastTime:"data2_2",                                                           //上次退出游戏时间
+    guideStep: "data2_23",                                                        //新手引导步骤
 };
+
+const mapsName = ["map1", "map2", "map3", "map4"];
 
 
 @ccclass
@@ -89,6 +93,7 @@ export default class GameData {
     private static _unlockRoles: number = 0;                               //大团圆
     private static _levelUp: number = 0;                                   //升级
     private static _captainHitBox: number = 0;                             //钩宝箱   
+    private static _guideStep: number = 0;                                 //新手引导步骤
 
     /* 道具 */
     private static _prop_speedUp: number = 0;                              //加速道具
@@ -143,6 +148,7 @@ export default class GameData {
 
     private static _lotteryTimes = 0;                                         //宝箱开箱次数
     private static _lastTime=0;                                               //上次退出游戏时间
+    private static _saveTime = 0;
 
     private static _gameData = {};
 
@@ -169,18 +175,18 @@ export default class GameData {
 
     static rolesInfo = [
         { id: 0, name: "captain", price_gold: 0, price_diamond: 0, des: GameData.rolesDes[0] },
-        { id: 1, name: "sparklet", price_gold: 2000, price_diamond: 0, des: GameData.rolesDes[1] },
-        { id: 2, name: "hook", price_gold: 5000, price_diamond: 0, des: GameData.rolesDes[2] },
-        { id: 3, name: "leavened", price_gold: 10000, price_diamond: 0, des: GameData.rolesDes[3] },
+        { id: 1, name: "sparklet", price_gold: 10000, price_diamond: 0, des: GameData.rolesDes[1] },
+        { id: 2, name: "hook", price_gold: 2000, price_diamond: 0, des: GameData.rolesDes[2] },
+        { id: 3, name: "leavened", price_gold: 5000, price_diamond: 0, des: GameData.rolesDes[3] },
         { id: 4, name: "crutch", price_gold: 0, price_diamond: 2000, des: GameData.rolesDes[4] }
     ]
 
 
     static mapsInfo = [
-        { name: "map0", title: "新手图", gold_price: 0, diamond_price: 0, rate: [200, 600, 900], des: "比较安全的小岛，刚刚开发出来\n\n比较简单，道具较少" },
-        { name: "map1", title: "进阶图", gold_price: 2000, diamond_price: 0, rate: [800, 1100, 1350], des: "有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容" },
-        { name: "map2", title: "挑战图", gold_price: 0, diamond_price: 1000, rate: [700, 1100, 1200], des: "危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多" },
-        { name: "map3", title: "无限模式", gold_price: 20000, diamond_price: 0, rate: [-1, -1, -1], des: "知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好" }
+        { name: "map0", title: "新手图", gold_price: 0, diamond_price: 0, rate: [300, 700, 1000], top: 1200, des: "比较安全的小岛，刚刚开发出来\n\n比较简单，道具较少" },
+        { name: "map1", title: "进阶图", gold_price: 1000, diamond_price: 0, rate: [500, 900, 1200], top: 1500, des: "有点危险的岛屿，历史悠久\n\n比较困难，较丰富的内容" },
+        { name: "map2", title: "挑战图", gold_price: 0, diamond_price: 500, rate: [400, 800, 1100], top: 1300, des: "危险无处不在的岛屿，来历神秘\n\n非常困难，内容很多" },
+        { name: "map3", title: "无限模式", gold_price: 4000, diamond_price: 0, rate: [-1, -1, -1], top: 1200, des: "知道求生模式吗，探险家的乐园\n\n全道具模式，活得比别人久就好" }
     ]
 
     static propsInfo = [
@@ -334,7 +340,9 @@ export default class GameData {
         }
         GameData._gold = gold;
         GameData._gameData["gold"] = GameData._gold;
-        // GameData.setUserData({ gold: GameData._gold })
+        GameData.setUserData({ gold: GameData._gold })
+        EventManager.emit("UPDATE_GOLD");
+        GameData.judgeShopBtns();
     }
     //获取玩家金币
     static get gold() {
@@ -347,12 +355,29 @@ export default class GameData {
             diamond = 0
         }
         GameData._diamond = diamond;
+        GameData._gameData["diamond"] = GameData._diamond;
         GameData.setUserData({ money: GameData._diamond })
+        EventManager.emit("UPDATE_DIAMOND");
     }
 
     //获取玩家钻石
     static get diamond() {
         return GameData._diamond;
+    }
+
+    //获取新手引导步骤
+    static get guideStep() {
+        return GameData._guideStep;
+    }
+
+    //设置新手引导步骤
+    static set guideStep(step) {
+        if(step < 0){
+            step = 0;
+        }
+        GameData._guideStep = step;
+        GameData._gameData["guideStep"] = GameData._guideStep;
+        GameData.setUserData({guideStep: GameData._guideStep});
     }
 
     //设置玩家体力
@@ -361,6 +386,7 @@ export default class GameData {
             power = 0
         }
         GameData._power = power;
+        GameData._gameData["power"] = GameData._power;
         GameData.setUserData({ power: GameData._power })
     }
 
@@ -491,6 +517,7 @@ export default class GameData {
             unlockRoles = 0;
         }
         GameData._unlockRoles = unlockRoles;
+        GameData._gameData["unlockRoles"] = GameData._unlockRoles;
         GameData.setUserData({ unlockRoles: GameData._unlockRoles })
     }
 
@@ -505,6 +532,7 @@ export default class GameData {
             levelUp = 0;
         }
         GameData._levelUp = levelUp;
+        GameData._gameData["levelUp"] = GameData._levelUp;
         GameData.setUserData({ levelUp: GameData._levelUp })
     }
 
@@ -534,6 +562,7 @@ export default class GameData {
             prop_speedUp = 0;
         }
         GameData._prop_speedUp = prop_speedUp;
+        GameData._gameData["prop_speedUp"] = GameData._prop_speedUp;
         GameData.setUserData({ prop_speedUp: GameData._prop_speedUp })
     }
     //获取加速道具数量
@@ -548,6 +577,7 @@ export default class GameData {
             prop_revive = 0;
         }
         GameData._prop_revive = prop_revive;
+        GameData._gameData["prop_revive"] = GameData._prop_revive;
         GameData.setUserData({ prop_revive: GameData._prop_revive })
     }
     //获取复活道具数量
@@ -562,6 +592,7 @@ export default class GameData {
             prop_luckyGrass = 0;
         }
         GameData._prop_luckyGrass = prop_luckyGrass;
+        GameData._gameData["prop_luckyGrass"] = GameData._prop_luckyGrass;
         GameData.setUserData({ prop_luckyGrass: GameData._prop_luckyGrass })
     }
     //获取幸运草道具数量
@@ -576,6 +607,7 @@ export default class GameData {
             prop_time = 0;
         }
         GameData._prop_time = prop_time;
+        GameData._gameData["prop_time"] = GameData._prop_time;
         GameData.setUserData({ prop_time: GameData._prop_time })
     }
     //获取时间道具数量
@@ -644,6 +676,7 @@ export default class GameData {
     //设置地图0状态
     static set map0(state) {
         GameData._map0 = state;
+        GameData._gameData["map0"] = GameData._map0;
         GameData.setUserData({ map0: GameData._map0 })
     }
 
@@ -655,6 +688,7 @@ export default class GameData {
     //设置地图1状态
     static set map1(state) {
         GameData._map1 = state;
+        GameData._gameData["map1"] = GameData._map1;
         GameData.setUserData({ map1: GameData._map1 })
     }
 
@@ -666,6 +700,7 @@ export default class GameData {
     //设置地图2状态
     static set map2(state) {
         GameData._map2 = state;
+        GameData._gameData["map2"] = GameData._map2;
         GameData.setUserData({ map2: GameData._map2 })
     }
     //获取地图2状态
@@ -676,6 +711,7 @@ export default class GameData {
     //设置地图3解锁状态
     static set map3(state) {
         GameData._map3 = state;
+        GameData._gameData["map3"] = GameData._map3;
         GameData.setUserData({ map3: GameData._map3 })
     }
     //获取地图2解锁状态
@@ -688,6 +724,7 @@ export default class GameData {
     static set currentRole(currentRole) {
 
         GameData._currentRole = currentRole;
+        GameData._gameData["currentRole"] = GameData._currentRole;
         GameData.setUserData({ currentRole: GameData._currentRole })
     }
     //获取当前使用角色
@@ -702,7 +739,8 @@ export default class GameData {
             maxFightGold = 0;
         }
         GameData._maxFightGold = maxFightGold;
-        GameData.setUserData({ maxFightGold: GameData._maxFightGold })
+        GameData._gameData["maxFightGold"] = GameData._maxFightGold;
+        // GameData.setUserData({ maxFightGold: GameData._maxFightGold })
     }
     //获取当前使用角色
     static get maxFightGold() {
@@ -716,6 +754,7 @@ export default class GameData {
             currentShopIndex = 0;
         }
         GameData._currentShopIndex = currentShopIndex;
+        GameData._gameData["currentShopIndex"] = GameData._currentShopIndex;
         GameData.setUserData({ currentShopIndex: GameData._currentShopIndex })
     }
     //获取当前商铺索引
@@ -729,7 +768,8 @@ export default class GameData {
             currentMap = 0;
         }
         GameData._currentMap = currentMap;
-        GameData.setUserData({ currentMap: GameData._currentMap })
+        GameData._gameData["currentMap"] = GameData._currentMap;
+        // GameData.setUserData({ currentMap: GameData._currentMap })
     }
     //获取当前商铺索引
     static get currentMap() {
@@ -742,7 +782,8 @@ export default class GameData {
             currentHome = 0;
         }
         GameData._currentHome = currentHome;
-        GameData.setUserData({ currentHome: GameData._currentHome })
+        GameData._gameData["currentHome"] = GameData._currentHome;
+        // GameData.setUserData({ currentHome: GameData._currentHome })
     }
     //获取当前家园
     static get currentHome() {
@@ -756,7 +797,8 @@ export default class GameData {
             jewelLevel = 0;
         }
         GameData._jewelLevel = jewelLevel;
-        GameData.setUserData({ jewelLevel: GameData._jewelLevel })
+        GameData._gameData["jewelLevel"] = GameData._jewelLevel;
+        // GameData.setUserData({ jewelLevel: GameData._jewelLevel })
     }
     //获取宝石等级
     static get jewelLevel() {
@@ -769,7 +811,8 @@ export default class GameData {
             jewelCount = 0;
         }
         GameData._jewelCount = jewelCount;
-        GameData.setUserData({ jewelCount: GameData._jewelCount })
+        GameData._gameData["jewelCount"] = GameData._jewelCount;
+        // GameData.setUserData({ jewelCount: GameData._jewelCount })
     }
     //获取宝石等级
     static get jewelCount() {
@@ -782,7 +825,8 @@ export default class GameData {
             level = 0;
         }
         GameData._homeWorld_prop0 = level;
-        GameData.setUserData({ homeWorld_prop0: GameData._homeWorld_prop0 })
+        GameData._gameData["homeWorld_prop0"] = GameData._homeWorld_prop0;
+        // GameData.setUserData({ homeWorld_prop0: GameData._homeWorld_prop0 })
     }
     //获取家园道具1（炸弹）等级
     static get homeWorld_prop0() {
@@ -795,7 +839,8 @@ export default class GameData {
             level = 0;
         }
         GameData._homeWorld_prop1 = level;
-        GameData.setUserData({ homeWorld_prop1: GameData._homeWorld_prop1 })
+        GameData._gameData["homeWorld_prop1"] = GameData._homeWorld_prop1;
+        // GameData.setUserData({ homeWorld_prop1: GameData._homeWorld_prop1 })
     }
     //获取家园道具2（炸弹）等级
     static get homeWorld_prop1() {
@@ -808,7 +853,8 @@ export default class GameData {
             level = 0;
         }
         GameData._homeWorld_prop2 = level;
-        GameData.setUserData({ homeWorld_prop2: GameData._homeWorld_prop2 })
+        GameData._gameData["homeWorld_prop2"] = GameData._homeWorld_prop2;
+        // GameData.setUserData({ homeWorld_prop2: GameData._homeWorld_prop2 })
     }
     //获取家园道具3（炸弹）等级
     static get homeWorld_prop2() {
@@ -822,7 +868,8 @@ export default class GameData {
             level = 0;
         }
         GameData._homeWorld_prop3 = level;
-        GameData.setUserData({ homeWorld_prop3: GameData._homeWorld_prop3 })
+        GameData._gameData["homeWorld_prop3"] = GameData._homeWorld_prop3;
+        // GameData.setUserData({ homeWorld_prop3: GameData._homeWorld_prop3 })
     }
     //获取家园道具4（炸弹）等级
     static get homeWorld_prop3() {
@@ -833,7 +880,8 @@ export default class GameData {
     static set maxScore(score) {
         if (score < 0) score = 0;
         GameData._maxScore = score;
-        GameData.setUserData({ maxScore: GameData._maxScore });
+        GameData._gameData["maxScore"] = GameData._maxScore;
+        // GameData.setUserData({ maxScore: GameData._maxScore });
     }
 
     // 获取最高分纪录
@@ -849,7 +897,8 @@ export default class GameData {
             score = 0;
         }
         GameData._level1 = score;
-        GameData.setUserData({ level1: GameData._level1 });
+        GameData._gameData["level1"] = GameData._level1;
+        // GameData.setUserData({ level1: GameData._level1 });
     }
 
     //获取地图1最高得分
@@ -864,6 +913,7 @@ export default class GameData {
             score = 0;
         }
         GameData._level2 = score;
+        GameData._gameData["level2"] = GameData._level2;
         GameData.setUserData({ level2: GameData._level2 });
     }
 
@@ -879,6 +929,7 @@ export default class GameData {
             score = 0;
         }
         GameData._level3 = score;
+        GameData._gameData["level3"] = GameData._level3;
         GameData.setUserData({ level3: GameData._level3 });
     }
 
@@ -894,6 +945,7 @@ export default class GameData {
             score = 0;
         }
         GameData._level4 = score;
+        GameData._gameData["level4"] = GameData._level4;
         GameData.setUserData({ level4: GameData._level4 });
     }
     //获取地图4最高得分
@@ -907,6 +959,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel0 = level;
+        GameData._gameData["achieveLevel0"] = GameData._achieveLevel0;
         GameData.setUserData({ achieveLevel0: GameData._achieveLevel0 });
     }
     //获取成就0等级
@@ -920,6 +973,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel1 = level;
+        GameData._gameData["achieveLevel1"] = GameData._achieveLevel1;
         GameData.setUserData({ achieveLevel1: GameData._achieveLevel1 });
     }
     //获取成就1等级
@@ -933,6 +987,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel2 = level;
+        GameData._gameData["achieveLevel2"] = GameData._achieveLevel2;
         GameData.setUserData({ achieveLevel2: GameData._achieveLevel2 });
     }
     //获取成就2等级
@@ -946,6 +1001,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel3 = level;
+        GameData._gameData["achieveLevel3"] = GameData._achieveLevel3;
         GameData.setUserData({ achieveLevel3: GameData._achieveLevel3 });
     }
     //获取成就3等级
@@ -960,6 +1016,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel4 = level;
+        GameData._gameData["achieveLevel4"] = GameData._achieveLevel4;
         GameData.setUserData({ achieveLevel4: GameData._achieveLevel4 });
     }
     //获取成就4等级
@@ -973,6 +1030,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel5 = level;
+        GameData._gameData["achieveLevel5"] = GameData._achieveLevel5;
         GameData.setUserData({ achieveLevel5: GameData._achieveLevel5 });
     }
     //获取成就5等级
@@ -986,6 +1044,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel6 = level;
+        GameData._gameData["achieveLevel6"] = GameData._achieveLevel6;
         GameData.setUserData({ achieveLevel6: GameData._achieveLevel6 });
     }
     //获取成就6等级
@@ -999,6 +1058,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel7 = level;
+        GameData._gameData["achieveLevel7"] = GameData._achieveLevel7;
         GameData.setUserData({ achieveLevel7: GameData._achieveLevel7 });
     }
     //获取成就7等级
@@ -1012,6 +1072,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel8 = level;
+        GameData._gameData["achieveLevel8"] = GameData._achieveLevel8;
         GameData.setUserData({ achieveLevel8: GameData._achieveLevel8 });
     }
     //获取成就8等级
@@ -1025,6 +1086,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel9 = level;
+        GameData._gameData["achieveLevel9"] = GameData._achieveLevel9;
         GameData.setUserData({ achieveLevel9: GameData._achieveLevel9 });
     }
     //获取成就9等级
@@ -1038,6 +1100,7 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel10 = level;
+        GameData._gameData["achieveLevel10"] = GameData._achieveLevel10;
         GameData.setUserData({ achieveLevel10: GameData._achieveLevel10 });
     }
     //获取成就10等级
@@ -1051,7 +1114,8 @@ export default class GameData {
             level = 0;
         }
         GameData._achieveLevel11 = level;
-        GameData.setUserData({ achieveLevel11: GameData._achieveLevel11 });
+        GameData._gameData["achieveLevel11"] = GameData._achieveLevel11;
+        // GameData.setUserData({ achieveLevel11: GameData._achieveLevel11 });
     }
     //获取成就10等级
     static get achieveLevel11() {
@@ -1064,8 +1128,8 @@ export default class GameData {
             GameData._lotteryTimes = 0;
         }
         GameData._lotteryTimes = lotteryTimes;
+        GameData._gameData["lotteryTimes"] = GameData._lotteryTimes;
         GameData.setUserData({ lotteryTimes: GameData._lotteryTimes });
-        //localStorage.setItem("lottery", JSON.stringify({ day: Util.getCurrTimeYYMMDD(), times: GameData._lotteryTimes }))
     }
 
     // 获取宝箱抽奖次数
@@ -1079,12 +1143,26 @@ export default class GameData {
             lastTime = 0;
         }
         GameData._lastTime = lastTime;
+        GameData._gameData["lastTime"] = GameData._lastTime;
         GameData.setUserData({ lastTime: GameData._lastTime });
     }
 
     // 获取上次游戏退出时间
     static get lastTime() {
         return GameData._lastTime;
+    }
+
+    // 上次保存数据的时间
+    static set saveTime(time) {
+        if(time < 0){
+            time = 0;
+        }
+        GameData._saveTime = time;
+        GameData._gameData["saveTime"] = GameData._saveTime;
+    }
+
+    static get saveTime() {
+        return GameData._saveTime;
     }
 
     //获取收集到的金币
@@ -1198,7 +1276,10 @@ export default class GameData {
         GameData.achieveLevel9 = WXCtr.getStorageData("achieveLevel9", 0);
         GameData.achieveLevel10 = WXCtr.getStorageData("achieveLevel10", 0);
         GameData.achieveLevel11 = WXCtr.getStorageData("achieveLevel11", 0);
-        GameData.lastTime=WXCtr.getStorageData("lastTime", 0);
+
+        GameData.guideStep = WXCtr.getStorageData("guideStep", 0)
+        GameData.lastTime = WXCtr.getStorageData("lastTime", 0);
+        GameData.lotteryTimes = WXCtr.getStorageData("lotteryTimes", 0);
         GameData.caculateLotteryTimes()
 
         GameCtr.getInstance().getStart().startGame();
@@ -1279,13 +1360,14 @@ export default class GameData {
         GameData.caculateLotteryTimes()
 
         //GameData.setUserData({ lastTime: data.data2_2 });
-        HttpCtr.submitUserData({});
+        // HttpCtr.submitUserData({});
         GameCtr.getInstance().getStart().startGame()
     }
 
     //保存个人信息
     static setUserData(data) {
         data["saveTime"] = new Date().getTime();
+        GameData.saveTime = new Date().getTime();
         for (let key in data) {
             WXCtr.setStorageData(key, data[key]);
             if (dataKeyConfig[key]) {
@@ -1293,7 +1375,7 @@ export default class GameData {
             }
         }
         console.log("log--------setUserData=:", data);
-        HttpCtr.submitUserData(data);
+        // HttpCtr.submitUserData(data);
     }
 
     static submitGameData() {
@@ -1507,18 +1589,37 @@ export default class GameData {
         GameData[name] += 1
     }
 
+    static judgeShopBtns() {
+        GameData.canBuyCharactors();
+        GameData.canBuyMaps();
+        GameData.canBuyProps();
+    }
+
     static canBuyProps() {
         if (GameData.prop_luckyGrass == 10 && GameData.prop_revive == 10 && GameData.prop_speedUp == 10 && GameData.prop_time == 10) {
             /*所有道具都已买满 */
             return false;
         }
-
         for (let i = 0; i < GameData.propsInfo.length; i++) {
-            if (GameData.diamond >= GameData.propsInfo[i].priceDiamond && GameData.gold >= GameData.propsInfo[i].priceGold) {
+            if (((GameData.diamond >= GameData.propsInfo[i].priceDiamond && GameData.propsInfo[i].priceDiamond > 0) || (GameData.gold >= GameData.propsInfo[i].priceGold && GameData.propsInfo[i].priceGold > 0)) && GameData.getPropByIndex(i)<10) {
+                EventManager.emit("REFRESH_BTN", "prop");
                 return true;
             }
         }
         return false;
+    }
+
+    static getPropByIndex(index){
+        switch (index){
+            case 0:
+                return GameData.prop_luckyGrass;
+            case 1:
+                return GameData.prop_speedUp;
+            case 2:
+                return GameData.prop_revive;
+            case 3:
+                return GameData.prop_time;
+        }
     }
 
     static canBuyMaps() {
@@ -1533,8 +1634,9 @@ export default class GameData {
                 continue;
             }
             
-            if (GameData.gold >= GameData.mapsInfo[i].gold_price && GameData.diamond >= GameData.mapsInfo[i].diamond_price) {
+            if ((GameData.gold >= GameData.mapsInfo[i].gold_price && GameData.mapsInfo[i].gold_price > 0) ||( GameData.diamond >= GameData.mapsInfo[i].diamond_price && GameData.mapsInfo[i].diamond_price > 0)) {
                 console.log("log------i=:",i);
+                EventManager.emit("REFRESH_BTN", "map");
                 return true
             }
         }
@@ -1552,7 +1654,8 @@ export default class GameData {
                 continue;
             }
 
-            if (GameData.gold >= GameData.rolesInfo[i].price_gold && GameData.diamond >= GameData.rolesInfo[i].price_diamond) {
+            if((GameData.rolesInfo[i].price_gold > 0 && GameData.gold >= GameData.rolesInfo[i].price_gold) || (GameData.diamond >= GameData.rolesInfo[i].price_diamond && GameData.rolesInfo[i].price_diamond > 0)) {
+                EventManager.emit("REFRESH_BTN", "role");
                 return true;
             }
         }
@@ -1571,8 +1674,8 @@ export default class GameData {
         for (let i = 0; i < this.achievementsConf.length; i++) {
             let key = "achieveLevel" + i;
             if (GameData[key] > 4) continue
-            console.log(" GameData.achievementsConf[i].confName GameData[key]", GameData.achievementsConf[i].confName, GameData[key]);
-            console.log("log--------canGetAchieve value target=:", GameData[this.achievementsConf[i].valueName], GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
+            // console.log(" GameData.achievementsConf[i].confName GameData[key]", GameData.achievementsConf[i].confName, GameData[key]);
+            // console.log("log--------canGetAchieve value target=:", GameData[this.achievementsConf[i].valueName], GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
             // if(GameData[this.achievementsConf[i].valueName]>=GameData[GameData.achievementsConf[i].confName][GameData[key]].target){
             //     return true;
             // }
@@ -1629,6 +1732,7 @@ export default class GameData {
             GameData[key]= GameData[key]>=score?GameData[key]:score;
             WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
         }
+        HttpCtr.submitScore(mapsName[GameData.currentMap], score);
     }
 
     static caculateLotteryTimes(){
@@ -1637,7 +1741,7 @@ export default class GameData {
             GameData.lotteryTimes=10;
             return;
         }
-        let timeIterval=Math.floor((new Date().getTime()-GameData.lastTime)/1000);
+        let timeIterval=Math.floor((new Date().getTime()-GameData.saveTime)/1000);
         let date=new Date();
 
         let hour=date.getHours();

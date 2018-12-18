@@ -81,7 +81,7 @@ export default class NewClass extends cc.Component {
             if(cc.director.getScene().name=="Start"){
                 GameCtr.getInstance().getStart().updateBtnAchieveState();
             }else{
-                GameCtr.ins.mGameOver.updateBtnAchieveState();
+                // GameCtr.ins.mGameOver.updateBtnAchieveState();
             }
         }
     }
@@ -93,7 +93,7 @@ export default class NewClass extends cc.Component {
         toast.setLocalZOrder(50);
         let callFunc=()=>{
             GameData.gold+=des.bonus;
-            GameCtr.getInstance().getPublic().showGold();
+            // GameCtr.getInstance().getPublic().showGold();
         }
         toast.getComponent("Toast1").init("获得成就奖励"+des.bonus+"金币",callFunc);
     }

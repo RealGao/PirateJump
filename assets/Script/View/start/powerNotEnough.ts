@@ -2,11 +2,12 @@ import GameData from "../../Common/GameData";
 import WXCtr from "../../Controller/WXCtr";
 import HttpCtr from "../../Controller/HttpCtr";
 import GameCtr from "../../Controller/GameCtr";
+import PromptDialog from "../view/PromptDialog";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class powerNotEnough extends PromptDialog {
     _bg=null;
     _btn_freeGet=null;
     _btn_askFriend=null;
@@ -35,8 +36,8 @@ export default class NewClass extends cc.Component {
         this._lb_powerTime=this._bg.getChildByName("lb_timeCount");
 
         this._btn_askFriend.active = GameCtr.reviewSwitch;
-        if (!WXCtr.videoAd || GameCtr.surplusVideoTimes <= 0) {
-            this._btn_freeGet.active = false;
+        if (WXCtr.videoAd) {
+            this._btn_freeGet.active = true;
         }
 
         this.initBtnEvent(this._btn_freeGet);
@@ -56,7 +57,7 @@ export default class NewClass extends cc.Component {
                             if(GameData.power<=79){
                                 str_tip="获得20点体力";
                             }else if(GameData.power>79){
-                                str_tip="获得"+(GameData.power-79)+"点体力";
+                                str_tip="获得"+(99 - GameData.power)+"点体力";
                             }
                             GameCtr.getInstance().getToast().toast(str_tip);
                             GameData.power+=20;
@@ -67,7 +68,6 @@ export default class NewClass extends cc.Component {
                             GameCtr.getInstance().getToast().toast("视频未看完");
                         }
                     });
-                    HttpCtr.clickStatistics(GameCtr.StatisticType.OFF_LINE_VEDIO);          //离线视频收益点击统计
                 }
             }else if(e.target.getName()=="btn_askFriend"){
                let callFunc=()=>{
@@ -85,7 +85,8 @@ export default class NewClass extends cc.Component {
                }
                 WXCtr.share({callback:callFunc});  
             }else if(e.target.getName()=="btn_close"){
-                this.node.destroy();
+                // this.node.destroy();
+                super.dismiss();
             }
         })
     }

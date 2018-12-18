@@ -1,6 +1,7 @@
 import GameData from "../../Common/GameData";
 import WXCtr from "../../Controller/WXCtr";
 import GameCtr from "../../Controller/GameCtr";
+import EventManager from "../../Common/EventManager";
 
 enum Shop{
     maps=0,
@@ -44,10 +45,15 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     pfPowerNotEnough:cc.Prefab=null;
 
+    @property(cc.Node)
+    ndPower: cc.Node = null;
+
 
     onLoad(){
         this.initNode();
         GameCtr.getInstance().setPublic(this);
+        EventManager.on("UPDATE_GOLD", this.refreshGold, this);
+        EventManager.on("UPDATE_DIAMOND", this.refreshDiamod, this);
     }
 
     initNode(){
@@ -59,13 +65,17 @@ export default class NewClass extends cc.Component {
         
     }
 
+    hidePowerNode() {
+        this.ndPower.active = false;
+    }
+
     initInfoNode(){
         this._lb_gold=this._infoNode.getChildByName("lb_gold");
         this._lb_diamond=this._infoNode.getChildByName("lb_diamond");
-        this._lb_power=this._infoNode.getChildByName("lb_power");
-        this._lb_powerTime=this._infoNode.getChildByName("lb_powerTime");
+        this._lb_power=this.ndPower.getChildByName("lb_power");
+        this._lb_powerTime=this.ndPower.getChildByName("lb_powerTime");
         let btn_addDiamond=this._infoNode.getChildByName("btn_addDiamond");
-        let btn_addPower=this._infoNode.getChildByName("btn_addPower");
+        let btn_addPower=this.ndPower.getChildByName("btn_addPower");
         this._lb_powerTime.active=true;
 
         this.initBtnEvent(btn_addDiamond);
@@ -103,24 +113,36 @@ export default class NewClass extends cc.Component {
         this._btnsNode.active=false;
     }
 
+    refreshGold() {
+        this._lb_gold.getComponent(cc.Label).string=GameData.gold+"";
+    }
+
+    refreshDiamod() {
+        this._lb_diamond.getComponent(cc.Label).string=GameData.diamond+"";
+    }
+
     showGold(){
+        if(!this._lb_gold) return;
         this._lb_gold.getComponent(cc.Label).string=GameData.gold+"";
     }
 
     showDiamond(){
         console.log("log---------showDimond=:",GameData.diamond);
+        if(!this._lb_diamond) return;
         this._lb_diamond.getComponent(cc.Label).string=GameData.diamond+"";
     }
 
 
 
     setGoldNodeActive(bool){
+        if(!this._lb_gold) return;
         this._lb_gold.active=bool;
         let icon_gold=this._infoNode.getChildByName("icon_gold");
         icon_gold.active=bool;
     }
 
     showPower(){
+        if(!this._lb_power) return;
         this._lb_power.getComponent(cc.Label).string=GameData.power+"/99";
     }
 
@@ -133,8 +155,7 @@ export default class NewClass extends cc.Component {
             this._lb_powerTime.scale=1.0;
             this._powerTime_min =Math.floor(GameData.powerTime/60);
             this._powerTime_sec =GameData.powerTime%60;
-            this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
-                                                     (this._powerTime_sec>=10?this._powerTime_sec:"0"+this._powerTime_sec);
+            this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+ (this._powerTime_sec>=10?this._powerTime_sec:"0"+this._powerTime_sec);
         }
     }
 
@@ -372,5 +393,7 @@ export default class NewClass extends cc.Component {
     onDestroy(){
         WXCtr.setStorageData("lastPowerTime",new Date().getTime());
         WXCtr.setStorageData("powerTime", GameData.powerTime);
+        EventManager.off("UPDATE_GOLD", this.refreshGold, this);
+        EventManager.off("UPDATE_DIAMOND", this.refreshDiamod, this);
     }
 }

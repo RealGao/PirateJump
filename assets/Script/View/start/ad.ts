@@ -21,7 +21,6 @@ export default class NewClass extends cc.Component {
         let obj = {appid:data.id,path:data.path}
         this._adSprite.on(cc.Node.EventType.TOUCH_START, ()=>{
             WXCtr.gotoOther(obj);
-            HttpCtr.reportClickInfo(data.affair,data.id);
         });
         this._adName.getComponent(cc.Label).string=data.name;
     }

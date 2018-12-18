@@ -15,7 +15,7 @@ export default class Http {
         /**
          * 成功
          */
-        OK: "300",
+        OK: 0,
     };
 
     public static readonly UrlConfig = UrlConfig;
@@ -43,10 +43,13 @@ export default class Http {
         if (!url) {
             return;
         }
+        if(!rootUrl) {
+            rootUrl = this.rootUrl;
+        }
         if (!/^http/.test(url) && rootUrl) {
             url = rootUrl + url;
         }
-        cc.log('request url:%s method:%s', url, method);
+        console.log('request url:%s method:%s', url, method);
 
         if (!data.tk) {
             // let time = new Date().getTime();

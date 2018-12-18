@@ -7,8 +7,15 @@ import HttpCtr from "../../Controller/HttpCtr";
 import ViewManager from "../../Common/ViewManager";
 
 import AudioManager from "../../Common/AudioManager";
+import EventManager from "../../Common/EventManager";
 
 const {ccclass, property} = cc._decorator;
+enum Shop{
+    maps=0,
+    props,
+    homeWorld,
+    characters,
+}
 declare let require: any;
 @ccclass
 export default class Start extends cc.Component {
@@ -56,35 +63,45 @@ export default class Start extends cc.Component {
         GameCtr.getInstance().setStart(this); 
         this.loadPackages();
         this.initNode();
-       
         this.initBgMusic();
         this.initSoundState();
         WXCtr.getFriendRankingData();
         this.initPublicNode();
         if(GameCtr.HadEnterdGame){
+            GameCtr.getInstance().getPublic().hidePowerNode();
             GameCtr.getInstance().getPublic().initPowerTime();
-            GameCtr.getInstance().getPublic().showGold();
-            GameCtr.getInstance().getPublic().showDiamond();
+            // GameCtr.getInstance().getPublic().showGold();
+            // GameCtr.getInstance().getPublic().showDiamond();
             GameCtr.getInstance().getPublic().showPower();
         }
-        
+        GameData.getAllLocalGameData();
+        EventManager.on("REFRESH_BTN", this.refreshBtns, this);
     }
 
+    onDestroy() {
+        EventManager.off("REFRESH_BTN", this.refreshBtns, this);
+    }
 
+    start() {
+        
+    }
 
     startGame() {
         this.getBonusDiamonds();
         this.updateBtnShopState();
         this.updateBtnAchieveState();
         GameData.achievementsLevelData=GameData.getAchievementsLevelData();
+        GameCtr.getInstance().getPublic().hidePowerNode();
         GameCtr.getInstance().getPublic().initPowerTime();
-        GameCtr.getInstance().getPublic().showGold();
-        GameCtr.getInstance().getPublic().showDiamond();
+        // GameCtr.getInstance().getPublic().showGold();
+        // GameCtr.getInstance().getPublic().showDiamond();
         GameCtr.getInstance().getPublic().showPower();
         WXCtr.onShow(() => {
             WXCtr.isOnHide = false;
             this.initBgMusic();
         });
+        this.scheduleOnce(()=>{GameData.judgeShopBtns();}, 1)
+        WXCtr.createBannerAd(100,300);
     }
 
     loadPackages() {
@@ -122,12 +139,14 @@ export default class Start extends cc.Component {
     initBtnsNode(){
         let btn_music=this._btnsNode.getChildByName("btn_music");
         let btn_help=this._btnsNode.getChildByName("btn_help");
-        let btn_start=this._btnsNode.getChildByName("StartBtn").getChildByName("btnStartNode").getChildByName("btn_start");
+        let btn_start=this._btnsNode.getChildByName("btn_start");
         let btn_invite=this._btnsNode.getChildByName("btn_invite");
         let btn_achievement=this._btnsNode.getChildByName("btn_achievement");
         let btn_rank=this._btnsNode.getChildByName("btn_rank");
         let btn_more=this._btnsNode.getChildByName("btn_more");
-        let btn_shop=this._btnsNode.getChildByName("btn_shop");
+        let btn_prop=this._btnsNode.getChildByName("btn_prop");
+        let btn_map=this._btnsNode.getChildByName("btn_map");
+        let btn_role=this._btnsNode.getChildByName("btn_role");
         let btn_treatureBox=this._btnsNode.getChildByName("btn_treatureBox");
 
         this.initBtnEvent(btn_music);
@@ -137,8 +156,23 @@ export default class Start extends cc.Component {
         this.initBtnEvent(btn_achievement);
         this.initBtnEvent(btn_rank);
         this.initBtnEvent(btn_more);
-        this.initBtnEvent(btn_shop);
+        this.initBtnEvent(btn_prop);
+        this.initBtnEvent(btn_map);
+        this.initBtnEvent(btn_role);
         this.initBtnEvent(btn_treatureBox); 
+    }
+
+    refreshBtns(event) {
+        let nd;
+        if(event.detail == "prop"){
+            nd = this._btnsNode.getChildByName("btn_prop");
+        }else if(event.detail == "map") {
+            nd = this._btnsNode.getChildByName("btn_map");
+        }else if(event.detail == "role") {
+            nd = this._btnsNode.getChildByName("btn_role");
+        }
+        let tip = nd.getChildByName("btn_exclaim");
+        tip.active = true;
     }
 
     initBtnEvent(btn){
@@ -148,23 +182,15 @@ export default class Start extends cc.Component {
                 localStorage.setItem("musicState",GameCtr.musicState+'');
                 this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
-                this.showHelp();
+                ViewManager.showHelpPop();
                 // GameData.gold=100000;
                 // GameData.diamond=50000;
                 // GameData.power=99;
                 // GameCtr.getInstance().getPublic().showGold();
                 // GameCtr.getInstance().getPublic().showDiamond();
                 // GameCtr.getInstance().getPublic().showPower();
-                // GameData.map1=-1;
-                // GameData.map2=-1;
-                // GameData.map3=-1;
-
-                // GameData.gold_crutch=-1;
-                // GameData.gold_hook=-1;
-                // GameData.gold_leavened=-1;
-                // GameData.gold_sparklet=-1;
+                
             }else if(e.target.getName()=="btn_start"){
-                //GameCtr.gameStart();
                 if(GameData.power>=5){
                     cc.director.loadScene("Game");
                 }else{
@@ -173,11 +199,21 @@ export default class Start extends cc.Component {
             }else if(e.target.getName()=="btn_invite"){
                
             }else if(e.target.getName()=="btn_achievement"){
-                this.showAchievement();
+                ViewManager.showArchievePop();
             }else if(e.target.getName()=="btn_treatureBox"){
                 this.showTreatureBox();
-            }else if(e.target.getName()=="btn_shop"){
-                this.showShop();
+            }else if(e.target.getName()=="btn_prop"){
+                let tip = e.target.getChildByName("btn_exclaim");
+                tip.active = false;
+                this.showShop(Shop.props);
+            }else if(e.target.getName()=="btn_map"){
+                let tip = e.target.getChildByName("btn_exclaim");
+                tip.active = false;
+                this.showShop(Shop.maps);
+            }else if(e.target.getName()=="btn_role"){
+                let tip = e.target.getChildByName("btn_exclaim");
+                tip.active = false;
+                this.showShop(Shop.characters);
             }else if(e.target.getName()=="btn_addDiamond"){
 
             }else if(e.target.getName()=="btn_addPower"){
@@ -211,35 +247,18 @@ export default class Start extends cc.Component {
         }
     }
 
-    
-
-    
-
-    showHelp(){
-        if(cc.find("Canvas").getChildByName("help")){
-            return;
-        }
-        let help=cc.instantiate(this.pfHelp);
-        help.parent=cc.find("Canvas");
-        help.setLocalZOrder(30);
+    fastRoleChange() {
+        this.showShop(Shop.characters);
     }
 
-    showAchievement(){
-        if(cc.find("Canvas").getChildByName("achievement")){
-            return;
-        }
-        let achievement=cc.instantiate(this.pfAchievement);
-        achievement.parent=cc.find("Canvas");
-        achievement.setLocalZOrder(30);
+    showShop(shopType){
+        GameData.currentShopIndex = shopType;
+        ViewManager.showMall();
     }
 
-
-    showShop(){
-        if(cc.find("Canvas").getChildByName("shop")){
-            return;
-        }
-        let shop=cc.instantiate(this.pfShop);
-        shop.parent=cc.find("Canvas");
+    showRoleInfo() {
+        let info = GameData.rolesDes[GameData.currentRole];
+        ViewManager.showCommonNote(info);
     }
 
     showRank(){
@@ -250,7 +269,6 @@ export default class Start extends cc.Component {
             let rank=cc.instantiate(this.pfRank);
             rank.parent=cc.find("Canvas");
             rank.setLocalZOrder(30);
-            HttpCtr.clickStatistics(GameCtr.StatisticType.RANKING);                               //排行榜点击统计
         } else {
             ViewManager.showAuthPop();
         }

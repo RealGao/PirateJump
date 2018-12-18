@@ -1,6 +1,8 @@
+import PromptDialog from "../View/view/PromptDialog";
+
 const {ccclass, property} = cc._decorator;
 @ccclass
-export default class NewClass extends cc.Component {
+export default class note extends PromptDialog {
 
     _bg=null;
     _lb_title=null;
@@ -27,7 +29,8 @@ export default class NewClass extends cc.Component {
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_close"){
-                this.node.destroy();
+                // this.node.destroy();
+                super.dismiss();
             }
         })
     }

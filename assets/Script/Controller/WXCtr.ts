@@ -17,9 +17,9 @@ enum Message_Type {
     Submit_SelfScore,                   //提交自己得分
     Compare_Score,                      //比较自己与好友得分
     Show_WholeRanking,                  //显示完整排行榜   
-    Show_OverRanking,                   //显示结束排行榜
+    Show_MiniRanking,                   //显示结束排行榜
     Close_WholeRanking,                 //关闭好友排行
-    Close_OverRanking,                  //关闭结束排行
+    Close_MiniRanking,                  //关闭结束排行
     Show_recorder,                      //显示地图记录
     Close_recorder,                     //关闭地图记录
 };
@@ -36,9 +36,10 @@ export default class WXCtr {
     static shareTitle;
     static shareImg;
     static videoAd = null;
+    static videoId = "adunit-ed32293d7c3ab6fa";
     static videoAdCallback = null;
     static bannerAd = null;
-    static bannerId = null;
+    static bannerId = "adunit-359a0d6113415118";
     static launchOption;
     static userInfoBtn = null;
     static gameClubBtn;
@@ -124,6 +125,7 @@ export default class WXCtr {
                         // 未询问过用户授权，调用相关 API 或者 wx.authorize 会弹窗询问用户
                         WXCtr.authed = false;
                     }
+                    WXCtr.wxOnLogin();
                 }
             });
         }
@@ -196,9 +198,10 @@ export default class WXCtr {
         if (!WXCtr.userInfoBtn) return;
         let call: Function = (res) => {
             if (res.userInfo) {
-                WXCtr.wxGetUsrInfo();
+                // WXCtr.wxGetUsrInfo();
                 WXCtr.userInfoBtn.hide();
                 WXCtr.authed = true;
+                WXCtr.wxOnLogin();
                 callback(true);
             } else {
                 callback(false);
@@ -249,7 +252,13 @@ export default class WXCtr {
             
             window.wx.login({
                 success: function (loginResp) {
-                    HttpCtr.login(loginResp.code);
+                    if(WXCtr.authed){
+                        WXCtr.wxGetUsrInfo((data)=>{
+                            HttpCtr.login(loginResp.code, data); 
+                        });
+                    }else{
+                        HttpCtr.login(loginResp.code, null); 
+                    }
                 },
                 fail: function (res) {
                     console.log("微信登录失败!!");
@@ -300,19 +309,21 @@ export default class WXCtr {
     }
 
     static wxGetUsrInfo(callback = null) {
+        console.log("从微信获取个人信息！！！！")
         if (window.wx != undefined) {
             window.wx.getUserInfo({
                 openIdList: ['selfOpenId'],
                 withCredentials: true,
                 success: function (res) {
+                    console.log("从微信获取个人信息成功 == ", res);
                     let info = res.userInfo;
                     WXCtr.authed = true;
-                    HttpCtr.saveUserInfo(res);
                     if (callback) {
-                        callback(info);
+                        callback(res);
                     }
                 },
                 fail: function (res) {
+                    console.log("从微信获取个人信息失败 == ", res);
                 }
             })
         }
@@ -384,9 +395,9 @@ export default class WXCtr {
         }
     }
 
-    static setVideoAd(videoId) {
+    static setVideoAd() {
         if (window.wx != undefined && wx.createRewardedVideoAd) {
-            WXCtr.videoAd = wx.createRewardedVideoAd({ adUnitId: videoId });
+            WXCtr.videoAd = wx.createRewardedVideoAd({ adUnitId: WXCtr.videoId });
             WXCtr.videoAd.onLoad(() => {
             });
             WXCtr.videoAd.load();
@@ -410,7 +421,6 @@ export default class WXCtr {
             if (res && res.isEnded || res === undefined) {
                 // 正常播放结束，可以下发游戏奖励
                 callback(true);
-                HttpCtr.videoCheck(WXCtr.launchOption.query);
             }
             else {
                 // 播放中途退出，不下发游戏奖励
@@ -487,6 +497,7 @@ export default class WXCtr {
             qureyInfo = "invite=";
         }
         if (window.wx != undefined) {
+            console.log("shareAppMessage!!!!!!!!!!!")
             window.wx.shareAppMessage({
                 title: WXCtr.shareTitle,
                 imageUrl: WXCtr.shareImg,
@@ -507,30 +518,20 @@ export default class WXCtr {
         }
     }
 
-    //获取分享转发详细信息
-    static getWxShareInfo(shareTicket, callback) {
-        if (window.wx != undefined) {
-            window.wx.getShareInfo({
-                shareTicket: shareTicket,
-                success: (resp) => {
-                    if (resp.encryptedData && resp.iv) {
-                        HttpCtr.shareGroupCheck(resp.encryptedData, resp.iv, callback);
-                    }
-                },
-            });
-        }
-    }
 
     static getStorageData(key, defaultValue = 0) {
         if (window.wx != undefined) {
             let value = wx.getStorageSync(key);
+            console.log("getStorageData key == ", key);
             console.log("log----------value=:",value);
             console.log("typeof(value) == ", typeof(value));
-            if((!value && typeof(value)!="undefined" && value!=0) || typeof(value) == "undefined" || value == "") value = defaultValue;
+            if((!value && typeof(value) != "number") || typeof(value) == "undefined" || value === "") {
+                value = defaultValue;
+            }
             return value;
         }
     }
-
+ 
     static setStorageData(key, data) {
         if (window.wx != undefined) {
             wx.setStorage({
@@ -653,6 +654,27 @@ export default class WXCtr {
         }
     }
 
+    //显示迷你排行
+    static showMiniRanking(map) {
+        if(window.wx != undefined) {
+            console.log("主域发送消息____显示迷你排行");
+            window.wx.postMessage({
+                messageType: Message_Type.Show_MiniRanking,
+                map: map,
+            });
+        }
+    }
+
+    //关闭迷你排行
+    static closeMiniRanking() {
+        if (window.wx != undefined) {
+            console.log("主域发送消息____关闭迷你排行");
+            window.wx.postMessage({
+                messageType: Message_Type.Close_MiniRanking,
+            });
+        }
+    }
+
     static showMapsRecorder(){
         if (window.wx != undefined) {
             console.log("主域发送消息____显示地图得分记录者");
@@ -688,6 +710,18 @@ export default class WXCtr {
 
                 SCORE_KEY4: "map4Score",
                 score4: _score4,
+            });
+        }
+    }
+
+    //比较分数（超越好友）
+    static compareScore(map, score, type) {
+        if(window.wx != undefined) {
+            window.wx.postMessage({
+                messageType: Message_Type.Compare_Score,
+                mapIndex: map,
+                score: score,
+                type: type
             });
         }
     }

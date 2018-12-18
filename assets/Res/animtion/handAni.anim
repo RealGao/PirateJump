@@ -1,0 +1,180 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "handAni",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 1,
+  "sample": 30,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            33,
+            -290
+          ]
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": [
+            20,
+            -291
+          ]
+        },
+        {
+          "frame": 0.5,
+          "value": [
+            14,
+            -292
+          ]
+        },
+        {
+          "frame": 0.7666666666666667,
+          "value": [
+            40,
+            -284
+          ]
+        },
+        {
+          "frame": 1,
+          "value": [
+            33,
+            -290
+          ]
+        }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": -20
+        },
+        {
+          "frame": 0.5,
+          "value": -35
+        },
+        {
+          "frame": 0.7666666666666667,
+          "value": 0
+        },
+        {
+          "frame": 1,
+          "value": 0
+        }
+      ]
+    },
+    "paths": {
+      "guideCir": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 2,
+                "y": 2
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.4666666666666667,
+              "value": 0
+            },
+            {
+              "frame": 0.5,
+              "value": 255
+            },
+            {
+              "frame": 0.7333333333333333,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 0
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 0.43333333333333335,
+              "value": [
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 0.4666666666666667,
+              "value": [
+                -7.8,
+                43
+              ]
+            },
+            {
+              "frame": 0.7333333333333333,
+              "value": [
+                -29.4,
+                42.6
+              ]
+            },
+            {
+              "frame": 0.7666666666666667,
+              "value": [
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 1,
+              "value": [
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

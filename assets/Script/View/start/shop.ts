@@ -1,6 +1,7 @@
 import GameCtr from "../../Controller/GameCtr";
 import GameData from "../../Common/GameData";
 import WXCtr from "../../Controller/WXCtr";
+import PromptDialog from "../view/PromptDialog";
 
 const {ccclass, property} = cc._decorator;
 
@@ -12,7 +13,7 @@ enum Shop{
 }
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class shop extends PromptDialog {
     _btnsNode=null;
     _lb_title=null;
     _mask=null;
@@ -30,14 +31,11 @@ export default class NewClass extends cc.Component {
     onLoad(){
         this.initNode();
         GameCtr.getInstance().setShop(this);
-        console.log("log---------cc.director.getScene().name=:",cc.director.getScene().name);
-        if(cc.director.getScene().name=="Start"){
-            GameCtr.getInstance().getStart().showStartBtns(false);
-        }
     }
 
     start(){
         this.showCurrentShop();
+        this.showPublic();
     }
 
     initNode(){
@@ -50,6 +48,12 @@ export default class NewClass extends cc.Component {
         this._mask=this.node.getChildByName("mask");
         this._mask.active=false;
         this.initBtnsNode();
+    }
+
+    showPublic() {
+        let comp = this.node.getChildByName("publicNode").getComponent("PublicNode");
+        comp.showGold();
+        comp.showDiamond();
     }
 
     initBtnsNode(){
@@ -80,13 +84,7 @@ export default class NewClass extends cc.Component {
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_back"){
-                console.log("cc.director.getScene().name=:",cc.director.getScene().name);
-                if(cc.director.getScene().name=="Start"){
-                    this.node.destroy();
-                    GameCtr.getInstance().getStart().showStartBtns(true);
-                }else if(cc.director.getScene().name=="Game"){
-                    cc.director.loadScene("Start");
-                }
+                super.dismiss();
             }else if(e.target.getName()=="btn_maps"){
                 if(cc.find("Canvas").getChildByName("mapsNode")){return;}
                 this.showMapsNode();
@@ -206,6 +204,7 @@ export default class NewClass extends cc.Component {
     }
 
     updateBtnMapsState(){
+        if(!this._tipBuyMaps) return;
         if(GameData.canBuyMaps()){
             this._tipBuyMaps.active=true;
         }else{
@@ -214,6 +213,7 @@ export default class NewClass extends cc.Component {
     }
 
     updateBtnPropsState(){
+        if(!this._tipBuyProps) return;
         if(GameData.canBuyProps()){
             this._tipBuyProps.active=true;
         }else{
@@ -222,6 +222,7 @@ export default class NewClass extends cc.Component {
     }
 
     updateBtnCharactorsState(){
+        if(!this._tipBuyCharactor) return;
         if(GameData.canBuyCharactors()){
             this._tipBuyCharactor.active=true;
         }else{

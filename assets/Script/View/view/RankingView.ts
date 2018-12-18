@@ -43,7 +43,6 @@ export default class RankingView extends cc.Component {
 
     onLoad() {
         this.tex = new cc.Texture2D();
-        WXCtr.initSharedCanvas();
     }
 
     onDestroy() {

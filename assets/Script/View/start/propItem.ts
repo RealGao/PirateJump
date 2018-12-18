@@ -57,13 +57,15 @@ export default class NewClass extends cc.Component {
                 AudioManager.getInstance().playSound("audio/buy");
                 GameData.addProp(this._info.name);
                 GameData.gold-=this._info.priceGold;
-                GameCtr.getInstance().getPublic().showGold();
+                // GameCtr.getInstance().getPublic().showGold();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
                 }else if(cc.director.getScene().name=="Game"){
-                    GameCtr.ins.mGameOver.updateBtnShopState();
+                    // GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getShop().upBtnsState();
+                if(GameCtr.ins.mShop) {
+                    GameCtr.getInstance().getShop().upBtnsState();
+                }
                 this.showCount();
             }else{
                 GameCtr.getInstance().getToast().toast("金币不足");
@@ -74,13 +76,15 @@ export default class NewClass extends cc.Component {
                 AudioManager.getInstance().playSound("audio/buy");
                 GameData.addProp(this._info.name);
                 GameData.diamond-=this._info.priceDiamond;
-                GameCtr.getInstance().getPublic().showDiamond();
+                // GameCtr.getInstance().getPublic().showDiamond();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
                 }else if(cc.director.getScene().name=="Game"){
-                    GameCtr.ins.mGameOver.updateBtnShopState();
+                    // GameCtr.ins.mGameOver.updateBtnShopState();
                 }
-                GameCtr.getInstance().getShop().upBtnsState();
+                if(GameCtr.ins.mShop) {
+                    GameCtr.getInstance().getShop().upBtnsState();
+                }
                 this.showCount();
             }else{
                 GameCtr.getInstance().getToast().toast("钻石不足");
@@ -108,12 +112,13 @@ export default class NewClass extends cc.Component {
     }
 
     showDes(){
-        if(cc.find("Canvas").getChildByName("note")){
-            return;
-        }
-        let des=cc.instantiate(this.pfNote);
-        des.parent=cc.find("Canvas");
-        des.setLocalZOrder(50);
-        des.getComponent("note").showNote(this._info);
+        // if(cc.find("Canvas").getChildByName("note")){
+        //     return;
+        // }
+        // let des=cc.instantiate(this.pfNote);
+        // des.parent=cc.find("Canvas");
+        // des.setLocalZOrder(50);
+        // des.getComponent("note").showNote(this._info);
+        ViewManager.showCommonNote(this._info);
     }
 }

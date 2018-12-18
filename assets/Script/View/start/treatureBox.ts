@@ -121,7 +121,6 @@ export default class NewClass extends cc.Component {
                             GameCtr.getInstance().getToast().toast("视频未看完");
                         }
                     });
-                    HttpCtr.clickStatistics(GameCtr.StatisticType.OFF_LINE_VEDIO);          //离线视频收益点击统计
                 }
             }
         })
@@ -191,12 +190,12 @@ export default class NewClass extends cc.Component {
 
         if(bonus.diamond>0){
             GameData.diamond+=bonus.diamond;
-            GameCtr.getInstance().getPublic().showDiamond();
+            // GameCtr.getInstance().getPublic().showDiamond();
         }
 
         if(bonus.gold>0){
             GameData.gold+=bonus.gold;
-            GameCtr.getInstance().getPublic().showGold();
+            // GameCtr.getInstance().getPublic().showGold();
         }
 
         if(bonus.prop){

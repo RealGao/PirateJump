@@ -1,10 +1,12 @@
 import GameCtr from "../../Controller/GameCtr";
+import PromptDialog from "../view/PromptDialog";
+import Guide from "../game/Guide";
 
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class NewClass extends PromptDialog {
     _bg=null;
     _btn_close=null;
 
@@ -22,7 +24,9 @@ export default class NewClass extends cc.Component {
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_close"){
-                this.node.destroy();
+                // this.node.destroy();
+                Guide.setGuideStorage();
+                super.dismiss();
             }
         })
     }

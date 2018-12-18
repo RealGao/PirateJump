@@ -12,6 +12,8 @@ enum Model{
     unlimited,//无限模式
 }
 
+const mapsName = ["map1", "map2", "map3", "map4"]; 
+
 @ccclass
 export default class NewClass extends cc.Component {
     _btn_rankWorld=null;
@@ -45,14 +47,14 @@ export default class NewClass extends cc.Component {
     pfRankItem:cc.Prefab=null;
 
     onLoad(){
-        WXCtr.initSharedCanvas();
         this.initNode();
         this.showWorldRank();
-        this.requestRank();
+        this.requestRank(this._currentModel);
     }
 
     initNode(){
         this._tex= new cc.Texture2D();
+        WXCtr.initSharedCanvas();
         this._modelSprite=this.node.getChildByName("modelSprite");
 
         this._btn_rankWorld=this.node.getChildByName("btn_rankWorld");
@@ -95,27 +97,34 @@ export default class NewClass extends cc.Component {
             }else if(e.target.getName()=="btn_rankWorld"){
 
             }else if(e.target.getName()=="btn_pageDown"){
-                if((this._currentPage+1)*6>this._currentRankList.length){
-                    return;
-                }
-                this._currentPage++;
+                console.log("this._currentPage == ", this._currentPage + "  this._currentRankList.length == ", this._currentRankList.length);
+                
                 if(this._rankWorldNode.active){
+                    if((this._currentPage+1)*6>this._currentRankList.length){
+                        return;
+                    }
+                    this._currentPage++;
                     this.showRank();
                 }
 
                 if(this._rankFriendNode.active){
+                    console.log("显示好友榜下一页")
+                    this._currentPage++;
                     WXCtr.showFriendRanking(this._currentModel,this._currentPage);
                 }
                 
             }else if(e.target.getName()=="btn_pageUp"){
+                console.log("this._currentPage == ", this._currentPage);
                 if(this._currentPage<=0){
                     return;
                 }
                 this._currentPage--;
                 if(this._rankWorldNode.active){
+                    
                     this.showRank();
                 }
                 if(this._rankFriendNode.active){
+                    console.log("显示好友榜上一页")
                     WXCtr.showFriendRanking(this._currentModel,this._currentPage);
                 }
             }else if(e.target.getName()=="btn_fight"){
@@ -168,7 +177,7 @@ export default class NewClass extends cc.Component {
         this._currentModel=this._currentModel>3?0:this._currentModel;
         this._modelSprite.getComponent(cc.Sprite).spriteFrame=this.modelSpriteFrames[this._currentModel];
         if(this._rankWorldNode.active){
-            this.requestRank();
+            this.requestRank(this._currentModel);
         }else if(this._rankFriendNode.active){
             WXCtr.showFriendRanking(this._currentModel);
         }
@@ -177,7 +186,7 @@ export default class NewClass extends cc.Component {
 
     showRankList(res){ 
         this._currentRankList.splice(0,this._currentRankList.length);
-        for(let i in res.data){
+        for(let i = 0; i< res.data.length; i++){
             this._currentRankList.push(res.data[i]);
         }
         console.log("log-----------showRankList=:",this._currentRankList);
@@ -195,19 +204,18 @@ export default class NewClass extends cc.Component {
             rankItem.x=-11;
             rankItem.y=280-91.5*(i%6);
             rankItem.getComponent("rankItem").setModel(this._currentModel);
-            rankItem.getComponent("rankItem").setName(this._currentRankList[i].nick);
-            rankItem.getComponent("rankItem").setRank(this._currentRankList[i].top);
-            rankItem.getComponent("rankItem").setScore(this._currentRankList[i].value);
-            rankItem.getComponent("rankItem").setHeadImg(this._currentRankList[i].Icon)
+            rankItem.getComponent("rankItem").setName(this._currentRankList[i].nickName);
+            rankItem.getComponent("rankItem").setRank(this._currentRankList[i].index);
+            rankItem.getComponent("rankItem").setScore(this._currentRankList[i].val);
+            rankItem.getComponent("rankItem").setHeadImg(this._currentRankList[i].avatarUrl)
         }
     }
 
 
-    requestRank(){
-        let protocal="level"+(this._currentModel+1)
-        HttpCtr.getWorldRankingList((res)=>{
+    requestRank(map){
+        HttpCtr.getWorldRankingList(mapsName[map] ,(res)=>{
             this.showRankList(res);
-        },protocal);
+        });
     }
 
     update() {
@@ -218,6 +226,7 @@ export default class NewClass extends cc.Component {
     _updateSubDomainCanvas() {
         if (window.sharedCanvas != undefined && this._tex != null && this._rankFriendNode.active && this._rankFriendSprite ) {
             //console.log("log---------刷新子域的纹理");
+            console.log("window.sharedCanvas.width == ", window.sharedCanvas.width);
             this._tex.initWithElement(window.sharedCanvas);
             this._tex.handleLoadedTexture();
             this._rankFriendSprite.spriteFrame = new cc.SpriteFrame(this._tex);

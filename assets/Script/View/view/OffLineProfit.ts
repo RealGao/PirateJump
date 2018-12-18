@@ -53,7 +53,6 @@ export default class OffLineProfit extends cc.Component {
                 this.close();
             }
         })
-        HttpCtr.clickStatistics(GameCtr.StatisticType.OFF_LINE_SHARE);              //离线分享收益点击统计
     }
 
     clickVedio() {
@@ -67,7 +66,6 @@ export default class OffLineProfit extends cc.Component {
                 }
                 this.close();
             });
-            HttpCtr.clickStatistics(GameCtr.StatisticType.OFF_LINE_VEDIO);          //离线视频收益点击统计
         }
     }
 

@@ -110,11 +110,11 @@ export default class NewClass extends cc.Component {
         if(GameData.diamond>=this._priceGet){
             GameData.diamond-=this._priceGet;
             GameData.homeWorldPropLevelUp(this._name);
-            GameCtr.getInstance().getPublic().showDiamond();
+            // GameCtr.getInstance().getPublic().showDiamond();
             if(cc.director.getScene().name=="Start"){
                 GameCtr.getInstance().getStart().updateBtnShopState();
             }else if(cc.director.getScene().name=="Game"){
-                GameCtr.ins.mGameOver.updateBtnShopState();
+                // GameCtr.ins.mGameOver.updateBtnShopState();
             }
             GameCtr.getInstance().getShop().upBtnsState();
             this.setLevel();
@@ -135,11 +135,11 @@ export default class NewClass extends cc.Component {
         if(GameData.diamond>=this._priceLevelUp){
             GameData.diamond-=this._priceLevelUp;
             GameData.homeWorldPropLevelUp(this._name);
-            GameCtr.getInstance().getPublic().showDiamond();
+            // GameCtr.getInstance().getPublic().showDiamond();
             if(cc.director.getScene().name=="Start"){
                 GameCtr.getInstance().getStart().updateBtnShopState();
             }else if(cc.director.getScene().name=="Game"){
-                GameCtr.ins.mGameOver.updateBtnShopState();
+                // GameCtr.ins.mGameOver.updateBtnShopState();
             }
             GameCtr.getInstance().getShop().upBtnsState();
             this.setLevel();

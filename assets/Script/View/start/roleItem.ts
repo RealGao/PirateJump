@@ -87,11 +87,11 @@ export default class NewClass extends cc.Component {
                 AudioManager.getInstance().playSound("audio/buy");
                 GameData.currentRole=this._roleInfo.id;
                 GameData.gold-=this._roleInfo.price_gold;
-                GameCtr.getInstance().getPublic().showGold();
+                // GameCtr.getInstance().getPublic().showGold();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
                 }else if(cc.director.getScene().name=="Game"){
-                    GameCtr.ins.mGameOver.updateBtnShopState();
+                    // GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 GameData.addGoldByName(this._roleInfo.name);
                 this.node.parent.parent.getComponent("charactersNode").hideSeletedStates();
@@ -114,11 +114,11 @@ export default class NewClass extends cc.Component {
                 }
                 GameData.currentRole=this._roleInfo.id;
                 GameData.diamond-=this._roleInfo.price_diamond;
-                GameCtr.getInstance().getPublic().showDiamond();
+                // GameCtr.getInstance().getPublic().showDiamond();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
                 }else if(cc.director.getScene().name=="Game"){
-                    GameCtr.ins.mGameOver.updateBtnShopState();
+                    // GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 
                 GameData.addGoldByName(this._roleInfo.name);
@@ -171,13 +171,14 @@ export default class NewClass extends cc.Component {
     }
 
     showDes(){
-        if(cc.find("Canvas").getChildByName("note")){
-            return;
-        }
-        let note=cc.instantiate(this.pfNote);
-        note.parent=cc.find("Canvas");
-        note.setLocalZOrder(50);
-        note.getComponent("note").showNote(this._roleInfo.des);
+        // if(cc.find("Canvas").getChildByName("note")){
+        //     return;
+        // }
+        // let note=cc.instantiate(this.pfNote);
+        // note.parent=cc.find("Canvas");
+        // note.setLocalZOrder(50);
+        // note.getComponent("note").showNote(this._roleInfo.des);
+        ViewManager.showCommonNote(this._roleInfo.des);
     }
 
     getLevel(){

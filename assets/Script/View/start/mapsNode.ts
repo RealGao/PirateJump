@@ -17,7 +17,6 @@ export default class NewClass extends cc.Component {
     pfPublicNode:cc.Prefab=null;
 
     onLoad(){
-        WXCtr.initSharedCanvas();
         this.initNode();
         this.initMapsListener();
     }

@@ -82,7 +82,7 @@ export default class GameCtr {
         WXCtr.getSystemInfo();
         WXCtr.getAuthSetting();
         WXCtr.showShareMenu();
-        WXCtr.getNetworkType();
+        WXCtr.initSharedCanvas();
     }
 
     static getInstance() {
@@ -181,11 +181,12 @@ export default class GameCtr {
     }
 
     // 游戏结束
-    static gameOver() {
-        GameCtr.ins.mGame.gameOver();
-        setTimeout(() => {
-            GameCtr.ins.mGameOver.showResult();
-        }, 1500);
+    static gameOver(type) {
+        GameCtr.isGameOver = true;
+        GameCtr.ins.mGame.gameOver(type);
+        // setTimeout(() => {
+        //     GameCtr.ins.mGameOver.showResult();
+        // }, 1500);
     }
 
     // 游戏开始

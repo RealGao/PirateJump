@@ -105,11 +105,11 @@ export default class NewClass extends cc.Component {
                 }
                 AudioManager.getInstance().playSound("audio/buy");
                 GameData.gold-=this._info.gold_price;
-                GameCtr.getInstance().getPublic().showGold();
+                // GameCtr.getInstance().getPublic().showGold();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
                 }else if(cc.director.getScene().name=="Game"){
-                    GameCtr.ins.mGameOver.updateBtnShopState();
+                    // GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                 this._btn_buy.active=false;
                 this.setLockState(true);
@@ -128,11 +128,11 @@ export default class NewClass extends cc.Component {
                     return;
                 }
                 GameData.diamond-=this._info.diamond_price;
-                GameCtr.getInstance().getPublic().showDiamond();
+                // GameCtr.getInstance().getPublic().showDiamond();
                 if(cc.director.getScene().name=="Start"){
                     GameCtr.getInstance().getStart().updateBtnShopState();
                 }else if(cc.director.getScene().name=="Game"){
-                    GameCtr.ins.mGameOver.updateBtnShopState();
+                    // GameCtr.ins.mGameOver.updateBtnShopState();
                 }
                
                 this._btn_buy.active=false;
@@ -201,13 +201,14 @@ export default class NewClass extends cc.Component {
     }
 
     showDes(){
-        if(cc.find("Canvas").getChildByName("note")){
-            return;
-        }
-        let note=cc.instantiate(this.pfNote);
-        note.parent=cc.find("Canvas");
-        note.setLocalZOrder(50);
-        note.getComponent("note").showNote(this._info)
+        // if(cc.find("Canvas").getChildByName("note")){
+        //     return;
+        // }
+        // let note=cc.instantiate(this.pfNote);
+        // note.parent=cc.find("Canvas");
+        // note.setLocalZOrder(50);
+        // note.getComponent("note").showNote(this._info)
+        ViewManager.showCommonNote(this._info);
     }
 
     getState(){

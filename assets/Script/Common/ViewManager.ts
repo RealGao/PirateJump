@@ -8,6 +8,7 @@ import PromptDialog from "../View/view/PromptDialog";
 import ToastView from "../View/view/ToastView";
 import GameCtr from "../Controller/GameCtr";
 import AuthPop from "../View/view/AuthPop";
+import note from "./note";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,6 +25,11 @@ export default class ViewManager extends cc.Component {
     static readonly View = {
         PromptDialog: "PromptDialog",//提示弹窗
         ToastView: "ToastView",//Toast提示
+        Mall: "Mall",//商店弹窗
+        PowerShop: "PowerShop",
+        HelpPop: "HelpPop",//帮助弹窗
+        Archieve: "Archieve",//成就弹窗
+        CommonNote: "CommonNote",//通用信息说明弹窗
     }
 
     @property(cc.Prefab)
@@ -33,10 +39,19 @@ export default class ViewManager extends cc.Component {
     promptDialog: cc.Prefab = null;//提示弹窗
 
     @property(cc.Prefab)
-    ranking: cc.Prefab = null;
+    pfMall: cc.Prefab = null;
 
     @property(cc.Prefab)
-    shareGold: cc.Prefab = null;
+    pfPowerNotEnough: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    pfHelp: cc.Prefab = null; //帮助弹窗
+
+    @property(cc.Prefab)
+    pfArchieve: cc.Prefab = null; //成就弹窗
+
+    @property(cc.Prefab)
+    pfCommonNote: cc.Prefab = null; //通用信息说明弹窗
 
     @property(cc.Prefab)
     toastView: cc.Prefab = null;
@@ -330,33 +345,46 @@ export default class ViewManager extends cc.Component {
         });
     }
 
-    /**
-     * 显示分享得金币弹窗
-     */
-    static showShareGold() {
-        if(GameCtr.shareGoldTimes <= 0) {
-            return;
-        }
-        if(ViewManager.mViewManager.popupViewMap["shareGold"]) return;
-        let nd = cc.instantiate(ViewManager.mViewManager.shareGold);
-        ViewManager.showPromptDialog({
+    static showMall() {
+        let nd = cc.instantiate(ViewManager.mViewManager.pfMall);
+        ViewManager.show({
             node: nd,
-            name: "shareGold",
-            title: "分享立得",
-            closeButton: true,
-            transition: false
+            name: ViewManager.View.Mall,
+            localZOrder: ViewManager.LocalZOrder.PromptDialog,
+            mask: false
         });
     }
 
-    /**
-     * 显示排行榜
-     */
-    static showRanking() {
-        let nd = cc.instantiate(ViewManager.mViewManager.ranking);
-        ViewManager.showPromptDialog({
+    static showPowerNotEnough() {
+        let nd = cc.instantiate(ViewManager.mViewManager.pfPowerNotEnough);
+        ViewManager.show({
             node: nd,
-            closeButton: true,
-            transition: false,
+            name: ViewManager.View.PowerShop,
+            localZOrder: ViewManager.LocalZOrder.PromptDialog,
+            mask: true,
+            maskOpacity: 200,
+        });
+    }
+
+    static showHelpPop() {
+        let nd = cc.instantiate(ViewManager.mViewManager.pfHelp);
+        ViewManager.show({
+            node: nd,
+            name: ViewManager.View.HelpPop,
+            localZOrder: ViewManager.LocalZOrder.PromptDialog,
+            mask: true,
+            maskOpacity: 200,
+        });
+    }
+
+    static showArchievePop() {
+        let nd = cc.instantiate(ViewManager.mViewManager.pfArchieve);
+        ViewManager.show({
+            node: nd,
+            name: ViewManager.View.Archieve,
+            localZOrder: ViewManager.LocalZOrder.PromptDialog,
+            mask: true,
+            maskOpacity: 200,
         });
     }
 
@@ -369,6 +397,19 @@ export default class ViewManager extends cc.Component {
             mask: true,
             maskOpacity: 200,
         });
+    }
+
+    static showCommonNote(data) {
+        let nd = cc.instantiate(ViewManager.mViewManager.pfCommonNote);
+        ViewManager.show({
+            node: nd,
+            name: ViewManager.View.CommonNote,
+            localZOrder: ViewManager.LocalZOrder.PromptDialog,
+            mask: true,
+            maskOpacity: 200,
+        });
+        let comp: note = nd.getComponent(note);
+        comp.showNote(data);
     }
 
     static getRoot() {

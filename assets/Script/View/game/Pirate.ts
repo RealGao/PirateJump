@@ -7,9 +7,14 @@ import GameData from "../../Common/GameData";
 import AudioManager from "../../Common/AudioManager";
 import Game from "./Game";
 import Util from "../../Common/Util";
+import Guide from "./Guide";
 
 const { ccclass, property } = cc._decorator;
 
+enum Revive_Type{
+    revive = 0,
+    time
+}
 // const gravity = -1000;
 
 @ccclass
@@ -319,7 +324,6 @@ export default class Pirate extends CollisionBase {
         let comp: Island = island.getComponent(Island);
 
         if (GameCtr.ins.mGame.time <= 0 && comp.type != Island.IslandType.Cannon) {
-            GameCtr.isGameOver = true;
             GameCtr.ins.mGame.timeUp();
             AudioManager.getInstance().playSound("audio/gameOver", false);
         }
@@ -364,6 +368,9 @@ export default class Pirate extends CollisionBase {
             let num = comp.idx - lastComp.idx;
             for (let i = 0; i < num; i++) {
                 CollisionMgr.addIsland();
+            }
+            if(num > 0) {
+                Guide.setGuideStorage();
             }
         }
 
@@ -437,13 +444,15 @@ export default class Pirate extends CollisionBase {
             if (GameData.currentRole == 4) {
                 this.revive();
                 GameData.reviveTimes++;
-            } else if (GameData.prop_revive > 0) {
+            }else if(GameData.guideStep <= 2) {
+                this.revive();
+            }
+             else if (GameData.prop_revive > 0 && GameCtr.ins.mGame.time > 1) {
                 this.revive();
                 GameData.prop_revive--;
             } else {
                 AudioManager.getInstance().playSound("audio/dead", false);
-                GameCtr.isGameOver = true;
-                GameCtr.gameOver();
+                GameCtr.gameOver(Revive_Type.revive);
             }
         }
     }
@@ -451,10 +460,13 @@ export default class Pirate extends CollisionBase {
 
     revive() {
         this.isPirateAlive = false;
+        this.beginJump = true;
+        this.jumpTime = 2;
         this.vx = 0;
         this.vy = 0;
         this.node.rotation = 0;
         this.moveDt = 0;
+        this.node.parent = GameCtr.ins.mGame.ndIslandLayer;
         this.node.position = cc.v2(this.lastIsland.x, this.lastIsland.y + 150);
         this.originPos = this.node.position;
         let tmpPos = GameCtr.ins.mGame.ndIslandLayer.position;
@@ -463,16 +475,17 @@ export default class Pirate extends CollisionBase {
         this.scheduleOnce(() => {
             this.isInitial = true;
             this.isPirateAlive = true;
+            if (GameData.currentRole != 4) {
+                let wPos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                GameCtr.ins.mGame.showPropEffect(Game.GoodsType.REVIVE, wPos);
+            }
         }, 0.5);
         AudioManager.getInstance().playSound("audio/revive", false);
-        if (GameData.currentRole != 4) {
-            GameCtr.ins.mGame.showPropEffect(Game.GoodsType.REVIVE);
-        }
     }
 
     // 显示瞄准线
-    showSight() {
-        this.sightTime = 10;
+    showSight(defaultTime = 10) {
+        this.sightTime = defaultTime;
         CollisionMgr.mCollisionMgr.ndGraphic.active = true;
     }
 

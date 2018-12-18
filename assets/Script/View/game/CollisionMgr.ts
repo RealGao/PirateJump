@@ -230,7 +230,7 @@ export default class CollisionMgr extends cc.Component {
                         data.rotation = 35;
                         data.time = Math.random() * 1 / 10 + 0.7;
                         data.addNum = 60;
-                    } else if (rNum >= 2 && rNum < 7) {                                     //平稳
+                    } else if (rNum >= 2 && rNum < 8) {                                     //平稳
                         data.rotation = Math.random() * 30 + 50;
                         data.time = Math.random() * 1 / 10 + 0.6;
                     } else {                                                                //斜下
@@ -466,7 +466,7 @@ export default class CollisionMgr extends cc.Component {
     static addBoom(origin, posArr, vec, gravity) {
         if (CollisionMgr.mCollisionMgr.islandNum <= 5) return;                       //前五关不出炸弹
         let tmpRand = Math.random() * 100;
-        let boomRand = GameData.currentMap < 3 ? 10 : 20;
+        let boomRand = GameData.currentMap < 3 ? 10 : 90;
 
         if (tmpRand > boomRand) return;                                                    //炸弹概率10%
         let rand = Math.random() * 10;

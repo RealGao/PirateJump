@@ -3,7 +3,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class rankItem extends cc.Component {
     _lb_name=null;
     _lb_scroe=null;
     _lb_rank=null;
