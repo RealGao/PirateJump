@@ -214,6 +214,8 @@ export default class Start extends cc.Component {
             }else if(e.target.getName()=="btn_invite"){
                
             }else if(e.target.getName()=="btn_achievement"){
+                let tip = e.target.getChildByName("btn_exclaim");
+                tip.active = false;
                 ViewManager.showArchievePop();
             }else if(e.target.getName()=="btn_treatureBox"){
                 this.showTreatureBox();
@@ -420,7 +422,7 @@ export default class Start extends cc.Component {
 
     updateBtnAchieveState(){
         let btn_achieve=this._btnsNode.getChildByName("btn_achievement");
-        let tipAchieve=btn_achieve.getChildByName("tipAchieve");
+        let tipAchieve=btn_achieve.getChildByName("btn_exclaim");
         if(GameData.canGetAchieve()){
             tipAchieve.active=true;
         }else{

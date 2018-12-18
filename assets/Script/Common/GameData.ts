@@ -1680,11 +1680,11 @@ export default class GameData {
         for (let i = 0; i < this.achievementsConf.length; i++) {
             let key = "achieveLevel" + i;
             if (GameData[key] > 4) continue
-            // console.log(" GameData.achievementsConf[i].confName GameData[key]", GameData.achievementsConf[i].confName, GameData[key]);
-            // console.log("log--------canGetAchieve value target=:", GameData[this.achievementsConf[i].valueName], GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
-            // if(GameData[this.achievementsConf[i].valueName]>=GameData[GameData.achievementsConf[i].confName][GameData[key]].target){
-            //     return true;
-            // }
+            console.log(" GameData.achievementsConf[i].confName GameData[key]", GameData.achievementsConf[i].confName, GameData[key]);
+            console.log("log--------canGetAchieve value target=:", GameData[this.achievementsConf[i].valueName], GameData[GameData.achievementsConf[i].confName][GameData[key]].target)
+            if(GameData[this.achievementsConf[i].valueName]>=GameData[GameData.achievementsConf[i].confName][GameData[key]].target){
+                return true;
+            }
         }
         return false;
     }

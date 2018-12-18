@@ -11,6 +11,7 @@ export default class Toast extends cc.Component {
     lb_note: cc.Label = null;
 
     init(str,callFunc=null,duration=1.5){
+        console.log("log-----------------toast1-----init");
         this.lb_note.string=str;
         this.Toast.stopAllActions();
         this.Toast.y=80;

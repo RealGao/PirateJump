@@ -67,13 +67,16 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    getProgress(){
+        return this._progress.getComponent(cc.ProgressBar).progress;
+    }
+
     judgeUpLevel(){
         let key="achieveLevel"+this._achieveIndex;
         if(GameData[key]>4){return}
-
         if(this._value>=this._achieveConf[GameData[key]].target){
-            GameData[key]++;
             this.showToast();
+            GameData[key]++;
             if(GameData[key]>4){
                 this._bg.getComponent(cc.Button).interactable=true;
                 this._tip.active=false;
@@ -88,14 +91,12 @@ export default class NewClass extends cc.Component {
 
     showToast(){
         let des=this.getDes();
-        let toast=cc.instantiate(this.pfToast);
-        toast.parent=cc.find("Canvas");
-        toast.setLocalZOrder(50);
         let callFunc=()=>{
             GameData.gold+=des.bonus;
-            // GameCtr.getInstance().getPublic().showGold();
+            //GameCtr.getInstance().getPublic().showGold();
         }
-        toast.getComponent("Toast1").init("获得成就奖励"+des.bonus+"金币",callFunc);
+        GameCtr.getInstance().getToast().toast("获得成就奖励"+des.bonus+"金币",callFunc);
+  
     }
 
 }
