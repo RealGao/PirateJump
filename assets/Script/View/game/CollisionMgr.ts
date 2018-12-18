@@ -160,10 +160,10 @@ export default class CollisionMgr extends cc.Component {
         let speed = 6;
         switch (GameData.currentMap) {
             case 0:
-                speed = 6;
+                speed = 7;
                 break;
             case 1:
-                speed = 7;
+                speed = 8;
                 break;
             case 2:
                 speed = 8;

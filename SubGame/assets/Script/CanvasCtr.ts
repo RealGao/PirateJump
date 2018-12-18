@@ -249,6 +249,8 @@ export default class CanvasCtr extends cc.Component {
             this.ndBeyond.getChildByName("ndGame").active = false;
         }
         nd.active = true;
+        nd.getChildByName("bb").active = false;
+       nd.getChildByName("beyond2").active = true;
         let info = this.ranks[mapIndex]
         console.log("this.mSelfData.avatarUrl == ", this.mSelfData.avatarUrl);
         for (let i = info.length - 1; i >= 0; i--) {
@@ -269,6 +271,8 @@ export default class CanvasCtr extends cc.Component {
                 return;
             }
         }
+       nd.getChildByName("bb").active = true;
+       nd.getChildByName("beyond2").active = false;
         this.ndBeyond.active = false;
     }
 
