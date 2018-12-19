@@ -244,18 +244,18 @@ export default class CanvasCtr extends cc.Component {
         if (type == Compare_type.Game) {
             nd = this.ndBeyond.getChildByName("ndGame");
             this.ndBeyond.getChildByName("ndOver").active = false;
+            nd.getChildByName("bb").active = false;
+            nd.getChildByName("beyond2").active = true;
         } else {
             nd = this.ndBeyond.getChildByName("ndOver");
             this.ndBeyond.getChildByName("ndGame").active = false;
         }
         nd.active = true;
-        nd.getChildByName("bb").active = false;
-       nd.getChildByName("beyond2").active = true;
         let info = this.ranks[mapIndex]
         console.log("this.mSelfData.avatarUrl == ", this.mSelfData.avatarUrl);
         for (let i = info.length - 1; i >= 0; i--) {
             let obj = info[i];
-            if(obj.data.avatarUrl == this.mSelfData.avatarUrl) {
+            if (obj.data.avatarUrl == this.mSelfData.avatarUrl) {
                 continue;
             }
             if (obj.data.score > selfScore) {
@@ -271,9 +271,16 @@ export default class CanvasCtr extends cc.Component {
                 return;
             }
         }
-       nd.getChildByName("bb").active = true;
-       nd.getChildByName("beyond2").active = false;
-        this.ndBeyond.active = false;
+        if (type == Compare_type.Game) {
+            nd.getChildByName("bb").active = true;
+            nd.getChildByName("beyond2").active = false;
+            let spr = nd.getChildByName("sprFriend").getComponent(cc.Sprite);
+            this.createImage(this.mSelfData.avatarUrl, spr, spr.node);
+            let lbName = nd.getChildByName("lbName").getComponent(cc.Label);
+            lbName.string = this.cutstr(this.mSelfData.nickname, 8);
+        } else {
+            this.ndBeyond.active = false;
+        }
     }
 
     showFriendRanking(mapIndex, page = 0) {
@@ -283,7 +290,7 @@ export default class CanvasCtr extends cc.Component {
         this.ndBeyond.active = false;
         this.ndMiniRank.active = false;
 
-        if(page * 6 > this.ranks[mapIndex].length) return;
+        if (page * 6 > this.ranks[mapIndex].length) return;
 
         this.ndRank.removeAllChildren();
         let startIndex = page * 6;

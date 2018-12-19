@@ -148,6 +148,8 @@ export default class Game extends cc.Component {
         AudioManager.getInstance().playSound("audio/gameStart", false);
         this.scheduleOnce(() => {
             GameCtr.playBgm();
+            let nd = this.ndGame.getChildByName("miniCellPos");
+            this.sprBeyond.node.position = nd.position;
             WXCtr.compareScore(GameData.currentMap, 0, Compare_type.Game);
             this.scheduleOnce(() => { this._updateSubDomainCanvas(); }, 1);
         }, 1.5);
@@ -264,8 +266,6 @@ export default class Game extends cc.Component {
             }
         }
 
-        let nd = this.ndGame.getChildByName("miniCellPos");
-        this.sprBeyond.node.position = nd.position;
         WXCtr.compareScore(GameData.currentMap, curScore, Compare_type.Game);
         this.scheduleOnce(() => { this._updateSubDomainCanvas(); }, 1);
     }

@@ -504,13 +504,13 @@ export default class WXCtr {
                 query: qureyInfo + UserManager.user_id,
                 complete: () => {
                     let completeTime = new Date().getTime();
-                    if(completeTime - shareTime >= 2000) {
+                    // if(completeTime - shareTime >= 2000) {
                         if (data.callback) {
                             data.callback();
                         }
-                    }else {
-                        ViewManager.toast("分享失败！");
-                    }
+                    // }else {
+                    //     // ViewManager.toast("分享失败！");
+                    // }
                 }
             });
         } else {
