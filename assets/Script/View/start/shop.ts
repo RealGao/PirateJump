@@ -84,6 +84,7 @@ export default class shop extends PromptDialog {
     initBtnEvent(btn){
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_back"){
+                GameData.submitGameData();
                 super.dismiss();
             }else if(e.target.getName()=="btn_maps"){
                 if(cc.find("Canvas").getChildByName("mapsNode")){return;}

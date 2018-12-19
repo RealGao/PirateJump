@@ -74,7 +74,7 @@ export default class Start extends cc.Component {
             // GameCtr.getInstance().getPublic().showDiamond();
             GameCtr.getInstance().getPublic().showPower();
         }
-        GameData.getAllLocalGameData();
+        // GameData.getAllLocalGameData();
         EventManager.on("REFRESH_BTN", this.refreshBtns, this);
         EventManager.on("HIDE_BTN_TIP", this.hideBtnTip, this);
     }
@@ -207,7 +207,8 @@ export default class Start extends cc.Component {
                 
             }else if(e.target.getName()=="btn_start"){
                 if(GameData.power>=5){
-                    cc.director.loadScene("Game");
+                    // cc.director.loadScene("Game");
+                    GameCtr.gameStart();
                 }else{
                     GameCtr.getInstance().getToast().toast("体力值不足");
                 }

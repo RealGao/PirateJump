@@ -49,7 +49,7 @@ export default class NewClass extends cc.Component {
     onLoad(){
         this.initNode();
         this.showWorldRank();
-        this.requestRank(this._currentModel);
+        this.requestRank();
     }
 
     initNode(){
@@ -177,7 +177,7 @@ export default class NewClass extends cc.Component {
         this._currentModel=this._currentModel>3?0:this._currentModel;
         this._modelSprite.getComponent(cc.Sprite).spriteFrame=this.modelSpriteFrames[this._currentModel];
         if(this._rankWorldNode.active){
-            this.requestRank(this._currentModel);
+            this.requestRank();
         }else if(this._rankFriendNode.active){
             WXCtr.showFriendRanking(this._currentModel);
         }
@@ -186,7 +186,7 @@ export default class NewClass extends cc.Component {
 
     showRankList(res){ 
         this._currentRankList.splice(0,this._currentRankList.length);
-        for(let i = 0; i< res.data.length; i++){
+        for(let i in res.data){
             this._currentRankList.push(res.data[i]);
         }
         console.log("log-----------showRankList=:",this._currentRankList);
@@ -204,18 +204,19 @@ export default class NewClass extends cc.Component {
             rankItem.x=-11;
             rankItem.y=280-91.5*(i%6);
             rankItem.getComponent("rankItem").setModel(this._currentModel);
-            rankItem.getComponent("rankItem").setName(this._currentRankList[i].nickName);
-            rankItem.getComponent("rankItem").setRank(this._currentRankList[i].index);
-            rankItem.getComponent("rankItem").setScore(this._currentRankList[i].val);
-            rankItem.getComponent("rankItem").setHeadImg(this._currentRankList[i].avatarUrl)
+            rankItem.getComponent("rankItem").setName(this._currentRankList[i].nick);
+            rankItem.getComponent("rankItem").setRank(this._currentRankList[i].top);
+            rankItem.getComponent("rankItem").setScore(this._currentRankList[i].value);
+            rankItem.getComponent("rankItem").setHeadImg(this._currentRankList[i].Icon)
         }
     }
 
 
-    requestRank(map){
-        HttpCtr.getWorldRankingList(mapsName[map] ,(res)=>{
-            this.showRankList(res);
-        });
+    requestRank(){
+        let protocal="level"+(this._currentModel+1)
+        HttpCtr.getWorldRankingList((res)=>{	
+            this.showRankList(res);	             
+        },protocal);	         
     }
 
     update() {

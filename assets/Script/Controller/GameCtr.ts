@@ -191,6 +191,7 @@ export default class GameCtr {
 
     // 游戏开始
     static gameStart() {
+        GameData.submitGameData();
         GameCtr.gotoScene("Game");
     }
 

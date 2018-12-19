@@ -13,9 +13,15 @@ export default class powerNode extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        EventManager.on("POWER",()=>{
-            this.lbPower.string = GameData.power+"/99";
-        },this);
+        EventManager.on("POWER",this.setPower,this);
+    }
+
+    onDestroy() {
+        EventManager.off("POWER",this.setPower,this);
+    }
+
+    setPower() {
+        this.lbPower.string = GameData.power+"/99";
     }
 
     start () {

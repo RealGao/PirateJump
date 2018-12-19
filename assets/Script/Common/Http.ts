@@ -15,7 +15,7 @@ export default class Http {
         /**
          * 成功
          */
-        OK: 0,
+        OK: "300",
     };
 
     public static readonly UrlConfig = UrlConfig;
@@ -45,6 +45,10 @@ export default class Http {
         }
         if(!rootUrl) {
             rootUrl = this.rootUrl;
+        }
+        let dynamicRootUrl = Http.UrlConfig.rootUrl_dynamic;
+        if(dynamicRootUrl) {
+            rootUrl = dynamicRootUrl;
         }
         if (!/^http/.test(url) && rootUrl) {
             url = rootUrl + url;

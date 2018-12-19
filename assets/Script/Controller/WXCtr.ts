@@ -252,17 +252,10 @@ export default class WXCtr {
             
             window.wx.login({
                 success: function (loginResp) {
-                    if(WXCtr.authed){
-                        WXCtr.wxGetUsrInfo((data)=>{
-                            HttpCtr.login(loginResp.code, data); 
-                        });
-                    }else{
-                        HttpCtr.login(loginResp.code, null); 
-                    }
+                    HttpCtr.login(loginResp.code);
                 },
                 fail: function (res) {
                     console.log("微信登录失败!!");
-                    // GameCtr.login(null);
                     WXCtr.showModal({
                         title: "提示",
                         content: "网络连接失败,请检查网络连接！",
@@ -318,8 +311,9 @@ export default class WXCtr {
                     console.log("从微信获取个人信息成功 == ", res);
                     let info = res.userInfo;
                     WXCtr.authed = true;
+                    HttpCtr.saveUserInfo(res);
                     if (callback) {
-                        callback(res);
+                        callback(info);
                     }
                 },
                 fail: function (res) {

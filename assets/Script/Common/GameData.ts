@@ -388,6 +388,7 @@ export default class GameData {
         GameData._power = power;
         GameData._gameData["power"] = GameData._power;
         GameData.setUserData({ power: GameData._power })
+        EventManager.emit("POWER");
     }
 
     //获取玩家体力
@@ -1357,10 +1358,11 @@ export default class GameData {
         GameData.lotteryTimes = data.data2_22 === "" ? -1 : data.data2_22;
 
         GameData.lastTime=data.data2_2;
+        GameData.guideStep = data.data2_23 === "" ? 0: data.data2_23;
         GameData.caculateLotteryTimes()
 
-        //GameData.setUserData({ lastTime: data.data2_2 });
-        // HttpCtr.submitUserData({});
+        GameData.setUserData({ lastTime: data.data2_2 });
+        HttpCtr.submitUserData({});
         GameCtr.getInstance().getStart().startGame()
     }
 
@@ -1380,6 +1382,7 @@ export default class GameData {
 
     static submitGameData() {
         GameData.setUserData(GameData._gameData);
+        HttpCtr.submitUserData(GameData._gameData);
     }
 
 
@@ -1738,7 +1741,7 @@ export default class GameData {
             GameData[key]= GameData[key]>=score?GameData[key]:score;
             WXCtr.submitScoreToWx(GameData.level1, GameData.level2, GameData.level3, GameData.level4);
         }
-        HttpCtr.submitScore(mapsName[GameData.currentMap], score);
+        // HttpCtr.submitScore(mapsName[GameData.currentMap], score);
     }
 
     static caculateLotteryTimes(){
