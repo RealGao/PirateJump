@@ -122,27 +122,37 @@ export default class powerNotEnough extends PromptDialog {
         
     }
 
+    shareCallFunc(){
+        if(GameCtr.isShareing){
+            if(new Date().getTime()-this._shareTime>=3000){
+                 let str_tip=null;
+                 if(GameData.power<=89){
+                     str_tip="获得10点体力";
+                 }else if(GameData.power>89){
+                     str_tip="获得"+(99-GameData.power)+"点体力";
+                 }
+                 GameCtr.getInstance().getToast().toast(str_tip);
+                 GameData.power+=10;
+                 GameData.power=GameData.power>99?99:GameData.power;
+                 //GameCtr.getInstance().getPublic().showPower();
+                 this.showPower();
+            }else{
+                 GameCtr.getInstance().getToast().toast("分享失败");
+            }
+            GameCtr.isShareing=false; 
+        }
+    }
+
     registerShareCallFunc(){
-        cc.game.on(cc.game.EVENT_SHOW,()=>{
-            if(GameCtr.isShareing){
-                if(new Date().getTime()-this._shareTime>=3000){
-                     let str_tip=null;
-                     if(GameData.power<=89){
-                         str_tip="获得10点体力";
-                     }else if(GameData.power>89){
-                         str_tip="获得"+(99-GameData.power)+"点体力";
-                     }
-                     GameCtr.getInstance().getToast().toast(str_tip);
-                     GameData.power+=10;
-                     GameData.power=GameData.power>99?99:GameData.power;
-                     //GameCtr.getInstance().getPublic().showPower();
-                     this.showPower();
-                }else{
-                     GameCtr.getInstance().getToast().toast("分享失败");
-                }
-                GameCtr.isShareing=false; 
-             }
-        })
+        cc.game.on(cc.game.EVENT_SHOW,this.shareCallFunc,this)
+    }
+
+    removeShareCallFunc(){
+        cc.game.off(cc.game.EVENT_SHOW,this.shareCallFunc,this)
+    }
+
+    onDestroy(){
+        this.removeShareCallFunc();
     }
 
 }
