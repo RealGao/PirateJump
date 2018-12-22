@@ -22,13 +22,12 @@ export default class NewClass extends cc.Component {
     _lb_powerTime=null;
     _powerTime_min=0;
     _powerTime_sec=0;
-
     _tipBuyMaps=null;
     _tipBuyProps=null;
     _tipBuyCharactor=null;
     _lightBtns=[];
 
-
+    _addPowerTimeArr=[];
 
     @property(cc.Prefab)
     pfMapsNode:cc.Prefab=null;
@@ -49,8 +48,11 @@ export default class NewClass extends cc.Component {
     ndPower: cc.Node = null;
 
 
-    onLoad(){
+
+
+    onLoad(){ 
         this.initNode();
+        this.initData();
         GameCtr.getInstance().setPublic(this);
         EventManager.on("UPDATE_GOLD", this.refreshGold, this);
         EventManager.on("UPDATE_DIAMOND", this.refreshDiamod, this);
@@ -62,7 +64,12 @@ export default class NewClass extends cc.Component {
         this.initInfoNode();
         this.initBtnsNode();
         this.hideBtnNode();
-        
+    }
+
+    initData(){
+        for(let i=0;i<24*12;i++){
+            this._addPowerTimeArr.push(5*60*i);
+        }
     }
 
     hidePowerNode() {
@@ -160,35 +167,42 @@ export default class NewClass extends cc.Component {
     }
 
     initPowerTime(){
-        let powerTimeCount=WXCtr.getStorageData("powerTime",-1);
-        if(powerTimeCount<0){
-            GameData.powerTime=5*60;
-            this.doPowerTimeCount();
-        }else{
-            let timeIterval=Math.floor((new Date().getTime()-GameData.lastTime)/1000);
-            let timeIterval1=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastPowerTime"))/1000);
+        let date=new Date();
+        let hour=date.getHours();
+        let min=date.getMinutes();
+        let sec=date.getSeconds();
+        let currentTimeStamp=hour*3600+60*min+sec;
 
+        let lastPowerTime=WXCtr.getStorageData("lastPowerTime",0);
+        let lastTime=lastPowerTime>GameData.lastTime?lastPowerTime:GameData.lastTime
+        let lastDate=new Date(lastTime);
+       
 
-            if(timeIterval1<timeIterval){
-                timeIterval=timeIterval1;
+        let last_hour=lastDate.getHours();
+        let last_min=lastDate.getMinutes();
+        let last_sec=lastDate.getSeconds();
+
+        let lastTimeStamp=last_hour*3600+last_min*60+last_sec;
+
+        for(let i=0;i<this._addPowerTimeArr.length;i++){
+            if(this._addPowerTimeArr[i]>lastTimeStamp && this._addPowerTimeArr[i]<currentTimeStamp){
+                GameData.power++;
+                GameData.power=GameData.power>=99?99:GameData.power;
             }
-           
-            if(timeIterval-powerTimeCount>=0){
-                console.log("log-----------GameData.power=:",GameData.power);
-                GameData.power+=1;
-                timeIterval-=powerTimeCount;
-                let cycle=Math.floor(timeIterval/(5*60));
-                GameData.power+=cycle;
-                GameData.power= GameData.power>99?99:GameData.power;
-                GameData.powerTime=timeIterval-cycle*5*60;
-              
-            }else{
-               
-                GameData.powerTime=powerTimeCount-timeIterval;
-            }
-            this.doPowerTimeCount();
         }
+        this.showPower();
         this.showPowerTime();
+        console.log("log-----------lastTimeStamp=:",lastTimeStamp);
+        console.log("log-----------currentTimeStamp=:",currentTimeStamp);
+        console.log("log-----------this._addPowerTimeArr=:",this._addPowerTimeArr);
+
+        for(let i=0;i<this._addPowerTimeArr.length;i++){
+            if(this._addPowerTimeArr[i]-currentTimeStamp>0){
+                GameData.powerTime=this._addPowerTimeArr[i]-currentTimeStamp;
+                this.doPowerTimeCount();
+                return;
+            }
+        } 
     }
 
     doPowerTimeCount(){
@@ -391,6 +405,7 @@ export default class NewClass extends cc.Component {
 
 
     onDestroy(){
+        console.log("log-------------------------publicNode onDestroy()-------");
         WXCtr.setStorageData("lastPowerTime",new Date().getTime());
         WXCtr.setStorageData("powerTime", GameData.powerTime);
         EventManager.off("UPDATE_GOLD", this.refreshGold, this);

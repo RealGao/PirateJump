@@ -1749,7 +1749,7 @@ export default class GameData {
             return;
         }
         
-        let timeIterval=Math.floor((new Date().getTime()-GameData.saveTime)/1000);
+        let timeIterval=Math.floor((new Date().getTime()-GameData.lastTime)/1000);
         let date=new Date();
 
         let hour=date.getHours();
@@ -1757,7 +1757,7 @@ export default class GameData {
         let sec=date.getSeconds();
         
         console.log("log-------------timeIterval  currentTime=:",timeIterval,hour*3600+min*60+sec)
-        if(timeIterval>hour*3600+min*60+sec){
+        if(timeIterval>=hour*3600+min*60+sec){
             timeIterval-=hour*3600+min*60+sec;
             GameData.lotteryTimes+=3;
             

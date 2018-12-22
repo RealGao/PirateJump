@@ -26,7 +26,10 @@ export default class powerNotEnough extends PromptDialog {
         this.showPower();
         this.showPowerTime();
         this.doPowerTimeCount();
+        this.registerShareCallFunc();
     }
+
+    
 
     initNode(){
         this._bg=this.node.getChildByName("bg");
@@ -71,20 +74,10 @@ export default class powerNotEnough extends PromptDialog {
                     });
                 }
             }else if(e.target.getName()=="btn_askFriend"){
-               let callFunc=()=>{
-                    let str_tip=null;
-                    if(GameData.power<=89){
-                        str_tip="获得10点体力";
-                    }else if(GameData.power>89){
-                        str_tip="获得"+(99-GameData.power)+"点体力";
-                    }
-                    GameCtr.getInstance().getToast().toast(str_tip);
-                    GameData.power+=10;
-                    GameData.power=GameData.power>99?99:GameData.power;
-                    //GameCtr.getInstance().getPublic().showPower();
-                    this.showPower();
-               }
-                WXCtr.share({callback:callFunc});  
+                
+                GameCtr.isShareing=true;
+                this._shareTime=new Date().getTime();
+                WXCtr.share();  
             }else if(e.target.getName()=="btn_close"){
                 // this.node.destroy();
                 super.dismiss();
@@ -127,6 +120,29 @@ export default class powerNotEnough extends PromptDialog {
         this._lb_powerTime.getComponent(cc.Label).string= (this._powerTime_min>=10?this._powerTime_min:"0"+this._powerTime_min)+":"+
                                                     (this._powerTime_sec>=10?this._powerTime_sec:"0"+this._powerTime_sec);
         
+    }
+
+    registerShareCallFunc(){
+        cc.game.on(cc.game.EVENT_SHOW,()=>{
+            if(GameCtr.isShareing){
+                if(new Date().getTime()-this._shareTime>=3000){
+                     let str_tip=null;
+                     if(GameData.power<=89){
+                         str_tip="获得10点体力";
+                     }else if(GameData.power>89){
+                         str_tip="获得"+(99-GameData.power)+"点体力";
+                     }
+                     GameCtr.getInstance().getToast().toast(str_tip);
+                     GameData.power+=10;
+                     GameData.power=GameData.power>99?99:GameData.power;
+                     //GameCtr.getInstance().getPublic().showPower();
+                     this.showPower();
+                }else{
+                     GameCtr.getInstance().getToast().toast("分享失败");
+                }
+                GameCtr.isShareing=false; 
+             }
+        })
     }
 
 }
