@@ -135,6 +135,7 @@ export default class NewClass extends cc.Component {
                     GameCtr.getInstance().getToast().toast("体力值不足");
                 }
             }else if(e.target.getName()=="btn_return"){
+                WXCtr.hideBannerAd();
                 this.node.destroy();
             }
         })

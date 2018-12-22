@@ -2,6 +2,8 @@ import GameCtr from "../../Controller/GameCtr";
 import GameData from "../../Common/GameData";
 import WXCtr from "../../Controller/WXCtr";
 import ViewManager from "../../Common/ViewManager";
+import RecommendAds from "../Ads/RecommendAds";
+import HotAds from "../Ads/HotAds";
 
 
 const { ccclass, property } = cc._decorator;
@@ -117,8 +119,6 @@ export default class GameOver extends cc.Component {
         } else {
             this.showResult();
         }
-
-        WXCtr.createBannerAd(100, 300);
     }
 
     showResult() {
@@ -131,6 +131,11 @@ export default class GameOver extends cc.Component {
         GameData.submitGameData();
         this.scheduleOnce(() => { this._updateSubDomainCanvas(); }, 0.5);
         WXCtr.getFriendRankingData();
+
+        let recommend: RecommendAds = this.ndResult.getChildByName("RecommendAds").getComponent(RecommendAds);
+        recommend.setAdsData();
+        let hot: HotAds = this.ndResult.getChildByName("HotAds").getComponent(HotAds);
+        hot.setAdsData();
     }
 
     showResultScore() {

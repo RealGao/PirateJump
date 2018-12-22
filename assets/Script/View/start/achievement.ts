@@ -1,6 +1,7 @@
 import GameCtr from "../../Controller/GameCtr";
 import GameData from "../../Common/GameData";
 import PromptDialog from "../view/PromptDialog";
+import WXCtr from "../../Controller/WXCtr";
 
 
 const {ccclass, property} = cc._decorator;
@@ -42,6 +43,7 @@ export default class NewClass extends PromptDialog {
         btn.on(cc.Node.EventType.TOUCH_END,(e)=>{
             if(e.target.getName()=="btn_close"){
                 // this.node.destroy();
+                WXCtr.hideBannerAd();
                 super.dismiss();
             }
         })

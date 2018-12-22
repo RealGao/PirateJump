@@ -80,7 +80,7 @@ export default class NewClass extends cc.Component {
         this.initBtnEvent(this._btn_open);
         this.initBtnEvent(this._btn_watchVedio);
 
-        if (!WXCtr.videoAd || GameCtr.surplusVideoTimes <= 0) {
+        if (!WXCtr.videoAd ) {
             this._btn_watchVedio.active = false;
             this._icon_time0.active=false;
             this._icon_time1.active=false;
@@ -96,6 +96,8 @@ export default class NewClass extends cc.Component {
                     return;
                 }
                 WXCtr.setStorageData("lastLotteryTime",new Date().getTime());
+                WXCtr.hideBannerAd();
+                GameData.submitGameData();
                 this.node.destroy();
             }else if(e.target.getName()=="btn_open"){
                 if(!this._isLotterying){

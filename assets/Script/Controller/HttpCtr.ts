@@ -5,6 +5,7 @@ import GameCtr from "./GameCtr";
 import ViewManager from "../Common/ViewManager";
 import Util from "../Common/Util";
 import GameData from "../Common/GameData";
+import EventManager from "../Common/EventManager";
 
 /**
  * 所有Http请求统一控制
@@ -44,8 +45,8 @@ export default class HttpCtr {
                         UserManager.user_id = resp.data.uid;
                         UserManager.voucher = resp.data.voucher;
                         HttpCtr.getUserInfo();
-                        if(WXCtr.launchOption.query.channel){
-                            HttpCtr.chanelCheck(WXCtr.launchOption.query.channel);
+                        if(WXCtr.launchOption.query.channel_id){
+                            HttpCtr.chanelCheck(WXCtr.launchOption.query.channel_id);
                         }
 
                         HttpCtr.getShareConfig();
@@ -96,8 +97,10 @@ export default class HttpCtr {
                     if (resp.nav.index) GameCtr.otherData = resp.nav.index;
                     if (resp.nav.nav) GameCtr.sliderDatas = resp.nav.nav;
                     if (resp.nav.banner) GameCtr.bannerDatas = resp.nav.banner;
+                    if(resp.nav.navA) GameCtr.hotDatas = resp.nav.navA;
                     if (resp.share) GameCtr.shareSwitch = resp.share;
                     if (resp.onclick) GameCtr.OnClickStat = resp.onclick;
+                    EventManager.emit("SET_ADS_DATA");
                 }
             },
             error: () => {
@@ -287,35 +290,15 @@ export default class HttpCtr {
 
     //渠道验证
     static chanelCheck(chanelId) {
-        if (window.wx) {
-            window.wx.login({
-                success: function (loginResp) {
-                    console.log("log---------chanelCheck-------loginResp=:", loginResp);
-                    wx.request({
-                        url: "https://ball.yz071.com/api/?do=Ball.Api.Auth.WechatLogin",
-                        header: {
-                            "cache-control": "no-cache",
-                            "content-type": "application/json",
-                            "X-Source": "1016"
-                        },
-                        data: {
-                            code: loginResp.code,
-                            channel: chanelId
-                        },
-                        method: 'POST',
-                        success: (resp) => {
-                            console.log("渠道验证成功beijing----", resp);
-                            GameCtr.gameToken = resp.data.data.token;
-                        },
-                        fail: {
-
-                        }
-                    });
-                },
-                fail: function (res) {
-                }
-            })
-        }
+        Http.send({
+            url: Http.UrlConfig.CHANEL_RECORD,
+            success: ()=>{},
+            data: {
+                uid: UserManager.user_id,
+                voucher: UserManager.voucher,
+                channel_id: chanelId
+            }
+        });
     }
 
     static videoCheck(query) {
@@ -430,6 +413,38 @@ export default class HttpCtr {
         });
     }
 
+    //渠道验证
+    static chanelCheckBJ(chanelId) {
+        if (window.wx) {
+            window.wx.login({
+                success: function (loginResp) {
+                    console.log("log---------chanelCheck-------loginResp=:", loginResp);
+                    wx.request({
+                        url: "https://ball.yz071.com/api/?do=Ball.Api.Auth.WechatLogin",
+                        header: {
+                            "cache-control": "no-cache",
+                            "content-type": "application/json",
+                            "X-Source": "1016"
+                        },
+                        data: {
+                            code: loginResp.code,
+                            channel: chanelId
+                        },
+                        method: 'POST',
+                        success: (resp) => {
+                            console.log("渠道验证成功beijing----", resp);
+                            GameCtr.gameToken = resp.data.data.token;
+                        },
+                        fail: {
+
+                        }
+                    });
+                },
+                fail: function (res) {
+                }
+            })
+        }
+    }
 
     static getAdsByType(callFunc,type){
         let _url="https://ball.yz071.com/api/?do=Ball.Api.User."+type;

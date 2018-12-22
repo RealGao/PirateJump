@@ -85,7 +85,11 @@ export default class Start extends cc.Component {
     }
 
     start() {
-        
+        EventManager.emit("UPDATE_GOLD");
+        EventManager.emit("UPDATE_DIAMOND");
+
+        let btn_more=this._btnsNode.getChildByName("btn_more");
+        btn_more.active = GameCtr.reviewSwitch;
     }
 
     startGame() {
@@ -103,7 +107,6 @@ export default class Start extends cc.Component {
             this.initBgMusic();
         });
         this.scheduleOnce(()=>{GameData.judgeShopBtns();}, 1)
-        WXCtr.createBannerAd(100,300);
     }
 
     loadPackages() {
@@ -115,8 +118,8 @@ export default class Start extends cc.Component {
     initNode(){
         
         this._btnsNode=this.node.getChildByName("btnsNode");
-        this._adsNode=this.node.getChildByName("adNode");
-        this._adsNode.active = false;
+        // this._adsNode=this.node.getChildByName("adNode");
+        // this._adsNode.active = false;
         
         this._gameLogo=this.node.getChildByName("gameLogo");
         this._bg=this.node.getChildByName("bg");
@@ -175,6 +178,9 @@ export default class Start extends cc.Component {
         }
         let tip = nd.getChildByName("btn_exclaim");
         tip.active = true;
+
+        let btn_more=this._btnsNode.getChildByName("btn_more");
+        btn_more.active = GameCtr.reviewSwitch;
     }
 
     hideBtnTip(event) {
@@ -198,12 +204,12 @@ export default class Start extends cc.Component {
                 this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
                 ViewManager.showHelpPop();
-                // GameData.gold=100000;
-                // GameData.diamond=50000;
-                // GameData.power=99;
-                // GameCtr.getInstance().getPublic().showGold();
-                // GameCtr.getInstance().getPublic().showDiamond();
-                // GameCtr.getInstance().getPublic().showPower();
+                GameData.gold=100000;
+                GameData.diamond=50000;
+                GameData.power=99;
+                GameCtr.getInstance().getPublic().showGold();
+                GameCtr.getInstance().getPublic().showDiamond();
+                GameCtr.getInstance().getPublic().showPower();
                 
             }else if(e.target.getName()=="btn_start"){
                 if(GameData.power>=5){
@@ -214,12 +220,20 @@ export default class Start extends cc.Component {
                 }
             }else if(e.target.getName()=="btn_invite"){
                
+            }else if(e.target.getName()=="btn_more"){
+                if(!GameCtr.reviewSwitch) {
+                    return;
+                }
+                let nd = this.node.getChildByName("ndMoreGame");
+                nd.x = 0;
             }else if(e.target.getName()=="btn_achievement"){
                 let tip = e.target.getChildByName("btn_exclaim");
                 tip.active = false;
                 ViewManager.showArchievePop();
+                WXCtr.createBannerAd(100,300);
             }else if(e.target.getName()=="btn_treatureBox"){
                 this.showTreatureBox();
+                WXCtr.createBannerAd(100,300);
             }else if(e.target.getName()=="btn_prop"){
                 let tip = e.target.getChildByName("btn_exclaim");
                 tip.active = false;
@@ -238,6 +252,7 @@ export default class Start extends cc.Component {
 
             }else if(e.target.getName()=="btn_rank"){
                 this.showRank();
+                WXCtr.createBannerAd(100,300);
             }
         })
     }

@@ -35,9 +35,10 @@ export default class GameCtr {
     public static friendsCircleImg = "";                //分享到朋友圈图片地址
     public static reviewSwitch = false;                 //审核开关
 
-    static otherData = null;
-    static sliderDatas = null;
-    static bannerDatas = null;
+    static otherData = null;                            //更多游戏（单独一个图标）
+    static sliderDatas = null;                          //新游推荐
+    static bannerDatas = null;                          //更多游戏列表（抽屉广告）
+    static hotDatas = null;                             //火爆在线广告
     static shareSwitch = null;
 
     public static shareGoldTimes = 5;                           //剩余分享得金币次数
@@ -83,6 +84,7 @@ export default class GameCtr {
         WXCtr.getAuthSetting();
         WXCtr.showShareMenu();
         WXCtr.initSharedCanvas();
+        WXCtr.setVideoAd();
     }
 
     static getInstance() {

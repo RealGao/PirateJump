@@ -296,7 +296,6 @@ export default class Game extends cc.Component {
         GameCtr.isPause = true;
         AudioManager.getInstance().setMusicVolume(0);
         GameData.submitGameData();
-        WXCtr.createBannerAd(100, 300);
     }
 
     resume() {

@@ -498,8 +498,10 @@ export default class WXCtr {
                 query: qureyInfo + UserManager.user_id,
                 complete: () => {
                     let completeTime = new Date().getTime();
+                    console.log("分享成功！！！！！！！！！")
                     // if(completeTime - shareTime >= 2000) {
                         if (data.callback) {
+                            console.log("分享回调！")
                             data.callback();
                         }
                     // }else {

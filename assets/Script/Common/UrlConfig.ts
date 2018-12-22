@@ -20,7 +20,7 @@ export default class UrlConfig {
   static GET_SHARE = "/weixinapi.php?method=getShare";                              //分享数据
   static GET_ADSCONFIG = "/weixinapi.php?method=getAllSlides";                      //slide数据
   static OFFLINE_PROFIT = "/weixinapi.php?method=getprofit";                        //离线收益
-  static CHANEL_RECORD = "/weixinapi.php?method=addChannelRecord";                  //渠道统计
+  static CHANEL_RECORD = "/weixinapi.php?method=openPid";                           //渠道统计
   static INVITE_FRIEND = "/weixinapi.php?method=addSeek";                           //邀请好友得钻石
   static GET_INVITE_INFO = "/weixinapi.php?method=SeekLog";                         //查询邀请好友信息
   static HELP_SPEED_UP = "/weixinapi.php?method=addSeek2";                          //帮助朋友加速

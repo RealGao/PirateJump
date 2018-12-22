@@ -163,8 +163,6 @@ export default class GameData {
     public static homeWorldNodeTag = 10003;
     public static charactersNodeTag = 10004;
 
-
-
     static rolesDes = [
         { title: "路飞船长", des: "传说是海盗王和海之女神的孩子，\n天生的海盗\n\n未知原因，无法觉醒天赋" },
         { title: "女帝船长", des: "太平洋东岸的盲女海盗王，出身卑微\n\n偶然吃下神奇的食物，恢复了视力，\n觉醒\n\n[加速]（小岛速度增加1级）" },
@@ -355,7 +353,7 @@ export default class GameData {
             diamond = 0
         }
         GameData._diamond = diamond;
-        GameData._gameData["diamond"] = GameData._diamond;
+        GameData._gameData["money"] = GameData._diamond;
         GameData.setUserData({ money: GameData._diamond })
         EventManager.emit("UPDATE_DIAMOND");
     }

@@ -39,7 +39,7 @@ export default class OffLineProfit extends cc.Component {
         let minT = Math.ceil((offTime-90)/60);
         this.offLineProfit = profit*minT;
         this.lbProfit.string = "+" + Util.formatNum(this.offLineProfit);
-        if (!WXCtr.videoAd || GameCtr.surplusVideoTimes <= 0) {
+        if (!WXCtr.videoAd) {
             this.ndVedioBtn.active = false;
         }
         this.ndDiamonds.active = GameCtr.reviewSwitch; 
