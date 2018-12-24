@@ -62,6 +62,8 @@ export default class GameCtr {
     public static speedUp = false;                                  //小岛转动加速
     public static isInfinite = false;                               //是否是无限模式
 
+    public static isShareing=false;
+
     public static StatisticType = cc.Enum({                         //统计类型
         SPEED: 1,                                                   //加速分享
         INVITE: 2,                                                  //邀请

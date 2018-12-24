@@ -55,6 +55,8 @@ export default class NewClass extends cc.Component {
 
         this._bonusPosArr=[{x:-172,y:132},{x:-53,y:132},{x:63,y:132},{x:179,y:132},{x:179,y:13},
                             {x:179,y:-105},{x:63,y:-105},{x:-53,y:-105},{x:-172,y:-105},{x:-172,y:13}]
+
+        this._bonusTimesArr=[3600*4,3600*8,12*3600,16*3600,20*3600,24*3600]
     }
 
     initNode(){
@@ -117,9 +119,10 @@ export default class NewClass extends cc.Component {
                     WXCtr.onCloseVideo((res) => {
                         WXCtr.offCloseVideo();
                         if (res) {
-                            GameData.lotteryTimes+=2;
+                            GameData.lotteryTimes+=3;
                             GameData.lotteryTimes=GameData.lotteryTimes>10?10:GameData.lotteryTimes;
                             this.setLotteryTimes();
+                            this.doLottery();
                         }else{
                             GameCtr.getInstance().getToast().toast("视频未看完");
                         }
@@ -212,53 +215,46 @@ export default class NewClass extends cc.Component {
     }
 
     caculateTimeCount(){
-        let timeIterval=Math.floor((new Date().getTime()-GameData.lastTime)/1000);
-        let timeIterval1=Math.floor((new Date().getTime()-WXCtr.getStorageData("lastLotteryTime",0))/1000);
-        if(timeIterval1<timeIterval){
-            timeIterval=timeIterval1;
-        }
-
-        let interval_hour=Math.floor(timeIterval/3600);
-
-        
-        this._bonusTimesArr=[4,8,12,16,20,24];
         let date=new Date();
         let hour=date.getHours();
         let min=date.getMinutes();
         let sec=date.getSeconds();
-        if(min*60+sec<timeIterval%3600){
-            interval_hour+=1;
-        }
-        let pre_hour= hour-interval_hour;
-        console.log("log---------timeIterval pre_hour currentSec  lastSec  =:",timeIterval,pre_hour,min*60+sec, timeIterval%3600);
-        for(let i=pre_hour+1;i<hour;i++ ){
-            for(let j=0; j<this._bonusTimesArr.length;j++){
-                if(i==this._bonusTimesArr[j]){
-                    GameData.lotteryTimes++;
-                    GameData.lotteryTimes=GameData.lotteryTimes>=10?10:GameData.lotteryTimes;
-                }
-            }
-        }
+        let currentTimeStamp=hour*3600+60*min+sec;
 
-    
+        let lastLotteryTime=WXCtr.getStorageData("lastLotteryTime",0);
+        let lastTime=lastLotteryTime>GameData.lastTime?lastLotteryTime:GameData.lastTime
+        let lastDate=new Date(lastTime);
+       
 
+        let last_hour=lastDate.getHours();
+        let last_min=lastDate.getMinutes();
+        let last_sec=lastDate.getSeconds();
+
+        let lastTimeStamp=last_hour*3600+last_min*60+last_sec;
 
         for(let i=0;i<this._bonusTimesArr.length;i++){
-
-            if(this._bonusTimesArr[i]-hour>0){
-                this._timeCount= (this._bonusTimesArr[i]-1-hour)*3600+ (59-min)*60 +(60-sec);
-                this.timeCount()
-                return;
+            if(this._bonusTimesArr[i]>lastTimeStamp && this._bonusTimesArr[i]<currentTimeStamp){
+                GameData.lotteryTimes++;
+                GameData.lotteryTimes=GameData.lotteryTimes>=10?10:GameData.lotteryTimes;
+                this.setLotteryTimes();
             }
         }
-
-        this.setLotteryTimes();
+        console.log("log-----------lasthour last_min last_sec=:",last_hour,last_min,last_sec);
+        console.log("log-----------hour min sec=:",hour,min,sec);
+        for(let i=0;i<this._bonusTimesArr.length;i++){
+            if(this._bonusTimesArr[i]-currentTimeStamp>0){
+                this._timeCount=this._bonusTimesArr[i]-currentTimeStamp;
+                this.timeCount();
+                return;
+            }
+        } 
     }
 
     timeCount(){
         if(this._timeCount==0){
             GameData.lotteryTimes++;
             GameData.lotteryTimes=GameData.lotteryTimes>=10?10:GameData.lotteryTimes;
+            this.setLotteryTimes();
             this._timeCount=14400;
         }
         this._hour=Math.floor(this._timeCount/3600);
