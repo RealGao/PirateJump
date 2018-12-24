@@ -90,6 +90,7 @@ export default class Start extends cc.Component {
 
         let btn_more=this._btnsNode.getChildByName("btn_more");
         btn_more.active = GameCtr.reviewSwitch;
+        GameCtr.getInstance().getPublic().hidePowerNode();
     }
 
     startGame() {
@@ -204,12 +205,12 @@ export default class Start extends cc.Component {
                 this.showBtnMusicState();
             }else if(e.target.getName()=="btn_help"){
                 ViewManager.showHelpPop();
-                GameData.gold=100000;
-                GameData.diamond=50000;
-                GameData.power=99;
-                GameCtr.getInstance().getPublic().showGold();
-                GameCtr.getInstance().getPublic().showDiamond();
-                GameCtr.getInstance().getPublic().showPower();
+                // GameData.gold=100000;
+                // GameData.diamond=50000;
+                // GameData.power=99;
+                // GameCtr.getInstance().getPublic().showGold();
+                // GameCtr.getInstance().getPublic().showDiamond();
+                // GameCtr.getInstance().getPublic().showPower();
                 
             }else if(e.target.getName()=="btn_start"){
                 if(GameData.power>=5){
